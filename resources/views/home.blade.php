@@ -8,7 +8,7 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if(auth()->user()->role == 'admin')
+                    @if(auth()->user()->roleId == 1)
                         <a href="{{url('admin')}}">Admin</a>
                     @else
                         <div class=”panel-heading”>Normal User</div>
