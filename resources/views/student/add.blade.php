@@ -47,6 +47,11 @@
                                                                 <input name="frm[postCode]" id="postcode" type="text"
                                                                        class="form-control" placeholder="Postcode">
                                                             </div>
+                                                            <div class="form-group">
+                                                                <input name="frm[P1firstName]" type="text"
+                                                                       class="form-control" required
+                                                                       placeholder="Parent 1 First Name">
+                                                            </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label class="form-group">Date of birth:</label>
                                                             </div>
@@ -106,6 +111,7 @@
                                                                        name="photo">
 
                                                             </div>
+
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 

@@ -7,6 +7,29 @@
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
+                    @if(Auth::user()->roleId==3)
+
+
+                        <li>
+                            <a class="has-arrow" href="/student/list" aria-expanded="false"><span
+                                    class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">Children</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                @foreach ($students as $student)
+
+                                <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
+                                            class="mini-sub-pro">{{$student->firstName}}</span></a></li>
+
+                                    @endforeach
+
+                            </ul>
+                        </li>
+
+
+
+
+                        @else
+
+
                     <li>
                         <a class="has-arrow" href="index.html">
                             <span class="educate-icon educate-home icon-wrap"></span>
@@ -200,6 +223,7 @@
                             <li><a title="500 Page" href="500.html"><span class="mini-sub-pro">500 Page</span></a></li>
                         </ul>
                     </li>
+                        @endif
                 </ul>
             </nav>
         </div>

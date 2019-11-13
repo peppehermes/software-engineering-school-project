@@ -45,3 +45,7 @@ Route::post('/teacher/update/{id}', 'TeacherController@update')->middleware('adm
 Route::get('/teacher/list', 'TeacherController@list')->middleware('admin');
 Route::post('/teacher/store', 'TeacherController@store')->middleware('admin');
 Route::post('/teacher/delete', 'TeacherController@delete')->middleware('admin');
+
+//parent
+Route::get('/student/showmarks/{id}', 'StudentController@showmarks');
+

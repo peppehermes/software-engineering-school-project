@@ -42,6 +42,8 @@ class StudentController extends Controller
 
         $data = request('frm');
 
+
+
         $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
 
 
@@ -65,7 +67,7 @@ class StudentController extends Controller
     public function list()
     {
 
-        $students = DB::table('student')->orderby('id','desc')->paginate(10);
+        $students = DB::table('student')->orderby('id','desc')->paginate(2);
 
         return view('student.list', ['students' => $students]);
     }
@@ -123,6 +125,36 @@ class StudentController extends Controller
 
 
         return redirect('/student/list');
+
+    }
+
+    public function showmarks($id)
+    {
+        if(\Auth::user()->roleId==3){
+
+
+            $myParentID = \Auth::user()->id;
+
+            $students = \DB::table('student')
+                ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
+                ->join('users', 'users.id', '=', 'studForParent.idParent')
+                ->where('studForParent.idParent', $myParentID )
+                ->select('student.*')
+                ->get();
+
+            $marks = \DB::table('marks')
+                ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
+                ->where('marks.idStudent', $id )
+                ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
+                ->get();
+
+            return view('student.showmarks',['students'=>$students, 'marks'=>$marks]);
+
+        }
+        else{
+            return view('student.showmarks');
+        }
+
 
     }
 
