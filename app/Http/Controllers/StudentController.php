@@ -157,4 +157,25 @@ class StudentController extends Controller
 
     }
 
+    public function listforparents()
+    {
+        $usId = \Auth::user()->id;
+
+        $idStud = DB::table('studforparent')
+            ->where('idParent',$usId)
+            ->value('idStudent');
+
+        $idClass = DB::table('student')
+            ->where('id',$idStud)
+            ->value('classId');
+
+        $topics = DB::table('lecturetopic')
+            ->where('idClass',$idClass)
+            ->select('lecturetopic.*')
+            ->get();
+
+        return view('student.topiclist', ['topics' => $topics]);
+    }
+
+
 }

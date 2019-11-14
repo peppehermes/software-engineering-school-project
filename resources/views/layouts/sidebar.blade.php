@@ -22,8 +22,8 @@
                                     @endforeach
 
                             </ul>
-                        </li>
 
+                        </li>
 
 
 
@@ -79,7 +79,7 @@
 
 
                             <li>
-                                <a class="has-arrow" href="/topic/add" aria-expanded="false"><span
+                                <a class="has-arrow" href="" aria-expanded="false"><span
                                         class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Lecture's Topic</span></a>
                                 <ul class="submenu-angle" aria-expanded="false">
                                     <li><a title="Add Lecture Topic" href="/topic/add"><span
