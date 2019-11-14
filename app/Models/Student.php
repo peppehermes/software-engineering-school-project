@@ -14,7 +14,7 @@ class Student
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function retrieve(): Collection
+    public static function retrieve($where): Collection
     {
 
         return DB::table(static::table)
@@ -53,6 +53,31 @@ class Student
     public static function delete(int $id): int
     {
         return DB::table(static::table)->where('id', $id)->delete();
+    }
+
+    public static function retrieveStudentWithoutClass(): Collection
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where('classId',NULL)->orWhere('classId','')
+            ->orderBy(static::table . '.id','DESC')
+            ->get();
+
+    }
+    public static function retrieveStudentClass($id): Collection
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where('classId',$id)
+            ->orderBy(static::table . '.id','DESC')
+            ->get();
+
     }
 
 }

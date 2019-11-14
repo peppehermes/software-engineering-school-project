@@ -53,6 +53,20 @@ Route::group(['prefix' => 'teacher'], function() {
     Route::post('/delete', 'TeacherController@delete')->middleware('admin');
 });
 
+//classroom
+Route::group(['prefix' => 'classroom'], function() {
+    Route::get('/add', 'ClassroomController@add')->middleware('admin');
+    Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('admin');
+    Route::post('/update/{id}', 'ClassroomController@update')->middleware('admin');
+    Route::get('/list', 'ClassroomController@list')->middleware('admin');
+    Route::post('/store', 'ClassroomController@store')->middleware('admin');
+    Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('admin');
+    Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('admin');
+    Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('admin');
+    Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('admin');
+});
+
+
 //LectTopic
 Route::group(['prefix' => 'topic'], function() {
     Route::get('/add', 'TeacherController@addtopic')->middleware('teachers');
@@ -60,5 +74,3 @@ Route::group(['prefix' => 'topic'], function() {
     Route::post('/storetopic', 'TeacherController@storetopic')->middleware('teachers');
     Route::get('/listforparents/{idStud}', 'StudentController@listforparents')->middleware('parents');
 });
-
-

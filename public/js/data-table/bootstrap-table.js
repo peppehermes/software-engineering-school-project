@@ -620,7 +620,7 @@
         this.$tableBody = this.$container.find('.fixed-table-body');
         this.$tableLoading = this.$container.find('.fixed-table-loading');
         this.$tableFooter = this.$container.find('.fixed-table-footer');
-        this.$toolbar = this.$container.find('.fixed-table-toolbar');
+        // this.$toolbar = this.$container.find('.fixed-table-toolbar');
         this.$pagination = this.$container.find('.fixed-table-pagination');
 
         this.$tableBody.append(this.$el);

@@ -206,7 +206,7 @@
                                                                     <img
                                                                         src="{{ asset('/uploads/'.$teacherInfo->photo) }}"
                                                                         class="img-thumbnail"
-                                                                        style="width: 50%;height: 50%"/>
+                                                                        style="width: 20%;height: 20%"/>
                                                                 </div>
                                                             @endif
 
@@ -216,7 +216,7 @@
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary btn-lg center-block">
                                                                     Submit
                                                                 </button>
                                                             </div>

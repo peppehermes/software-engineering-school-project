@@ -67,7 +67,7 @@ class StudentController extends Controller
     public function list()
     {
 
-        $students = DB::table('student')->orderby('id','desc')->paginate(2);
+        $students = DB::table('student')->orderby('id','desc')->paginate(10);
 
         return view('student.list', ['students' => $students]);
     }

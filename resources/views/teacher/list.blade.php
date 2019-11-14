@@ -13,7 +13,7 @@
                         <div class="asset-inner">
                             <table>
                                 <tr>
-                                    <th>Student Id</th>
+                                    <th>Teacher Id</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Date of birth</th>

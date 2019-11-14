@@ -6,6 +6,7 @@ use App\Models\Classroom;
 use DB;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\Count;
 
 class ClassroomController extends Controller
 {
@@ -31,130 +32,123 @@ class ClassroomController extends Controller
 
     public function add()
     {
-        $classrooms = Classroom::retrieve();
-        return view('student.add', ['classrooms' => $classrooms]);
+
+        return view('classroom.add');
     }
 
-    public function store(Request $request)
+    public function store()
     {
 
-        $student = new Student();
+        $classroom = new Classroom();
 
         $data = request('frm');
 
 
-
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
-
-
-        if ($request->file('photo')) {
-
-            $cover = $request->file('photo');
-
-            $extension = $cover->getClientOriginalExtension();
-            $fileName = date('YmdHis') . '.' . $extension;
-            \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+        $classroomInfo = Classroom::retrieveClass($data['id']);
 
 
-            $data['photo'] = $fileName;
+        if (!isset($classroomInfo)) {
+            $classroom->save($data);
+        } else {
+            return \Redirect::back()->withErrors([$data['id'] . ' class is already defined.']);
         }
-        $student->save($data);
 
-        return redirect('/student/list');
+
+        return redirect('/classroom/list');
 
     }
 
     public function list()
     {
 
-        $students = DB::table('student')->orderby('id','desc')->paginate(2);
+        $classrooms = Classroom::retrieveAll();
 
-        return view('student.list', ['students' => $students]);
+        return view('classroom.list', ['classrooms' => $classrooms]);
     }
 
     public function edit($id)
     {
-        $studentInfo = Student::retrieveById($id);
-        if ($studentInfo->birthday) {
+        $classroomInfo = Classroom::retrieveClass($id);
 
 
-            $birthday = explode('-', $studentInfo->birthday);
-
-            $studentInfo->year = $birthday[0];
-            $studentInfo->month = $birthday[1];
-            $studentInfo->day = $birthday[2];
-        }
-
-
-        $classrooms = Classroom::retrieve();
-
-        return view('student.edit', ['studentInfo' => $studentInfo, 'classrooms' => $classrooms]);
+        return view('classroom.edit', ['classroomInfo' => $classroomInfo]);
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
 
-        $student = new Student();
+        $classroom = new Classroom();
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
-
-        if ($request->file('photo')) {
-
-            $cover = $request->file('photo');
-
-            $extension = $cover->getClientOriginalExtension();
-            $fileName = date('YmdHis') . '.' . $extension;
-            \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+        $classroomInfo = Classroom::retrieveClass($data['id']);
 
 
-            $data['photo'] = $fileName;
+        if (isset($classroomInfo) && $data['id'] == $id) {
+            $classroom->save($data, $id);
+        } elseif (!isset($classroomInfo)) {
+            $classroom->save($data, $id);
+        } else {
+            return \Redirect::back()->withErrors([$data['id'] . ' class is already defined.']);
         }
-        $student->save($data, $id);
 
-        return redirect('/student/list');
+
+        return redirect('/classroom/list');
 
     }
 
-    public function delete( $id)
+    public function delete($id)
+    {
+        $classroom = new Classroom();
+        $classroom::delete($id);
+
+
+        return redirect('/classroom/list');
+
+    }
+
+    public function composition($id)
+    {
+        $studentsList = Student::retrieveStudentClass($id);
+
+        $count = Count($studentsList);
+
+        $classroom = Classroom::retrieveById($id);
+
+        if ($count == $classroom->capacity) {
+            $full = 1;
+        } else {
+            $full = 0;
+        }
+
+        $students = Student::retrieveStudentWithoutClass();
+
+        return view('classroom.composition', ['students' => $students, 'classroomId' => $id, 'studentsList' => $studentsList, 'full' => $full]);
+    }
+
+    public function classComposition(Request $request, $id)
+    {
+        $students = $request->input('frm');
+        $studentClass = new Student();
+
+
+        foreach ($students as $studentId) {
+            $studentClass->save(['classId' => $id], $studentId);
+        }
+
+
+        return redirect('/classroom/list');
+    }
+
+    public function deleteStudent($id)
     {
 
-        DB::table('student')->where('id', $id)->delete();
+        $studentClass = new Student();
 
+        $studentClass->save(['classId' => ''], $id);
 
-        return redirect('/student/list');
-
+        return redirect('/classroom/list');
     }
 
-    public function showmarks($id)
-    {
-        if(\Auth::user()->roleId==3){
-
-
-            $myParentID = \Auth::user()->id;
-
-            $students = \DB::table('student')
-                ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-                ->join('users', 'users.id', '=', 'studForParent.idParent')
-                ->where('studForParent.idParent', $myParentID )
-                ->select('student.*')
-                ->get();
-
-            $marks = \DB::table('marks')
-                ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
-                ->where('marks.idStudent', $id )
-                ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
-                ->get();
-
-            return view('student.showmarks',['students'=>$students, 'marks'=>$marks]);
-
-        }
-        else{
-            return view('student.showmarks');
-        }
-
-
-    }
 
 }

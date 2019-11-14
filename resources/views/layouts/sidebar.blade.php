@@ -190,24 +190,17 @@
 {{--                                        class="mini-sub-pro">Data Table</span></a></li>--}}
 {{--                        </ul>--}}
 {{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-{{--                                class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Forms Elements</span></a>--}}
-{{--                        <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">--}}
-{{--                            <li><a title="Basic Form Elements" href="basic-form-element.html"><span--}}
-{{--                                        class="mini-sub-pro">Bc Form Elements</span></a></li>--}}
-{{--                            <li><a title="Advance Form Elements" href="advance-form-element.html"><span--}}
-{{--                                        class="mini-sub-pro">Ad Form Elements</span></a></li>--}}
-{{--                            <li><a title="Password Meter" href="password-meter.html"><span class="mini-sub-pro">Password Meter</span></a>--}}
-{{--                            </li>--}}
-{{--                            <li><a title="Multi Upload" href="multi-upload.html"><span--}}
-{{--                                        class="mini-sub-pro">Multi Upload</span></a></li>--}}
-{{--                            <li><a title="Text Editor" href="tinymc.html"><span class="mini-sub-pro">Text Editor</span></a>--}}
-{{--                            </li>--}}
-{{--                            <li><a title="Dual List Box" href="dual-list-box.html"><span class="mini-sub-pro">Dual List Box</span></a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </li>--}}
+                    <li @if(\Request::path()=='classroom/list' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
+                        <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
+                                class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Classrooms</span></a>
+                        <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                            <li><a title="Basic Form Elements" href="/classroom/list"><span
+                                        class="mini-sub-pro">All Classrooms</span></a></li>
+                            <li><a title="Advance Form Elements" href="/classroom/add"><span
+                                        class="mini-sub-pro">Add Classroom</span></a></li>
+
+                        </ul>
+                    </li>
 {{--                    <li>--}}
 {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
 {{--                                class="educate-icon educate-apps icon-wrap"></span> <span class="mini-click-non">App views</span></a>--}}

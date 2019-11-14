@@ -45,7 +45,7 @@
                                                             <div class="form-group col-lg-3">
 
                                                                 <select name="year" class="form-control" required>
-                                                                    <option value="none" disabled="">
+                                                                    <option value="none" disabled="" selected>
                                                                         Year
                                                                     </option>
                                                                     @for($i=1960 ;  $i<1998 ; $i++)
@@ -184,7 +184,7 @@
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary btn-lg center-block">
                                                                     Submit
                                                                 </button>
                                                             </div>

@@ -385,7 +385,7 @@
                 '       <i></i>' +
                 '     </button>' +
                 '   </div>' +
-                '   <select multiple="multiple"></select>' +
+                '   <select name="frms[]" multiple="multiple"></select>' +
                 ' </div>' +
                 '</div>')
                 .insertBefore(this.element);
@@ -594,8 +594,7 @@
         setHelperSelectNamePostfix: function(value, refresh) {
             this.settings.helperSelectNamePostfix = value;
             if (value) {
-                this.elements.select1.attr('name', this.originalSelectName + value + '1');
-                this.elements.select2.attr('name', this.originalSelectName + value + '2');
+                this.elements.select1.attr('name', this.originalSelectName  );
             } else {
                 this.elements.select1.removeAttr('name');
                 this.elements.select2.removeAttr('name');

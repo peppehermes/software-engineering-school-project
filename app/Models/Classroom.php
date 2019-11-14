@@ -26,20 +26,21 @@ class Classroom
 
     }
 
+
     /**
      * Retrieve company by id
      *
      * @param int $id
      * @return mixed
      */
-    public static function retrieveById(int $id)
+    public static function retrieveById( $id)
     {
 
         return DB::table(static::table)->find($id);
     }
 
 
-    public static function save(array $data, $id = null): int
+    public static function save(array $data, $id = null): string
     {
         if ($id) {
             \DB::table(static::table)->where('id', $id)->update($data);
@@ -50,9 +51,30 @@ class Classroom
         return \DB::table(static::table)->insertGetId($data);
     }
 
-    public static function delete(int $id): int
+    public static function delete(string $id): int
     {
         return DB::table(static::table)->where('id', $id)->delete();
     }
+
+    public static function retrieveClass(string $id)
+    {
+
+        return DB::table(static::table)->find($id);
+    }
+
+    public static function retrieveAll()
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->orderBy(static::table . '.id','DESC')
+            ->paginate(20);
+
+    }
+
+
+
 
 }

@@ -30,12 +30,15 @@
     <!-- normalize CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css')}}">
+
     <!-- meanmenu icon CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/meanmenu.min.css')}}">
     <!-- main CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/main.css')}}">
+
+
     <!-- educate icon CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/educate-custon-icon.css')}}">
@@ -46,13 +49,27 @@
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/scrollbar/jquery.mCustomScrollbar.min.css')}}">
     <!-- metisMenu CSS
-		============================================ -->
+            ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/metisMenu/metisMenu.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/metisMenu/metisMenu-vertical.css')}}">
-    <!-- calendar CSS
-		============================================ -->
+
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.print.min.css')}}">
+    <!-- duallistbox CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">
+
+    <!-- x-editor CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/editor/select2.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/editor/datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/editor/bootstrap-editable.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/editor/x-editor-style.css')}}">
+    <!-- normalize CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-table.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-editable.css')}}">
+
     <!-- style CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
@@ -107,45 +124,25 @@
 <!-- scrollUp JS
     ============================================ -->
 <script src="{{ asset('js/jquery.scrollUp.min.js')}}"></script>
-<!-- counterup JS
-    ============================================ -->
-<script src="{{ asset('js/counterup/jquery.counterup.min.js')}}"></script>
-<script src="{{ asset('js/counterup/waypoints.min.js')}}"></script>
-<script src="{{ asset('js/counterup/counterup-active.js')}}"></script>
 <!-- mCustomScrollbar JS
     ============================================ -->
 <script src="{{ asset('js/scrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 <script src="{{ asset('js/scrollbar/mCustomScrollbar-active.js')}}"></script>
+<!-- counterup JS
+    ============================================ -->
+{{--<script src="{{ asset('js/counterup/jquery.counterup.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/counterup/waypoints.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/counterup/counterup-active.js')}}"></script>--}}
+
 <!-- metisMenu JS
     ============================================ -->
 <script src="{{ asset('js/metisMenu/metisMenu.min.js')}}"></script>
 <script src="{{ asset('js/metisMenu/metisMenu-active.js')}}"></script>
-<!-- morrisjs JS
-    ============================================ -->
-<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>
-<script src="{{ asset('js/morrisjs/morris.js')}}"></script>
-<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>
-<!-- morrisjs JS
-    ============================================ -->
-<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>
-<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>
-<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>
-<!-- calendar JS
-    ============================================ -->
 
-<script src="{{ asset('js/calendar/moment.min.js')}}"></script>
-<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
-<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>
-<!-- icheck JS
+<!-- duallistbox JS
       ============================================ -->
-<script src="{{ asset('js/icheck/icheck.min.js')}}"></script>
-<script src="{{ asset('js/icheck/icheck-active.js')}}"></script>
-<!-- plugins JS
-    ============================================ -->
-<script src="{{ asset('js/plugins.js')}}"></script>
-<!-- main JS
-    ============================================ -->
-<script src="{{ asset('js/main.js')}}"></script>
+<script src="{{ asset('js/duallistbox/jquery.bootstrap-duallistbox.js')}}"></script>
+<script src="{{ asset('js/duallistbox/duallistbox.active.js')}}"></script>
 
 <!-- data table JS
        ============================================ -->
@@ -157,7 +154,52 @@
 <script src="{{ asset('js/data-table/bootstrap-table-resizable.js')}}"></script>
 <script src="{{ asset('js/data-table/colResizable-1.5.source.js')}}"></script>
 <script src="{{ asset('js/data-table/bootstrap-table-export.js')}}"></script>
+<!--  editable JS
+    ============================================ -->
+<script src="{{ asset('js/editable/jquery.mockjax.js')}}"></script>
+<script src="{{ asset('js/editable/mock-active.js')}}"></script>
+<script src="{{ asset('js/editable/select2.js')}}"></script>
+<script src="{{ asset('js/editable/moment.min.js')}}"></script>
+<script src="{{ asset('js/editable/bootstrap-datetimepicker.js')}}"></script>
+<script src="{{ asset('js/editable/bootstrap-editable.js')}}"></script>
+<script src="{{ asset('js/editable/xediable-active.js')}}"></script>
+<!-- Chart JS
+    ============================================ -->
+<script src="{{ asset('js/chart/jquery.peity.min.js')}}"></script>
+<script src="{{ asset('js/peity/peity-active.js')}}"></script>
 
+<!-- morrisjs JS
+    ============================================ -->
+{{--<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/morrisjs/morris.js')}}"></script>--}}
+{{--<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>--}}
+<!-- morrisjs JS
+    ============================================ -->
+{{--<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>--}}
+{{--<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>--}}
+<!-- calendar JS
+    ============================================ -->
+
+{{--<script src="{{ asset('js/calendar/moment.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>--}}
+<!-- icheck JS
+      ============================================ -->
+{{--<script src="{{ asset('js/icheck/icheck.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/icheck/icheck-active.js')}}"></script>--}}
+<!-- tab JS
+		============================================ -->
+<script src="{{ asset('js/tab.js')}}"></script>
+<!-- plugins JS
+    ============================================ -->
+<script src="{{ asset('js/plugins.js')}}"></script>
+<!-- main JS
+    ============================================ -->
+<script src="{{ asset('js/main.js')}}"></script>
+<!-- tawk chat JS
+       ============================================ -->
+{{--<script src="{{ asset('js/tawk-chat.js')}}"></script>--}}
 
 </body>
 </html>

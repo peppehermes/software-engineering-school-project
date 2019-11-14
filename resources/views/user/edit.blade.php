@@ -108,7 +108,7 @@
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary btn-lg center-block">
                                                                     Submit
                                                                 </button>
                                                             </div>
