@@ -18,7 +18,8 @@
 
                                 <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
                                             class="mini-sub-pro">{{$student->firstName}}</span></a></li>
-
+                                    <li><a title="All Students" href="/topic/listforparents/{{$student->id}}"><span
+                                                class="mini-sub-pro">{{$student->firstName}}</span></a></li>
                                     @endforeach
 
                             </ul>
