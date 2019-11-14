@@ -75,6 +75,19 @@
 
                         </ul>
                     </li>
+                        @if(Auth::user()->roleId==2)
+
+
+                            <li>
+                                <a class="has-arrow" href="/topic/add" aria-expanded="false"><span
+                                        class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Lecture's Topic</span></a>
+                                <ul class="submenu-angle" aria-expanded="false">
+                                    <li><a title="Add Lecture Topic" href="/topic/add"><span
+                                                class="mini-sub-pro">Add Lecture's Topic</span></a></li>
+                                    <li><a title="Add Lecture Topic" href="/topic/list"><span
+                                                class="mini-sub-pro">All Lecture's Topic</span></a></li>
+                                </ul>
+                         @endif
 {{--                    <li>--}}
 {{--                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span--}}
 {{--                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Courses</span></a>--}}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use DB;
 use App\Models\teacher;
+use App\Models\topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,11 +38,8 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-
         $teacher = new Teacher();
-
         $data = request('frm');
-
         if($data){
             //create user
             $userData['email'] = request('email');
@@ -51,29 +49,17 @@ class TeacherController extends Controller
             $password=$this->password_generate(8);
             $userData['password'] = Hash::make($password);
             $userId=DB::table('users')->insertGetId($userData);
-
             $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
             $data['userId']=$userId;
-
             if ($request->file('photo')) {
-
                 $cover = $request->file('photo');
-
                 $extension = $cover->getClientOriginalExtension();
                 $fileName = date('YmdHis') . '.' . $extension;
                 \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
-
-
                 $data['photo'] = $fileName;
             }
             $teacher->save($data);
         }
-
-
-
-
-
-
         //send email
         $to_name =  $userData['name'] ;
         $to_email = $userData['email'];
@@ -81,13 +67,15 @@ class TeacherController extends Controller
         \Mail::send('email.mail', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)
                 ->subject('Teacher Password');
-        $message->from('sahar.saadatmandii@gmail.com','Password');
+            $message->from('sahar.saadatmandii@gmail.com','Password');
         });
-
-
         return redirect('/teacher/list');
 
+
+
     }
+
+
 
     public function list()
     {
@@ -157,6 +145,66 @@ class TeacherController extends Controller
     {
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
         return substr(str_shuffle($data), 0, $chars);
+    }
+
+
+    public function listtopic()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = DB::table('teacher')
+            ->where('userId',$usId)
+            ->value('id');
+
+        $topics = DB::table('lecturetopic')
+            ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
+            ->where('teacher.id',$teachId)
+            ->orderby('lecturetopic.id','desc')->paginate(10);
+
+        return view('topic.list', ['topics' => $topics]);
+    }
+
+
+    public function storetopic(Request $request)
+    {
+
+        $topic = new Topic();
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+
+        if($data){
+            //create topic
+
+            $data['date']= implode('-', [request('year'), request('month'), request('day')]);
+            $data['idClass'] = request('idClass');
+            $data['idTeach'] =DB::table('teacher')->where('userId',$usId )->value('id');
+
+            $topic->save($data);
+        }
+
+
+
+
+        return redirect('/topic/list');
+
+    }
+
+    public function addtopic()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = DB::table('teacher')
+            ->where('userId',$usId)
+            ->value('id');
+
+        $classes = DB::table('teaching')
+            ->where('idTeach',$teachId)
+            ->select('teaching.*')
+            ->get();
+
+
+
+        return view('topic.add', ['classes' => $classes]);
     }
 
 }

@@ -53,4 +53,12 @@ Route::group(['prefix' => 'teacher'], function() {
     Route::post('/delete', 'TeacherController@delete')->middleware('admin');
 });
 
+//LectTopic
+Route::group(['prefix' => 'topic'], function() {
+    Route::get('/add', 'TeacherController@addtopic')->middleware('teachers');
+    Route::get('/list', 'TeacherController@listtopic')->middleware('teachers');
+    Route::post('/storetopic', 'TeacherController@storetopic')->middleware('teachers');
+
+});
+
 
