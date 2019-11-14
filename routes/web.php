@@ -58,7 +58,7 @@ Route::group(['prefix' => 'topic'], function() {
     Route::get('/add', 'TeacherController@addtopic')->middleware('teachers');
     Route::get('/list', 'TeacherController@listtopic')->middleware('teachers');
     Route::post('/storetopic', 'TeacherController@storetopic')->middleware('teachers');
-    Route::get('/listforparents', 'StudentController@listforparents')->middleware('parents');
+    Route::get('/listforparents/{idStud}', 'StudentController@listforparents')->middleware('parents');
 });
 
 
