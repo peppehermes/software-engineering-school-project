@@ -24,33 +24,23 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
                                                                        class="form-control" required
-                                                                       placeholder="First Name"
                                                                        value="{{$teacherInfo->firstName}}">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
                                                                        class="form-control" required
-                                                                       placeholder="Last Name"
                                                                        value="{{$teacherInfo->lastName}}">
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[address]" type="text"
+                                                            <div class="form-group col-md-12">
+                                                                <label>Place of Birth:</label>
+                                                                <input name="frm[birthPlace]" type="text"
                                                                        class="form-control"
-                                                                       placeholder="Address"
-                                                                       value="{{$teacherInfo->address}}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[phone]" type="number"
-                                                                       class="form-control" placeholder="Phone no."
-                                                                       value="{{$teacherInfo->phone}}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[postCode]" id="postcode" type="text"
-                                                                       class="form-control" placeholder="Postcode"
-                                                                       value="{{$teacherInfo->postCode}}">
+                                                                       value="{{$teacherInfo->birthPlace}}">
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label class="form-group">Date of birth:</label>
@@ -62,7 +52,7 @@
                                                                             @if(!$teacherInfo->year) selected @endif>
                                                                         Year
                                                                     </option>
-                                                                    @for($i=2000 ;  $i<2019 ; $i++)
+                                                                    @for($i=1960 ;  $i<1998 ; $i++)
                                                                         <option value="{{$i}}"
                                                                                 @if($teacherInfo->year == $i) selected @endif>{{$i}}</option>
                                                                     @endfor
@@ -141,29 +131,45 @@
 
                                                             </div>
 
-                                                            <div class="form-group">
-
-
-                                                                <label class="control-label">Photo:</label>
-
-                                                                <input type="file" class="form-control-file"
-                                                                       name="photo">
-
-
+                                                            <div class="form-group col-md-12">
+                                                                <label>Address:</label>
+                                                                <input name="frm[address]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$teacherInfo->address}}">
                                                             </div>
-                                                            <div class="form-group">
-                                                                <img src="{{ asset('/uploads/'.$teacherInfo->photo) }}" class="img-thumbnail" style="width: 50%;height: 50%"/>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Phone:</label>
+                                                                <input name="frm[phone]" type="number"
+                                                                       class="form-control"
+                                                                       value="{{$teacherInfo->phone}}">
                                                             </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Postal Code:</label>
+                                                                <input name="frm[postCode]" id="postcode" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$teacherInfo->postCode}}">
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Email:</label>
+                                                                <input name="email" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$teacherInfo->email}}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Fiscal code:</label>
+                                                                <input name="frm[fiscalCode]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$teacherInfo->fiscalCode}}">
+                                                            </div>
+
+
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
+
                                                             <div class="form-group">
-                                                                <input name="email" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Email"
-                                                                       value="{{$teacherInfo->email}}">
-                                                            </div>
-                                                            <div class="form-group">
+                                                                <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
                                                                         Gender
@@ -180,12 +186,29 @@
                                                             </div>
 
 
-
                                                             <div class="form-group res-mg-t-15">
-                                                                <textarea name="frm[description]"
-                                                                          placeholder="Description">{{$teacherInfo->description}}</textarea>
+                                                                <label>Description:</label>
+                                                                <textarea name="frm[description]">{{$teacherInfo->description}}</textarea>
                                                             </div>
 
+                                                            <div class="form-group">
+
+
+                                                                <label class="control-label">Photo:</label>
+
+                                                                <input type="file" class="form-control-file"
+                                                                       name="photo">
+
+
+                                                            </div>
+                                                            @if(isset($teacherInfo->photo))
+                                                                <div class="form-group">
+                                                                    <img
+                                                                        src="{{ asset('/uploads/'.$teacherInfo->photo) }}"
+                                                                        class="img-thumbnail"
+                                                                        style="width: 50%;height: 50%"/>
+                                                                </div>
+                                                            @endif
 
                                                         </div>
                                                     </div>

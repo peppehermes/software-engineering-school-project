@@ -22,30 +22,35 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'HomeController@admin')->middleware('admin');
 
 //user
-Route::get('/user/add', 'UserController@add')->middleware('admin');
-Route::get('/user/edit/{id}', 'UserController@edit')->middleware('admin');
-Route::post('/user/update/{id}', 'UserController@update')->middleware('admin');
-Route::get('/user/list', 'UserController@list')->middleware('admin');
-Route::post('/user/store', 'UserController@store')->middleware('admin');
-Route::get('/user/delete/{id}', 'UserController@delete')->middleware('admin');
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/add', 'UserController@add')->middleware('admin');
+    Route::get('/edit/{id}', 'UserController@edit')->middleware('admin');
+    Route::post('/update/{id}', 'UserController@update')->middleware('admin');
+    Route::get('/list', 'UserController@list')->middleware('admin');
+    Route::post('/store', 'UserController@store')->middleware('admin');
+    Route::get('/delete/{id}', 'UserController@delete')->middleware('admin');
+});
+
 
 //student
-Route::get('/student/add', 'StudentController@add')->middleware('admin');
-Route::get('/student/edit/{id}', 'StudentController@edit')->middleware('admin');
-Route::post('/student/update/{id}', 'StudentController@update')->middleware('admin');
-Route::get('/student/list', 'StudentController@list')->middleware('admin');
-Route::post('/student/store', 'StudentController@store')->middleware('admin');
-Route::get('/student/delete/{id}', 'StudentController@delete')->middleware('admin');
-
+Route::group(['prefix' => 'student'], function() {
+    Route::get('/add', 'StudentController@add')->middleware('admin');
+    Route::get('/edit/{id}', 'StudentController@edit')->middleware('admin');
+    Route::post('/update/{id}', 'StudentController@update')->middleware('admin');
+    Route::get('/list', 'StudentController@list')->middleware('admin');
+    Route::post('/store', 'StudentController@store')->middleware('admin');
+    Route::get('/delete/{id}', 'StudentController@delete')->middleware('admin');
+    Route::get('/showmarks/{id}', 'StudentController@showmarks')->middleware('parents');
+});
 
 //teacher
-Route::get('/teacher/add', 'TeacherController@add')->middleware('admin');
-Route::get('/teacher/edit/{id}', 'TeacherController@edit')->middleware('admin');
-Route::post('/teacher/update/{id}', 'TeacherController@update')->middleware('admin');
-Route::get('/teacher/list', 'TeacherController@list')->middleware('admin');
-Route::post('/teacher/store', 'TeacherController@store')->middleware('admin');
-Route::post('/teacher/delete', 'TeacherController@delete')->middleware('admin');
+Route::group(['prefix' => 'teacher'], function() {
+    Route::get('/add', 'TeacherController@add')->middleware('admin');
+    Route::get('/edit/{id}', 'TeacherController@edit')->middleware('admin');
+    Route::post('/update/{id}', 'TeacherController@update')->middleware('admin');
+    Route::get('/list', 'TeacherController@list')->middleware('admin');
+    Route::post('/store', 'TeacherController@store')->middleware('admin');
+    Route::post('/delete', 'TeacherController@delete')->middleware('admin');
+});
 
-//parent
-Route::get('/student/showmarks/{id}', 'StudentController@showmarks');
 

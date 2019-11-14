@@ -7,7 +7,7 @@ use DB;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
-class StudentController extends Controller
+class ClassroomController extends Controller
 {
     /**
      * Create a new controller instance.

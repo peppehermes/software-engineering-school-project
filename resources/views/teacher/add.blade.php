@@ -24,28 +24,20 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="First Name">
+                                                                       class="form-control" required>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="Last Name">
+                                                                       class="form-control" required>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[address]" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Address">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[phone]" type="number"
-                                                                       class="form-control" placeholder="Phone no.">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[postCode]" id="postcode" type="text"
-                                                                       class="form-control" placeholder="Postcode">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Place of Birth:</label>
+                                                                <input name="frm[birthPlace]" type="text"
+                                                                       class="form-control">
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label class="form-group">Date of birth:</label>
@@ -53,10 +45,10 @@
                                                             <div class="form-group col-lg-3">
 
                                                                 <select name="year" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
+                                                                    <option value="none" disabled="">
                                                                         Year
                                                                     </option>
-                                                                    @for($i=1960 ;  $i<2000 ; $i++)
+                                                                    @for($i=1960 ;  $i<1998 ; $i++)
                                                                         <option value="{{$i}}">{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -69,18 +61,42 @@
                                                                     <option value="none" selected="" disabled="">
                                                                         Month
                                                                     </option>
-                                                                    <option value="1">January</option>
-                                                                    <option value="2">February</option>
-                                                                    <option value="3">March</option>
-                                                                    <option value="4">April</option>
-                                                                    <option value="5">May</option>
-                                                                    <option value="6">June</option>
-                                                                    <option value="7">July</option>
-                                                                    <option value="8">August</option>
-                                                                    <option value="9">September</option>
-                                                                    <option value="10">October</option>
-                                                                    <option value="11">November</option>
-                                                                    <option value="12">December</option>
+                                                                    <option value="1">
+                                                                        January
+                                                                    </option>
+                                                                    <option value="2">
+                                                                        February
+                                                                    </option>
+                                                                    <option value="3">
+                                                                        March
+                                                                    </option>
+                                                                    <option value="4">
+                                                                        April
+                                                                    </option>
+                                                                    <option value="5">
+                                                                        May
+                                                                    </option>
+                                                                    <option value="6">
+                                                                        June
+                                                                    </option>
+                                                                    <option value="7">
+                                                                        July
+                                                                    </option>
+                                                                    <option value="8">
+                                                                        August
+                                                                    </option>
+                                                                    <option value="9">
+                                                                        September
+                                                                    </option>
+                                                                    <option value="10">
+                                                                        October
+                                                                    </option>
+                                                                    <option value="11">
+                                                                        November
+                                                                    </option>
+                                                                    <option value="12">
+                                                                        December
+                                                                    </option>
                                                                 </select>
 
                                                             </div>
@@ -97,6 +113,59 @@
 
                                                             </div>
 
+                                                            <div class="form-group col-md-12">
+                                                                <label>Address:</label>
+                                                                <input name="frm[address]" type="text"
+                                                                       class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Phone:</label>
+                                                                <input name="frm[phone]" type="number"
+                                                                       class="form-control" >
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Postal Code:</label>
+                                                                <input name="frm[postCode]" id="postcode" type="text"
+                                                                       class="form-control" >
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Email:</label>
+                                                                <input name="email" type="text"
+                                                                       class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Fiscal code:</label>
+                                                                <input name="frm[fiscalCode]" type="text"
+                                                                       class="form-control">
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+
+                                                            <div class="form-group">
+                                                                <label>Gender:</label>
+                                                                <select name="frm[gender]" class="form-control">
+                                                                    <option value="none" selected="" disabled="">Select
+                                                                        Gender
+                                                                    </option>
+                                                                    <option value="M">
+                                                                        Male
+                                                                    </option>
+                                                                    <option value="F">
+                                                                        Female
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="form-group res-mg-t-15">
+                                                                <label>Description:</label>
+                                                                <textarea name="frm[description]"></textarea>
+                                                            </div>
+
                                                             <div class="form-group">
 
 
@@ -105,31 +174,7 @@
                                                                 <input type="file" class="form-control-file"
                                                                        name="photo">
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                                                            <div class="form-group">
-                                                                <input name="email" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Email">
-                                                            </div>
-
-
-                                                            <div class="form-group">
-                                                                <select name="frm[gender]" class="form-control">
-                                                                    <option value="none" selected="" disabled="">Select
-                                                                        Gender
-                                                                    </option>
-                                                                    <option value="M">Male</option>
-                                                                    <option value="F">Female</option>
-                                                                </select>
-                                                            </div>
-
-
-                                                            <div class="form-group res-mg-t-15">
-                                                                <textarea name="frm[description]"
-                                                                          placeholder="Description"></textarea>
                                                             </div>
 
 
@@ -137,7 +182,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <div class="payment-address">
+                                                            <div class="payment-adress">
                                                                 <button type="submit"
                                                                         class="btn btn-primary waves-effect waves-light">
                                                                     Submit
@@ -151,69 +196,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--                            <div class="product-tab-list tab-pane fade" id="reviews">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="text" class="form-control" placeholder="Email">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="number" class="form-control"--}}
-                            {{--                                                                   placeholder="Phone">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Confirm Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <a href="#!" class="btn btn-primary waves-effect waves-light">Submit</a>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-                            {{--                            <div class="product-tab-list tab-pane fade" id="INFORMATION">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Facebook URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Twitter URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Google Plus">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Linkedin URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <button type="submit"--}}
-                            {{--                                                                class="btn btn-primary waves-effect waves-light">Submit--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
+
                         </div>
                     </div>
                 </div>

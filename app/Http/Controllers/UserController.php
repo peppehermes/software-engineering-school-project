@@ -39,13 +39,26 @@ class UserController extends Controller
 
     }
 
-    public function store()
+    public function store(Request $request)
     {
 
 
         $data = request('frm');
 
+
         $data['password'] = Hash::make($data['password']);
+
+        if ($request->file('photo')) {
+
+            $cover = $request->file('photo');
+
+            $extension = $cover->getClientOriginalExtension();
+            $fileName = date('YmdHis') . '.' . $extension;
+            \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+
+
+            $data['photo'] = $fileName;
+        }
 
         DB::table('users')->insertGetId($data);
 
@@ -75,7 +88,7 @@ class UserController extends Controller
         return view('user.edit', ['userInfo' => $userInfo, 'roles' => $roles]);
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
 
 
@@ -85,6 +98,18 @@ class UserController extends Controller
         if ($id) {
             if ($password != '') {
                 $data['password'] = Hash::make($password);
+            }
+
+            if ($request->file('photo')) {
+
+                $cover = $request->file('photo');
+
+                $extension = $cover->getClientOriginalExtension();
+                $fileName = date('YmdHis') . '.' . $extension;
+                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+
+
+                $data['photo'] = $fileName;
             }
             DB::table('users')->where('id', $id)->update($data);
 

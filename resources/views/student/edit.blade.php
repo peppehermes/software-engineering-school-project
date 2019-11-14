@@ -24,47 +24,38 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
                                                                        class="form-control" required
-                                                                       placeholder="First Name"
                                                                        value="{{$studentInfo->firstName}}">
                                                             </div>
-                                                            <div class="form-group">
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
                                                                        class="form-control" required
-                                                                       placeholder="Last Name"
                                                                        value="{{$studentInfo->lastName}}">
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[address]" type="text"
+                                                            <div class="form-group col-md-12">
+                                                                <label>Place of Birth:</label>
+                                                                <input name="frm[birthPlace]" type="text"
                                                                        class="form-control"
-                                                                       placeholder="Address"
-                                                                       value="{{$studentInfo->address}}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[phone]" type="number"
-                                                                       class="form-control" placeholder="Phone no."
-                                                                       value="{{$studentInfo->phone}}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[postCode]" id="postcode" type="text"
-                                                                       class="form-control" placeholder="Postcode"
-                                                                       value="{{$studentInfo->postCode}}">
+                                                                       value="{{$studentInfo->birthPlace}}">
                                                             </div>
                                                             <div class="form-group col-lg-3">
-                                                                <label class="form-group">Date of birth:</label>
+                                                                <label>Date of birth:</label>
                                                             </div>
                                                             <div class="form-group col-lg-3">
 
                                                                 <select name="year" class="form-control" required>
                                                                     <option value="none" disabled=""
-                                                                            @if(!$studentInfo->year) selected @endif>
+                                                                            @if(!isset($studentInfo->year)) selected @endif>
                                                                         Year
                                                                     </option>
-                                                                    @for($i=2000 ;  $i<2019 ; $i++)
+                                                                    @for($i=2000 ;  $i<2013 ; $i++)
                                                                         <option value="{{$i}}"
-                                                                                @if($studentInfo->year == $i) selected @endif>{{$i}}</option>
+                                                                                @if(isset($studentInfo->year) && $studentInfo->year == $i) selected @endif>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
                                                             </div>
@@ -77,51 +68,51 @@
                                                                         Month
                                                                     </option>
                                                                     <option value="1"
-                                                                            @if($studentInfo->month == 1) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 1) selected @endif>
                                                                         January
                                                                     </option>
                                                                     <option value="2"
-                                                                            @if($studentInfo->month == 2) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 2) selected @endif>
                                                                         February
                                                                     </option>
                                                                     <option value="3"
-                                                                            @if($studentInfo->month == 3) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 3) selected @endif>
                                                                         March
                                                                     </option>
                                                                     <option value="4"
-                                                                            @if($studentInfo->month == 4) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 4) selected @endif>
                                                                         April
                                                                     </option>
                                                                     <option value="5"
-                                                                            @if($studentInfo->month == 5) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 5) selected @endif>
                                                                         May
                                                                     </option>
                                                                     <option value="6"
-                                                                            @if($studentInfo->month == 6) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 6) selected @endif>
                                                                         June
                                                                     </option>
                                                                     <option value="7"
-                                                                            @if($studentInfo->month == 7) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 7) selected @endif>
                                                                         July
                                                                     </option>
                                                                     <option value="8"
-                                                                            @if($studentInfo->month == 8) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 8) selected @endif>
                                                                         August
                                                                     </option>
                                                                     <option value="9"
-                                                                            @if($studentInfo->month == 9) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 9) selected @endif>
                                                                         September
                                                                     </option>
                                                                     <option value="10"
-                                                                            @if($studentInfo->month == 10) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 10) selected @endif>
                                                                         October
                                                                     </option>
                                                                     <option value="11"
-                                                                            @if($studentInfo->month == 11) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 11) selected @endif>
                                                                         November
                                                                     </option>
                                                                     <option value="12"
-                                                                            @if($studentInfo->month == 12) selected @endif>
+                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 12) selected @endif>
                                                                         December
                                                                     </option>
                                                                 </select>
@@ -130,40 +121,58 @@
                                                             <div class="form-group col-lg-3">
 
                                                                 <select name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
+                                                                    <option value="none"
+                                                                            @if(!isset($studentInfo->day)) selected=""
+                                                                            @endif disabled="">
                                                                         Day
                                                                     </option>
                                                                     @for($j=1 ;  $j<31 ; $j++)
                                                                         <option value="{{$j}}"
-                                                                                @if($studentInfo->day == $j) selected @endif>{{$j}}</option>
+                                                                                @if(isset($studentInfo->day) && $studentInfo->day == $j) selected @endif>{{$j}}</option>
                                                                     @endfor
                                                                 </select>
 
                                                             </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Address:</label>
+                                                                <input name="frm[address]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$studentInfo->address}}">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Phone:</label>
+                                                                <input name="frm[phone]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$studentInfo->phone}}">
+                                                            </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Postal Code:</label>
+                                                                <input name="frm[postCode]" id="postcode" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$studentInfo->postCode}}">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Fiscal Code:</label>
+                                                                <input name="frm[fiscalCode]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$studentInfo->fiscalCode}}">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Email:</label>
 
-
-                                                                <label class="control-label">Photo:</label>
-
-                                                                <input type="file" class="form-control-file"
-                                                                       name="photo">
-
+                                                                <input name="frm[email]" type="text"
+                                                                       class="form-control"
+                                                                       value="{{$studentInfo->email}}">
 
                                                             </div>
-                                                            <div class="form-group">
-                                                                <img src="{{ asset('/uploads/'.$studentInfo->photo) }}" class="img-thumbnail" style="width: 50%;height: 50%"/>
-                                                            </div>
+
+
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                                                            <div class="form-group">
-                                                                <input name="frm[email]" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Email"
-                                                                       value="{{$studentInfo->email}}">
-                                                            </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
                                                                         Gender
@@ -180,10 +189,11 @@
                                                             </div>
 
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Classroom:</label>
                                                                 <select name="frm[classId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
-                                                                        Class
+                                                                        Classroom
                                                                     </option>
                                                                     @foreach($classrooms as $classroom)
                                                                         <option
@@ -192,24 +202,40 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group res-mg-t-15">
-                                                                <textarea name="frm[description]"
-                                                                          placeholder="Description">{{$studentInfo->description}}</textarea>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Description:</label>
+                                                                <textarea name="frm[description]">{{$studentInfo->description}}</textarea>
                                                             </div>
 
+                                                            <div class="form-group col-lg-12">
 
+
+                                                                <label class="control-label">Photo:</label>
+
+                                                                <input type="file" class="form-control-file"
+                                                                       name="photo">
+
+
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                @if(isset($studentInfo->photo))
+                                                                    <img
+                                                                        src="{{ asset('/uploads/'.$studentInfo->photo) }}"
+                                                                        class="img-thumbnail"
+                                                                        style="width: 50%;height: 50%"/>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="payment-adress">
-                                                                <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
-                                                                    Submit
-                                                                </button>
-                                                            </div>
-                                                        </div>
+                                                        <button type="submit"
+                                                                class="btn btn-primary btn-lg center-block">
+                                                            Submit
+                                                        </button>
                                                     </div>
+
+
                                                 </form>
                                             </div>
                                         </div>

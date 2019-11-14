@@ -24,20 +24,21 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Name:</label>
                                                                 <input name="frm[name]" type="text"
                                                                        class="form-control" required
-                                                                       placeholder="Name"
                                                                        value="{{$userInfo->name}}">
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Email:</label>
                                                                 <input name="frm[email]" type="text"
                                                                        class="form-control"
-                                                                       placeholder="Email"
                                                                        value="{{$userInfo->email}}">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
                                                                     @foreach($roles as $role)
                                                                         <option
@@ -48,25 +49,61 @@
                                                                 </select>
                                                             </div>
 
+                                                            <div class="form-group col-md-6">
+                                                                <label>Status:</label>
+                                                                <select name="frm[status]" class="form-control">
+                                                                    <option @if($userInfo->status == 'active')  selected @endif
+                                                                    value="active">Enable User
+                                                                    </option>
+                                                                    <option @if($userInfo->status == 'inactive')  selected @endif
+                                                                    value="inactive">Disable User
+                                                                    </option>
+
+                                                                </select>
+                                                            </div>
+
 
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Password:</label>
                                                                 <input name="password" type="password"
                                                                        class="form-control"
-                                                                       placeholder="Password"
                                                                        value="">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Confirm Password:</label>
                                                                 <input name="confirmPassword" type="password"
-                                                                       class="form-control" placeholder="Confirm Password"
+                                                                       class="form-control"
                                                                        value="">
                                                             </div>
 
+                                                            <div class="form-group col-md-12">
+
+
+                                                                <label class="control-label">Photo:</label>
+
+                                                                <input type="file" class="form-control-file"
+                                                                       name="photo">
+
+
+                                                            </div>
+                                                            @if(isset($userInfo->photo))
+                                                                <div class="form-group col-md-12">
+                                                                    <img
+                                                                        src="{{ asset('/uploads/'.$userInfo->photo) }}"
+                                                                        class="img-thumbnail"
+                                                                        style="width: 50%;height: 50%"/>
+                                                                </div>
+                                                            @endif
+
+
+
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">

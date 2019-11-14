@@ -24,44 +24,32 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="First Name">
+                                                                       class="form-control" required>
                                                             </div>
-                                                            <div class="form-group">
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="Last Name">
+                                                                       class="form-control" required>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[address]" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Address">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[phone]" type="number"
-                                                                       class="form-control" placeholder="Phone no.">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[postCode]" id="postcode" type="text"
-                                                                       class="form-control" placeholder="Postcode">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="frm[P1firstName]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="Parent 1 First Name">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Place of Birth:</label>
+                                                                <input name="frm[birthPlace]" type="text"
+                                                                       class="form-control">
                                                             </div>
                                                             <div class="form-group col-lg-3">
-                                                                <label class="form-group">Date of birth:</label>
+                                                                <label>Date of birth:</label>
                                                             </div>
                                                             <div class="form-group col-lg-3">
 
                                                                 <select name="year" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
+                                                                    <option value="none" disabled="" selected>
                                                                         Year
                                                                     </option>
-                                                                    @for($i=2000 ;  $i<2019 ; $i++)
+                                                                    @for($i=2000 ;  $i<2013 ; $i++)
                                                                         <option value="{{$i}}">{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -74,18 +62,42 @@
                                                                     <option value="none" selected="" disabled="">
                                                                         Month
                                                                     </option>
-                                                                    <option value="1">January</option>
-                                                                    <option value="2">February</option>
-                                                                    <option value="3">March</option>
-                                                                    <option value="4">April</option>
-                                                                    <option value="5">May</option>
-                                                                    <option value="6">June</option>
-                                                                    <option value="7">July</option>
-                                                                    <option value="8">August</option>
-                                                                    <option value="9">September</option>
-                                                                    <option value="10">October</option>
-                                                                    <option value="11">November</option>
-                                                                    <option value="12">December</option>
+                                                                    <option value="1">
+                                                                        January
+                                                                    </option>
+                                                                    <option value="2">
+                                                                        February
+                                                                    </option>
+                                                                    <option value="3">
+                                                                        March
+                                                                    </option>
+                                                                    <option value="4">
+                                                                        April
+                                                                    </option>
+                                                                    <option value="5">
+                                                                        May
+                                                                    </option>
+                                                                    <option value="6">
+                                                                        June
+                                                                    </option>
+                                                                    <option value="7">
+                                                                        July
+                                                                    </option>
+                                                                    <option value="8">
+                                                                        August
+                                                                    </option>
+                                                                    <option value="9">
+                                                                        September
+                                                                    </option>
+                                                                    <option value="10">
+                                                                        October
+                                                                    </option>
+                                                                    <option value="11">
+                                                                        November
+                                                                    </option>
+                                                                    <option value="12">
+                                                                        December
+                                                                    </option>
                                                                 </select>
 
                                                             </div>
@@ -101,40 +113,61 @@
                                                                 </select>
 
                                                             </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Address:</label>
+                                                                <input name="frm[address]" type="text"
+                                                                       class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Phone:</label>
+                                                                <input name="frm[phone]" type="text"
+                                                                       class="form-control">
+                                                            </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Post Code:</label>
+                                                                <input name="frm[postCode]" id="postcode" type="text"
+                                                                       class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Fiscal Code:</label>
+                                                                <input name="frm[fiscalCode]" type="text"
+                                                                       class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <label>Email:</label>
 
-
-                                                                <label class="control-label">Photo:</label>
-
-                                                                <input type="file" class="form-control-file"
-                                                                       name="photo">
+                                                                <input name="frm[email]" type="text"
+                                                                       class="form-control">
 
                                                             </div>
+
 
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                                                            <div class="form-group">
-                                                                <input name="frm[email]" type="text"
-                                                                       class="form-control"
-                                                                       placeholder="Email">
-                                                            </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
                                                                         Gender
                                                                     </option>
-                                                                    <option value="M">Male</option>
-                                                                    <option value="F">Female</option>
+                                                                    <option value="M"
+                                                                    >
+                                                                        Male
+                                                                    </option>
+                                                                    <option value="F">
+                                                                        Female
+                                                                    </option>
                                                                 </select>
                                                             </div>
 
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Classroom:</label>
                                                                 <select name="frm[classId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
-                                                                        Class
+                                                                        Classroom
                                                                     </option>
                                                                     @foreach($classrooms as $classroom)
                                                                         <option
@@ -142,24 +175,32 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group res-mg-t-15">
-                                                                <textarea name="frm[description]"
-                                                                          placeholder="Description"></textarea>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Description:</label>
+                                                                <textarea name="frm[description]"></textarea>
                                                             </div>
 
+                                                            <div class="form-group col-lg-12">
+
+
+                                                                <label class="control-label">Photo:</label>
+
+                                                                <input type="file" class="form-control-file"
+                                                                       name="photo">
+
+
+                                                            </div>
 
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="payment-adress">
-                                                                <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
-                                                                    Submit
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
+
+                                                    <button type="submit"
+                                                            class="btn btn-primary btn-lg center-block">
+                                                        Submit
+                                                    </button>
+
+
                                                 </form>
                                             </div>
                                         </div>

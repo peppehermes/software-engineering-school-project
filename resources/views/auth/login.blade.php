@@ -13,7 +13,7 @@
                             @csrf
                             <div class="form-group">
                                 <label class="control-label" for="username">{{ __('E-Mail Address') }}</label>
-                                <input type="text"  title="Please enter you username" required="" value="{{ old('email') }}" name="email" @error('email') is-invalid @enderror id="username" class="form-control" autocomplete="email" autofocus>
+                                <input type="email"  title="Please enter you username" required="" value="{{ old('email') }}" name="email" @error('email') is-invalid @enderror id="username" class="form-control" autocomplete="email" autofocus>
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="password">{{ __('Password') }}</label>
@@ -36,6 +36,15 @@
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                                 </label>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @endif
                         </form>
                     </div>

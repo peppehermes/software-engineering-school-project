@@ -24,16 +24,16 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Name:</label>
                                                                 <input name="frm[name]" type="text"
-                                                                       class="form-control" required
-                                                                       placeholder="Name">
+                                                                       class="form-control" required>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Email:</label>
                                                                 <input name="frm[email]" id="email" type="email"
                                                                        class="form-control @error('email') is-invalid @enderror"
-                                                                       required
-                                                                       placeholder="Email" value="{{ old('email') }}"
+                                                                       required value="{{ old('email') }}"
                                                                        autocomplete="email">
                                                                 @error('email')
                                                                 <span class="invalid-feedback" role="alert">
@@ -42,7 +42,8 @@
                                                                 @enderror
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
                                                                         Role
@@ -54,23 +55,50 @@
                                                                 </select>
                                                             </div>
 
+                                                            <div class="form-group col-md-6">
+                                                                <label>Status:</label>
+                                                                <select name="frm[status]" class="form-control">
+                                                                    <option selected
+                                                                            value="active">Enable User
+                                                                    </option>
+                                                                    <option
+                                                                        value="inactive">Disable User
+                                                                    </option>
+
+                                                                </select>
+                                                            </div>
+
+
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
 
-                                                            <div class="form-group">
-                                                                <input name="frm[password]" id="password" type="password"
+                                                            <div class="form-group col-md-12">
+                                                                <label>Password:</label>
+                                                                <input name="frm[password]" id="password"
+                                                                       type="password"
                                                                        class="form-control @error('password') is-invalid @enderror"
-                                                                       placeholder="Password"
                                                                        autocomplete="new-password"
-                                                                        required>
+                                                                       required>
                                                             </div>
-                                                            <div class="form-group">
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>Confirm Password:</label>
                                                                 <input name="confirm_password"
                                                                        id="password-confirm" type="password"
                                                                        class="form-control"
-                                                                       placeholder="Confirm Password"
                                                                        required autocomplete="new-password">
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+
+
+                                                                <label class="control-label">Photo:</label>
+
+                                                                <input type="file" class="form-control-file"
+                                                                       name="photo">
+
+
                                                             </div>
 
 
