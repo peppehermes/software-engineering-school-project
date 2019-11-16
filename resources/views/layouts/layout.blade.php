@@ -55,22 +55,23 @@
 
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.print.min.css')}}">
+@if(\Request::path()!='login')
     <!-- duallistbox CSS
 		============================================ -->
-    <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">
 
-    <!-- x-editor CSS
-		============================================ -->
-    <link rel="stylesheet" href="{{ asset('css/editor/select2.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/editor/datetimepicker.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/editor/bootstrap-editable.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/editor/x-editor-style.css')}}">
-    <!-- normalize CSS
-		============================================ -->
-    <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-table.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-editable.css')}}">
-
-    <!-- style CSS
+        <!-- x-editor CSS
+            ============================================ -->
+        <link rel="stylesheet" href="{{ asset('css/editor/select2.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/editor/datetimepicker.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/editor/bootstrap-editable.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/editor/x-editor-style.css')}}">
+        <!-- normalize CSS
+            ============================================ -->
+        <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-table.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-editable.css')}}">
+@endif
+<!-- style CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
     <!-- responsive CSS
@@ -139,55 +140,59 @@
 <script src="{{ asset('js/metisMenu/metisMenu.min.js')}}"></script>
 <script src="{{ asset('js/metisMenu/metisMenu-active.js')}}"></script>
 
-<!-- duallistbox JS
+
+@if(\Request::path()!='login')
+
+    <!-- duallistbox JS
       ============================================ -->
-<script src="{{ asset('js/duallistbox/jquery.bootstrap-duallistbox.js')}}"></script>
-<script src="{{ asset('js/duallistbox/duallistbox.active.js')}}"></script>
+    <script src="{{ asset('js/duallistbox/jquery.bootstrap-duallistbox.js')}}"></script>
+    <script src="{{ asset('js/duallistbox/duallistbox.active.js')}}"></script>
 
-<!-- data table JS
-       ============================================ -->
-<script src="{{ asset('js/data-table/bootstrap-table.js')}}"></script>
-<script src="{{ asset('js/data-table/tableExport.js')}}"></script>
-<script src="{{ asset('js/data-table/data-table-active.js')}}"></script>
-<script src="{{ asset('js/data-table/bootstrap-table-editable.js')}}"></script>
-<script src="{{ asset('js/data-table/bootstrap-editable.js')}}"></script>
-<script src="{{ asset('js/data-table/bootstrap-table-resizable.js')}}"></script>
-<script src="{{ asset('js/data-table/colResizable-1.5.source.js')}}"></script>
-<script src="{{ asset('js/data-table/bootstrap-table-export.js')}}"></script>
-<!--  editable JS
-    ============================================ -->
-<script src="{{ asset('js/editable/jquery.mockjax.js')}}"></script>
-<script src="{{ asset('js/editable/mock-active.js')}}"></script>
-<script src="{{ asset('js/editable/select2.js')}}"></script>
-<script src="{{ asset('js/editable/moment.min.js')}}"></script>
-<script src="{{ asset('js/editable/bootstrap-datetimepicker.js')}}"></script>
-<script src="{{ asset('js/editable/bootstrap-editable.js')}}"></script>
-<script src="{{ asset('js/editable/xediable-active.js')}}"></script>
-<!-- Chart JS
-    ============================================ -->
-<script src="{{ asset('js/chart/jquery.peity.min.js')}}"></script>
-<script src="{{ asset('js/peity/peity-active.js')}}"></script>
+    <!-- data table JS
+           ============================================ -->
+    <script src="{{ asset('js/data-table/bootstrap-table.js')}}"></script>
+    <script src="{{ asset('js/data-table/tableExport.js')}}"></script>
+    <script src="{{ asset('js/data-table/data-table-active.js')}}"></script>
+    <script src="{{ asset('js/data-table/bootstrap-table-editable.js')}}"></script>
+    <script src="{{ asset('js/data-table/bootstrap-editable.js')}}"></script>
+    <script src="{{ asset('js/data-table/bootstrap-table-resizable.js')}}"></script>
+    <script src="{{ asset('js/data-table/colResizable-1.5.source.js')}}"></script>
+    <script src="{{ asset('js/data-table/bootstrap-table-export.js')}}"></script>
+    <!--  editable JS
+        ============================================ -->
+    <script src="{{ asset('js/editable/jquery.mockjax.js')}}"></script>
+    <script src="{{ asset('js/editable/mock-active.js')}}"></script>
+    <script src="{{ asset('js/editable/select2.js')}}"></script>
+    <script src="{{ asset('js/editable/moment.min.js')}}"></script>
+    <script src="{{ asset('js/editable/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{ asset('js/editable/bootstrap-editable.js')}}"></script>
+    <script src="{{ asset('js/editable/xediable-active.js')}}"></script>
+    <!-- Chart JS
+        ============================================ -->
+    <script src="{{ asset('js/chart/jquery.peity.min.js')}}"></script>
+    <script src="{{ asset('js/peity/peity-active.js')}}"></script>
 
+@endif
 <!-- morrisjs JS
     ============================================ -->
-{{--<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/morrisjs/morris.js')}}"></script>--}}
-{{--<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>--}}
+<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>
+<script src="{{ asset('js/morrisjs/morris.js')}}"></script>
+<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>
 <!-- morrisjs JS
     ============================================ -->
-{{--<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>--}}
-{{--<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>--}}
+<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>
+<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>
+<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>
 <!-- calendar JS
     ============================================ -->
 
-{{--<script src="{{ asset('js/calendar/moment.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>--}}
+<script src="{{ asset('js/calendar/moment.min.js')}}"></script>
+<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
+<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>
 <!-- icheck JS
       ============================================ -->
-{{--<script src="{{ asset('js/icheck/icheck.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/icheck/icheck-active.js')}}"></script>--}}
+<script src="{{ asset('js/icheck/icheck.min.js')}}"></script>
+<script src="{{ asset('js/icheck/icheck-active.js')}}"></script>
 <!-- tab JS
 		============================================ -->
 <script src="{{ asset('js/tab.js')}}"></script>

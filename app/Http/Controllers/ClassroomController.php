@@ -123,7 +123,7 @@ class ClassroomController extends Controller
 
         $students = Student::retrieveStudentWithoutClass();
 
-        return view('classroom.composition', ['students' => $students, 'classroomId' => $id, 'studentsList' => $studentsList, 'full' => $full]);
+        return view('classroom.composition', ['students' => $students, 'classroom' => $classroom, 'studentsList' => $studentsList, 'full' => $full]);
     }
 
     public function classComposition(Request $request, $id)

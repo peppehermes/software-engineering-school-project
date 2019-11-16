@@ -16,13 +16,17 @@
                                 <div class="alert alert-danger">
                                     <ul>
 
-                                        <li>Class is full</li>
+                                        <li>Class {{$classroom->id}} is full!</li>
 
                                     </ul>
                                 </div>
                             @endif
                             <div class="main-sparkline13-hd">
-                                <h1>Classroom <span class="table-project-n">Data</span> {{$classroomId}}</h1>
+                                <h1>Classroom {{$classroom->id}} ( <span
+                                        class="text-danger font-bold">Capacity {{$classroom->capacity}}</span> )
+
+                                </h1>
+
                             </div>
                         </div>
                         <div class="sparkline13-graph">
@@ -36,7 +40,6 @@
                                        data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-                                        <th data-field="state" data-checkbox="true"></th>
                                         <th data-field="id">ID</th>
                                         <th data-field="name" data-editable="true">First Name</th>
                                         <th data-field="email" data-editable="true">Last Name</th>
@@ -49,7 +52,7 @@
                                     <tbody>
                                     @foreach($studentsList as $student)
                                         <tr>
-                                            <td></td>
+
                                             <td>{{$student->id}}</td>
                                             <td>{{$student->firstName}}</td>
                                             <td>{{$student->lastName}}</td>
@@ -84,7 +87,7 @@
                     <div class="sparkline10-list">
                         <div class="sparkline10-hd">
                             <div class="main-sparkline10-hd">
-                                <h1>Add a student to this class</h1>
+                                <h1>Add students to this class</h1>
                             </div>
                         </div>
                         <div class="sparkline10-graph">
@@ -93,7 +96,7 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="dual-list-box-inner">
                                             <form id="form" method="post"
-                                                  action="/classroom/classComposition/{{$classroomId}}"
+                                                  action="/classroom/classComposition/{{$classroom->id}}"
                                                   class="wizard-big">
                                                 @csrf
                                                 <select class="form-control dual_select" name="frm[]" multiple>

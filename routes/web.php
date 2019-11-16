@@ -39,6 +39,7 @@ Route::group(['prefix' => 'student'], function() {
     Route::post('/update/{id}', 'StudentController@update')->middleware('admin');
     Route::get('/list', 'StudentController@list')->middleware('admin');
     Route::post('/store', 'StudentController@store')->middleware('admin');
+    Route::post('/storeParent/{id}', 'StudentController@storeParent')->middleware('admin');
     Route::get('/delete/{id}', 'StudentController@delete')->middleware('admin');
     Route::get('/showmarks/{id}', 'StudentController@showmarks')->middleware('parents');
 });

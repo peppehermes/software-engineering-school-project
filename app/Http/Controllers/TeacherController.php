@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Topic;
 use DB;
 use App\Models\teacher;
 use Illuminate\Http\Request;
@@ -169,7 +170,7 @@ class TeacherController extends Controller
         $topics = DB::table('lecturetopic')
             ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
             ->where('teacher.id', $teachId)
-            ->orderby('lecturetopic.id', 'desc')->paginate(10);
+            ->orderby('date', 'desc')->paginate(10);
         return view('topic.list', ['topics' => $topics]);
     }
 
@@ -195,8 +196,8 @@ class TeacherController extends Controller
             ->where('userId', $usId)
             ->value('id');
         $classes = DB::table('teaching')
-            ->where('idTeach', $teachId)
             ->select('teaching.*')
+            ->where('idTeach', $teachId)
             ->get();
         return view('topic.add', ['classes' => $classes]);
     }
