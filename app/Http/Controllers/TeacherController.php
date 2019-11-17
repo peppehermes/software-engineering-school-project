@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
+use App\Models\Role;
 use App\Models\Topic;
+use App\User;
 use DB;
-use App\Models\teacher;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,7 +42,8 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
 
-        $teacher = new Teacher();
+        $teacherClass = new Teacher();
+        $roleClass = new Role();
 
         $data = request('frm');
 
@@ -48,8 +51,8 @@ class TeacherController extends Controller
             //create user
             $userData['email'] = request('email');
             $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
-            $teacherRole = DB::table('role')->where(['name' => 'Teacher'])->first();
-            $userData['roleId'] = $teacherRole->id;
+            $userData['roleId']=$roleClass::retrieveByRole('Teacher');
+
             $password = $this->password_generate(8);
             $userData['password'] = Hash::make($password);
             $userId = DB::table('users')->insertGetId($userData);
@@ -68,7 +71,7 @@ class TeacherController extends Controller
 
                 $data['photo'] = $fileName;
             }
-            $teacher->save($data);
+            $teacherClass->save($data);
         }
 
 
@@ -89,16 +92,19 @@ class TeacherController extends Controller
 
     public function list()
     {
+        $teacherClass = new Teacher();
 
-        $teachers = DB::table('teacher')->orderby('id', 'desc')->paginate(10);
+
+        $teachers = $teacherClass::retrievePagination(10);
 
         return view('teacher.list', ['teachers' => $teachers]);
     }
 
     public function edit($id)
     {
+        $usersClass = new User();
         $teacherInfo = teacher::retrieveById($id);
-        $teacherEmail = DB::table('users')->where(['id' => $teacherInfo->userId])->first();
+        $teacherEmail = $usersClass::retrieveById($teacherInfo->userId);
         if ($teacherInfo->birthday) {
 
 
@@ -144,12 +150,12 @@ class TeacherController extends Controller
     public function delete($id)
     {
 
-        $teacherInfo = teacher::retrieveById($id);
+        $teacherInfo = Teacher::retrieveById($id);
 
 
-        DB::table('teacher')->where('id', $id)->delete();
+        Teacher::delete($id);
+        User::deleteById($teacherInfo->userId);
 
-        DB::table('user')->where('email', $id)->delete();
 
 
         return redirect('/teacher/list');
@@ -191,13 +197,11 @@ class TeacherController extends Controller
     public function addtopic()
     {
         $usId = \Auth::user()->id;
-        $teachId = DB::table('teacher')
-            ->where('userId', $usId)
-            ->value('id');
-        $classes = DB::table('teaching')
-            ->select('teaching.*')
-            ->where('idTeach', $teachId)
-            ->get();
+        $teacherClass = new Teacher();
+
+
+        $teachId = $teacherClass::retrieveId($usId);
+        $classes = $teacherClass::retrieveTeaching($teachId);
         return view('topic.add', ['classes' => $classes]);
     }
 

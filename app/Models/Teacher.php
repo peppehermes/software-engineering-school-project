@@ -63,5 +63,20 @@ class Teacher
 
     }
 
+    public static function retrieveTeaching(int $id)
+    {
+        return DB::table('teaching')
+            ->select('teaching.*')
+            ->where('idTeach', $id)
+            ->get();
+
+    }
+
+    public static function retrievePagination($page)
+    {
+        return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
+
+    }
+
 
 }

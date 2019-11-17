@@ -6,9 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use DB;
 
 class User extends Authenticatable
 {
+    const table = 'users';
     use Notifiable;
 
     /**
@@ -47,5 +49,14 @@ class User extends Authenticatable
         return substr(str_shuffle($data), 0, $chars);
     }
 
+    public static function retrieveById(int $id)
+    {
+        return DB::table(static::table)->find($id);
+    }
+
+    public static function deleteById(int $id): int
+    {
+        return DB::table(static::table)->where('id', $id)->delete();
+    }
 
 }

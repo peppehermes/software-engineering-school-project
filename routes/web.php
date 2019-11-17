@@ -51,7 +51,7 @@ Route::group(['prefix' => 'teacher'], function() {
     Route::post('/update/{id}', 'TeacherController@update')->middleware('admin');
     Route::get('/list', 'TeacherController@list')->middleware('admin');
     Route::post('/store', 'TeacherController@store')->middleware('admin');
-    Route::post('/delete', 'TeacherController@delete')->middleware('admin');
+    Route::get('/delete/{id}', 'TeacherController@delete')->middleware('admin');
 });
 
 //classroom
