@@ -80,4 +80,33 @@ class Student
 
     }
 
+
+
+    public static function retrieveStudentsForParent($myParentID){
+
+        return DB::table('student')
+            ->select('student.*')
+            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
+            ->join('users', 'users.id', '=', 'studForParent.idParent')
+            ->where('studForParent.idParent', $myParentID)
+            ->get();
+
+
+    }
+
+
+    public static function retrieveMarksForStudent($myStudentID){
+
+
+        return DB::table('marks')
+            ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
+            ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
+            ->where('marks.idStudent', $myStudentID)
+            ->get();
+
+
+
+
+    }
+
 }

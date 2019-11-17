@@ -130,9 +130,12 @@ class StudentController extends Controller
     {
         if (\Auth::user()->roleId == 3) {
 
+            $studentModel = new Student();
 
             $myParentID = \Auth::user()->id;
 
+            $students = $studentModel->retrieveStudentsForParent($myParentID);
+/*
             $students = \DB::table('student')
                 ->select('student.*')
                 ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
@@ -140,6 +143,11 @@ class StudentController extends Controller
                 ->where('studForParent.idParent', $myParentID)
                 ->get();
 
+*/
+
+            $marks = $studentModel->retrieveMarksForStudent($id);
+
+/*
 
             $marks = \DB::table('marks')
                 ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
@@ -147,6 +155,7 @@ class StudentController extends Controller
                 ->where('marks.idStudent', $id)
                 ->get();
 
+*/
 
             return view('student.showmarks', ['students' => $students, 'marks' => $marks]);
 
