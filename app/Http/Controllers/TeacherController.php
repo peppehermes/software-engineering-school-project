@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Topic;
 use DB;
@@ -164,13 +165,11 @@ class TeacherController extends Controller
     public function listtopic()
     {
         $usId = \Auth::user()->id;
-        $teachId = DB::table('teacher')
-            ->where('userId', $usId)
-            ->value('id');
-        $topics = DB::table('lecturetopic')
-            ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
-            ->where('teacher.id', $teachId)
-            ->orderby('date', 'desc')->paginate(10);
+        $teacherClass = new Teacher();
+        $topicClass = new Topic();
+
+        $teachId = $teacherClass::retrieveId($usId);
+        $topics = $topicClass::retrieveTeachersPagination($teachId);
         return view('topic.list', ['topics' => $topics]);
     }
 

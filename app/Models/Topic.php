@@ -55,4 +55,15 @@ class Topic
         return DB::table(static::table)->where('id', $id)->delete();
     }
 
+    public static function retrieveTeachersPagination(int $id)
+    {
+        return  DB::table(static::table)
+            ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
+            ->where('teacher.id', $id)
+            ->orderby('date', 'desc')
+            ->paginate(10);
+
+    }
+
+
 }

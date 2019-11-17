@@ -95,7 +95,8 @@
 
 @yield('content')
 
-@if(\Request::path()!='login')
+
+@if(\Request::path()!='login' && \Request::path()!='/')
     @include('layouts.footer')
 
 @endif

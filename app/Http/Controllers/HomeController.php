@@ -38,11 +38,11 @@ class HomeController extends Controller
                 ->get();
 
 
-            return view('home',['students'=>$students]);
+            return view('home2',['students'=>$students]);
 
         }
         else{
-            return view('home');
+            return view('home2');
         }
 
 

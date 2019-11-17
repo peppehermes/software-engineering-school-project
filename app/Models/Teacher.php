@@ -55,4 +55,13 @@ class Teacher
         return DB::table(static::table)->where('id', $id)->delete();
     }
 
+    public static function retrieveId(int $id)
+    {
+        return DB::table(static::table)
+            ->where('userId', $id)
+            ->value('id');
+
+    }
+
+
 }
