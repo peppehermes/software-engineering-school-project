@@ -58,5 +58,22 @@ class User extends Authenticatable
     {
         return DB::table(static::table)->where('id', $id)->delete();
     }
+    public static function saveUser(array $data, $id = null): int
+    {
+        if ($id) {
+            \DB::table(static::table)->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return \DB::table(static::table)->insertGetId($data);
+    }
+
+    public static function retrievePagination($page)
+    {
+        return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
+
+    }
+
 
 }

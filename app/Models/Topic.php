@@ -65,5 +65,16 @@ class Topic
 
     }
 
+    public static function getTopicByClass($idClass)
+    {
+
+        return DB::table(static::table)
+            ->select('lecturetopic.*', 'teacher.firstName as firstName', 'teacher.lastName as lastName')
+            ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
+            ->where('idClass', $idClass)
+            ->get();
+
+    }
+
 
 }

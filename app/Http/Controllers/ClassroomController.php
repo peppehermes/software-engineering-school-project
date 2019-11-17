@@ -99,8 +99,8 @@ class ClassroomController extends Controller
 
     public function delete($id)
     {
-        $classroom = new Classroom();
-        $classroom::delete($id);
+
+        Classroom::delete($id);
 
 
         return redirect('/classroom/list');
@@ -129,11 +129,9 @@ class ClassroomController extends Controller
     public function classComposition(Request $request, $id)
     {
         $students = $request->input('frm');
-        $studentClass = new Student();
-
 
         foreach ($students as $studentId) {
-            $studentClass->save(['classId' => $id], $studentId);
+            Student::save(['classId' => $id], $studentId);
         }
 
 
@@ -143,9 +141,7 @@ class ClassroomController extends Controller
     public function deleteStudent($id)
     {
 
-        $studentClass = new Student();
-
-        $studentClass->save(['classId' => ''], $id);
+        Student::save(['classId' => ''], $id);
 
         return redirect('/classroom/list');
     }

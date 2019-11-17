@@ -42,8 +42,6 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
 
-        $teacherClass = new Teacher();
-        $roleClass = new Role();
 
         $data = request('frm');
 
@@ -51,7 +49,7 @@ class TeacherController extends Controller
             //create user
             $userData['email'] = request('email');
             $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
-            $userData['roleId']=$roleClass::retrieveByRole('Teacher');
+            $userData['roleId'] = Role::retrieveByRole('Teacher');
 
             $password = $this->password_generate(8);
             $userData['password'] = Hash::make($password);
@@ -71,7 +69,7 @@ class TeacherController extends Controller
 
                 $data['photo'] = $fileName;
             }
-            $teacherClass->save($data);
+            Teacher::save($data);
         }
 
 
@@ -92,19 +90,17 @@ class TeacherController extends Controller
 
     public function list()
     {
-        $teacherClass = new Teacher();
 
-
-        $teachers = $teacherClass::retrievePagination(10);
+        $teachers = Teacher::retrievePagination(10);
 
         return view('teacher.list', ['teachers' => $teachers]);
     }
 
     public function edit($id)
     {
-        $usersClass = new User();
-        $teacherInfo = teacher::retrieveById($id);
-        $teacherEmail = $usersClass::retrieveById($teacherInfo->userId);
+
+        $teacherInfo = Teacher::retrieveById($id);
+        $teacherEmail = User::retrieveById($teacherInfo->userId);
         if ($teacherInfo->birthday) {
 
 
@@ -123,7 +119,6 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
 
-        $teacher = new Teacher();
 
         $data = request('frm');
 
@@ -141,7 +136,7 @@ class TeacherController extends Controller
 
             $data['photo'] = $fileName;
         }
-        $teacher->save($data, $id);
+        Teacher::save($data, $id);
 
         return redirect('/teacher/list');
 
@@ -151,11 +146,8 @@ class TeacherController extends Controller
     {
 
         $teacherInfo = Teacher::retrieveById($id);
-
-
         Teacher::delete($id);
         User::deleteById($teacherInfo->userId);
-
 
 
         return redirect('/teacher/list');
@@ -171,17 +163,15 @@ class TeacherController extends Controller
     public function listtopic()
     {
         $usId = \Auth::user()->id;
-        $teacherClass = new Teacher();
-        $topicClass = new Topic();
 
-        $teachId = $teacherClass::retrieveId($usId);
-        $topics = $topicClass::retrieveTeachersPagination($teachId);
+        $teachId = Teacher::retrieveId($usId);
+        $topics = Topic::retrieveTeachersPagination($teachId);
         return view('topic.list', ['topics' => $topics]);
     }
 
     public function storetopic(Request $request)
     {
-        $topic = new Topic();
+
         $usId = \Auth::user()->id;
         $data = request('frm');
         if ($data) {
@@ -189,7 +179,7 @@ class TeacherController extends Controller
             $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
             $data['idClass'] = request('idClass');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
-            $topic->save($data);
+            Topic::save($data);
         }
         return redirect('/topic/list');
     }
@@ -197,11 +187,9 @@ class TeacherController extends Controller
     public function addtopic()
     {
         $usId = \Auth::user()->id;
-        $teacherClass = new Teacher();
 
-
-        $teachId = $teacherClass::retrieveId($usId);
-        $classes = $teacherClass::retrieveTeaching($teachId);
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrieveTeaching($teachId);
         return view('topic.add', ['classes' => $classes]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Role;
 use App\User;
 use DB;
 use App\Models\Student;
@@ -33,7 +34,7 @@ class UserController extends Controller
 
     public function add()
     {
-        $roles = \DB::table('role')->get();
+        $roles = Role::retrieve();
 
         return view('user.add', ['roles' => $roles]);
 
@@ -60,7 +61,7 @@ class UserController extends Controller
             $data['photo'] = $fileName;
         }
 
-        DB::table('users')->insertGetId($data);
+        User::saveUser($data);
 
 
         return redirect('/user/list');
@@ -70,9 +71,9 @@ class UserController extends Controller
     public function list()
     {
 
-        $users = DB::table('users')->paginate(10);
+        $users = User::retrievePagination(10);
 
-        $roles = DB::table('role')->get();
+        $roles = Role::retrieve();
 
 
         return view('user.list', ['users' => $users, 'roles' => $roles]);
@@ -80,9 +81,10 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $userInfo = DB::table('users')->where(['id' => $id])->first();
+        $userInfo = User::retrieveById($id);
 
-        $roles = DB::table('role')->get();
+
+        $roles = Role::retrieve();
 
 
         return view('user.edit', ['userInfo' => $userInfo, 'roles' => $roles]);
@@ -111,7 +113,8 @@ class UserController extends Controller
 
                 $data['photo'] = $fileName;
             }
-            DB::table('users')->where('id', $id)->update($data);
+            User::saveUser($data, $id);
+
 
         }
 
@@ -122,7 +125,7 @@ class UserController extends Controller
     public function delete($id)
     {
 
-        DB::table('users')->where('id', $id)->delete();
+        User::deleteById($id);
 
 
         return redirect('/user/list');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Models\Role;
+use App\Models\Topic;
 use App\User;
 use DB;
 use App\Models\Student;
@@ -41,7 +42,6 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        $student = new Student();
 
         $data = request('frm');
 
@@ -57,7 +57,7 @@ class StudentController extends Controller
 
             $data['photo'] = $fileName;
         }
-        $id = $student->save($data);
+        $id = Student::save($data);
 
         return redirect('/student/edit/' . $id)->with(['parent' => 1]);
 
@@ -66,7 +66,8 @@ class StudentController extends Controller
     public function list()
     {
 
-        $students = DB::table('student')->orderby('id', 'desc')->paginate(10);
+
+        $students = Student::retrievePagination(10);
 
         return view('student.list', ['students' => $students]);
     }
@@ -93,7 +94,6 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
 
-        $student = new Student();
 
         $data = request('frm');
 
@@ -110,7 +110,7 @@ class StudentController extends Controller
 
             $data['photo'] = $fileName;
         }
-        $student->save($data, $id);
+        Student::save($data, $id);
 
         return redirect('/student/list');
 
@@ -119,9 +119,7 @@ class StudentController extends Controller
     public function delete($id)
     {
 
-        DB::table('student')->where('id', $id)->delete();
-
-
+        Student::delete($id);
         return redirect('/student/list');
 
     }
@@ -130,32 +128,21 @@ class StudentController extends Controller
     {
         if (\Auth::user()->roleId == 3) {
 
-            $studentModel = new Student();
-
             $myParentID = \Auth::user()->id;
 
-            $students = $studentModel->retrieveStudentsForParent($myParentID);
-/*
-            $students = \DB::table('student')
-                ->select('student.*')
-                ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-                ->join('users', 'users.id', '=', 'studForParent.idParent')
-                ->where('studForParent.idParent', $myParentID)
-                ->get();
+            $students = Student::retrieveStudentsForParent($myParentID);
 
-*/
+            foreach ($students as $student){
+                $stIds[]=$student->id;
+            }
+            if(!in_array($id,$stIds)){
+                return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+            }
 
-            $marks = $studentModel->retrieveMarksForStudent($id);
+            $marks = Student::retrieveMarksForStudent($id);
 
-/*
 
-            $marks = \DB::table('marks')
-                ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
-                ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
-                ->where('marks.idStudent', $id)
-                ->get();
 
-*/
 
             return view('student.showmarks', ['students' => $students, 'marks' => $marks]);
 
@@ -171,33 +158,20 @@ class StudentController extends Controller
         $usId = \Auth::user()->id;
 
 
-        $idClass = DB::table('student')
-            ->where('id', $idStud)
-            ->value('classId');
+        $idClass = Student::retrieveClassId($idStud);
 
-        $topics = DB::table('lecturetopic')
-            ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
-            ->where('idClass', $idClass)
-            ->select('lecturetopic.*', 'teacher.firstName as firstName', 'teacher.lastName as lastName')
-            ->get();
+        $topics = Topic::getTopicByClass($idClass);
 
+        $students = Student::retrieveStudensByParents($usId);
 
-        $students = DB::table('student')
-            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-            ->where('studForParent.idParent', $usId)
-            ->select('student.*')
-            ->get();
-
-        return view('student.topiclist', ['topics' => $topics], ['students' => $students]);
+        return view('student.topiclist', ['topics' => $topics, 'students' => $students]);
     }
 
     public function storeParent(Request $request, $id)
     {
 
-        $roleClass = new Role();
-        $studentClass = new Student();
-        $userClass = new User();
-        $userData['roleId'] = $roleClass->retrieveByRole('Parent');
+
+        $userData['roleId'] = Role::retrieveByRole('Parent');
         $parentName1 = $request->input('parentName1');
         $parentEmail1 = $request->input('parentEmail1');
         $parentName2 = $request->input('parentName2');
@@ -208,13 +182,13 @@ class StudentController extends Controller
             $data['mailParent1'] = $parentEmail1;
 
             $userData['name'] = $parentName1;
-            $password = $userClass::password_generate(8);
+            $password = User::password_generate(8);
             $userData['password'] = Hash::make($password);
             $userData['email'] = $parentEmail1;
 
-            DB::table('users')->insertGetId($userData);
+            User::saveUser($userData);
 
-            $studentClass->save($data, $id);
+            Student::save($data, $id);
 
             //send email
             $to_name = $userData['name'];
@@ -234,11 +208,11 @@ class StudentController extends Controller
             $data['mailParent2'] = $parentEmail2;
 
             $userData['name'] = $parentName2;
-            $password = $userClass::password_generate(8);
+            $password = User::password_generate(8);
             $userData['password'] = Hash::make($password);
             $userData['email'] = $parentEmail2;
-            DB::table('users')->insertGetId($userData);
-            $studentClass->save($data, $id);
+            User::saveUser($userData);
+            Student::save($data, $id);
 
             //send email
             $to_name = $userData['name'];

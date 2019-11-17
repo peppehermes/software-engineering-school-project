@@ -21,7 +21,7 @@ class Student
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.id','DESC')
+            ->orderBy(static::table . '.id', 'DESC')
             ->get();
 
     }
@@ -62,11 +62,12 @@ class Student
             ->select([
                 static::table . '.*'
             ])
-            ->where('classId',NULL)->orWhere('classId','')
-            ->orderBy(static::table . '.id','DESC')
+            ->where('classId', NULL)->orWhere('classId', '')
+            ->orderBy(static::table . '.id', 'DESC')
             ->get();
 
     }
+
     public static function retrieveStudentClass($id): Collection
     {
 
@@ -74,15 +75,15 @@ class Student
             ->select([
                 static::table . '.*'
             ])
-            ->where('classId',$id)
-            ->orderBy(static::table . '.id','DESC')
+            ->where('classId', $id)
+            ->orderBy(static::table . '.id', 'DESC')
             ->get();
 
     }
 
 
-
-    public static function retrieveStudentsForParent($myParentID){
+    public static function retrieveStudentsForParent($myParentID)
+    {
 
         return DB::table('student')
             ->select('student.*')
@@ -95,7 +96,8 @@ class Student
     }
 
 
-    public static function retrieveMarksForStudent($myStudentID){
+    public static function retrieveMarksForStudent($myStudentID)
+    {
 
 
         return DB::table('marks')
@@ -105,8 +107,31 @@ class Student
             ->get();
 
 
+    }
 
+    public static function retrievePagination($page)
+    {
+        return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
 
     }
 
+    public static function retrieveClassId($id)
+    {
+
+        return DB::table(static::table)
+            ->where('id', $id)
+            ->value('classId');
+
+    }
+
+    public static function retrieveStudensByParents($usId)
+    {
+
+        return DB::table('student')
+            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
+            ->where('studForParent.idParent', $usId)
+            ->select('student.*')
+            ->get();
+
+    }
 }

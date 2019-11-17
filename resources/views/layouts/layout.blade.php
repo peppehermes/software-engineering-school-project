@@ -176,14 +176,14 @@
 @endif
 <!-- morrisjs JS
     ============================================ -->
-<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>
-<script src="{{ asset('js/morrisjs/morris.js')}}"></script>
-<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>
-<!-- morrisjs JS
-    ============================================ -->
-<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>
-<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>
-<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>
+{{--<script src="{{ asset('js/morrisjs/raphael-min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/morrisjs/morris.js')}}"></script>--}}
+{{--<script src="{{ asset('js/morrisjs/morris-active.js')}}"></script>--}}
+{{--<!-- morrisjs JS--}}
+{{--    ============================================ -->--}}
+{{--<script src="{{ asset('js/sparkline/jquery.sparkline.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>--}}
+{{--<script src="{{ asset('js/sparkline/sparkline-active.js')}}"></script>--}}
 <!-- calendar JS
     ============================================ -->
 

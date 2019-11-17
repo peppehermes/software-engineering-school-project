@@ -14,7 +14,7 @@ class Role
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function retrieve($where): Collection
+    public static function retrieve(): Collection
     {
 
         return DB::table(static::table)
