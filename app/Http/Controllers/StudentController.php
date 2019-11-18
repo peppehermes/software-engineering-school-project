@@ -221,7 +221,7 @@ class StudentController extends Controller
             $to_name = $userData['name'];
             $to_email = $userData['email'];
             $data1 = array('name' => $to_name, 'password' => $password);
-            \Mail::send('email.mail', $data, function ($message) use ($to_name, $to_email) {
+            \Mail::send('email.mail', $data1, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)
                     ->subject('Parent Password');
                 $message->from('sahar.saadatmandii@gmail.com', 'Password');

@@ -40,9 +40,7 @@ CREATE TABLE `classroom` (
 -- Dump dei dati per la tabella `classroom`
 --
 
-INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated_at`) VALUES
-('11A', 30, 'This class has a video projector', '2019-11-07 16:53:15', '2019-11-07 16:53:15'),
-('30B', 25, 'This class has 2 black boards', '2019-11-07 16:53:15', '2019-11-07 16:53:15');
+
 
 -- --------------------------------------------------------
 
@@ -63,10 +61,6 @@ CREATE TABLE `lecturetopic` (
 -- Dump dei dati per la tabella `lecturetopic`
 --
 
-INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topic`) VALUES
-(1, '11A', 8, 'Math', '2019-11-14', 'Tante belle cose'),
-(2, '11B', 8, 'Math', '2019-10-13', 'Altre belle cose'),
-(3, '10A', 8, 'italian', '2019-2-6', 'Altre tante belle cose');
 
 -- --------------------------------------------------------
 
@@ -88,8 +82,6 @@ CREATE TABLE `marks` (
 -- Dump dei dati per la tabella `marks`
 --
 
-INSERT INTO `marks` (`idClass`, `idTeach`, `idStudent`, `date`, `mark`, `subject`, `topic`) VALUES
-('11A', 1, 1, '2019-11-11', 9, 'Math', 'Functions and Asymptotes');
 
 -- --------------------------------------------------------
 
@@ -167,9 +159,6 @@ CREATE TABLE `student` (
 -- Dump dei dati per la tabella `student`
 --
 
-INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `email`, `classId`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`, `mailParent1`, `mailParent2`) VALUES
-(1, 'Matteo', 'Fresco', NULL, NULL, NULL, NULL, NULL, 'M', NULL, NULL, NULL, NULL, NULL, '2019-11-12 11:53:28', '2019-11-12 11:53:28', 'calogerofresco@gmail.com', ''),
-(2, 'Marco', 'Fresco', NULL, NULL, NULL, NULL, NULL, 'M', NULL, NULL, NULL, NULL, NULL, '2019-11-12 11:56:29', '2019-11-12 11:56:29', 'calogerofresco@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -186,9 +175,7 @@ CREATE TABLE `studforparent` (
 -- Dump dei dati per la tabella `studforparent`
 --
 
-INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
-(2, 1),
-(2, 2);
+
 
 -- --------------------------------------------------------
 
@@ -218,9 +205,7 @@ CREATE TABLE `teacher` (
 -- Dump dei dati per la tabella `teacher`
 --
 
-INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`) VALUES
-(1, 'Cristina', 'Cassaro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-13 14:22:45', '2019-11-13 14:22:45'),
-(8, 'Salvo', 'Capizzi', '1960-5-5', 14, 'Viale della concordia', '3404578456', '95132', NULL, 'M', NULL, 'Catania', 'CPZSLV65A06C351T', '2019-11-14 13:32:09', '2019-11-14 13:32:09');
+
 
 -- --------------------------------------------------------
 
@@ -238,9 +223,7 @@ CREATE TABLE `teaching` (
 -- Dump dei dati per la tabella `teaching`
 --
 
-INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
-('11A', 1, 'Math'),
-('10A', 8, 'Italian');
+
 
 -- --------------------------------------------------------
 
@@ -267,10 +250,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `roleId`, `remember_token`, `created_at`, `updated_at`, `status`, `photo`) VALUES
-(1, 'Matteo', 'mfresco@gmail.com', NULL, '$2y$10$TQtWmTA0jkMlUiDSM8m2Ou2LxHATUd./koA6yTUNhxD9Sxf8r3ZyW', 1, NULL, '2019-11-12 10:41:22', '2019-11-12 10:41:22', 'active', NULL),
-(2, 'Calogero', 'calogerofresco@gmail.com', NULL, '$2y$10$75Dsm3E3wRQGGtqNm9eMquohGUFx5e1fi9Rck7VqTqiA4AcGVmB0m', 3, NULL, '2019-11-12 11:58:45', '2019-11-12 11:58:45', 'active', NULL),
-(13, 'andrea', 'andrea@gmail.com', NULL, '$2y$10$3QCuQiTo1EULmEHmQzR0quelwceD.IuAghfLp94vMJ9eZarS2j/iC', 1, NULL, '2019-11-14 12:31:10', '2019-11-14 12:31:10', 'active', NULL),
-(14, 'Salvo Capizzi', 'salvo@gmail.com', NULL, '$2y$10$hinrWMs7lZnvWvX5toCzROwOUb6oW4h0MmGzRPhM9dLIZ23Msj8B.', 2, NULL, '2019-11-14 13:32:09', '2019-11-14 13:32:09', 'active', NULL);
+(1, 'Admin', 'admin@test.com', NULL, '$2y$10$3QCuQiTo1EULmEHmQzR0quelwceD.IuAghfLp94vMJ9eZarS2j/iC', 1, NULL, '2019-11-14 12:31:10', '2019-11-14 12:31:10', 'active', NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -346,7 +326,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `lecturetopic`
 --
 ALTER TABLE `lecturetopic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT per la tabella `migrations`
@@ -358,19 +338,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT per la tabella `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT per la tabella `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Limiti per le tabelle scaricate
