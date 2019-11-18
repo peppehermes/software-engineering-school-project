@@ -22,11 +22,11 @@
 {{--                                        <option value="selected">Export Selected</option>--}}
 {{--                                    </select>--}}
 {{--                                </div>--}}
-                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                                <table id="table"data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
                                        data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-                                        <th data-field="date" data-editable="true">Date</th>
+                                        <th data-field="date" data-editable="true" >Date</th>
                                         <th data-field="subject">Subject</th>
                                         <th data-field="prof" data-editable="true">Prof</th>
                                         <th data-field="mark" data-editable="true">Mark</th>

@@ -106,7 +106,6 @@ class Student
             ->where('marks.idStudent', $myStudentID)
             ->get();
 
-
     }
 
     public static function retrievePagination($page)
@@ -121,17 +120,6 @@ class Student
         return DB::table(static::table)
             ->where('id', $id)
             ->value('classId');
-
-    }
-
-    public static function retrieveStudensByParents($usId)
-    {
-
-        return DB::table('student')
-            ->select('student.*')
-            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-            ->where('studForParent.idParent', $usId)
-            ->get();
 
     }
 

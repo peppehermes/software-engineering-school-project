@@ -22,13 +22,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'HomeController@admin')->middleware('admin');
 
 //user
-Route::group(['prefix' => 'user','middleware'=>['parents']], function() {
+Route::group(['prefix' => 'user'], function() {
     Route::get('/add', 'UserController@add')->middleware('admin');
-    Route::get('/edit/{id}', 'UserController@edit');
-    Route::post('/update/{id}', 'UserController@update');
     Route::get('/list', 'UserController@list')->middleware('admin');
     Route::post('/store', 'UserController@store')->middleware('admin');
     Route::get('/delete/{id}', 'UserController@delete')->middleware('admin');
+});
+
+//admin and parent
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/edit/{id}', 'UserController@edit');
+    Route::post('/update/{id}', 'UserController@update');
 });
 
 
