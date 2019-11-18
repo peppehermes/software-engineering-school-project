@@ -193,9 +193,10 @@ class StudentController extends Controller
             $userData['password'] = Hash::make($password);
             $userData['email'] = $parentEmail1;
 
-            User::saveUser($userData);
+            $spArray['idParent'] = User::saveUser($userData);
+            $spArray['idStudent'] = Student::save($data, $id);
 
-            Student::save($data, $id);
+            Student::saveStudParent($spArray);
 
             //send email
             $to_name = $userData['name'];
@@ -212,20 +213,22 @@ class StudentController extends Controller
 
         if ($parentName2 != '' && $parentEmail2 != '') {
 
-            $data['mailParent2'] = $parentEmail2;
+            $data1['mailParent2'] = $parentEmail2;
 
             $userData['name'] = $parentName2;
             $password = User::password_generate(8);
             $userData['password'] = Hash::make($password);
             $userData['email'] = $parentEmail2;
-            User::saveUser($userData);
-            Student::save($data, $id);
+            $spArray['idParent'] = User::saveUser($userData);
+            $spArray['idStudent'] = Student::save($data1, $id);
+
+            Student::saveStudParent($spArray);
 
             //send email
             $to_name = $userData['name'];
             $to_email = $userData['email'];
-            $data = array('name' => $to_name, 'password' => $password);
-            \Mail::send('email.mail', $data, function ($message) use ($to_name, $to_email) {
+            $data1 = array('name' => $to_name, 'password' => $password);
+            \Mail::send('email.mail', $data1, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)
                     ->subject('Parent Password');
                 $message->from('sahar.saadatmandii@gmail.com', 'Password');

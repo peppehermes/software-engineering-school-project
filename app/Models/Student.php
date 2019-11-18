@@ -14,7 +14,7 @@ class Student
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function retrieve($where): Collection
+    public static function retrieve(): Collection
     {
 
         return DB::table(static::table)
@@ -122,6 +122,28 @@ class Student
             ->where('id', $id)
             ->value('classId');
 
+    }
+
+    public static function retrieveStudensByParents($usId)
+    {
+
+        return DB::table('student')
+            ->select('student.*')
+            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
+            ->where('studForParent.idParent', $usId)
+            ->get();
+
+    }
+
+    public static function saveStudParent(array $data, $id = null): int
+    {
+        if ($id) {
+            \DB::table('studforparent')->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return \DB::table('studforparent')->insertGetId($data);
     }
 
 }
