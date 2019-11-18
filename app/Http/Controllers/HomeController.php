@@ -25,23 +25,17 @@ class HomeController extends Controller
     public function index()
     {
 
-        if(\Auth::user()->roleId==3){
+        if (\Auth::user()->roleId == 3) {
 
 
             $myParentID = \Auth::user()->id;
 
-            $students = \DB::table('student')
-                ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-                ->join('users', 'users.id', '=', 'studForParent.idParent')
-                ->where('studForParent.idParent', $myParentID )
-                ->select('student.*')
-                ->get();
+            $students = Student::retrieveStudentsForParent($myParentID);
 
 
-            return view('home2',['students'=>$students]);
+            return view('home2', ['students' => $students]);
 
-        }
-        else{
+        } else {
             return view('home2');
         }
 

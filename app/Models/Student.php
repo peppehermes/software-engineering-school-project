@@ -14,7 +14,7 @@ class Student
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function retrieve($where): Collection
+    public static function retrieve(): Collection
     {
 
         return DB::table(static::table)
@@ -128,9 +128,9 @@ class Student
     {
 
         return DB::table('student')
+            ->select('student.*')
             ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
             ->where('studForParent.idParent', $usId)
-            ->select('student.*')
             ->get();
 
     }

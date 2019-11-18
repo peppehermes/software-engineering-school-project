@@ -8,6 +8,7 @@ use App\User;
 use DB;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -81,13 +82,18 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if(\Auth::user()->id!=$id && \Auth::user()->roleId !=1){
+            return \Redirect('/')->withErrors([' You dont have permission to see that page!']);
+        }
         $userInfo = User::retrieveById($id);
 
 
         $roles = Role::retrieve();
 
+        $students = Student::retrieveStudentsForParent($id);
 
-        return view('user.edit', ['userInfo' => $userInfo, 'roles' => $roles]);
+
+        return view('user.edit', ['userInfo' => $userInfo, 'roles' => $roles, 'students' => $students]);
     }
 
     public function update(Request $request, $id)

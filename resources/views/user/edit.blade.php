@@ -37,6 +37,7 @@
                                                                        class="form-control"
                                                                        value="{{$userInfo->email}}">
                                                             </div>
+                                                            @if($userInfo->roleId == 1)
                                                             <div class="form-group col-md-6">
                                                                 <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
@@ -61,6 +62,7 @@
 
                                                                 </select>
                                                             </div>
+                                                                @endif
 
 
                                                         </div>

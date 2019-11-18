@@ -41,14 +41,16 @@
 
 
                                         <td>
+                                            @if($user->roleId !=1)
                                             <a href="/user/edit/{{$user->id}}">
                                                 <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                        class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
                                             </a>
                                             <a href="/user/delete/{{$user->id}}">
                                                 <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
                                                         class="fa fa-trash-o" aria-hidden="true"></i></button>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
