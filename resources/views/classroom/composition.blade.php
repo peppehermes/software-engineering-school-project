@@ -21,6 +21,20 @@
                                     </ul>
                                 </div>
                             @endif
+
+                                @if ($errors->any())
+                                    <div class="product-payment-inner-st">
+
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                @endif
                             <div class="main-sparkline13-hd">
                                 <h1>Classroom {{$classroom->id}} ( <span
                                         class="text-danger font-bold">Capacity {{$classroom->capacity}}</span> )

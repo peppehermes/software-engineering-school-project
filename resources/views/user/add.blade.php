@@ -80,6 +80,7 @@
                                                                        class="form-control @error('password') is-invalid @enderror"
                                                                        autocomplete="new-password"
                                                                        required>
+
                                                             </div>
 
                                                             <div class="form-group col-md-12">
@@ -104,7 +105,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row" style="margin-top: 50px">
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">
                                                                 <button type="submit"

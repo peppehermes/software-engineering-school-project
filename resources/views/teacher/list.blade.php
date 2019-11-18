@@ -11,7 +11,7 @@
                             <a href="/teacher/add">Add a new teacher</a>
                         </div>
                         <div class="asset-inner">
-                            <table>
+                            <table >
                                 <tr>
                                     <th>Teacher Id</th>
                                     <th>First Name</th>

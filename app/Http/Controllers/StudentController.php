@@ -132,16 +132,14 @@ class StudentController extends Controller
 
             $students = Student::retrieveStudentsForParent($myParentID);
 
-            foreach ($students as $student){
-                $stIds[]=$student->id;
+            foreach ($students as $student) {
+                $stIds[] = $student->id;
             }
-            if(!in_array($id,$stIds)){
+            if (!in_array($id, $stIds)) {
                 return \Redirect('/')->withErrors([' You dont have permission for another student!']);
             }
 
             $marks = Student::retrieveMarksForStudent($id);
-
-
 
 
             return view('student.showmarks', ['students' => $students, 'marks' => $marks]);
@@ -164,10 +162,10 @@ class StudentController extends Controller
 
         $students = Student::retrieveStudentsForParent($usId);
 
-        foreach ($students as $student){
-            $stIds[]=$student->id;
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
         }
-        if(!in_array($idStud,$stIds)){
+        if (!in_array($idStud, $stIds)) {
             return \Redirect('/')->withErrors([' You dont have permission for another student!']);
         }
 
@@ -183,56 +181,77 @@ class StudentController extends Controller
         $parentEmail1 = $request->input('parentEmail1');
         $parentName2 = $request->input('parentName2');
         $parentEmail2 = $request->input('parentEmail2');
+        $p1 = User::retrieveByEmail($parentEmail1);
+        $p2 = User::retrieveByEmail($parentEmail2);
+        if (!isset($p1)) {
 
-        if ($parentName1 != '' && $parentEmail1 != '') {
 
-            $data['mailParent1'] = $parentEmail1;
+            if ($parentName1 != '' && $parentEmail1 != '') {
 
-            $userData['name'] = $parentName1;
-            $password = User::password_generate(8);
-            $userData['password'] = Hash::make($password);
-            $userData['email'] = $parentEmail1;
+                $data['mailParent1'] = $parentEmail1;
 
-            $spArray['idParent'] = User::saveUser($userData);
-            $spArray['idStudent'] = Student::save($data, $id);
+                $userData['name'] = $parentName1;
+                $password = User::password_generate(8);
+                $userData['password'] = Hash::make($password);
+                $userData['email'] = $parentEmail1;
+
+                $spArray['idParent'] = User::saveUser($userData);
+                $spArray['idStudent'] = Student::save($data, $id);
+
+                Student::saveStudParent($spArray);
+
+                //send email
+                $to_name = $userData['name'];
+                $to_email = $userData['email'];
+                $data = array('name' => $to_name, 'password' => $password);
+                \Mail::send('email.mail', $data, function ($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)
+                        ->subject('Parent Password');
+                    $message->from('sahar.saadatmandii@gmail.com', 'Password');
+                });
+
+
+            }
+        }
+        else{
+            $spArray['idParent'] = $p1->id;
+            $spArray['idStudent'] = $id;
 
             Student::saveStudParent($spArray);
-
-            //send email
-            $to_name = $userData['name'];
-            $to_email = $userData['email'];
-            $data = array('name' => $to_name, 'password' => $password);
-            \Mail::send('email.mail', $data, function ($message) use ($to_name, $to_email) {
-                $message->to($to_email, $to_name)
-                    ->subject('Parent Password');
-                $message->from('sahar.saadatmandii@gmail.com', 'Password');
-            });
-
-
         }
 
-        if ($parentName2 != '' && $parentEmail2 != '') {
+        if(!isset($p2)) {
 
-            $data1['mailParent2'] = $parentEmail2;
 
-            $userData['name'] = $parentName2;
-            $password = User::password_generate(8);
-            $userData['password'] = Hash::make($password);
-            $userData['email'] = $parentEmail2;
-            $spArray['idParent'] = User::saveUser($userData);
-            $spArray['idStudent'] = Student::save($data1, $id);
+            if ($parentName2 != '' && $parentEmail2 != '') {
+
+                $data1['mailParent2'] = $parentEmail2;
+
+                $userData['name'] = $parentName2;
+                $password = User::password_generate(8);
+                $userData['password'] = Hash::make($password);
+                $userData['email'] = $parentEmail2;
+                $spArray['idParent'] = User::saveUser($userData);
+                $spArray['idStudent'] = Student::save($data1, $id);
+
+                Student::saveStudParent($spArray);
+
+                //send email
+                $to_name = $userData['name'];
+                $to_email = $userData['email'];
+                $data1 = array('name' => $to_name, 'password' => $password);
+                \Mail::send('email.mail', $data1, function ($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)
+                        ->subject('Parent Password');
+                    $message->from('sahar.saadatmandii@gmail.com', 'Password');
+                });
+            }
+        }
+        else{
+            $spArray['idParent'] = $p2->id;
+            $spArray['idStudent'] = $id;
 
             Student::saveStudParent($spArray);
-
-            //send email
-            $to_name = $userData['name'];
-            $to_email = $userData['email'];
-            $data1 = array('name' => $to_name, 'password' => $password);
-            \Mail::send('email.mail', $data1, function ($message) use ($to_name, $to_email) {
-                $message->to($to_email, $to_name)
-                    ->subject('Parent Password');
-                $message->from('sahar.saadatmandii@gmail.com', 'Password');
-            });
         }
 
         return redirect('/student/list');

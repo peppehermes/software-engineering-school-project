@@ -54,6 +54,11 @@ class User extends Authenticatable
         return DB::table(static::table)->find($id);
     }
 
+
+    public static function retrieveByEmail(string $email)
+    {
+        return DB::table(static::table)->where('email', $email)->first();
+    }
     public static function deleteById(int $id): int
     {
         return DB::table(static::table)->where('id', $id)->delete();
@@ -74,6 +79,7 @@ class User extends Authenticatable
         return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
 
     }
+
 
 
 }

@@ -130,9 +130,15 @@ class ClassroomController extends Controller
     {
         $students = $request->input('frm');
 
-        foreach ($students as $studentId) {
-            Student::save(['classId' => $id], $studentId);
+        if(isset($students)){
+            foreach ($students as $studentId) {
+                Student::save(['classId' => $id], $studentId);
+            }
         }
+        else{
+            return redirect('/classroom/composition/'.$id)->withErrors("No student selected!");
+        }
+
 
 
         return redirect('/classroom/list');

@@ -16,12 +16,27 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 @foreach ($students as $student)
 
-                                    <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
-                                                class="mini-sub-pro">{{$student->firstName}}'s Marks</span></a></li>
+                                    <li  @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id) class="active" @endif>
+                                        <a class="has-arrow" href="/student/list" aria-expanded="false"><span
+                                                class="educate-icon educate-student icon-wrap"></span> <span
+                                                class="mini-click-non">{{$student->firstName}}</span></a>
+                                        <ul class="submenu-angle" aria-expanded="false">
 
-                                    <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
-                                                class="mini-sub-pro">{{$student->firstName}}'s Lectures Topics</span></a>
+
+                                            <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
+                                                        class="mini-sub-pro"> Marks</span></a></li>
+
+                                            <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Lectures Topics</span></a>
+                                            </li>
+
+
+                                        </ul>
+
                                     </li>
+
+
+
                                 @endforeach
 
                             </ul>

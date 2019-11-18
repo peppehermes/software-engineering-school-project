@@ -29,27 +29,25 @@
 
                                         <td>
 
-                                            @if($user->roleId)
-                                                <button
-                                                    class="pd-setting">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
-                                            @else
-                                                <button class="ds-setting" style=" pointer-events: none;">No class
-                                                </button>
-                                            @endif
+
+                                            <button
+                                                class="@if($user->roleId!=1) pd-setting @else ds-setting @endif ">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
+
 
                                         </td>
 
 
                                         <td>
-                                            @if($user->roleId !=1)
-                                            <a href="/user/edit/{{$user->id}}">
-                                                <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true" ></i></button>
-                                            </a>
-                                            <a href="/user/delete/{{$user->id}}">
-                                                <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                            </a>
+                                            @if($user->roleId !=1 ||  $user->roleId ==1 && $user->id == \Auth::user()->id)
+                                                <a href="/user/edit/{{$user->id}}">
+                                                    <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
+                                                            class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="/user/delete/{{$user->id}}">
+                                                    <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
+                                                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>

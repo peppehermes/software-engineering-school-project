@@ -60,7 +60,7 @@
 
                                                     </div>
 
-                                                        <div class="row">
+                                                        <div class="row" style="margin-top: 50px">
                                                             <div class="col-lg-12">
                                                                 <div class="payment-adress">
                                                                     <button type="submit"

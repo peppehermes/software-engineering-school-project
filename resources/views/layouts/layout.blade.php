@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="{{ asset('css/owl.transitions.css')}}">
     <!-- animate CSS
 		============================================ -->
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
     <link rel="stylesheet" href="{{ asset('css/animate.css')}}">
     <!-- normalize CSS
 		============================================ -->
@@ -194,6 +200,17 @@
       ============================================ -->
 <script src="{{ asset('js/icheck/icheck.min.js')}}"></script>
 <script src="{{ asset('js/icheck/icheck-active.js')}}"></script>
+
+{{--<script src="{{ asset('js/form-validation/jquery.form.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/form-validation/jquery.validate.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/form-validation/form-active.js')}}"></script>--}}
+
+
+<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>
+<script src="{{ asset('js/password-meter/zxcvbn.js')}}"></script>
+<script src="{{ asset('js/password-meter/password-meter-active.js')}}"></script>
+
+
 <!-- tab JS
 		============================================ -->
 <script src="{{ asset('js/tab.js')}}"></script>
