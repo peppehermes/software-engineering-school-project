@@ -134,4 +134,16 @@ class Student
             ->get();
 
     }
+
+    public static function saveStudParent(array $data, $id = null): int
+    {
+        if ($id) {
+            \DB::table('studforparent')->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return \DB::table('studforparent')->insertGetId($data);
+    }
+
 }
