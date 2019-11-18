@@ -132,7 +132,7 @@
                                                             <div class="form-group col-md-6">
                                                                 <label>Email:</label>
                                                                 <input name="email" type="text"
-                                                                       class="form-control">
+                                                                       class="form-control" required>
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label>Fiscal code:</label>
@@ -142,7 +142,22 @@
 
 
                                                         </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Class:</label>
+                                                            <select name="frmT[idClass]" class="form-control" required>
+
+                                                                @foreach($classes as $class)
+                                                                    <option value="{{$class->id}}">{{$class->id}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Subject:</label>
+                                                            <input name="frmT[subject]" type="text"
+                                                                   class="form-control">
+                                                        </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
 
 
                                                             <div class="form-group">
@@ -159,6 +174,7 @@
                                                                     </option>
                                                                 </select>
                                                             </div>
+
 
 
                                                             <div class="form-group res-mg-t-15">

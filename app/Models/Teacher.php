@@ -78,5 +78,16 @@ class Teacher
 
     }
 
+    public static function saveTeaching(array $data, $id = null): int
+    {
+        if ($id) {
+            \DB::table('teaching')->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return \DB::table('teaching')->insertGetId($data);
+    }
+
 
 }
