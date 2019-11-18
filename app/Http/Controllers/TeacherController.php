@@ -36,7 +36,8 @@ class TeacherController extends Controller
 
     public function add()
     {
-        return view('teacher.add');
+        $classes = Classroom::retrieve();
+        return view('teacher.add',['classes' => $classes]);
     }
 
     public function store(Request $request)
@@ -44,6 +45,7 @@ class TeacherController extends Controller
 
 
         $data = request('frm');
+        $dataT = request('frmT');
 
         if ($data) {
             //create user
@@ -69,7 +71,10 @@ class TeacherController extends Controller
 
                 $data['photo'] = $fileName;
             }
-            Teacher::save($data);
+
+            $Teachid = Teacher::save($data);
+            $dataT['idTeach']=$Teachid;
+            Teacher::saveTeaching($dataT);
         }
 
 
