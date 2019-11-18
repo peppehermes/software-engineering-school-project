@@ -124,14 +124,4 @@ class Student
 
     }
 
-    public static function retrieveStudensByParents($usId)
-    {
-
-        return DB::table('student')
-            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-            ->where('studForParent.idParent', $usId)
-            ->select('student.*')
-            ->get();
-
-    }
 }

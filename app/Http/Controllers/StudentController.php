@@ -162,7 +162,14 @@ class StudentController extends Controller
 
         $topics = Topic::getTopicByClass($idClass);
 
-        $students = Student::retrieveStudensByParents($usId);
+        $students = Student::retrieveStudentsForParent($usId);
+
+        foreach ($students as $student){
+            $stIds[]=$student->id;
+        }
+        if(!in_array($idStud,$stIds)){
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
 
         return view('student.topiclist', ['topics' => $topics, 'students' => $students]);
     }
