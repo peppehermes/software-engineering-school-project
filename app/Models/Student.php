@@ -104,6 +104,7 @@ class Student
             ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
             ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
             ->where('marks.idStudent', $myStudentID)
+            ->orderby('marks.date','asc')
             ->get();
 
     }

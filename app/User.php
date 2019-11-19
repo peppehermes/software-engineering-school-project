@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
 
-    public static function retrieveByEmail(string $email)
+    public static function retrieveByEmail(string $email = null)
     {
         return DB::table(static::table)->where('email', $email)->first();
     }
