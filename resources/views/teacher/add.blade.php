@@ -154,7 +154,7 @@
                                                         <div class="form-group col-md-6">
                                                             <label>Subject:</label>
                                                             <input name="frmT[subject]" type="text"
-                                                                   class="form-control">
+                                                                   class="form-control" required>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
