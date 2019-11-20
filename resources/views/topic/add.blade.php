@@ -2,6 +2,13 @@
 
 @section('content')
     <script>
+        function getMonday(d) {
+            d = new Date(d);
+            const day = d.getDay(),
+                diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+            return new Date(d.setDate(diff));
+        }
+
         function checkDate() {
             var d, m, y;
 
@@ -9,11 +16,8 @@
             m = document.getElementById('month').value;
             y = document.getElementById('year').value;
 
-            var today = new Date();
-            var day_of_week = today.getDay() - 1;
-            var dt = new Date(year = y, month = m-1, day = today.getDate() - day_of_week);
-
-
+            const today = new Date();
+            const dt = getMonday(today);
 
             if (y == today.getFullYear() &&
                 (m == today.getMonth() + 1 || m == today.getMonth()) &&
@@ -28,7 +32,6 @@
                 document.getElementById('month').focus();
             }
         }
-
     </script>
         <!-- Single pro tab review Start-->
     <div class="single-pro-review-area mt-t-30 mg-b-15">
@@ -37,7 +40,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li class="active"><a href="#description">Basic Information</a></li>
+                            <li class="active"><a href="#description">Insert new Topic</a></li>
                             {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
                             {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>
@@ -52,79 +55,40 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6">
-                                                                <label>Class:</label>
+                                                            <div class="form-group col-md-6" id="class">
+                                                                <label>Class</label>
                                                                 <select name="idClass" class="form-control" required>
-
                                                                         @foreach($classes as $class)
                                                                         <option value="{{$class->idClass}}">{{$class->idClass}}</option>
                                                                         @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label>Subject:</label>
+                                                            <div class="form-group col-md-6" id="subject">
+                                                                <label class="login2">Subject</label>
                                                                 <input name="frm[subject]" type="text"
                                                                        class="form-control" required>
                                                             </div>
-
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Lecture's Date:</label>
+                                                            <div class="form-group col-lg-3" id="lecturedate">
+                                                                <label class="form-group">Lecture's Date</label>
                                                             </div>
-                                                            <div class="form-group col-lg-3">
-
+                                                            <div class="form-group col-lg-3" id="year_option">
                                                                 <select id="year" name="year" class="form-control" required>
                                                                     <option value="none"  selected="" disabled="">
                                                                         Year
                                                                     </option>
-                                                                    @for($i=2019 ;  $i<2021 ; $i++)
-                                                                        <option value="{{$i}}">{{$i}}</option>
-                                                                    @endfor
+                                                                        <option value="{{date("Y")}}">{{date("Y")}}</option>
                                                                 </select>
                                                             </div>
-
-                                                            <div class="form-group col-lg-3">
-
-
+                                                            <div class="form-group col-lg-3" id="month_option">
                                                                 <select id="month" name="month" class="form-control" required>
                                                                     <option value="none" selected="" disabled="">
                                                                         Month
                                                                     </option>
-                                                                    <option value="1">
-                                                                        January
-                                                                    </option>
-                                                                    <option value="2">
-                                                                        February
-                                                                    </option>
-                                                                    <option value="3">
-                                                                        March
-                                                                    </option>
-                                                                    <option value="4">
-                                                                        April
-                                                                    </option>
-                                                                    <option value="5">
-                                                                        May
-                                                                    </option>
-                                                                    <option value="6">
-                                                                        June
-                                                                    </option>
-                                                                    <option value="7">
-                                                                        July
-                                                                    </option>
-                                                                    <option value="8">
-                                                                        August
-                                                                    </option>
-                                                                    <option value="9">
-                                                                        September
-                                                                    </option>
-                                                                    <option value="10">
-                                                                        October
-                                                                    </option>
-                                                                    <option value="11">
-                                                                        November
-                                                                    </option>
-                                                                    <option value="12">
-                                                                        December
-                                                                    </option>
+                                                                    <!--Last month-->
+                                                                    <option value="<?php $date = new DateTime("last month"); echo $date->format('m');?>">
+                                                                        <?php $date = new DateTime("last month"); echo $date->format('F');?></option>
+                                                                    <!--Current month-->
+                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
                                                                 </select>
 
                                                             </div>
@@ -141,16 +105,13 @@
 
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
-                                                                <label>Topic:</label>
-                                                                <input name="frm[topic]" type="text"
-                                                                       class="form-control">
+                                                            <div class="form-group col-md-12" id="topic">
+                                                                <label>Topic</label>
+                                                                <textarea name="frm[topic]" type="text"
+                                                                       class="form-control"></textarea>
                                                             </div>
 
-
                                                         </div>
-
-
                                                     </div>
                                                     <div class="row" style="margin-top: 50px">
                                                         <div class="col-lg-12">
