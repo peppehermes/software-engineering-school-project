@@ -24,6 +24,23 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+
+--
+-- Struttura della tabella `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `id` int(11) NOT NULL,
+  `text` varchar(300) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `topic`   varchar(300) NOT NULL,
+  `date` varchar(45) NOT NULL,
+  `idTeach` int(11) NOT NULL,
+  `idClass` varchar(45) NOT NULL,
+  `deadline` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 --
 -- Struttura della tabella `classroom`
 --
@@ -256,6 +273,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 -- Indici per le tabelle scaricate
 --
 
+
+--
+-- Indici per le tabelle `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`id`);
+  
+  
 --
 -- Indici per le tabelle `classroom`
 --
@@ -320,6 +345,13 @@ ALTER TABLE `users`
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
+
+
+--
+-- AUTO_INCREMENT per la tabella `lecturetopic`
+--
+ALTER TABLE `assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 
 --

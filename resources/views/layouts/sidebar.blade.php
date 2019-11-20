@@ -47,14 +47,30 @@
 
 
                         <li>
-                            <a class="has-arrow" href="" aria-expanded="false"><span
-                                    class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Lecture's Topic</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Add Lecture Topic" href="/topic/add"><span
-                                            class="mini-sub-pro">Add Lecture's Topic</span></a></li>
-                                <li><a title="Add Lecture Topic" href="/topic/list"><span
-                                            class="mini-sub-pro">All Lecture's Topic</span></a></li>
-                            </ul>
+
+                                 <li> <a class="has-arrow" href="" aria-expanded="false"><span
+                                            class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Lecture's Topics</span></a>
+                                     <ul class="submenu-angle" aria-expanded="false">
+                                         <li><a title="Add Lecture Topic" href="/topic/add"><span
+                                                class="mini-sub-pro">Add Lecture's Topic</span></a></li>
+                                         <li><a title="Add Lecture Topic" href="/topic/list"><span
+                                                class="mini-sub-pro">All Lecture's Topic</span></a></li>
+                                         </ul>
+
+                                  <li> <a class="has-arrow" href="" aria-expanded="false"><span
+                                              class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Assignments</span></a>
+                                      <ul class="submenu-angle" aria-expanded="false">
+                                          <li><a title="Add Lecture Assignment" href="/assignment/add"><span
+                                                      class="mini-sub-pro">Add Assignment</span></a></li>
+                                          <li><a title="View Lecture Assignments" href="/assignment/list"><span
+                                                      class="mini-sub-pro">All Assignments</span></a></li>
+                                      </ul>
+
+
+
+
+
+                              </ul>
 
 
 

@@ -6,6 +6,7 @@ use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
 use App\Models\Topic;
+use App\Models\Assignment;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -196,6 +197,44 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrieveTeaching($teachId);
         return view('topic.add', ['classes' => $classes]);
+    }
+
+    public function storeassignment (Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+        if ($data) {
+            //create topic
+            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['deadline'] = implode('-', [request('yeard'), request('monthd'), request('dayd')]);
+            $data['idClass'] = request('idClass');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            Assignment::save($data);
+        }
+        return redirect('/assignment/list');
+
+
+    }
+
+
+    public function addassignment()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrieveTeaching($teachId);
+        return view('assignments.add', ['classes' => $classes]);
+    }
+
+
+    public function listassignment()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $assignments = Assignment::retrieveTeachersPagination($teachId);
+        return view('assignments.list', ['assignments' => $assignments]);
     }
 
 
