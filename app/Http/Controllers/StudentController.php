@@ -76,6 +76,7 @@ class StudentController extends Controller
     public function edit($id)
     {
         $studentInfo = Student::retrieveById($id);
+
         if ($studentInfo->birthday) {
 
 
@@ -85,9 +86,16 @@ class StudentController extends Controller
             $studentInfo->month = $birthday[1];
             $studentInfo->day = $birthday[2];
         }
+        if (isset($studentInfo->mailParent1)) {
+            $studentInfo->parent1 = User::retrieveByEmail($studentInfo->mailParent1);
+        }
+        if (isset($studentInfo->mailParent2)) {
+            $studentInfo->parent2 = User::retrieveByEmail($studentInfo->mailParent2);
+        }
 
 
         $classrooms = Classroom::retrieve();
+
 
         return view('student.edit', ['studentInfo' => $studentInfo, 'classrooms' => $classrooms]);
     }
@@ -176,6 +184,9 @@ class StudentController extends Controller
     public function storeParent(Request $request, $id)
     {
 
+        $studentInfo = Student::retrieveById($id);
+        $studentParents[] = $studentInfo->mailParent1;
+        $studentParents[] = $studentInfo->mailParent2;
 
         $userData['roleId'] = Role::retrieveByRole('Parent');
         $parentName1 = $request->input('parentName1');
@@ -184,20 +195,29 @@ class StudentController extends Controller
         $parentEmail2 = $request->input('parentEmail2');
         $p1 = User::retrieveByEmail($parentEmail1);
         $p2 = User::retrieveByEmail($parentEmail2);
-        if (!isset($p1)) {
+
+        $oldp1 = User::retrieveByEmail($studentInfo->mailParent1);
+        $oldp2 = User::retrieveByEmail($studentInfo->mailParent2);
 
 
-            if ($parentName1 != '' && $parentEmail1 != '') {
+        if ($parentName1 != '' && $parentEmail1 != '') {
 
+            if (isset($oldp1) && !in_array($parentEmail1, $studentParents)) {
+                User::deleteById($oldp1->id);
+                Student::deleteParentStudent($oldp1->id, $id);
+            }
+
+
+            if (!isset($p1)) {
                 $data['mailParent1'] = $parentEmail1;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
 
-                $userData['name'] = $parentName1;
                 $password = User::password_generate(8);
                 $userData['password'] = Hash::make($password);
                 $userData['email'] = $parentEmail1;
-
+                $userData['name'] = $parentName1;
                 $spArray['idParent'] = User::saveUser($userData);
-                $spArray['idStudent'] = Student::save($data, $id);
 
                 Student::saveStudParent($spArray);
 
@@ -210,31 +230,42 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
+            } else {
+                $spArray['idParent'] = $p1->id;
+                $spArray['idStudent'] = $id;
 
+                $parentStudent = Student::retrieveStudentsForParent($p1->id);
+                if (!isset($parentStudent)) {
+                    Student::saveStudParent($spArray);
+                }
 
             }
-        }
-        else{
-            $spArray['idParent'] = $p1->id;
-            $spArray['idStudent'] = $id;
 
-            Student::saveStudParent($spArray);
         }
 
-        if(!isset($p2)) {
+
+        if ($parentName2 != '' && $parentEmail2 != '') {
+
+            if (isset($oldp2) && !in_array($parentEmail2, $studentParents)) {
+                User::deleteById($oldp2->id);
+                Student::deleteParentStudent($oldp2->id, $id);
+            }
 
 
-            if ($parentName2 != '' && $parentEmail2 != '') {
+
+            if (!isset($p2)) {
 
                 $data1['mailParent2'] = $parentEmail2;
+                $spArray['idStudent'] = $id;
 
                 $userData['name'] = $parentName2;
                 $password = User::password_generate(8);
                 $userData['password'] = Hash::make($password);
                 $userData['email'] = $parentEmail2;
-                $spArray['idParent'] = User::saveUser($userData);
+
                 $spArray['idStudent'] = Student::save($data1, $id);
 
+                $spArray['idParent'] = User::saveUser($userData);
                 Student::saveStudParent($spArray);
 
                 //send email
@@ -246,14 +277,17 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
+            } else {
+                $spArray['idParent'] = $p2->id;
+                $spArray['idStudent'] = $id;
+
+                $parentStudent = Student::retrieveStudentsForParent($p2->id);
+                if (!isset($parentStudent)) {
+                    Student::saveStudParent($spArray);
+                }
             }
         }
-        else{
-            $spArray['idParent'] = $p2->id;
-            $spArray['idStudent'] = $id;
 
-            Student::saveStudParent($spArray);
-        }
 
         return redirect('/student/list');
 
