@@ -40,7 +40,6 @@ class Student
     }
 
 
-
     public static function save(array $data, $id = null): int
     {
         if ($id) {
@@ -84,7 +83,6 @@ class Student
     }
 
 
-
     public static function retrieveStudentsForParent($myParentID)
     {
 
@@ -107,7 +105,7 @@ class Student
             ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
             ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
             ->where('marks.idStudent', $myStudentID)
-            ->orderby('marks.date','asc')
+            ->orderby('marks.date', 'asc')
             ->get();
 
     }
@@ -138,9 +136,9 @@ class Student
         return \DB::table('studforparent')->insertGetId($data);
     }
 
-    public static function deleteParentStudent($idParent,$idstudent): int
+    public static function deleteParentStudent($idParent, $idstudent): int
     {
-        return DB::table('studforparent')->where('idParent', $idParent)->where('idStudent',$idstudent)->delete();
+        return DB::table('studforparent')->where('idParent', $idParent)->where('idStudent', $idstudent)->delete();
     }
 
 
