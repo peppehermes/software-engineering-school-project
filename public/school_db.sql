@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Nov 14, 2019 alle 16:49
+-- Creato il: Nov 21, 2019 alle 12:58
 -- Versione del server: 10.1.40-MariaDB
 -- Versione PHP: 7.3.5
 
@@ -19,11 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `schooldb3`
+-- Database: `schooldb`
 --
 
 -- --------------------------------------------------------
-
 
 --
 -- Struttura della tabella `assignments`
@@ -33,13 +32,14 @@ CREATE TABLE `assignments` (
   `id` int(11) NOT NULL,
   `text` varchar(300) NOT NULL,
   `subject` varchar(45) NOT NULL,
-  `topic`   varchar(300) NOT NULL,
+  `topic` varchar(300) NOT NULL,
   `date` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `deadline` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
 --
 -- Struttura della tabella `classroom`
@@ -57,7 +57,8 @@ CREATE TABLE `classroom` (
 -- Dump dei dati per la tabella `classroom`
 --
 
-
+INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated_at`) VALUES
+('1A', 20, NULL, '2019-11-21 09:50:56', '2019-11-21 09:50:56');
 
 -- --------------------------------------------------------
 
@@ -74,11 +75,6 @@ CREATE TABLE `lecturetopic` (
   `topic` varchar(300) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf32;
 
---
--- Dump dei dati per la tabella `lecturetopic`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -94,11 +90,6 @@ CREATE TABLE `marks` (
   `subject` varchar(255) NOT NULL,
   `topic` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf32;
-
---
--- Dump dei dati per la tabella `marks`
---
-
 
 -- --------------------------------------------------------
 
@@ -168,14 +159,16 @@ CREATE TABLE `student` (
   `fiscalCode` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `mailParent1` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `mailParent2` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `mailParent1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mailParent2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `student`
 --
 
+INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `email`, `classId`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`, `mailParent1`, `mailParent2`) VALUES
+(1, 'Student', '1', '2004-2-4', 'street 1', '12345678', '12345', NULL, 'M', NULL, 'studmail@test.com', '1A', 'Turin', 'STDNT04B04C351S', '2019-11-21 11:54:01', '2019-11-21 11:54:01', 'p1@test.com', 'p2@test.com');
 
 -- --------------------------------------------------------
 
@@ -192,7 +185,25 @@ CREATE TABLE `studforparent` (
 -- Dump dei dati per la tabella `studforparent`
 --
 
+INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
+(3, 1),
+(4, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `suppmaterial`
+--
+
+CREATE TABLE `suppmaterial` (
+  `id` int(11) NOT NULL,
+  `idClass` varchar(45) NOT NULL,
+  `idTeach` int(11) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `material` varchar(255) NOT NULL,
+  `date` varchar(45) NOT NULL,
+  `mdescription` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -222,7 +233,8 @@ CREATE TABLE `teacher` (
 -- Dump dei dati per la tabella `teacher`
 --
 
-
+INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`) VALUES
+(1, 'Teacher', '1', '1980-1-10', 2, 'Street 1', '12345678', '45678', NULL, 'M', NULL, 'Turin', 'TECHER80A10C351W', '2019-11-21 09:52:29', '2019-11-21 09:52:29');
 
 -- --------------------------------------------------------
 
@@ -240,7 +252,8 @@ CREATE TABLE `teaching` (
 -- Dump dei dati per la tabella `teaching`
 --
 
-
+INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
+('1A', 1, 'Math');
 
 -- --------------------------------------------------------
 
@@ -267,20 +280,21 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `roleId`, `remember_token`, `created_at`, `updated_at`, `status`, `photo`) VALUES
-(1, 'Admin', 'admin@test.com', NULL, '$2y$10$3QCuQiTo1EULmEHmQzR0quelwceD.IuAghfLp94vMJ9eZarS2j/iC', 1, NULL, '2019-11-14 12:31:10', '2019-11-14 12:31:10', 'active', NULL);
+(1, 'Admin', 'admin@test.com', NULL, '$2y$10$3QCuQiTo1EULmEHmQzR0quelwceD.IuAghfLp94vMJ9eZarS2j/iC', 1, NULL, '2019-11-14 12:31:10', '2019-11-14 12:31:10', 'active', NULL),
+(2, 'Teacher 1', 'teacher@test.com', NULL, '$2y$10$I6Ya5ora/b6Su0NFfDdcO.Brac4Yst7Q8k1x0z6GdtNyCXjrxh2/u', 2, 'oUUSV8y8umigogKtnGZh3QcshwI7gMYJA9GYz3W1ZYGkzt1mNv2pW5MrYCUN', '2019-11-21 09:52:29', '2019-11-21 09:29:15', 'active', '20191121113602.JPG'),
+(3, 'Parent 1', 'p1@test.com', NULL, '$2y$10$oOmwEBU9HTqFarcEwob7GeBn2o/kG6Xz6e.JsOrFKUm7GzP7oUAea', 3, 'N2wCczIRyGZM725LvqXLlTHIoKQeVtndovZ3Mh16uzZqxGM0CQFrcnNlQ1VL', '2019-11-21 11:54:22', '2019-11-21 10:55:04', 'active', NULL),
+(4, 'Parent 2', 'p2@test.com', NULL, '$2y$10$O2a2JbnwRk7dGBjF.WCmAO5dvrjAZyknrbeGTT5QQ8dhTkCmX.CuK', 3, 'VUkeS12P4Py5FbRrIGaU1xLqR47YMI0460gDenbB0snmH1eTkKXTSQ5IDXmS', '2019-11-21 11:54:24', '2019-11-21 10:58:13', 'active', NULL);
 
 --
 -- Indici per le tabelle scaricate
 --
-
 
 --
 -- Indici per le tabelle `assignments`
 --
 ALTER TABLE `assignments`
   ADD PRIMARY KEY (`id`);
-  
-  
+
 --
 -- Indici per le tabelle `classroom`
 --
@@ -325,6 +339,12 @@ ALTER TABLE `studforparent`
   ADD PRIMARY KEY (`idParent`,`idStudent`);
 
 --
+-- Indici per le tabelle `suppmaterial`
+--
+ALTER TABLE `suppmaterial`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `teacher`
 --
 ALTER TABLE `teacher`
@@ -345,20 +365,19 @@ ALTER TABLE `users`
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
-
+--
 
 --
--- AUTO_INCREMENT per la tabella `lecturetopic`
+-- AUTO_INCREMENT per la tabella `assignments`
 --
 ALTER TABLE `assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
---
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `lecturetopic`
 --
 ALTER TABLE `lecturetopic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `migrations`
@@ -370,19 +389,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT per la tabella `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `suppmaterial`
+--
+ALTER TABLE `suppmaterial`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Limiti per le tabelle scaricate
@@ -398,8 +423,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-ALTER TABLE `student`
-    CHANGE COLUMN `mailParent1` `mailParent1` VARCHAR(255) NULL DEFAULT NULL ,
-    CHANGE COLUMN `mailParent2` `mailParent2` VARCHAR(255) NULL DEFAULT NULL ;
-

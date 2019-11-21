@@ -6,6 +6,7 @@ use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
 use App\Models\Topic;
+use App\Models\Material;
 use App\Models\Assignment;
 use App\User;
 use DB;
@@ -237,5 +238,52 @@ class TeacherController extends Controller
         return view('assignments.list', ['assignments' => $assignments]);
     }
 
+
+    public function addmaterial()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrieveTeaching($teachId);
+        return view('suppmaterial.add', ['classes' => $classes]);
+    }
+
+    public function storematerial(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+
+        if ($data) {
+            //create topic
+            $data['date'] = date("Y-n-d");
+            $data['idClass'] = request('idClass');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+
+            if ($request->file('material')) {
+
+                $cover = $request->file('material');
+
+                $extension = $cover->getClientOriginalExtension();
+                $fileName = date('YmdHis') . '.' . $extension;
+                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+
+
+                $data['material'] = $fileName;
+            }
+
+            Material::save($data);
+        }
+        return redirect('/material/list');
+    }
+
+    public function listmaterial()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $materials = Material::retrieveTeachersPagination($teachId);
+        return view('suppmaterial.list', ['materials' => $materials]);
+    }
 
 }

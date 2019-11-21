@@ -16,7 +16,7 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 @foreach ($students as $student)
 
-                                    <li  @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id) class="active" @endif>
+                                    <li  @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id || \Request::path()=='material/listforparents/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
@@ -28,6 +28,10 @@
 
                                             <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Lectures Topics</span></a>
+                                            </li>
+
+                                            <li><a title="Material" href="/material/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Support Material</span></a>
                                             </li>
 
 
@@ -58,13 +62,22 @@
                                          </ul>
 
                                   <li> <a class="has-arrow" href="" aria-expanded="false"><span
-                                              class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Assignments</span></a>
-                                      <ul class="submenu-angle" aria-expanded="false">
-                                          <li><a title="Add Lecture Assignment" href="/assignment/add"><span
-                                                      class="mini-sub-pro">Add Assignment</span></a></li>
-                                          <li><a title="View Lecture Assignments" href="/assignment/list"><span
-                                                      class="mini-sub-pro">All Assignments</span></a></li>
-                                      </ul>
+                                    class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Assignments</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add Lecture Assignment" href="/assignment/add"><span
+                                            class="mini-sub-pro">Add Assignment</span></a></li>
+                                <li><a title="View Lecture Assignments" href="/assignment/list"><span
+                                            class="mini-sub-pro">All Assignments</span></a></li>
+                            </ul>
+
+                                <li> <a class="has-arrow" href="" aria-expanded="false"><span
+                                            class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Support Material</span></a>
+                                    <ul class="submenu-angle" aria-expanded="false">
+                                        <li><a title="Add Support Material" href="/material/add"><span
+                                                    class="mini-sub-pro">Add Support Material</span></a></li>
+                                        <li><a title="View Support Material" href="/material/list"><span
+                                                    class="mini-sub-pro">All Support Material</span></a></li>
+                                    </ul>
 
 
 

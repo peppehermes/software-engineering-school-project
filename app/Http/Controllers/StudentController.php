@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Material;
 use App\Models\Role;
 use App\Models\Topic;
 use App\User;
@@ -151,7 +152,7 @@ class StudentController extends Controller
 
     }
 
-    public function listforparents($idStud)
+    public function listTopicforparents($idStud)
     {
         $usId = \Auth::user()->id;
 
@@ -257,6 +258,28 @@ class StudentController extends Controller
         return redirect('/student/list');
 
 
+    }
+
+
+    public function listMaterialforparents($idStud)
+    {
+        $usId = \Auth::user()->id;
+
+
+        $idClass = Student::retrieveClassId($idStud);
+
+        $material = Material::getMaterialByClass($idClass);
+
+        $students = Student::retrieveStudentsForParent($usId);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        return view('student.materiallist', ['materials' => $material, 'students' => $students]);
     }
 
 }
