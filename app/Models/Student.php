@@ -36,7 +36,9 @@ class Student
     {
 
         return DB::table(static::table)->find($id);
+
     }
+
 
 
     public static function save(array $data, $id = null): int
@@ -80,6 +82,7 @@ class Student
             ->get();
 
     }
+
 
 
     public static function retrieveStudentsForParent($myParentID)
@@ -134,5 +137,11 @@ class Student
 
         return \DB::table('studforparent')->insertGetId($data);
     }
+
+    public static function deleteParentStudent($idParent,$idstudent): int
+    {
+        return DB::table('studforparent')->where('idParent', $idParent)->where('idStudent',$idstudent)->delete();
+    }
+
 
 }

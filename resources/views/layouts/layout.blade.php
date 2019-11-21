@@ -27,10 +27,6 @@
     <!-- animate CSS
 		============================================ -->
 
-    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('css/animate.css')}}">
     <!-- normalize CSS

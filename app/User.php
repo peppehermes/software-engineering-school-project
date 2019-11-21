@@ -63,6 +63,7 @@ class User extends Authenticatable
     {
         return DB::table(static::table)->where('id', $id)->delete();
     }
+
     public static function saveUser(array $data, $id = null): int
     {
         if ($id) {

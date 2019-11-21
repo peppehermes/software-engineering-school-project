@@ -266,22 +266,22 @@
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 1:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName1">
+                                                                       name="parentName1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 1:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail1">
+                                                                       name="parentEmail1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->email}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 2:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName2">
+                                                                       name="parentName2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 2:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail2">
+                                                                       name="parentEmail2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->email}}@endif">
                                                             </div>
                                                         </div>
                                                     </div>
