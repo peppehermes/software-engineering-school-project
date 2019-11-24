@@ -60,7 +60,7 @@
 @if(\Request::path()!='login')
     <!-- duallistbox CSS
 		============================================ -->
-        <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">
+{{--        <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">--}}
 
         <!-- x-editor CSS
             ============================================ -->
@@ -72,6 +72,8 @@
             ============================================ -->
         <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-table.css')}}">
         <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-editable.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('css/datapicker/datepicker3.css')}}">
 @endif
 <!-- style CSS
 		============================================ -->
@@ -189,22 +191,25 @@
 <!-- calendar JS
     ============================================ -->
 
-<script src="{{ asset('js/calendar/moment.min.js')}}"></script>
-<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
-<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>
+{{--<script src="{{ asset('js/calendar/moment.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>--}}
 <!-- icheck JS
       ============================================ -->
 <script src="{{ asset('js/icheck/icheck.min.js')}}"></script>
 <script src="{{ asset('js/icheck/icheck-active.js')}}"></script>
+
+<script src="{{ asset('js/datapicker/bootstrap-datepicker.js')}}"></script>
+<script src="{{ asset('js/datapicker/datepicker-active.js')}}"></script>
 
 {{--<script src="{{ asset('js/form-validation/jquery.form.min.js')}}"></script>--}}
 {{--<script src="{{ asset('js/form-validation/jquery.validate.min.js')}}"></script>--}}
 {{--<script src="{{ asset('js/form-validation/form-active.js')}}"></script>--}}
 
 
-<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>
-<script src="{{ asset('js/password-meter/zxcvbn.js')}}"></script>
-<script src="{{ asset('js/password-meter/password-meter-active.js')}}"></script>
+{{--<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/password-meter/zxcvbn.js')}}"></script>--}}
+{{--<script src="{{ asset('js/password-meter/password-meter-active.js')}}"></script>--}}
 
 
 <!-- tab JS

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
+use App\Models\Student;
 use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;
@@ -39,7 +40,7 @@ class TeacherController extends Controller
     public function add()
     {
         $classes = Classroom::retrieve();
-        return view('teacher.add',['classes' => $classes]);
+        return view('teacher.add', ['classes' => $classes]);
     }
 
     public function store(Request $request)
@@ -59,7 +60,11 @@ class TeacherController extends Controller
             $userData['password'] = Hash::make($password);
             $userId = DB::table('users')->insertGetId($userData);
 
-            $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+            if ($data['birthday']) {
+                $data['birthday'] = Student::convertDate($data['birthday']);
+            }
+
+
             $data['userId'] = $userId;
 
             if ($request->file('photo')) {
@@ -75,7 +80,7 @@ class TeacherController extends Controller
             }
 
             $Teachid = Teacher::save($data);
-            $dataT['idTeach']=$Teachid;
+            $dataT['idTeach'] = $Teachid;
             Teacher::saveTeaching($dataT);
         }
 
@@ -109,14 +114,10 @@ class TeacherController extends Controller
         $teacherInfo = Teacher::retrieveById($id);
         $teacherEmail = User::retrieveById($teacherInfo->userId);
         if ($teacherInfo->birthday) {
-
-
-            $birthday = explode('-', $teacherInfo->birthday);
-
-            $teacherInfo->year = $birthday[0];
-            $teacherInfo->month = $birthday[1];
-            $teacherInfo->day = $birthday[2];
+            $teacherInfo->birthday = Student::convertDateView($teacherInfo->birthday);
         }
+
+
         $teacherInfo->email = $teacherEmail->email;
 
 
@@ -129,7 +130,9 @@ class TeacherController extends Controller
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
 
 
         if ($request->file('photo')) {
@@ -200,7 +203,7 @@ class TeacherController extends Controller
         return view('topic.add', ['classes' => $classes]);
     }
 
-    public function storeassignment (Request $request)
+    public function storeassignment(Request $request)
     {
 
         $usId = \Auth::user()->id;

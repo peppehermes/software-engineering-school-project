@@ -46,6 +46,9 @@ Route::group(['prefix' => 'student'], function() {
     Route::post('/storeParent/{id}', 'StudentController@storeParent')->middleware('admin');
     Route::get('/delete/{id}', 'StudentController@delete')->middleware('admin');
     Route::get('/showmarks/{id}', 'StudentController@showmarks')->middleware('parents');
+    Route::get('/attendance/{id}/{date}', 'StudentController@attendance')->middleware('teachers');
+    Route::post('/saveattendance/{id}', 'StudentController@saveattendance')->middleware('teachers');
+
 });
 
 //teacher

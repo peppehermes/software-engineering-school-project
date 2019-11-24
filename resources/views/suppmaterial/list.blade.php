@@ -16,16 +16,20 @@
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
 
-                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                       data-show-columns="true" data-show-pagination-switch="true"
+                                       data-show-refresh="true" data-key-events="true" data-show-toggle="true"
+                                       data-resizable="true" data-cookie="true"
+                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                       data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-                                        <th data-field="classroom" data-editable="true">ClassRoom</th>
-                                        <th data-field="teacher">Teacher</th>
-                                        <th data-field="subjcet" data-editable="true">Subject</th>
-                                        <th data-field="date" data-editable="true">Date</th>
-                                        <th data-field="description" data-editable="true">Description</th>
-                                        <th data-field="material" data-editable="true">Support Material</th>
+                                        <th>ClassRoom</th>
+                                        <th>Teacher</th>
+                                        <th>Subject</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Support Material</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -38,7 +42,8 @@
                                             <td>{{$material->subject}} </td>
                                             <td>{{$material->date}}</td>
                                             <td>{{$material->mdescription}}</td>
-                                            <td><a href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
+                                            <td><a style="color: #7fbd2d" href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download
+                                                    Here</a></td>
 
                                         </tr>
 

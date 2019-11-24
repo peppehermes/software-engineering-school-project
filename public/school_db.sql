@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Nov 21, 2019 alle 12:58
--- Versione del server: 10.1.40-MariaDB
--- Versione PHP: 7.3.5
+-- Host: 127.0.0.1:3306
+-- Creato il: Nov 24, 2019 alle 20:40
+-- Versione del server: 5.7.24
+-- Versione PHP: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `schooldb`
+-- Database: `school_db2`
 --
 
 -- --------------------------------------------------------
@@ -28,15 +28,17 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `assignments`
 --
 
-CREATE TABLE `assignments` (
-  `id` int(11) NOT NULL,
-  `text` varchar(300) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `topic` varchar(300) NOT NULL,
-  `date` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `idClass` varchar(45) NOT NULL,
-  `deadline` varchar(45) NOT NULL
+DROP TABLE IF EXISTS `assignments`;
+CREATE TABLE IF NOT EXISTS `assignments` (
+                                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                                             `text` varchar(300) NOT NULL,
+                                             `subject` varchar(45) NOT NULL,
+                                             `topic` varchar(300) NOT NULL,
+                                             `date` varchar(45) NOT NULL,
+                                             `idTeach` int(11) NOT NULL,
+                                             `idClass` varchar(45) NOT NULL,
+                                             `deadline` varchar(45) NOT NULL,
+                                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -45,20 +47,22 @@ CREATE TABLE `assignments` (
 -- Struttura della tabella `classroom`
 --
 
-CREATE TABLE `classroom` (
-  `id` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `capacity` int(20) DEFAULT NULL,
-  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `classroom`;
+CREATE TABLE IF NOT EXISTS `classroom` (
+                                           `id` varchar(45) NOT NULL,
+                                           `capacity` int(20) DEFAULT NULL,
+                                           `description` varchar(500) DEFAULT NULL,
+                                           `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                           `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `classroom`
 --
 
 INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated_at`) VALUES
-('1A', 20, NULL, '2019-11-21 09:50:56', '2019-11-21 09:50:56');
+('1A', 20, 'This class is so big.', '2019-11-24 20:09:21', '2019-11-24 20:09:21');
 
 -- --------------------------------------------------------
 
@@ -66,14 +70,16 @@ INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated
 -- Struttura della tabella `lecturetopic`
 --
 
-CREATE TABLE `lecturetopic` (
-  `id` int(11) NOT NULL,
-  `idClass` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `date` varchar(45) NOT NULL,
-  `topic` varchar(300) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf32;
+DROP TABLE IF EXISTS `lecturetopic`;
+CREATE TABLE IF NOT EXISTS `lecturetopic` (
+                                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                                              `idClass` varchar(45) CHARACTER SET utf32 NOT NULL,
+                                              `idTeach` int(11) NOT NULL,
+                                              `subject` varchar(45) CHARACTER SET utf32 NOT NULL,
+                                              `date` varchar(45) CHARACTER SET utf32 NOT NULL,
+                                              `topic` varchar(300) CHARACTER SET utf32 NOT NULL,
+                                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -81,15 +87,16 @@ CREATE TABLE `lecturetopic` (
 -- Struttura della tabella `marks`
 --
 
-CREATE TABLE `marks` (
-  `idClass` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `idStudent` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `mark` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `topic` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf32;
+DROP TABLE IF EXISTS `marks`;
+CREATE TABLE IF NOT EXISTS `marks` (
+                                       `idClass` varchar(45) CHARACTER SET utf32 NOT NULL,
+                                       `idTeach` int(11) NOT NULL,
+                                       `idStudent` int(11) NOT NULL,
+                                       `date` date NOT NULL,
+                                       `mark` int(11) NOT NULL,
+                                       `subject` varchar(255) CHARACTER SET utf32 NOT NULL,
+                                       `topic` varchar(255) CHARACTER SET utf32 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -97,10 +104,12 @@ CREATE TABLE `marks` (
 -- Struttura della tabella `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+                                            `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                            `batch` int(11) NOT NULL,
+                                            PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -109,11 +118,13 @@ CREATE TABLE `migrations` (
 -- Struttura della tabella `password_resets`
 --
 
-CREATE TABLE `password_resets` (
-  `email` varchar(45) NOT NULL,
-  `token` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+                                                 `email` varchar(45) CHARACTER SET latin1 NOT NULL,
+                                                 `token` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+                                                 `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                                 PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -121,10 +132,12 @@ CREATE TABLE `password_resets` (
 -- Struttura della tabella `role`
 --
 
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
-  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
+                                      `id` int(11) NOT NULL,
+                                      `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `role`
@@ -142,33 +155,54 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- Struttura della tabella `student`
 --
 
-CREATE TABLE `student` (
-  `id` int(11) NOT NULL,
-  `firstName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lastName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthday` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `phone` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postCode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gender` enum('F','M') COLLATE utf8_unicode_ci DEFAULT 'M',
-  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `classId` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthPlace` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fiscalCode` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `mailParent1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `mailParent2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE IF NOT EXISTS `student` (
+                                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                                         `firstName` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `lastName` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `birthday` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `phone` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `postCode` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `photo` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `gender` enum('F','M') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'M',
+                                         `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `classId` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `birthPlace` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `fiscalCode` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `mailParent1` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `mailParent2` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         PRIMARY KEY (`id`),
+                                         KEY `fk_ClassId_idx` (`classId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `student`
 --
 
 INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `email`, `classId`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`, `mailParent1`, `mailParent2`) VALUES
-(1, 'Student', '1', '2004-2-4', 'street 1', '12345678', '12345', NULL, 'M', NULL, 'studmail@test.com', '1A', 'Turin', 'STDNT04B04C351S', '2019-11-21 11:54:01', '2019-11-21 11:54:01', 'p1@test.com', 'p2@test.com');
+(1, 'Sara', 'Silvio', '2007-02-21', 'Corso Degli duca Abruzzi,25', '3362718391', '10137', NULL, 'F', NULL, 'sara.silvio@test.com', '1A', 'Milan', 'SDTSHR92L44424Xd', '2019-11-24 20:21:05', '2019-11-24 20:21:05', 'daniele.silvio@test.com', 'kate.alba@test.com');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `student_attendance`
+--
+
+DROP TABLE IF EXISTS `student_attendance`;
+CREATE TABLE IF NOT EXISTS `student_attendance` (
+                                                    `studentId` int(11) NOT NULL,
+                                                    `teacherId` int(11) NOT NULL,
+                                                    `classId` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                                    `lectureDate` date NOT NULL,
+                                                    `status` enum('present','absent') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'present',
+                                                    `presence_status` enum('full','early','late') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'full',
+                                                    `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+                                                    PRIMARY KEY (`studentId`,`teacherId`,`classId`,`lectureDate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -176,18 +210,20 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 -- Struttura della tabella `studforparent`
 --
 
-CREATE TABLE `studforparent` (
-  `idParent` int(11) NOT NULL,
-  `idStudent` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf32;
+DROP TABLE IF EXISTS `studforparent`;
+CREATE TABLE IF NOT EXISTS `studforparent` (
+                                               `idParent` int(11) NOT NULL,
+                                               `idStudent` int(11) NOT NULL,
+                                               PRIMARY KEY (`idParent`,`idStudent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `studforparent`
 --
 
 INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
-(3, 1),
-(4, 1);
+(4, 1),
+(5, 1);
 
 -- --------------------------------------------------------
 
@@ -195,15 +231,17 @@ INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
 -- Struttura della tabella `suppmaterial`
 --
 
-CREATE TABLE `suppmaterial` (
-  `id` int(11) NOT NULL,
-  `idClass` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `material` varchar(255) NOT NULL,
-  `date` varchar(45) NOT NULL,
-  `mdescription` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `suppmaterial`;
+CREATE TABLE IF NOT EXISTS `suppmaterial` (
+                                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                                              `idClass` varchar(45) CHARACTER SET latin1 NOT NULL,
+                                              `idTeach` int(11) NOT NULL,
+                                              `subject` varchar(45) CHARACTER SET latin1 NOT NULL,
+                                              `material` varchar(255) CHARACTER SET latin1 NOT NULL,
+                                              `date` varchar(45) CHARACTER SET latin1 NOT NULL,
+                                              `mdescription` varchar(255) CHARACTER SET latin1 NOT NULL,
+                                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -211,30 +249,33 @@ CREATE TABLE `suppmaterial` (
 -- Struttura della tabella `teacher`
 --
 
-CREATE TABLE `teacher` (
-  `id` int(11) NOT NULL,
-  `firstName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lastName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthday` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `userId` bigint(20) DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `phone` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postCode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gender` enum('M','F') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthPlace` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fiscalCode` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `teacher`;
+CREATE TABLE IF NOT EXISTS `teacher` (
+                                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                                         `firstName` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `lastName` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `birthday` date DEFAULT NULL,
+                                         `userId` bigint(20) DEFAULT NULL,
+                                         `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `phone` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `postCode` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `photo` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `gender` enum('M','F') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `birthPlace` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `fiscalCode` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                         PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `teacher`
 --
 
 INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`) VALUES
-(1, 'Teacher', '1', '1980-1-10', 2, 'Street 1', '12345678', '45678', NULL, 'M', NULL, 'Turin', 'TECHER80A10C351W', '2019-11-21 09:52:29', '2019-11-21 09:52:29');
+(1, 'John', 'Alva', '1993-07-29', 2, 'Via Paolo Gaidano,103/22', '3364728191', '10137', '20191124201116.jpg', 'M', NULL, 'Turin', 'SDTSHLS2L21224Xd', '2019-11-24 20:11:16', '2019-11-24 20:11:16'),
+(3, 'Glori', 'Bianca', '1983-06-29', 8, 'Corso Giovanni Agnelli, 117', '3362718492', '10134', '20191124203933.jpg', 'F', NULL, 'Turin', 'SDTSHR92KS1Z224X', '2019-11-24 20:39:33', '2019-11-24 20:39:33');
 
 -- --------------------------------------------------------
 
@@ -242,18 +283,22 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 -- Struttura della tabella `teaching`
 --
 
-CREATE TABLE `teaching` (
-  `idClass` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf32;
+DROP TABLE IF EXISTS `teaching`;
+CREATE TABLE IF NOT EXISTS `teaching` (
+                                          `idClass` varchar(45) NOT NULL,
+                                          `idTeach` int(11) NOT NULL,
+                                          `subject` varchar(255) NOT NULL,
+                                          PRIMARY KEY (`idClass`,`idTeach`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `teaching`
 --
 
 INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
-('1A', 1, 'Math');
+('1A', 1, 'Math'),
+('1A', 2, 'fgsdfg'),
+('1A', 3, 'Art');
 
 -- --------------------------------------------------------
 
@@ -261,19 +306,22 @@ INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
 -- Struttura della tabella `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roleId` int(11) NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('active','deactive') COLLATE utf8mb4_unicode_ci DEFAULT 'active',
-  `photo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+                                       `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                       `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                       `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                       `email_verified_at` timestamp NULL DEFAULT NULL,
+                                       `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                       `roleId` int(11) NOT NULL,
+                                       `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                       `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                       `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                       `status` enum('active','deactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'active',
+                                       `photo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                       PRIMARY KEY (`id`),
+                                       KEY `user_role_idx` (`roleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `users`
@@ -281,133 +329,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `roleId`, `remember_token`, `created_at`, `updated_at`, `status`, `photo`) VALUES
 (1, 'Admin', 'admin@test.com', NULL, '$2y$10$3QCuQiTo1EULmEHmQzR0quelwceD.IuAghfLp94vMJ9eZarS2j/iC', 1, NULL, '2019-11-14 12:31:10', '2019-11-14 12:31:10', 'active', NULL),
-(2, 'Teacher 1', 'teacher@test.com', NULL, '$2y$10$I6Ya5ora/b6Su0NFfDdcO.Brac4Yst7Q8k1x0z6GdtNyCXjrxh2/u', 2, 'oUUSV8y8umigogKtnGZh3QcshwI7gMYJA9GYz3W1ZYGkzt1mNv2pW5MrYCUN', '2019-11-21 09:52:29', '2019-11-21 09:29:15', 'active', '20191121113602.JPG'),
-(3, 'Parent 1', 'p1@test.com', NULL, '$2y$10$oOmwEBU9HTqFarcEwob7GeBn2o/kG6Xz6e.JsOrFKUm7GzP7oUAea', 3, 'N2wCczIRyGZM725LvqXLlTHIoKQeVtndovZ3Mh16uzZqxGM0CQFrcnNlQ1VL', '2019-11-21 11:54:22', '2019-11-21 10:55:04', 'active', NULL),
-(4, 'Parent 2', 'p2@test.com', NULL, '$2y$10$O2a2JbnwRk7dGBjF.WCmAO5dvrjAZyknrbeGTT5QQ8dhTkCmX.CuK', 3, 'VUkeS12P4Py5FbRrIGaU1xLqR47YMI0460gDenbB0snmH1eTkKXTSQ5IDXmS', '2019-11-21 11:54:24', '2019-11-21 10:58:13', 'active', NULL);
-
---
--- Indici per le tabelle scaricate
---
-
---
--- Indici per le tabelle `assignments`
---
-ALTER TABLE `assignments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `classroom`
---
-ALTER TABLE `classroom`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `lecturetopic`
---
-ALTER TABLE `lecturetopic`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indici per le tabelle `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ClassId_idx` (`classId`);
-
---
--- Indici per le tabelle `studforparent`
---
-ALTER TABLE `studforparent`
-  ADD PRIMARY KEY (`idParent`,`idStudent`);
-
---
--- Indici per le tabelle `suppmaterial`
---
-ALTER TABLE `suppmaterial`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `teacher`
---
-ALTER TABLE `teacher`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `teaching`
---
-ALTER TABLE `teaching`
-  ADD PRIMARY KEY (`idClass`,`idTeach`);
-
---
--- Indici per le tabelle `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_role_idx` (`roleId`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `assignments`
---
-ALTER TABLE `assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `lecturetopic`
---
-ALTER TABLE `lecturetopic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `student`
---
-ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT per la tabella `suppmaterial`
---
-ALTER TABLE `suppmaterial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT per la tabella `teacher`
---
-ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT per la tabella `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+(2, 'John Alva', 'john.alva@test.com', NULL, '$2y$10$a7c5xuwL72GZ/GtpBaaQWO.HQ9rcZUXZIOBgfsstTGT0EnQoFIMKu', 2, NULL, '2019-11-24 20:10:33', '2019-11-24 20:10:33', 'active', NULL),
+(4, 'Daniele Silvio', 'daniele.silvio@test.com', NULL, '$2y$10$jorrMyHebqOtjrPa0jMF4e5MaDbR8I7Wf0on.neie4FduGY1IvQQm', 3, NULL, '2019-11-24 20:25:29', '2019-11-24 20:25:29', 'active', NULL),
+(5, 'Kate Alba', 'kate.alba@test.com', NULL, '$2y$10$wryKF.e1bUEMbizD3byW9.lAK.HuEnJSiNf9QClIJ8/mtWjHIFi16', 3, NULL, '2019-11-24 20:25:31', '2019-11-24 20:25:31', 'active', NULL),
+(8, 'Glori Bianca', 'glori.bianca@test.com', NULL, '$2y$10$lfr0bU6xCwy4d5/miAGcPebHflOl51gqFu5fC9ral6A.dN3HNn2US', 2, NULL, '2019-11-24 20:39:33', '2019-11-24 20:39:33', 'active', NULL);
 
 --
 -- Limiti per le tabelle scaricate
@@ -417,7 +342,7 @@ ALTER TABLE `users`
 -- Limiti per la tabella `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD CONSTRAINT `user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

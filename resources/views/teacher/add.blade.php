@@ -39,77 +39,16 @@
                                                                 <input name="frm[birthPlace]" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Date of birth:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select name="year" class="form-control" required>
-                                                                    <option value="none" disabled="" selected>
-                                                                        Year
-                                                                    </option>
-                                                                    @for($i=1960 ;  $i<1998 ; $i++)
-                                                                        <option value="{{$i}}">{{$i}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
 
 
-                                                                <select name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <option value="1">
-                                                                        January
-                                                                    </option>
-                                                                    <option value="2">
-                                                                        February
-                                                                    </option>
-                                                                    <option value="3">
-                                                                        March
-                                                                    </option>
-                                                                    <option value="4">
-                                                                        April
-                                                                    </option>
-                                                                    <option value="5">
-                                                                        May
-                                                                    </option>
-                                                                    <option value="6">
-                                                                        June
-                                                                    </option>
-                                                                    <option value="7">
-                                                                        July
-                                                                    </option>
-                                                                    <option value="8">
-                                                                        August
-                                                                    </option>
-                                                                    <option value="9">
-                                                                        September
-                                                                    </option>
-                                                                    <option value="10">
-                                                                        October
-                                                                    </option>
-                                                                    <option value="11">
-                                                                        November
-                                                                    </option>
-                                                                    <option value="12">
-                                                                        December
-                                                                    </option>
-                                                                </select>
+                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
+                                                                <label >Date of birth:</label>
+                                                                <div class="input-group date">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]" class="form-control"
+                                                                           id="attendaceDate">
+                                                                </div>
 
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<31 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
 
                                                             </div>
 

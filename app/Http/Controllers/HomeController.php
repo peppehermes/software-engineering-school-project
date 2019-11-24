@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -35,7 +36,20 @@ class HomeController extends Controller
 
             return view('home2', ['students' => $students]);
 
-        } else {
+        }
+        elseif (\Auth::user()->roleId == 2) {
+
+
+            $teacherId = \Auth::user()->id;
+
+            $classRooms = Teacher::retrieveTeacherClass($teacherId);
+
+
+
+            return view('home2', ['classRooms' => $classRooms,'today'=>date('Y-m-d')]);
+
+
+        }else {
             return view('home2');
         }
 

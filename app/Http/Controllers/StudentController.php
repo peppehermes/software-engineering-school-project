@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Material;
 use App\Models\Role;
+use App\Models\Teacher;
 use App\Models\Topic;
 use App\User;
 use DB;
@@ -22,6 +23,7 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
@@ -46,7 +48,10 @@ class StudentController extends Controller
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
+
 
         if ($request->file('photo')) {
 
@@ -73,18 +78,14 @@ class StudentController extends Controller
         return view('student.list', ['students' => $students]);
     }
 
+
     public function edit($id)
     {
         $studentInfo = Student::retrieveById($id);
 
         if ($studentInfo->birthday) {
 
-
-            $birthday = explode('-', $studentInfo->birthday);
-
-            $studentInfo->year = $birthday[0];
-            $studentInfo->month = $birthday[1];
-            $studentInfo->day = $birthday[2];
+            $studentInfo->birthday = Student::convertDateView($studentInfo->birthday);
         }
         if (isset($studentInfo->mailParent1)) {
             $studentInfo->parent1 = User::retrieveByEmail($studentInfo->mailParent1);
@@ -106,7 +107,10 @@ class StudentController extends Controller
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
+
 
         if ($request->file('photo')) {
 
@@ -252,7 +256,6 @@ class StudentController extends Controller
             }
 
 
-
             if (!isset($p2)) {
 
                 $data1['mailParent2'] = $parentEmail2;
@@ -315,5 +318,60 @@ class StudentController extends Controller
 
         return view('student.materiallist', ['materials' => $material, 'students' => $students]);
     }
+
+    public function attendance($classId, $date)
+    {
+
+        $teacherId = \Auth::user()->id;
+
+        $classRooms = Teacher::retrieveTeacherClass($teacherId);
+
+        $students = Student::retrieveStudentClass($classId);
+
+
+        foreach ($students as $student) {
+            $student->attendance = Student::retrieveStudentAttendance($student->id, null, $classId, $date);
+        }
+
+        $dateview = Student::convertDateView($date);
+
+        return view('student.attendance', ['students' => $students, 'classRooms' => $classRooms, 'classId' => $classId, 'date' => $dateview]);
+    }
+
+    public function saveattendance($classId)
+    {
+        $teacherId = \Auth::user()->id;
+        $students = Student::retrieveStudentClass($classId);
+
+        foreach ($students as $student) {
+            $data = request('frm' . $student->id);
+
+            $data['lectureDate'] = request('lectureDate');
+
+            if (!isset($data['status'])) {
+                $data['status'] = 'absent';
+            } else {
+                $data['status'] = 'present';
+            }
+            $data['classId'] = $classId;
+            $data['teacherId'] = $teacherId;
+            $data['studentId'] = $student->id;
+            $data['lectureDate'] = Student::convertDate($data['lectureDate']);
+
+            $st = Student::retrieveAttendance($student->id, $teacherId, $classId, $data['lectureDate']);
+
+            if (isset($st)) {
+                Student::saveStudentAttendance($data, $data['studentId'], $data['teacherId'], $classId, $data['lectureDate']);
+            } else {
+
+                Student::saveStudentAttendance($data);
+            }
+
+
+        }
+
+        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate']);
+    }
+
 
 }

@@ -77,7 +77,7 @@ class Student
                 static::table . '.*'
             ])
             ->where('classId', $id)
-            ->orderBy(static::table . '.id', 'DESC')
+            ->orderBy(static::table . '.lastName', 'ASC')
             ->get();
 
     }
@@ -139,6 +139,101 @@ class Student
     public static function deleteParentStudent($idParent, $idstudent): int
     {
         return DB::table('studforparent')->where('idParent', $idParent)->where('idStudent', $idstudent)->delete();
+    }
+
+    public static function saveStudentAttendance(array $data, $studentId = null, $teacherId = null, $classId = null, $lectureDate = null): int
+    {
+        if ($studentId && $teacherId && $classId && $lectureDate) {
+            \DB::table('student_attendance')->where('studentId', $studentId)->where('teacherId', $teacherId)->where('classId', $classId)->where('lectureDate', $lectureDate)->update($data);
+
+            return $studentId;
+        }
+
+        return \DB::table('student_attendance')->insertGetId($data);
+    }
+
+//for all students
+    public static function retrieveStudentsAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student')
+            ->select('student.*', 'student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status')
+            ->join('student_attendance', 'student.id', '=', 'student_attendance.studentId');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('student.classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->get();
+
+    }
+
+//just for one student
+    public static function retrieveStudentAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student')
+            ->select('student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status')
+            ->join('student_attendance', 'student.id', '=', 'student_attendance.studentId');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('student.classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->first();
+
+    }
+
+    public static function retrieveAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student_attendance');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->first();
+
+    }
+
+    public static function convertDate($date)
+    {
+        $newdate=explode('/',$date);
+        return implode('-',[$newdate[2],$newdate[1],$newdate[0]]);
+    }
+
+    public static function convertDateView($date)
+    {
+        $newdate=explode('-',$date);
+        return implode('/',[$newdate[2],$newdate[1],$newdate[0]]);
     }
 
 

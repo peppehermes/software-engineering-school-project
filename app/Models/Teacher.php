@@ -89,5 +89,16 @@ class Teacher
         return \DB::table('teaching')->insertGetId($data);
     }
 
+    public static function retrieveTeacherClass($id): Collection
+    {
+
+        return DB::table('teaching')
+            ->select('idClass','classroom.capacity','classroom.description')
+            ->join('classroom','teaching.idClass','=','classroom.id')
+            ->where('idTeach', $id)
+            ->get();
+
+    }
+
 
 }

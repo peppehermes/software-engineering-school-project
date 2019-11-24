@@ -31,7 +31,7 @@
 
 
                                             <button
-                                                class="@if($user->roleId!=1) pd-setting @else ds-setting @endif ">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
+                                                class="@if($user->roleId==2) pd-setting @elseif($user->roleId==1) ds-setting @elseif($user->roleId==3) ps-setting @else ls-setting @endif ">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
 
 
                                         </td>
