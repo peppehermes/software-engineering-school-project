@@ -96,6 +96,18 @@ class Student
 
     }
 
+    public static function retrieveStudentsForTeacher($teacherId)
+    {
+
+        return DB::table('student')
+            ->select('student.*')
+            ->join('teaching', 'student.classId', '=', 'teaching.idClass')
+            ->where('teaching.idTeach', $teacherId)
+            ->get();
+
+
+    }
+
 
     public static function retrieveMarksForStudent($myStudentID)
     {

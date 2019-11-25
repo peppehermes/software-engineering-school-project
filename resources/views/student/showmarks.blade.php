@@ -26,11 +26,11 @@
                                        data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-                                        <th data-field="date" data-editable="true" >Date</th>
-                                        <th data-field="subject">Subject</th>
-                                        <th data-field="prof" data-editable="true">Prof</th>
-                                        <th data-field="mark" data-editable="true">Mark</th>
-                                        <th data-field="topic" data-editable="true">Topic</th>
+                                        <th>Date</th>
+                                        <th>Subject</th>
+                                        <th>Prof</th>
+                                        <th>Mark</th>
+                                        <th>Topic</th>
                                     </tr>
                                     </thead>
                                     <tbody>

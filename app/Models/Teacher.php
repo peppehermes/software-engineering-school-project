@@ -93,9 +93,9 @@ class Teacher
     {
 
         return DB::table('teaching')
-            ->select('idClass','classroom.capacity','classroom.description')
+            ->select('teaching.idClass','classroom.capacity','classroom.description')
             ->join('classroom','teaching.idClass','=','classroom.id')
-            ->where('idTeach', $id)
+            ->where('teaching.idTeach', $id)
             ->get();
 
     }

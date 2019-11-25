@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;
+use App\Models\Note;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -213,6 +214,7 @@ class TeacherController extends Controller
             $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
             $data['deadline'] = implode('-', [request('yeard'), request('monthd'), request('dayd')]);
             $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Assignment::save($data);
         }
@@ -289,4 +291,40 @@ class TeacherController extends Controller
         return view('suppmaterial.list', ['materials' => $materials]);
     }
 
+    public function writenote()
+    {
+        $usId = \Auth::user()->id;
+        $i=0;
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrieveTeaching($teachId);
+        $studId = Student::retrieveStudentsForTeacher($teachId);
+        return view('notes.write', ['classes' => $classes,'stud' => $studId]);
+    }
+
+    public function storenote(Request $request)
+    {
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+
+        if ($data) {
+            //create note
+            $data['date'] = date("Y-n-d");
+            $data['idClass'] = request('idClass');
+            $data['idStudent'] = request('idStudent');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+
+            Note::save($data);
+        }
+        return redirect('/notes/list');
+    }
+
+    public function listnotes()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $notes = Note::retrieveTeachersPagination($teachId);
+
+        return view('notes.list', ['notes' => $notes]);
+    }
 }

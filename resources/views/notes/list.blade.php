@@ -10,7 +10,7 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Material<span class="table-project-n"></span>Table</h1>
+                                <h1>Notes<span class="table-project-n"></span></h1>
                             </div>
                         </div>
                         <div class="sparkline13-graph">
@@ -24,26 +24,23 @@
                                         <th>Teacher</th>
                                         <th>Subject</th>
                                         <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Support Material</th>
+                                        <th>Student</th>
+                                        <th>Note</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    @foreach($materials as $material)
-
+                                    @foreach($notes as $note)
                                         <tr>
-                                            <td>{{$material->idClass}}</td>
-                                            <td>{{$material->firstName}} {{$material->lastName}}</td>
-                                            <td>{{$material->subject}} </td>
-                                            <td>{{$material->date}}</td>
-                                            <td>{{$material->mdescription}}</td>
-                                            <td><a href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
+                                            <td>{{$note->idClass}}</td>
+                                            <td>{{$note->firstName}} {{$note->lastName}}</td>
+                                            <td>{{$note->subject}} </td>
+                                            <td>{{$note->date}}</td>
+                                            <td>{{$note->firstName}} {{$note->lastName}}</td>
+                                            <td>{{$note->note}}</td>
 
                                         </tr>
-
                                     @endforeach
-
 
                                     </tbody>
                                 </table>

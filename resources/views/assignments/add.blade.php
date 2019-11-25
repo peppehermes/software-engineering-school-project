@@ -71,7 +71,7 @@ function checkDate() {
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li class="active"><a href="#description">Basic Information</a></li>
+                            <li class="active"><a href="#description">New Assignment</a></li>
                             {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
                             {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>

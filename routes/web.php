@@ -99,3 +99,11 @@ Route::group(['prefix' => 'material'], function() {
     Route::get('/listforparents/{idStud}', 'StudentController@listMaterialforparents')->middleware('parents');
 });
 
+//Notes
+Route::group(['prefix' => 'notes'], function() {
+    Route::get('/write', 'TeacherController@writenote')->middleware('teachers');
+    Route::get('/list', 'TeacherController@listnotes')->middleware('teachers');
+    Route::post('/store', 'TeacherController@storenote')->middleware('teachers');
+    Route::get('/listforparents/{idStud}', 'StudentController@listNotesforparents')->middleware('parents');
+});
+

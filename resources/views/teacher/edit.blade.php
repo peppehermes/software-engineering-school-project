@@ -42,9 +42,6 @@
                                                                        class="form-control"
                                                                        value="{{$teacherInfo->birthPlace}}">
                                                             </div>
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Date of birth:</label>
-                                                            </div>
                                                             <div class="form-group data-custon-pick col-md-12" id="data_2">
                                                                 <label >Date of birth:</label>
                                                                 <div class="input-group date">
