@@ -1,4 +1,4 @@
 Giuseppe: 7 hours
 Andrea: 7.5 hours
-Sahar: 10 hours
+Sahar: 10 hours + 2.5 hours
 Marco: 5 hours
