@@ -36,20 +36,20 @@ class HomeController extends Controller
 
             return view('home2', ['students' => $students]);
 
-        }
-        elseif (\Auth::user()->roleId == 2) {
+        } elseif (\Auth::user()->roleId == 2) {
 
 
-            $teacherId = \Auth::user()->id;
+            $userId = \Auth::user()->id;
+            $teacherId = Teacher::retrieveId($userId);
 
             $classRooms = Teacher::retrieveTeacherClass($teacherId);
 
 
 
-            return view('home2', ['classRooms' => $classRooms,'today'=>date('Y-m-d')]);
+            return view('home2', ['classRooms' => $classRooms, 'today' => date('Y-m-d')]);
 
 
-        }else {
+        } else {
             return view('home2');
         }
 
