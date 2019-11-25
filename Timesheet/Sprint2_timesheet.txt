@@ -1,4 +1,4 @@
-Giuseppe: 4 hours
-Andrea:2.5 hours
+Giuseppe: 6 hours
+Andrea: 2.5 hours
 Sahar: 10 hours
 Marco: 5 hours
