@@ -27,8 +27,8 @@
                                 <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                                     <div class="header-top-menu tabl-d-n">
                                         <ul class="nav navbar-nav mai-top-nav">
-{{--                                            <li class="nav-item"><a href="/home" class="nav-link">Home</a>--}}
-{{--                                            </li>--}}
+                                            {{--                                            <li class="nav-item"><a href="/home" class="nav-link">Home</a>--}}
+                                            {{--                                            </li>--}}
                                             {{--                                            <li class="nav-item"><a href="#" class="nav-link">About</a>--}}
                                             {{--                                            </li>--}}
                                             {{--                                            <li class="nav-item"><a href="#" class="nav-link">Services</a>--}}
@@ -658,183 +658,117 @@
                         <div class="mobile-menu">
                             <nav id="dropdown">
                                 <ul class="mobile-menu-nav">
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="index.html">Dashboard v.1</a></li>--}}
-                                    {{--                                            <li><a href="index-1.html">Dashboard v.2</a></li>--}}
-                                    {{--                                            <li><a href="index-3.html">Dashboard v.3</a></li>--}}
-                                    {{--                                            <li><a href="analytics.html">Analytics</a></li>--}}
-                                    {{--                                            <li><a href="widgets.html">Widgets</a></li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a href="events.html">Event</a></li>--}}
-                                    <li><a data-toggle="collapse" data-target="#demoevent" href="#">Teachers <span
-                                                class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                        <ul id="demoevent" class="collapse dropdown-header-top">
-                                            <li><a href="/teacher/list">All Professors</a>
-                                            </li>
-                                            <li><a href="/teacher/add">Add Professor</a>
-                                            </li>
 
-                                        </ul>
-                                    </li>
-                                    <li><a data-toggle="collapse" data-target="#demopro" href="#">Students <span
-                                                class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                        <ul id="demopro" class="collapse dropdown-header-top">
-                                            <li><a href="/student/list">All Students</a>
-                                            </li>
-                                            <li><a href="/student/Add">Add Student</a>
-                                            </li>
+                                    @if(Auth::user()->roleId==2)
+                                        <li><a href="/">Home</a></li>
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Lecture's Topics<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/topic/add">Add Lecture's Topic</a>
+                                                </li>
+                                                <li><a href="/topic/list">All Lecture's Topic</a>
+                                                </li>
 
-                                        </ul>
-                                    </li>
+                                            </ul>
+                                        </li>
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Assignments<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/assignment/add">Add Assignment</a>
+                                                </li>
+                                                <li><a href="/assignment/list">All Assignments</a>
+                                                </li>
 
-                                    <li><a data-toggle="collapse" data-target="#demopro" href="#">Users <span
-                                                class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                        <ul id="demopro" class="collapse dropdown-header-top">
-                                            <li><a href="/user/list">All Users</a>
-                                            </li>
-                                            <li><a href="/user/Add">Add User</a>
-                                            </li>
+                                            </ul>
+                                        </li>
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Support Material<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/material/add">Add Support Material</a>
+                                                </li>
+                                                <li><a href="/material/list">All Support Material</a>
+                                                </li>
 
-                                        </ul>
-                                    </li>
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#democrou" href="#">Courses <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="democrou" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="all-courses.html">All Courses</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="add-course.html">Add Course</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="edit-course.html">Edit Course</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="course-profile.html">Courses Info</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="course-payment.html">Courses Payment</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#demolibra" href="#">Library <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="demolibra" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="library-assets.html">Library Assets</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="add-library-assets.html">Add Library Asset</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="edit-library-assets.html">Edit Library Asset</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#demodepart" href="#">Departments <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="demodepart" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="departments.html">Departments List</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="add-department.html">Add Departments</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="edit-department.html">Edit Departments</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#demo" href="#">Mailbox <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="demo" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="mailbox.html">Inbox</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="mailbox-view.html">View Mail</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="mailbox-compose.html">Compose Mail</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Miscellaneousmob" href="#">Interface <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="Miscellaneousmob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="google-map.html">Google Map</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="data-maps.html">Data Maps</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="pdf-viewer.html">Pdf Viewer</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="x-editable.html">X-Editable</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="code-editor.html">Code Editor</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="tree-view.html">Tree View</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="preloader.html">Preloader</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="images-cropper.html">Images Cropper</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Chartsmob" href="#">Charts <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="Chartsmob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="bar-charts.html">Bar Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="line-charts.html">Line Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="area-charts.html">Area Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="rounded-chart.html">Rounded Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="c3.html">C3 Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="sparkline.html">Sparkline Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="peity.html">Peity Charts</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Tablesmob" href="#">Tables <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="Tablesmob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="static-table.html">Static Table</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="data-table.html">Data Table</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#formsmob" href="#">Forms <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="formsmob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="basic-form-element.html">Basic Form Elements</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="advance-form-element.html">Advanced Form Elements</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="password-meter.html">Password Meter</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="multi-upload.html">Multi Upload</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="tinymc.html">Text Editor</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="dual-list-box.html">Dual List Box</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Appviewsmob" href="#">App views <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="Appviewsmob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="basic-form-element.html">Basic Form Elements</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="advance-form-element.html">Advanced Form Elements</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="password-meter.html">Password Meter</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="multi-upload.html">Multi Upload</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="tinymc.html">Text Editor</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="dual-list-box.html">Dual List Box</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
-                                    {{--                                    <li><a data-toggle="collapse" data-target="#Pagemob" href="#">Pages <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>--}}
-                                    {{--                                        <ul id="Pagemob" class="collapse dropdown-header-top">--}}
-                                    {{--                                            <li><a href="login.html">Login</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="register.html">Register</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="lock.html">Lock</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="password-recovery.html">Password Recovery</a>--}}
-                                    {{--                                            </li>--}}
-                                    {{--                                            <li><a href="404.html">404 Page</a></li>--}}
-                                    {{--                                            <li><a href="500.html">500 Page</a></li>--}}
-                                    {{--                                        </ul>--}}
-                                    {{--                                    </li>--}}
+                                            </ul>
+                                        </li>
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Notes<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/notes/add">Add new Note</a>
+                                                </li>
+                                                <li><a href="/notes/list">All Notes</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    @elseif(Auth::user()->roleId==3)
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                @foreach ($students as $student)
+                                                    <li><a href="/student/list">{{$student->firstName}}</a>
+                                                        <ul id="demoevent" class="collapse dropdown-header-top">
+                                                            <li><a href="/student/showmarks/{{$student->id}}">Marks</a>
+                                                            </li>
+                                                            <li><a href="/topic/listforparents/{{$student->id}}">Lectures
+                                                                    Topics</a>
+                                                            </li>
+                                                            <li><a href="/material/listforparents/{{$student->id}}">Support
+                                                                    Material</a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+
+                                                @endforeach
+                                            </ul>
+
+                                        </li>
+                                    @else
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Teachers <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/teacher/list">All Teachers</a>
+                                                </li>
+                                                <li><a href="/teacher/add">Add Teacher</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Students <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demopro" class="collapse dropdown-header-top">
+                                                <li><a href="/student/list">All Students</a>
+                                                </li>
+                                                <li><a href="/student/Add">Add Student</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Users <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demopro" class="collapse dropdown-header-top">
+                                                <li><a href="/user/list">All Users</a>
+                                                </li>
+                                                <li><a href="/user/Add">Add User</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Classrooms <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demopro" class="collapse dropdown-header-top">
+                                                <li><a href="/classroom/list">All Classrooms</a>
+                                                </li>
+                                                <li><a href="/classroom/Add">Add Classroom</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    @endif
+
                                 </ul>
                             </nav>
                         </div>
