@@ -72,7 +72,6 @@ class StudentController extends Controller
     public function list()
     {
 
-
         $students = Student::retrievePagination(10);
 
         return view('student.list', ['students' => $students]);
@@ -371,6 +370,26 @@ class StudentController extends Controller
         }
 
         return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate']);
+    }
+
+    public function attendancereport($id)
+    {
+        $myParentID = \Auth::user()->id;
+
+        $student=Student::retrieveById($id);
+
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($id, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        $attendanceReports = Student::retrieveAttendanceReport($id, null, null, null);
+
+        return view('student.attendance_report', ['attendanceReports' => $attendanceReports, 'students' => $students,'student'=>$student]);
     }
 
 

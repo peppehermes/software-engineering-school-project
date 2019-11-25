@@ -48,6 +48,7 @@ Route::group(['prefix' => 'student'], function() {
     Route::get('/showmarks/{id}', 'StudentController@showmarks')->middleware('parents');
     Route::get('/attendance/{id}/{date}', 'StudentController@attendance')->middleware('teachers');
     Route::post('/saveattendance/{id}', 'StudentController@saveattendance')->middleware('teachers');
+    Route::get('/attendance_report/{id}', 'StudentController@attendancereport')->middleware('parents');
 
 });
 

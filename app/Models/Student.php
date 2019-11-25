@@ -236,6 +236,33 @@ class Student
 
     }
 
+    public static function retrieveAttendanceReport($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student_attendance')
+        ->select('student.id','student.firstName','student.lastName','student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status', 'student_attendance.lectureDate')
+        ->join('student', 'student.id', '=', 'student_attendance.studentId');
+
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+        $res->orderBy('lectureDate','DESC');
+
+
+
+        return $res->paginate(10);
+
+    }
+
     public static function convertDate($date)
     {
         $newdate=explode('/',$date);
