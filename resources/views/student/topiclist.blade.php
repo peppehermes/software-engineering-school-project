@@ -10,7 +10,7 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Topic<span class="table-project-n"></span>Table</h1>
+                                <h1>Topics<span class="table-project-n"></span></h1>
                             </div>
                         </div>
                         <div class="sparkline13-graph">

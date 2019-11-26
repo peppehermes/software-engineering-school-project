@@ -170,7 +170,7 @@
                                             <ul id="demopro" class="collapse dropdown-header-top">
                                                 <li><a href="/student/list">All Students</a>
                                                 </li>
-                                                <li><a href="/student/Add">Add Student</a>
+                                                <li><a href="/student/add">Add Student</a>
                                                 </li>
 
                                             </ul>
@@ -181,7 +181,7 @@
                                             <ul id="demopro" class="collapse dropdown-header-top">
                                                 <li><a href="/user/list">All Users</a>
                                                 </li>
-                                                <li><a href="/user/Add">Add User</a>
+                                                <li><a href="/user/add">Add User</a>
                                                 </li>
 
                                             </ul>
@@ -191,7 +191,7 @@
                                             <ul id="demopro" class="collapse dropdown-header-top">
                                                 <li><a href="/classroom/list">All Classrooms</a>
                                                 </li>
-                                                <li><a href="/classroom/Add">Add Classroom</a>
+                                                <li><a href="/classroom/add">Add Classroom</a>
                                                 </li>
 
                                             </ul>
