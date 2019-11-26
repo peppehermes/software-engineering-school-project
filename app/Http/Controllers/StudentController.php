@@ -7,6 +7,7 @@ use App\Models\Material;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\Topic;
+use App\Models\Assignment;
 use App\User;
 use DB;
 use App\Models\Student;
@@ -182,6 +183,28 @@ class StudentController extends Controller
         }
 
         return view('student.topiclist', ['topics' => $topics, 'students' => $students]);
+    }
+
+
+    public function listAssignmentforparents($idStud)
+    {
+        $usId = \Auth::user()->id;
+
+
+        $idClass = Student::retrieveClassId($idStud);
+
+        $assignments = Assignment::getAssignmentByClass($idClass);
+
+        $students = Student::retrieveStudentsForParent($usId);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        return view('student.assignmentlist', ['assignments' => $assignments, 'students' => $students]);
     }
 
     public function storeParent(Request $request, $id)

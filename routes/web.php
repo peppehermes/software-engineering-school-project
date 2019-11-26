@@ -89,6 +89,7 @@ Route::group(['prefix' => 'assignment'], function() {
     Route::get('/add', 'TeacherController@addassignment')->middleware('teachers');
     Route::get('/list', 'TeacherController@listassignment')->middleware('teachers');
     Route::post('/storeassignment', 'TeacherController@storeassignment')->middleware('teachers');
+    Route::get('/listforparents/{idStud}', 'StudentController@listAssignmentforparents')->middleware('parents');
 
 });
 

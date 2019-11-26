@@ -138,6 +138,9 @@
                                                             <li><a href="/topic/listforparents/{{$student->id}}">Lectures
                                                                     Topics</a>
                                                             </li>
+                                                            <li><a href="/assignment/listforparents/{{$student->id}}">
+                                                                       Lectures Assignments</a>
+                                                            </li>
                                                             <li><a href="/material/listforparents/{{$student->id}}">/material/listforparents/{{$student->id}}</a>
                                                             </li>
                                                             <li><a href="/student/attendance_report/{{$student->id}}">Report Attendance</a>

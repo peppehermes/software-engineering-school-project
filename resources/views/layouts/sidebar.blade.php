@@ -16,7 +16,7 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 @foreach ($students as $student)
 
-                                    <li @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id || \Request::path()=='material/listforparents/'.$student->id|| \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
+                                    <li @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id || \Request::path()=='material/listforparents/'.$student->id || \Request::path()=='assignment/listforparents/'.$student->id || \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
@@ -28,6 +28,10 @@
 
                                             <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Lectures Topics</span></a>
+                                            </li>
+
+                                            <li><a title="Assignments" href="/assignment/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Lectures Assignments</span></a>
                                             </li>
 
                                             <li><a title="Material"
