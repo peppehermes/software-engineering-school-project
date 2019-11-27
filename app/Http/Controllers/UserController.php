@@ -82,9 +82,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if(\Auth::user()->id!=$id && \Auth::user()->roleId !=1){
-            return \Redirect('/')->withErrors([' You dont have permission to see that page!']);
-        }
+//        if(\Auth::user()->id!=$id && \Auth::user()->roleId !=1){
+//            return \Redirect('/')->withErrors([' You dont have permission to see that page!']);
+//        }
         $userInfo = User::retrieveById($id);
 
 

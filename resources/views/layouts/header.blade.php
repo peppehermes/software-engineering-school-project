@@ -83,7 +83,7 @@
                             <nav id="dropdown">
                                 <ul class="mobile-menu-nav">
 
-                                    @if(Auth::user()->roleId==2)
+                                    @if(Auth::user()->roleId==\App\User::roleTeacher)
                                         <li><a href="/">Home</a></li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Lecture's Topics<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -125,7 +125,7 @@
 
                                             </ul>
                                         </li>
-                                    @elseif(Auth::user()->roleId==3)
+                                    @elseif(Auth::user()->roleId==\App\User::roleParent)
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
 
@@ -139,11 +139,12 @@
                                                                     Topics</a>
                                                             </li>
                                                             <li><a href="/assignment/listforparents/{{$student->id}}">
-                                                                       Lectures Assignments</a>
+                                                                    Lectures Assignments</a>
                                                             </li>
                                                             <li><a href="/material/listforparents/{{$student->id}}">/material/listforparents/{{$student->id}}</a>
                                                             </li>
-                                                            <li><a href="/student/attendance_report/{{$student->id}}">Report Attendance</a>
+                                                            <li><a href="/student/attendance_report/{{$student->id}}">Report
+                                                                    Attendance</a>
                                                             </li>
 
 
@@ -176,16 +177,7 @@
                                             </ul>
                                         </li>
 
-                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Users <span
-                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demopro" class="collapse dropdown-header-top">
-                                                <li><a href="/user/list">All Users</a>
-                                                </li>
-                                                <li><a href="/user/add">Add User</a>
-                                                </li>
 
-                                            </ul>
-                                        </li>
                                         <li><a data-toggle="collapse" data-target="#demopro" href="#">Classrooms <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demopro" class="collapse dropdown-header-top">
@@ -198,6 +190,18 @@
                                         </li>
                                     @endif
 
+                                    @if(Auth::user()->roleId==\App\User::roleSuperadmin)
+                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Users <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demopro" class="collapse dropdown-header-top">
+                                                <li><a href="/user/list">All Users</a>
+                                                </li>
+                                                <li><a href="/user/add">Add User</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    @endif
                                 </ul>
                             </nav>
                         </div>

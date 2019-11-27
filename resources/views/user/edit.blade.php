@@ -37,7 +37,7 @@
                                                                        class="form-control"
                                                                        value="{{$userInfo->email}}">
                                                             </div>
-                                                            @if($userInfo->roleId == 1)
+
                                                             <div class="form-group col-md-6">
                                                                 <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
@@ -53,16 +53,18 @@
                                                             <div class="form-group col-md-6">
                                                                 <label>Status:</label>
                                                                 <select name="frm[status]" class="form-control">
-                                                                    <option @if($userInfo->status == 'active')  selected @endif
-                                                                    value="active">Enable User
+                                                                    <option @if($userInfo->status == 'active')  selected
+                                                                            @endif
+                                                                            value="active">Enable User
                                                                     </option>
-                                                                    <option @if($userInfo->status == 'inactive')  selected @endif
-                                                                    value="inactive">Disable User
+                                                                    <option
+                                                                        @if($userInfo->status == 'inactive')  selected
+                                                                        @endif
+                                                                        value="inactive">Disable User
                                                                     </option>
 
                                                                 </select>
                                                             </div>
-                                                                @endif
 
 
                                                         </div>
@@ -100,7 +102,6 @@
                                                                         style="width: 50%;height: 50%"/>
                                                                 </div>
                                                             @endif
-
 
 
                                                         </div>

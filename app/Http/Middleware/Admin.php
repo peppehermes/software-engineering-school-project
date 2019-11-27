@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class Admin
@@ -15,7 +16,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->roleId == 1){
+        if(auth()->user()->roleId == User::roleAdmin || auth()->user()->roleId == User::roleSuperadmin){
             return $next($request);
         }
         return redirect('home')->with('error','You dont have admin access');

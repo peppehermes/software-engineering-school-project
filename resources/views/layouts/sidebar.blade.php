@@ -7,7 +7,7 @@
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
-                    @if(Auth::user()->roleId==3)
+                    @if(Auth::user()->roleId==\App\User::roleParent)
 
 
                         <li>
@@ -30,7 +30,8 @@
                                                         class="mini-sub-pro">Lectures Topics</span></a>
                                             </li>
 
-                                            <li><a title="Assignments" href="/assignment/listforparents/{{$student->id}}"><span
+                                            <li><a title="Assignments"
+                                                   href="/assignment/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Lectures Assignments</span></a>
                                             </li>
 
@@ -56,7 +57,7 @@
 
                         </li>
 
-                    @elseif(Auth::user()->roleId==2)
+                    @elseif(Auth::user()->roleId==\App\User::roleTeacher)
 
 
                         <li><a href="/" aria-expanded="false"><span
@@ -108,6 +109,8 @@
 
 
 
+
+
                     @else
 
                         <li @if(\Request::path()=='teacher/list' || \Request::path()=='teacher/add' || \Request::path()=='teacher/edit') class="active" @endif>
@@ -137,19 +140,7 @@
                         </li>
 
 
-                        <li @if(\Request::path()=='user/list' || \Request::path()=='user/add' || \Request::path()=='user/edit') class="active" @endif>
-                            <a class="has-arrow" href="/user/list" aria-expanded="false"><span
-                                    class="educate-icon educate-department icon-wrap"></span> <span
-                                    class="mini-click-non">Users</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Departments List" href="/user/list"><span
-                                            class="mini-sub-pro">All Users</span></a>
-                                </li>
-                                <li><a title="Add Departments" href="/user/add"><span
-                                            class="mini-sub-pro">Add User</span></a>
-                                </li>
-                            </ul>
-                        </li>
+
 
                         <li @if(\Request::path()=='classroom/list' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
                             <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
@@ -163,6 +154,22 @@
                             </ul>
                         </li>
 
+                    @endif
+
+                    @if(Auth::user()->roleId==\App\User::roleSuperadmin)
+                        <li @if(\Request::path()=='user/list' || \Request::path()=='user/add' || \Request::path()=='user/edit') class="active" @endif>
+                            <a class="has-arrow" href="/user/list" aria-expanded="false"><span
+                                    class="educate-icon educate-department icon-wrap"></span> <span
+                                    class="mini-click-non">Users</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Departments List" href="/user/list"><span
+                                            class="mini-sub-pro">All Users</span></a>
+                                </li>
+                                <li><a title="Add Departments" href="/user/add"><span
+                                            class="mini-sub-pro">Add User</span></a>
+                                </li>
+                            </ul>
+                        </li>
                     @endif
                 </ul>
             </nav>

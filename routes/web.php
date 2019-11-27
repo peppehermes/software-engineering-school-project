@@ -22,11 +22,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'HomeController@admin')->middleware('admin');
 
 //user
-Route::group(['prefix' => 'user'], function() {
-    Route::get('/add', 'UserController@add')->middleware('admin');
-    Route::get('/list', 'UserController@list')->middleware('admin');
-    Route::post('/store', 'UserController@store')->middleware('admin');
-    Route::get('/delete/{id}', 'UserController@delete')->middleware('admin');
+Route::group(['prefix' => 'user','middleware'=>'superadmin'], function() {
+    Route::get('/add', 'UserController@add');
+    Route::get('/list', 'UserController@list');
+    Route::post('/store', 'UserController@store');
+    Route::get('/delete/{id}', 'UserController@delete');
 });
 
 //admin and parent

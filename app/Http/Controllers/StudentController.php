@@ -139,7 +139,7 @@ class StudentController extends Controller
 
     public function showmarks($id)
     {
-        if (\Auth::user()->roleId == 3) {
+        if (\Auth::user()->roleId == User::roleParent) {
 
             $myParentID = \Auth::user()->id;
 
