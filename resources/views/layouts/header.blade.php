@@ -95,6 +95,18 @@
 
                                             </ul>
                                         </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Grades<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/mark/add">Add Grade</a>
+                                                </li>
+                                                <li><a href="/mark/list">All Grades</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Assignments<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">

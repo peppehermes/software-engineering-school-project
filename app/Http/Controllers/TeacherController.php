@@ -10,6 +10,7 @@ use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;
 use App\Models\Note;
+use App\Models\Mark;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -241,6 +242,47 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $assignments = Assignment::retrieveTeachersPagination($teachId);
         return view('assignments.list', ['assignments' => $assignments]);
+    }
+
+    public function storemark(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+        if ($data) {
+            //create topic
+            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
+            $data['mark'] = request('mark');
+            $data['idStudent'] = request('idStudent');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            Mark::save($data);
+        }
+        return redirect('/mark/list');
+
+
+    }
+
+
+    public function addmark()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrieveTeaching($teachId);
+        $studId = Student::retrieveStudentsForTeacher($teachId);
+        return view('marks.add', ['classes' => $classes,'studId' => $studId]);
+    }
+
+
+    public function listmark()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $marks = Mark::retrieveTeachersPagination($teachId);
+        return view('marks.list', ['marks' => $marks]);
     }
 
 

@@ -74,6 +74,16 @@
                                             class="mini-sub-pro">All Lecture's Topic</span></a></li>
                             </ul>
 
+                        <li @if(\Request::path()=='mark/add' || \Request::path()=='mark/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Grades</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add Lecture Assignment" href="/mark/add"><span
+                                            class="mini-sub-pro">Add Grade</span></a></li>
+                                <li><a title="View Lecture Assignments" href="/mark/list"><span
+                                            class="mini-sub-pro">All Grades</span></a></li>
+                            </ul>
+
                         <li @if(\Request::path()=='assignment/add' || \Request::path()=='assignment/list') class="active" @endif>
                             <a class="has-arrow" href="" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Assignments</span></a>

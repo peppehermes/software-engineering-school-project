@@ -3,21 +3,37 @@
 
     <script>
 
-        function getSubjects() {
+
+
+        function getStudentsandSubjects() {
             var idClass = document.getElementById("idClass").value,
+                student = document.getElementById("idStudent"),
                 subject = document.getElementById("subject"),
-                opt = document.createElement('OPTION');
+                opt = document.createElement('OPTION'),
+                opt1 = document.createElement('OPTION');
 
 
-            for ( var i = 0; i < subject.length; i++) {
+            for (var i = 0; i < student.length; i++) {
+                student.remove(i);
+            }
+
+            for ( i = 0; i < subject.length; i++) {
                 subject.remove(i);
             }
 
-            @foreach($classes as $class)
+            @foreach($studId as $stud)
+            if ("{{$stud->classId}}" === idClass) {
+                opt.text = "{{$stud->firstName}} {{$stud->lastName}}";
+                opt.value = "{{$stud->id}}";
+                student.appendChild(opt);
+            }
+            @endforeach
+
+                @foreach($classes as $class)
             if ("{{$class->idClass}}" === idClass) {
-                opt.text = "{{$class->subject}} ";
-                opt.value = "{{$class->subject}}";
-                subject.appendChild(opt);
+                opt1.text = "{{$class->subject}} ";
+                opt1.value = "{{$class->subject}}";
+                subject.appendChild(opt1);
             }
             @endforeach
         }
@@ -25,65 +41,46 @@
 
         function checkDate() {
 
-
-            var  extraday,d,m,d1,m1;
-
+            var  extraday,d,m;
 
             d  = document.getElementById('day').value;
             m  = document.getElementById('month').value;
-            d1 = document.getElementById('dayd').value;
-            m1 = document.getElementById('monthd').value;
+
+
 
 
             const today = new Date(),
-
                 dayweek=today.getDay(),
                 daymonth=today.getDate(),
                 month=today.getMonth()+1,
                 lastday= daymonth - dayweek + (dayweek == 0 ? -6:1);
 
-
             if(lastday<=0){
-
 
                 if(month == 5 || month == 7 || month == 10 || month == 12)
                     extraday=30+lastday;
-
 
                 else if(month==3)
                     extraday=28+lastday;
 
                 else
                     extraday=31+lastday;
-            }
 
+            }
 
             if((lastday <= d && d <= daymonth && m==month)
                 ||(lastday <= 0 && extraday <= d  && m==month-1)
                 || (lastday <= 0 && d <= daymonth && m==month))
-
             {
 
-                if((m1 != m && d1 <= d) || (m1 == m && d1 > d)) {
-
-                    document.getElementById('demo1-upload').action = "/assignment/storeassignment";
+                    document.getElementById('demo1-upload').action = "/mark/storemark";
                     document.getElementById('demo1-upload').method = "post";
-                }
-
-
-                else {
-                    alert("Wrong Deadline!"+d1+d+m1+m);
-                    document.getElementById('dayd').focus();
-                    document.getElementById('yeard').focus();
-                    document.getElementById('monthd').focus();
-                }
 
 
             }
 
             else {
-
-                alert("Wrong lecture's date!");
+                alert("Wrong  date!");
                 document.getElementById('day').focus();
                 document.getElementById('year').focus();
                 document.getElementById('month').focus();
@@ -102,7 +99,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li class="active"><a href="#description">New Assignment</a></li>
+                            <li class="active"><a href="#description">New Grade</a></li>
                             {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
                             {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>
@@ -118,8 +115,9 @@
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="form-group col-md-6">
+
                                                                 <label>Class:</label>
-                                                                <select onchange="getSubjects()"name="idClass" id="idClass" class="form-control" required>
+                                                                <select onchange="getStudentsandSubjects()" name="idClass" id="idClass" class="form-control" required>
                                                                     <option hidden disabled selected></option>
                                                                     @foreach($classes as $class)
                                                                         <option value="{{$class->idClass}}">{{$class->idClass}}</option>
@@ -129,20 +127,66 @@
 
 
                                                             <div class="form-group col-md-10">
-                                                                <label>Assignment's Text:</label>
-                                                                <input name="frm[text]" type="text"
-                                                                       class="form-control" required>
+                                                                <label>Grade:</label>
+                                                                <select name="mark" type="float" class="form-control" required>
+                                                                    <option hidden disabled selected></option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="1.25">1+</option>
+                                                                    <option value="1.5">1.5</option>
+                                                                    <option value="1.75">1/2</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="2.25">2+</option>
+                                                                    <option value="2.5">2.5</option>
+                                                                    <option value="2.75">2/3</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="3.25">3+</option>
+                                                                    <option value="3.5">3.5</option>
+                                                                    <option value="3.75">3/4</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="4.25">4+</option>
+                                                                    <option value="4.5">4.5</option>
+                                                                    <option value="4.75">4/5</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="5.25">5+</option>
+                                                                    <option value="5.5">5.5</option>
+                                                                    <option value="5.75">5/6</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="6.25">6+</option>
+                                                                    <option value="6.5">6.5</option>
+                                                                    <option value="6.75">6/7</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="7.25">7+</option>
+                                                                    <option value="7.5">7.5</option>
+                                                                    <option value="7.75">7/8</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="8.25">8+</option>
+                                                                    <option value="8.5">8.5</option>
+                                                                    <option value="8.75">8/9</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="9.25">9+</option>
+                                                                    <option value="9.5">9.5</option>
+                                                                    <option value="9.75">9/10</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">10 cum laude</option>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Student:</label>
+                                                                <select name="idStudent" id="idStudent" class="form-control" required>
+                                                                    <option disabled>Select class first</option>
+                                                                </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
                                                                 <label>Subject:</label>
                                                                 <select name="subject" id="subject" class="form-control" required>
-                                                                        <option disabled>Select class first</option>
-                                                                    </select>
-
+                                                                    <option disabled>Select class first</option>
+                                                                </select>
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group col-md-10">
                                                                 <label>Topic:</label>
                                                                 <input name="frm[topic]" type="text"
                                                                        class="form-control" required>
@@ -188,51 +232,7 @@
 
                                                             </div>
 
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Assignment's Deadline:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
 
-                                                                <select id="yeard" name="yeard" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
-
-
-                                                                <select id="monthd" name="monthd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-
-                                                                    <option value="<?php $date = new DateTime("next month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("next month"); echo $date->format('F');?></option>
-
-
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="dayd" name="dayd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
-
-                                                            </div>
-
-
-                                                        </div>
 
 
                                                     </div>
@@ -245,6 +245,7 @@
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                    </div>
                                                     </div>
                                                 </form>
                                             </div>
