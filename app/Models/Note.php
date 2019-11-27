@@ -61,6 +61,7 @@ class Note
         return  DB::table(static::table)
             ->join('teacher', 'notes.idTeach', '=', 'teacher.id')
             ->join('student', 'notes.idStudent', '=', 'student.id')
+            ->select(static::table . '.*','teacher.*','student.firstName as studentName', 'student.lastName as studentSurname')
             ->where('teacher.id', $id)
             ->orderby('date', 'desc')
             ->paginate(10);

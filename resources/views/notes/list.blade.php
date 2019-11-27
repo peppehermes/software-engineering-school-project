@@ -36,7 +36,7 @@
                                             <td>{{$note->firstName}} {{$note->lastName}}</td>
                                             <td>{{$note->subject}} </td>
                                             <td>{{$note->date}}</td>
-                                            <td>{{$note->firstName}} {{$note->lastName}}</td>
+                                            <td>{{$note->studentName}} {{$note->studentSurname}}</td>
                                             <td>{{$note->note}}</td>
 
                                         </tr>
