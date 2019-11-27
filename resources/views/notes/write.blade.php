@@ -6,15 +6,20 @@
         function getStudents() {
             var idClass = document.getElementById("idClass").value;
             var students = document.getElementById("idStudent");
+            var subject = document.getElementById("subject");
 
             //delete students from a pre-selected class, if any
             var i = 0;
             for (i = 0; i < students.length; i++) {
                 students.remove(i);
             }
+            for ( i = 0; i < subject.length; i++) {
+                subject.remove(i);
+            }
 
             //append option to the student select box, showing only students of the selected class
             var opt = document.createElement('OPTION');
+            var opt1 = document.createElement('OPTION');
             @foreach($stud as $student)
                 if ("{{$student->classId}}" === idClass) {
                     opt.text = "{{$student->firstName}} {{$student->lastName}}";
@@ -22,6 +27,16 @@
                     students.appendChild(opt);
                 }
             @endforeach
+
+
+                @foreach($classes as $class)
+            if ("{{$class->idClass}}" === idClass) {
+                opt1.text = "{{$class->subject}} ";
+                opt1.value = "{{$class->subject}}";
+                subject.appendChild(opt1);
+            }
+            @endforeach
+
         }
     </script>
 
@@ -62,10 +77,11 @@
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4" id="subject">
-                                                                <label class="login2">Subject</label>
-                                                                <input name="frm[subject]" type="text"
-                                                                       class="form-control" required>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Subject:</label>
+                                                                <select name="subject" id="subject" class="form-control" required>
+                                                                    <option disabled>Select class first</option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group col-md-12" id="topic">
                                                                 <label>Note</label>

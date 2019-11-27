@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Struttura della tabella `assignments`
 --
-
+DROP TABLE IF EXISTS `assignments`;
 CREATE TABLE `assignments` (
   `id` int(11) NOT NULL,
   `text` varchar(300) NOT NULL,
@@ -51,7 +51,7 @@ INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, 
 --
 -- Struttura della tabella `classroom`
 --
-
+DROP TABLE IF EXISTS `classroom`;
 CREATE TABLE `classroom` (
   `id` varchar(45) NOT NULL,
   `capacity` int(20) DEFAULT NULL,
@@ -73,7 +73,7 @@ INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated
 --
 -- Struttura della tabella `lecturetopic`
 --
-
+DROP TABLE IF EXISTS `lecturetopic`;
 CREATE TABLE `lecturetopic` (
   `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
@@ -95,7 +95,7 @@ INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topi
 --
 -- Struttura della tabella `marks`
 --
-
+DROP TABLE IF EXISTS `marks`;
 CREATE TABLE `marks` (
   `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
@@ -119,7 +119,7 @@ INSERT INTO `marks` (`id`, `idClass`, `idTeach`, `idStudent`, `date`, `mark`, `s
 --
 -- Struttura della tabella `migrations`
 --
-
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE `migrations` (
 --
 -- Struttura della tabella `notes`
 --
-
+DROP TABLE IF EXISTS `notes`;
 CREATE TABLE `notes` (
   `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
@@ -154,7 +154,7 @@ INSERT INTO `notes` (`id`, `idClass`, `idTeach`, `idStudent`, `subject`, `date`,
 --
 -- Struttura della tabella `password_resets`
 --
-
+DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
   `email` varchar(45) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE `password_resets` (
 --
 -- Struttura della tabella `role`
 --
-
+DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL
@@ -180,14 +180,16 @@ INSERT INTO `role` (`id`, `name`) VALUES
 (1, 'Admin'),
 (2, 'Teacher'),
 (3, 'Parent'),
-(4, 'Class Coordinator');
+(4, 'Class Coordinator'),
+(5, 'Super Admin'),
+(6, 'Principal');
 
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `student`
 --
-
+DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `id` int(11) NOT NULL,
   `firstName` varchar(45) DEFAULT NULL,
@@ -222,7 +224,7 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 --
 -- Struttura della tabella `student_attendance`
 --
-
+DROP TABLE IF EXISTS `student_attendance`;
 CREATE TABLE `student_attendance` (
   `studentId` int(11) NOT NULL,
   `teacherId` int(11) NOT NULL,
@@ -238,7 +240,7 @@ CREATE TABLE `student_attendance` (
 --
 -- Struttura della tabella `studforparent`
 --
-
+DROP TABLE IF EXISTS `studforparent`;
 CREATE TABLE `studforparent` (
   `idParent` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL
@@ -257,7 +259,7 @@ INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
 --
 -- Struttura della tabella `suppmaterial`
 --
-
+DROP TABLE IF EXISTS `suppmaterial`;
 CREATE TABLE `suppmaterial` (
   `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
@@ -273,7 +275,7 @@ CREATE TABLE `suppmaterial` (
 --
 -- Struttura della tabella `teacher`
 --
-
+DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) NOT NULL,
   `firstName` varchar(45) DEFAULT NULL,
@@ -305,7 +307,7 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 --
 -- Struttura della tabella `teaching`
 --
-
+DROP TABLE IF EXISTS `teaching`;
 CREATE TABLE `teaching` (
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
@@ -326,7 +328,7 @@ INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
 --
 -- Struttura della tabella `users`
 --
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -350,7 +352,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 (2, 'John Alva', 'teacher1@test.com', NULL, '$2y$10$LiGIGkYQYt9R7vxS/FtfAOeSJzpfDkQWEKSoHWHSTFT1C.DWm98VO', 2, NULL, '2019-11-24 20:10:33', '2019-11-24 20:10:33', 'active', NULL),
 (3, 'Daniele Silvio', 'parent1@test.com', NULL, '$2y$10$26DjY58oBtQXwljEE/jD1.b7oJW7lMFB02uidI5L6Pt1adjYjKP.C', 3, NULL, '2019-11-24 20:25:29', '2019-11-24 20:25:29', 'active', NULL),
 (4, 'Kate Alba', 'parent2@test.com', NULL, '$2y$10$Z3KodCOh3mfc/xJAkqcQ.uBGuku3mHT8zVa83kYSlH2wmqnJeBqBi', 3, NULL, '2019-11-24 20:25:31', '2019-11-24 20:25:31', 'active', NULL),
-(5, 'Glori Bianca', 'teacher2@test.com', NULL, '$2y$10$/2mLmszFz9h/FbwdU/Wrf.zPdZRQpXz.wm/3Gw47pj3PgRWMjuLde', 2, NULL, '2019-11-24 20:39:33', '2019-11-24 20:39:33', 'active', NULL);
+(5, 'Glori Bianca', 'teacher2@test.com', NULL, '$2y$10$/2mLmszFz9h/FbwdU/Wrf.zPdZRQpXz.wm/3Gw47pj3PgRWMjuLde', 2, NULL, '2019-11-24 20:39:33', '2019-11-24 20:39:33', 'active', NULL),
+(6, 'SysAdmin', 'sadmin@test.com', NULL, '$2y$10$9s6hkG1Cjde/5kjDoYMTZekc2jg064aeb0O6Ipt9LrMZCN31Qr9ta', 5, NULL, '2019-11-27 13:35:42', '2019-11-27 13:35:42', 'active', NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -527,9 +530,6 @@ ALTER TABLE `users`
   ADD CONSTRAINT `user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
-
-INSERT INTO `role` (`id`, `name`) VALUES ('5', 'Super Admin');
-INSERT INTO `role` (`id`, `name`) VALUES ('6', 'Principal');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

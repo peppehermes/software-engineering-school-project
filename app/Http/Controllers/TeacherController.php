@@ -190,6 +190,7 @@ class TeacherController extends Controller
             //create topic
             $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
             $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Topic::save($data);
         }
@@ -305,6 +306,7 @@ class TeacherController extends Controller
             //create topic
             $data['date'] = date("Y-n-d");
             $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
 
             if ($request->file('material')) {
@@ -353,6 +355,7 @@ class TeacherController extends Controller
             $data['date'] = date("Y-n-d");
             $data['idClass'] = request('idClass');
             $data['idStudent'] = request('idStudent');
+            $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
 
             Note::save($data);

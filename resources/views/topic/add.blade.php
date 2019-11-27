@@ -2,6 +2,28 @@
 
 @section('content')
     <script>
+
+        function setSubject() {
+
+            var idClass = document.getElementById("idClass").value,
+                subject = document.getElementById("subject"),
+                opt = document.createElement('OPTION');
+
+
+            for (var i = 0; i < subject.length; i++) {
+                subject.remove(i);
+            }
+
+            @foreach($classes as $class)
+            if ("{{$class->idClass}}" === idClass) {
+                opt.text = "{{$class->subject}} ";
+                opt.value = "{{$class->subject}}";
+                subject.appendChild(opt);
+            }
+            @endforeach
+
+        }
+
         function getMonday(d) {
             d = new Date(d);
             const day = d.getDay(),
@@ -55,18 +77,21 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6" id="class">
-                                                                <label>Class</label>
-                                                                <select name="idClass" class="form-control" required>
-                                                                        @foreach($classes as $class)
+                                                            <div class="form-group col-md-6">
+
+                                                                <label>Class:</label>
+                                                                <select onchange="setSubject()" name="idClass" id="idClass" class="form-control" required>
+                                                                    <option hidden disabled selected></option>
+                                                                    @foreach($classes as $class)
                                                                         <option value="{{$class->idClass}}">{{$class->idClass}}</option>
-                                                                        @endforeach
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-6" id="subject">
-                                                                <label class="login2">Subject</label>
-                                                                <input name="frm[subject]" type="text"
-                                                                       class="form-control" required>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Subject:</label>
+                                                                <select name="subject" id="subject" class="form-control" required>
+                                                                    <option disabled>Select class first</option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group col-lg-3" id="lecturedate">
                                                                 <label class="form-group">Lecture's Date</label>
