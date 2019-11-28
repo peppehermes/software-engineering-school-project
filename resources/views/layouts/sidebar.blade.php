@@ -16,17 +16,23 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 @foreach ($students as $student)
 
-                                    <li @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id || \Request::path()=='material/listforparents/'.$student->id || \Request::path()=='assignment/listforparents/'.$student->id || \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
+                                    <li @if(\Request::path()=='student/showmarks/'.$student->id ||
+                                    \Request::path()=='topic/listforparents/'.$student->id ||
+                                    \Request::path()=='material/listforparents/'.$student->id ||
+                                    \Request::path()=='assignment/listforparents/'.$student->id ||
+                                    \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
                                         <ul class="submenu-angle" aria-expanded="false">
 
 
-                                            <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
-                                                        class="mini-sub-pro"> Marks</span></a></li>
+                                            <li><a title="Marks"
+                                                   href="/student/showmarks/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Marks</span></a></li>
 
-                                            <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
+                                            <li><a title="Topics"
+                                                   href="/topic/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Lectures Topics</span></a>
                                             </li>
 
@@ -39,9 +45,15 @@
                                                    href="/material/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Support Material</span></a>
                                             </li>
+
                                             <li><a title="Attendance"
                                                    href="/student/attendance_report/{{$student->id}}"><span
                                                         class="mini-sub-pro">Report Attendance</span></a>
+                                            </li>
+
+                                            <li @if(\Request::path()=='notes/shownotes') class="active" @endif><a title="Notes"
+                                                   href="/notes/shownotes/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Notes</span></a>
                                             </li>
 
 

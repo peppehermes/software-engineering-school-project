@@ -68,14 +68,16 @@ class Note
     }
 
     // Used to let parents read notes
-    public static function getMaterialByClass($idClass)
+    public static function retrieveNotesForStudent($myStudentID)
     {
         return DB::table(static::table)
-            ->select('suppmaterial.*', 'teacher.firstName as firstName', 'teacher.lastName as lastName')
-            ->join('teacher', 'suppmaterial.idTeach', '=', 'teacher.id')
-            ->where('idClass', $idClass)
+            ->join('teacher', 'teacher.id', '=', 'notes.idTeach')
+            ->select(static::table . '.*',
+                'teacher.firstName as teachFirstName',
+                'teacher.lastName as teachLastName')
+            ->where('notes.idStudent', $myStudentID)
+            ->orderby('notes.date', 'asc')
             ->get();
-
     }
 
 

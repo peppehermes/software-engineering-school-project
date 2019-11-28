@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Note;
 use App\Models\Material;
 use App\Models\Role;
 use App\Models\Teacher;
@@ -415,5 +416,28 @@ class StudentController extends Controller
         return view('student.attendance_report', ['attendanceReports' => $attendanceReports, 'students' => $students,'student'=>$student]);
     }
 
+    public function shownotes($id)
+    {
+        if (\Auth::user()->roleId == User::roleParent) {
+
+            $myParentID = \Auth::user()->id;
+
+            $students = Student::retrieveStudentsForParent($myParentID);
+
+            foreach ($students as $student) {
+                $stIds[] = $student->id;
+            }
+            if (!in_array($id, $stIds)) {
+                return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+            }
+
+            $notes = Note::retrieveNotesForStudent($id);
+
+            return view('student.shownotes', ['students' => $students, 'notes' => $notes]);
+
+        } else {
+            return view('student.shownotes');
+        }
+    }
 
 }

@@ -49,7 +49,6 @@ Route::group(['prefix' => 'student'], function() {
     Route::get('/attendance/{id}/{date}', 'StudentController@attendance')->middleware('teachers');
     Route::post('/saveattendance/{id}', 'StudentController@saveattendance')->middleware('teachers');
     Route::get('/attendance_report/{id}', 'StudentController@attendancereport')->middleware('parents');
-
 });
 
 //teacher
@@ -106,7 +105,7 @@ Route::group(['prefix' => 'notes'], function() {
     Route::get('/write', 'TeacherController@writenote')->middleware('teachers');
     Route::get('/list', 'TeacherController@listnotes')->middleware('teachers');
     Route::post('/store', 'TeacherController@storenote')->middleware('teachers');
-    Route::get('/listforparents/{idStud}', 'StudentController@listNotesforparents')->middleware('parents');
+    Route::get('/shownotes/{id}', 'StudentController@shownotes')->middleware('parents');
 });
 
 //Marks

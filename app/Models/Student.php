@@ -88,9 +88,9 @@ class Student
 
         return DB::table('student')
             ->select('student.*')
-            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-            ->join('users', 'users.id', '=', 'studForParent.idParent')
-            ->where('studForParent.idParent', $myParentID)
+            ->join('studforparent', 'student.id', '=', 'studforparent.idStudent')
+            ->join('users', 'users.id', '=', 'studforparent.idParent')
+            ->where('studforparent.idParent', $myParentID)
             ->get();
 
 

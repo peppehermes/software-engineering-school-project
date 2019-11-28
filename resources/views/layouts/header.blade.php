@@ -35,6 +35,34 @@
                                     <div class="header-right-info">
                                         <ul class="nav navbar-nav mai-top-nav header-right-menu">
 
+                                            <li class="nav-item dropdown">
+                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-message edu-chat-pro" aria-hidden="true"></i><span class="indicator-ms"></span></a>
+                                                <div role="menu" class="author-message-top dropdown-menu animated fadeInDown">
+                                                    <div class="message-single-top">
+                                                        <h1>Notes</h1>
+                                                    </div>
+
+                                                    <ul class="message-menu mCustomScrollbar _mCS_2 mCS-autoHide mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_2" class="mCustomScrollBox mCS-light-1 mCSB_vertical mCSB_outside" style="max-height: 230px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+                                                                <li>
+                                                                    <a href="#">
+                                                                        <div class="message-img">
+                                                                            <img src="img/contact/2.jpg" alt="" class="mCS_img_loaded">
+                                                                        </div>
+                                                                        <div class="message-content">
+                                                                            <span class="message-date">16 Sept</span>
+                                                                            <h2>Victor Jara</h2>
+                                                                            <p>Please done this project as soon possible.</p>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            </div></div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light-1 mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; display: block; height: 126px; max-height: 220px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></ul>
+
+                                                    <div class="message-view">
+                                                        <a href="#">View All Messages</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+
                                             <li class="nav-item">
                                                 <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                                    class="nav-link dropdown-toggle">
@@ -145,18 +173,23 @@
                                                 @foreach ($students as $student)
                                                     <li><a href="/student/list">{{$student->firstName}}</a>
                                                         <ul id="demoevent" class="collapse dropdown-header-top">
-                                                            <li><a href="/student/showmarks/{{$student->id}}">Marks</a>
+                                                            <li><a href="/student/showmarks/{{$student->id}}">
+                                                                    Marks</a>
                                                             </li>
-                                                            <li><a href="/topic/listforparents/{{$student->id}}">Lectures
-                                                                    Topics</a>
+                                                            <li><a href="/topic/listforparents/{{$student->id}}">
+                                                                    Lectures Topics</a>
                                                             </li>
                                                             <li><a href="/assignment/listforparents/{{$student->id}}">
                                                                     Lectures Assignments</a>
                                                             </li>
-                                                            <li><a href="/material/listforparents/{{$student->id}}">/material/listforparents/{{$student->id}}</a>
+                                                            <li><a href="/material/listforparents/{{$student->id}}">
+                                                                    Support Material</a>
                                                             </li>
-                                                            <li><a href="/student/attendance_report/{{$student->id}}">Report
-                                                                    Attendance</a>
+                                                            <li><a href="/student/attendance_report/{{$student->id}}">
+                                                                    Report Attendance</a>
+                                                            </li>
+                                                            <li><a href="/notes/shownotes/{{$student->id}}">
+                                                                    Notes</a>
                                                             </li>
 
 
