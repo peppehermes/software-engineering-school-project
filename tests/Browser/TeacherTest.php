@@ -43,6 +43,10 @@ class TeacherTest extends DuskTestCase
                 ->press('Submit')
                 ->assertPathIs('/topic/list');
         });
+
+        $this->assertDatabaseHas('lecturetopic', [
+            'topic' => 'Some topic'
+        ]);
     }
 
     public function test_as_teacher_want_insert_marks()
@@ -73,6 +77,10 @@ class TeacherTest extends DuskTestCase
                 ->press('Submit')
                 ->assertPathIs('/mark/list');
         });
+
+        $this->assertDatabaseHas('marks', [
+            'mark' => 8
+        ]);
     }
 
     public function test_as_teacher_want_publish_material()
@@ -99,6 +107,10 @@ class TeacherTest extends DuskTestCase
                 ->press('Submit')
                 ->assertPathIs('/material/list');
         });
+
+        $this->assertDatabaseHas('suppmaterial', [
+            'mdescription' => 'Some description'
+        ]);
     }
 }
 
