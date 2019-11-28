@@ -1,4 +1,4 @@
-Giuseppe: 7 hours
-Andrea: 7.5 hours
-Sahar: 10 hours + 2.5 hours + 2 hours
-Marco: 8 hours
+Giuseppe: 7 h + 1 h
+Andrea: 7.5 h
+Sahar: 10 h + 2.5 h + 2 h
+Marco: 8 h
