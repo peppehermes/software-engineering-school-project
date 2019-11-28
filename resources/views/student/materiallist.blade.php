@@ -37,7 +37,7 @@
                                             <td>{{$material->firstName}} {{$material->lastName}}</td>
                                             <td>{{$material->subject}} </td>
                                             <td>{{$material->date}}</td>
-                                            <td>{{$material->mdescription}}</td>
+                                            <td class="description">{{$material->mdescription}}</td>
                                             <td><a href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
 
                                         </tr>
