@@ -17,11 +17,11 @@ class CreateStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('firstName')->default(null);
             $table->string('lastName')->default(null);
-            $table->string('classId')->default(null);
+            $table->string('classId')->default('niente');
             $table->string('birthday')->default('niente');
             $table->string('address')->default('niente');
             $table->string('phone')->default('niente');
-            $table->string('postcode')->default('niente');
+            $table->string('postCode')->default('niente');
             $table->string('photo')->default('niente');
             $table->string('gender')->default('niente');
             $table->string('description')->default('niente');
