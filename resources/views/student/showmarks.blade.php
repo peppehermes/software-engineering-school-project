@@ -41,7 +41,7 @@
                                         <td>{{$mark->date}}</td>
                                         <td>{{$mark->subject}}</td>
                                         <td>{{$mark->teachFirstName}} {{$mark->teachLastName}}</td>
-                                        <td>{{$mark->mark}}</td>
+                                        <td class="mark">{{$mark->mark}}</td>
                                         <td>{{$mark->topic}}</td>
 
                                     </tr>

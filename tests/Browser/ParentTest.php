@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Mark;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -23,7 +24,10 @@ class ParentTest extends DuskTestCase
         $user = factory(User::class)->create(['roleId'=>3]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>$user->email]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>' ', 'userId' => $teacher->id, 'email'=>$teacher->email]);
         Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Mark::save(['idTeach'=>$teacherid,'idClass'=>$classid,'idStudent'=>$studentid, 'mark'=>8]);
 
         $this->browse(function ($browser) use ($user, $studentid){
             $browser->visit('/login')
@@ -32,7 +36,7 @@ class ParentTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser->visit('/student/showmarks/'.$studentid)
-                ->assertPresent('table');
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.mark','8');
 
         });
     }

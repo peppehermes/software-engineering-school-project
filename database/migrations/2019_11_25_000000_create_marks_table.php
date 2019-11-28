@@ -18,10 +18,10 @@ class CreateMarksTable extends Migration
             $table->integer('idTeach');
             $table->string('idClass');
             $table->integer('idStudent');
-            $table->integer('mark');
-            $table->string('subject');
-            $table->string('date');
-            $table->string('topic');
+            $table->float('mark')->default(8);
+            $table->string('subject')->default('Math');
+            $table->string('date')->default('today');
+            $table->string('topic')->default('Expressions');
         });
     }
 
