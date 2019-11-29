@@ -69,6 +69,11 @@
 
                         </li>
 
+                        <li @if(\Request::path()=='communications/list' ) class="active" @endif>
+                            <a href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                        </li>
+
                     @elseif(Auth::user()->roleId==\App\User::roleTeacher)
 
 
@@ -172,6 +177,19 @@
                                             class="mini-sub-pro">All Classrooms</span></a></li>
                                 <li><a title="Advance Form Elements" href="/classroom/add"><span
                                             class="mini-sub-pro">Add Classroom</span></a></li>
+
+                            </ul>
+                        </li>
+
+
+                        <li @if(\Request::path()=='communications/list' || \Request::path()=='communications/add' ) class="active" @endif>
+                            <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/communications/list"><span
+                                            class="mini-sub-pro">Board</span></a></li>
+                                <li><a title="Advance Form Elements" href="/communications/add"><span
+                                            class="mini-sub-pro">Add Communication</span></a></li>
 
                             </ul>
                         </li>

@@ -115,3 +115,10 @@ Route::group(['prefix' => 'mark'], function() {
     Route::post('/storemark', 'TeacherController@storemark')->middleware('teachers');
 });
 
+//Official Communications
+Route::group(['prefix' => 'communications'],  function() {
+    Route::get('/add', 'CommunicationsController@add')->middleware('admin');
+    Route::get('/list', 'CommunicationsController@list');
+    Route::post('/store', 'CommunicationsController@store')->middleware('admin');
+});
+
