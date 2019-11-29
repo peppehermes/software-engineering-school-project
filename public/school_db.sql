@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 27, 2019 at 04:25 PM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.2.24
+-- Host: 127.0.0.1:3306
+-- Creato il: Nov 29, 2019 alle 18:45
+-- Versione del server: 5.7.26
+-- Versione PHP: 7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,28 +19,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `schooldb`
+-- Database: `school`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `assignments`
+-- Struttura della tabella `assignments`
 --
 
-CREATE TABLE `assignments` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `assignments`;
+CREATE TABLE IF NOT EXISTS `assignments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(300) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `topic` varchar(300) NOT NULL,
   `date` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
-  `deadline` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `deadline` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `assignments`
+-- Dump dei dati per la tabella `assignments`
 --
 
 INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, `idClass`, `deadline`) VALUES
@@ -49,19 +51,21 @@ INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `classroom`
+-- Struttura della tabella `classroom`
 --
 
-CREATE TABLE `classroom` (
+DROP TABLE IF EXISTS `classroom`;
+CREATE TABLE IF NOT EXISTS `classroom` (
   `id` varchar(45) NOT NULL,
   `capacity` int(20) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `classroom`
+-- Dump dei dati per la tabella `classroom`
 --
 
 INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated_at`) VALUES
@@ -71,20 +75,47 @@ INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lecturetopic`
+-- Struttura della tabella `communications`
 --
 
-CREATE TABLE `lecturetopic` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `communications`;
+CREATE TABLE IF NOT EXISTS `communications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAdmin` int(11) NOT NULL,
+  `description` varchar(300) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `communications`
+--
+
+INSERT INTO `communications` (`id`, `idAdmin`, `description`, `date`) VALUES
+(3, 1, 'All Students must die.', '2019-11-29 16:45:48'),
+(4, 1, 'All Students must live eternally.', '2019-11-29 16:46:56'),
+(5, 1, 'Let Me In.', '2019-11-29 16:50:33'),
+(6, 1, 'Yowie-Wowie.', '2019-11-29 16:51:10');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `lecturetopic`
+--
+
+DROP TABLE IF EXISTS `lecturetopic`;
+CREATE TABLE IF NOT EXISTS `lecturetopic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `topic` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `topic` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `lecturetopic`
+-- Dump dei dati per la tabella `lecturetopic`
 --
 
 INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topic`) VALUES
@@ -93,22 +124,24 @@ INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `marks`
+-- Struttura della tabella `marks`
 --
 
-CREATE TABLE `marks` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `marks`;
+CREATE TABLE IF NOT EXISTS `marks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `date` date NOT NULL,
   `mark` float NOT NULL,
   `subject` varchar(255) NOT NULL,
-  `topic` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `topic` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `marks`
+-- Dump dei dati per la tabella `marks`
 --
 
 INSERT INTO `marks` (`id`, `idClass`, `idTeach`, `idStudent`, `date`, `mark`, `subject`, `topic`) VALUES
@@ -117,33 +150,40 @@ INSERT INTO `marks` (`id`, `idClass`, `idTeach`, `idStudent`, `date`, `mark`, `s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Struttura della tabella `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notes`
+-- Struttura della tabella `notes`
 --
 
-CREATE TABLE `notes` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `notes`;
+CREATE TABLE IF NOT EXISTS `notes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `note` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `note` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idClass` (`idClass`),
+  KEY `idTeach` (`idTeach`),
+  KEY `idStudent` (`idStudent`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `notes`
+-- Dump dei dati per la tabella `notes`
 --
 
 INSERT INTO `notes` (`id`, `idClass`, `idTeach`, `idStudent`, `subject`, `date`, `note`) VALUES
@@ -152,28 +192,32 @@ INSERT INTO `notes` (`id`, `idClass`, `idTeach`, `idStudent`, `subject`, `date`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Struttura della tabella `password_resets`
 --
 
-CREATE TABLE `password_resets` (
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(45) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Struttura della tabella `role`
 --
 
-CREATE TABLE `role` (
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `role`
+-- Dump dei dati per la tabella `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -187,11 +231,12 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student`
+-- Struttura della tabella `student`
 --
 
-CREATE TABLE `student` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE IF NOT EXISTS `student` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,
   `lastName` varchar(45) DEFAULT NULL,
   `birthday` varchar(45) DEFAULT NULL,
@@ -205,14 +250,16 @@ CREATE TABLE `student` (
   `classId` varchar(45) DEFAULT NULL,
   `birthPlace` varchar(45) DEFAULT NULL,
   `fiscalCode` varchar(45) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `mailParent1` varchar(255) DEFAULT NULL,
-  `mailParent2` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `mailParent2` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ClassId_idx` (`classId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `student`
+-- Dump dei dati per la tabella `student`
 --
 
 INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `email`, `classId`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`, `mailParent1`, `mailParent2`) VALUES
@@ -222,32 +269,36 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student_attendance`
+-- Struttura della tabella `student_attendance`
 --
 
-CREATE TABLE `student_attendance` (
+DROP TABLE IF EXISTS `student_attendance`;
+CREATE TABLE IF NOT EXISTS `student_attendance` (
   `studentId` int(11) NOT NULL,
   `teacherId` int(11) NOT NULL,
   `classId` varchar(45) NOT NULL,
   `lectureDate` date NOT NULL,
   `status` enum('present','absent') NOT NULL DEFAULT 'present',
   `presence_status` enum('full','early','late') NOT NULL DEFAULT 'full',
-  `description` text DEFAULT NULL
+  `description` text,
+  PRIMARY KEY (`studentId`,`teacherId`,`classId`,`lectureDate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `studforparent`
+-- Struttura della tabella `studforparent`
 --
 
-CREATE TABLE `studforparent` (
+DROP TABLE IF EXISTS `studforparent`;
+CREATE TABLE IF NOT EXISTS `studforparent` (
   `idParent` int(11) NOT NULL,
-  `idStudent` int(11) NOT NULL
+  `idStudent` int(11) NOT NULL,
+  PRIMARY KEY (`idParent`,`idStudent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `studforparent`
+-- Dump dei dati per la tabella `studforparent`
 --
 
 INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
@@ -257,27 +308,30 @@ INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suppmaterial`
+-- Struttura della tabella `suppmaterial`
 --
 
-CREATE TABLE `suppmaterial` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `suppmaterial`;
+CREATE TABLE IF NOT EXISTS `suppmaterial` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `material` varchar(255) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `mdescription` varchar(255) NOT NULL
+  `mdescription` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teacher`
+-- Struttura della tabella `teacher`
 --
 
-CREATE TABLE `teacher` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `teacher`;
+CREATE TABLE IF NOT EXISTS `teacher` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,
   `lastName` varchar(45) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
@@ -290,12 +344,13 @@ CREATE TABLE `teacher` (
   `description` varchar(500) DEFAULT NULL,
   `birthPlace` varchar(45) DEFAULT NULL,
   `fiscalCode` varchar(45) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `teacher`
+-- Dump dei dati per la tabella `teacher`
 --
 
 INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`) VALUES
@@ -305,17 +360,19 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teaching`
+-- Struttura della tabella `teaching`
 --
 
-CREATE TABLE `teaching` (
+DROP TABLE IF EXISTS `teaching`;
+CREATE TABLE IF NOT EXISTS `teaching` (
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL
+  `subject` varchar(255) NOT NULL,
+  PRIMARY KEY (`idClass`,`idTeach`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `teaching`
+-- Dump dei dati per la tabella `teaching`
 --
 
 INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
@@ -326,25 +383,28 @@ INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struttura della tabella `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `roleId` int(11) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `status` enum('active','deactive') DEFAULT 'active',
-  `photo` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `photo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_role_idx` (`roleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Dump dei dati per la tabella `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `roleId`, `remember_token`, `created_at`, `updated_at`, `status`, `photo`) VALUES
@@ -356,175 +416,18 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 (6, 'SysAdmin', 'sadmin@test.com', NULL, '$2y$10$9s6hkG1Cjde/5kjDoYMTZekc2jg064aeb0O6Ipt9LrMZCN31Qr9ta', 5, NULL, '2019-11-27 13:35:42', '2019-11-27 13:35:42', 'active', NULL);
 
 --
--- Indexes for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Indexes for table `assignments`
---
-ALTER TABLE `assignments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `classroom`
---
-ALTER TABLE `classroom`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `lecturetopic`
---
-ALTER TABLE `lecturetopic`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `marks`
---
-ALTER TABLE `marks`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `notes`
---
-ALTER TABLE `notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idClass` (`idClass`),
-  ADD KEY `idTeach` (`idTeach`),
-  ADD KEY `idStudent` (`idStudent`);
-
---
--- Indexes for table `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ClassId_idx` (`classId`);
-
---
--- Indexes for table `student_attendance`
---
-ALTER TABLE `student_attendance`
-  ADD PRIMARY KEY (`studentId`,`teacherId`,`classId`,`lectureDate`);
-
---
--- Indexes for table `studforparent`
---
-ALTER TABLE `studforparent`
-  ADD PRIMARY KEY (`idParent`,`idStudent`);
-
---
--- Indexes for table `suppmaterial`
---
-ALTER TABLE `suppmaterial`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `teacher`
---
-ALTER TABLE `teacher`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `teaching`
---
-ALTER TABLE `teaching`
-  ADD PRIMARY KEY (`idClass`,`idTeach`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_role_idx` (`roleId`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `assignments`
---
-ALTER TABLE `assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `lecturetopic`
---
-ALTER TABLE `lecturetopic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `marks`
---
-ALTER TABLE `marks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `notes`
---
-ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `student`
---
-ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `suppmaterial`
---
-ALTER TABLE `suppmaterial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `teacher`
---
-ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `notes`
+-- Limiti per la tabella `notes`
 --
 ALTER TABLE `notes`
   ADD CONSTRAINT `student_constraint` FOREIGN KEY (`idStudent`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teacher_constraint` FOREIGN KEY (`idTeach`) REFERENCES `teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `users`
+-- Limiti per la tabella `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
