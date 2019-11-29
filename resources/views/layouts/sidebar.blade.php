@@ -181,6 +181,18 @@
                             </ul>
                         </li>
 
+                        <li @if(\Request::path()=='timetable/add' ) class="active" @endif>
+                            <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/timetable/list"><span
+                                            class="mini-sub-pro">All Timetables</span></a></li>
+                                <li><a title="Advance Form Elements" href="/timetable/add"><span
+                                            class="mini-sub-pro">Add Timetable</span></a></li>
+
+                            </ul>
+                        </li>
+
 
                         <li @if(\Request::path()=='communications/list' || \Request::path()=='communications/add' ) class="active" @endif>
                             <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
@@ -193,6 +205,7 @@
 
                             </ul>
                         </li>
+
 
                     @endif
 

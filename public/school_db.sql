@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Creato il: Nov 29, 2019 alle 18:45
+-- Creato il: Nov 29, 2019 alle 19:13
 -- Versione del server: 5.7.26
 -- Versione PHP: 7.2.18
 
@@ -379,6 +379,78 @@ INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
 ('1A', 1, 'Math'),
 ('1A', 3, 'Art'),
 ('2A', 1, 'Physics');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `timeslots`
+--
+
+DROP TABLE IF EXISTS `timeslots`;
+CREATE TABLE IF NOT EXISTS `timeslots` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hour` varchar(300) NOT NULL,
+  `day` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `timeslot_index` (`hour`,`day`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `timeslots`
+--
+
+INSERT INTO `timeslots` (`id`, `hour`, `day`) VALUES
+(27, '10:00', 'Friday'),
+(3, '10:00', 'Monday'),
+(33, '10:00', 'Saturday'),
+(21, '10:00', 'Thursday'),
+(9, '10:00', 'Tuesday'),
+(15, '10:00', 'Wednesday'),
+(28, '11:00', 'Friday'),
+(4, '11:00', 'Monday'),
+(34, '11:00', 'Saturday'),
+(22, '11:00', 'Thursday'),
+(10, '11:00', 'Tuesday'),
+(16, '11:00', 'Wednesday'),
+(29, '12:00', 'Friday'),
+(5, '12:00', 'Monday'),
+(35, '12:00', 'Saturday'),
+(23, '12:00', 'Thursday'),
+(11, '12:00', 'Tuesday'),
+(17, '12:00', 'Wednesday'),
+(30, '13:00', 'Friday'),
+(6, '13:00', 'Monday'),
+(36, '13:00', 'Saturday'),
+(24, '13:00', 'Thursday'),
+(12, '13:00', 'Tuesday'),
+(18, '13:00', 'Wednesday'),
+(25, '8:00', 'Friday'),
+(1, '8:00', 'Monday'),
+(31, '8:00', 'Saturday'),
+(19, '8:00', 'Thursday'),
+(7, '8:00', 'Tuesday'),
+(13, '8:00', 'Wednesday'),
+(26, '9:00', 'Friday'),
+(2, '9:00', 'Monday'),
+(32, '9:00', 'Saturday'),
+(20, '9:00', 'Thursday'),
+(8, '9:00', 'Tuesday'),
+(14, '9:00', 'Wednesday');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `timetable`
+--
+
+DROP TABLE IF EXISTS `timetable`;
+CREATE TABLE IF NOT EXISTS `timetable` (
+  `idClass` varchar(45) NOT NULL,
+  `idTimeslot` int(11) NOT NULL,
+  `idTeacher` int(11) NOT NULL,
+  `subject` varchar(300) NOT NULL,
+  UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
