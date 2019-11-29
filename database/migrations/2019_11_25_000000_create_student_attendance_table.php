@@ -20,7 +20,7 @@ class CreateStudentAttendanceTable extends Migration
             $table->date('lectureDate');
             $table->string('status');
             $table->string('presence_status');
-            $table->string('description');
+            $table->string('description')->default('null');
         });
     }
 

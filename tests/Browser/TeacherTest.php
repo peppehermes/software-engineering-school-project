@@ -112,5 +112,70 @@ class TeacherTest extends DuskTestCase
             'mdescription' => 'Some description'
         ]);
     }
+
+    public function test_as_teacher_want_insert_assignments()
+    {
+        $today = now();
+        $user = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+
+
+        $this->browse(function ($browser) use ($user,$classid,$today){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/assignment/add')
+                ->select('idClass',$classid)
+                ->select('subject','Math')
+                ->type('frm[text]','some text')
+                ->type('frm[topic]','some topic')
+                ->select('year',$today->year)
+                ->select('month',$today->month)
+                ->select('day',$today->day)
+                ->select('yeard',$today->year)
+                ->select('monthd',$today->month)
+                ->select('dayd',$today->day + 1)
+                ->press('Submit')
+                ->assertPathIs('/assignment/list');
+        });
+
+        $this->assertDatabaseHas('assignments', [
+            'text' => 'some text'
+        ]);
+    }
+
+    public function test_as_teacher_want_report_attendance()
+    {
+        $today = now();
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
+
+
+        $this->browse(function ($browser) use ($user,$today){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
+                ->type('frm1[description]','Some description')
+                ->press('Submit');
+
+        });
+
+        $this->assertDatabaseHas('student_attendance', [
+            'studentId' => $studentid,
+            'status' => 'absent',
+            'lectureDate' => $today->year.'-'.$today->month.'-'.$today->day
+        ]);
+    }
 }
+
 

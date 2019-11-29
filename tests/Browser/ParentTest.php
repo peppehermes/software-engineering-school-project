@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -80,6 +81,56 @@ class ParentTest extends DuskTestCase
                 ->assertPathIs('/home');
             $browser1->visit('/material/listforparents/'.$studentid)
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.description','Some description');
+
+        });
+    }
+    public function test_as_parent_want_see_assignments()
+    {
+        $user = factory(User::class)->create(['roleId'=>3]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>$user->email]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>' ', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Assignment::save(['idClass'=>$classid,'text'=>'some text','idTeach'=>$teacherid]);
+
+        $this->browse(function ($browser) use ($user, $studentid){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/assignment/listforparents/'.$studentid)
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.text','some text');
+
+        });
+    }
+
+    public function test_as_parent_want_see_attendance()
+    {
+        $today= now();
+        $user = factory(User::class)->create(['roleId'=>3]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>$user->email]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>' ', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Student::saveStudentAttendance(['studentId'=> $studentid ,'teacherId' => $teacherid, 'classId'=>'1A',
+                                        'lectureDate'=>$today->year.'-'.$today->month.'-'.$today->day,'status'=>'absent',
+                                        'presence_status'=>'full','description'=>'some description']);
+
+        $this->browse(function ($browser) use ($user, $studentid, $today){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/student/attendance_report/'.$studentid)
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.date',$today->year.'-'.$today->month.'-'.$today->day)
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.status','absent')
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description');
 
         });
     }

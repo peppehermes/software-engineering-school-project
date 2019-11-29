@@ -15,13 +15,13 @@ class CreateAssignmentsTable extends Migration
     {
         Schema::create('assignments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('text');
-            $table->string('subject');
-            $table->string('topic');
-            $table->string('date');
+            $table->string('text')->default('niente');
+            $table->string('subject')->default('niente');
+            $table->string('topic')->default('niente');
+            $table->string('date')->default('niente');
             $table->integer('idTeach');
             $table->string('idClass');
-            $table->string('deadline');
+            $table->string('deadline')->default('niente');
         });
     }
 
