@@ -3,7 +3,13 @@
 
     <script>
 
+       function markvalue() {
 
+           var selector = document.getElementById("range"),
+               mark = document.getElementById("mark");
+
+           mark.value=selector.value;
+       }
 
         function getStudentsandSubjects() {
             var idClass = document.getElementById("idClass").value,
@@ -126,10 +132,10 @@
                                                             </div>
 
 
-                                                            <div class="form-group col-md-10">
+                                                            <div class="form-group col-md-5">
                                                                 <label>Grade:</label>
-                                                                <select name="mark" type="float" class="form-control" required>
-                                                                    <option hidden disabled selected></option>
+                                                                <select id="mark" name="mark" type="float" class="form-control" required>
+
                                                                     <option value="1">1</option>
                                                                     <option value="1.25">1+</option>
                                                                     <option value="1.5">1.5</option>
@@ -149,7 +155,7 @@
                                                                     <option value="5">5</option>
                                                                     <option value="5.25">5+</option>
                                                                     <option value="5.5">5.5</option>
-                                                                    <option value="5.75">5/6</option>
+                                                                    <option selected value="5.75">5/6</option>
                                                                     <option value="6">6</option>
                                                                     <option value="6.25">6+</option>
                                                                     <option value="6.5">6.5</option>
@@ -167,10 +173,14 @@
                                                                     <option value="9.5">9.5</option>
                                                                     <option value="9.75">9/10</option>
                                                                     <option value="10">10</option>
-                                                                    <option value="11">10 cum laude</option>
+                                                                    <option value="10.25">10 cum laude</option>
 
                                                                 </select>
+
+                                                                    <input  type="range" id="range" min="1" max="10.25" step="0.25" onclick="markvalue()"  aria-label="select pen size">
+
                                                             </div>
+
 
                                                             <div class="form-group col-md-6">
                                                                 <label>Student:</label>
