@@ -181,7 +181,7 @@
                             </ul>
                         </li>
 
-                        <li @if(\Request::path()=='timetable/add' ) class="active" @endif>
+                        <li @if(\Request::path()=='timetable/add' || \Request::path()=='timetable/list' || \Request::path()=='timetable/show' ) class="active" @endif>
                             <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                             <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">

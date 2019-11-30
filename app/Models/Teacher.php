@@ -21,7 +21,7 @@ class Teacher
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.id','DESC')
+            ->orderBy(static::table . '.id', 'DESC')
             ->get();
 
     }
@@ -36,6 +36,17 @@ class Teacher
     {
 
         return DB::table(static::table)->find($id);
+    }
+
+    public static function retrieveByNameSubject($name,$subject)
+    {
+
+        return DB::table(static::table)
+            ->select('id')
+            ->join('teaching','teacher.id','=','teaching.idTeach')
+            ->whereRaw('CONCAT(firstName, " ",lastName) LIKE ? ', array('%' . $name . '%'))
+            ->where('subject',$subject)
+            ->value('id');
     }
 
 
@@ -93,8 +104,8 @@ class Teacher
     {
 
         return DB::table('teaching')
-            ->select('teaching.idClass','classroom.capacity','classroom.description')
-            ->join('classroom','teaching.idClass','=','classroom.id')
+            ->select('teaching.idClass', 'classroom.capacity', 'classroom.description')
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
             ->where('teaching.idTeach', $id)
             ->get();
 

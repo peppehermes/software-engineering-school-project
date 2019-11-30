@@ -192,8 +192,8 @@
     ============================================ -->
 
 {{--<script src="{{ asset('js/calendar/moment.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>--}}
+<script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
+<script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>
 <!-- icheck JS
       ============================================ -->
 <script src="{{ asset('js/icheck/icheck.min.js')}}"></script>

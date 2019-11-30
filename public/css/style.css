@@ -2479,6 +2479,11 @@ ul.mailbox-list li a:first-child{
     font-weight: 600;
     font-size: 14px;
 }
+.table .thead-dark th {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #454d55;
+}
 .panel-body a {
     font-size: 14px;
     color: #444;

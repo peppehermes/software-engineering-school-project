@@ -54,13 +54,13 @@ class TeacherController extends Controller
 
         if ($data) {
             //create user
-            $userData['email'] = request('email');
+            $userData['email'] = strtolower(request('email'));
             $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
             $userData['roleId'] = Role::retrieveByRole('Teacher');
 
             $password = $this->password_generate(8);
             $userData['password'] = Hash::make($password);
-            $userId = DB::table('users')->insertGetId($userData);
+            $userId = User::saveUser($userData);
 
             if ($data['birthday']) {
                 $data['birthday'] = Student::convertDate($data['birthday']);
@@ -129,12 +129,18 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
 
+        $teacher = Teacher::retrieveById($id);
 
         $data = request('frm');
 
         if ($data['birthday']) {
             $data['birthday'] = Student::convertDate($data['birthday']);
         }
+        $userData['email'] = strtolower(request('email'));
+        $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
+
+
+        User::saveUser($userData, $teacher->userId);
 
 
         if ($request->file('photo')) {
@@ -273,7 +279,7 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrieveTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.add', ['classes' => $classes,'studId' => $studId]);
+        return view('marks.add', ['classes' => $classes, 'studId' => $studId]);
     }
 
 
@@ -338,11 +344,11 @@ class TeacherController extends Controller
     public function writenote()
     {
         $usId = \Auth::user()->id;
-        $i=0;
+        $i = 0;
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrieveTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('notes.write', ['classes' => $classes,'stud' => $studId]);
+        return view('notes.write', ['classes' => $classes, 'stud' => $studId]);
     }
 
     public function storenote(Request $request)

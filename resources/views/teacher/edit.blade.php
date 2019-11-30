@@ -42,12 +42,16 @@
                                                                        class="form-control"
                                                                        value="{{$teacherInfo->birthPlace}}">
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
-                                                                <label >Date of birth:</label>
+                                                            <div class="form-group data-custon-pick col-md-12"
+                                                                 id="data_2">
+                                                                <label>Date of birth:</label>
                                                                 <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="frm[birthday]" class="form-control"
-                                                                           id="attendaceDate" value="{{$teacherInfo->birthday}}">
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]"
+                                                                           class="form-control"
+                                                                           id="attendaceDate"
+                                                                           value="{{$teacherInfo->birthday}}">
                                                                 </div>
 
 
@@ -110,7 +114,8 @@
 
                                                             <div class="form-group res-mg-t-15">
                                                                 <label>Description:</label>
-                                                                <textarea name="frm[description]">{{$teacherInfo->description}}</textarea>
+                                                                <textarea
+                                                                    name="frm[description]">{{$teacherInfo->description}}</textarea>
                                                             </div>
 
                                                             <div class="form-group">

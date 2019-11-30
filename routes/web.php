@@ -126,6 +126,8 @@ Route::group(['prefix' => 'communications'],  function() {
 //Timetables
 Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/add', 'TimetableController@add')->middleware('admin');
+    Route::post('/store', 'TimetableController@store')->middleware('admin');
     Route::get('/list', 'TimetableController@list');
+    Route::get('/show/{id}', 'TimetableController@show');
 });
 
