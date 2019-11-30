@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Creato il: Nov 29, 2019 alle 19:13
+-- Creato il: Nov 30, 2019 alle 18:09
 -- Versione del server: 5.7.26
 -- Versione PHP: 7.2.18
 
@@ -365,20 +365,21 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 
 DROP TABLE IF EXISTS `teaching`;
 CREATE TABLE IF NOT EXISTS `teaching` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `subject` varchar(255) NOT NULL,
-  PRIMARY KEY (`idClass`,`idTeach`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `teaching`
 --
 
-INSERT INTO `teaching` (`idClass`, `idTeach`, `subject`) VALUES
-('1A', 1, 'Math'),
-('1A', 3, 'Art'),
-('2A', 1, 'Physics');
+INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
+(1, '1A', 1, 'Math'),
+(2, '1A', 3, 'Art'),
+(3, '2A', 1, 'Physics');
 
 -- --------------------------------------------------------
 
