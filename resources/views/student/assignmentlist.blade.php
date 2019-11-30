@@ -38,7 +38,7 @@
                                             <td>{{$assignment->firstName}} {{$assignment->lastName}}</td>
                                             <td>{{$assignment->subject}} </td>
                                             <td>{{$assignment->topic}}</td>
-                                            <td>{{$assignment->text}}</td>
+                                            <td class="text">{{$assignment->text}}</td>
                                             <td>{{$assignment->date}}</td>
                                             <td>{{$assignment->deadline}}</td>
 

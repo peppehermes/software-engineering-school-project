@@ -36,8 +36,8 @@
                                     @foreach($attendanceReports as $attendanceReport)
 
                                         <tr>
-                                            <td>{{$attendanceReport->lectureDate}}</td>
-                                            <td>{{$attendanceReport->status}}</td>
+                                            <td class="date">{{$attendanceReport->lectureDate}}</td>
+                                            <td class="status">{{$attendanceReport->status}}</td>
                                             <td>
                                                 @if($attendanceReport->presence_status =='full')
                                                     <span style="color: darkgreen; font-weight: 500"> {{$attendanceReport->presence_status}}</span>
@@ -49,7 +49,7 @@
 
                                                 @endif
                                             </td>
-                                            <td>{{$attendanceReport->description}}</td>
+                                            <td class="desc">{{$attendanceReport->description}}</td>
 
                                         </tr>
 
