@@ -24,35 +24,58 @@
 
         }
 
-        function getMonday(d) {
-            d = new Date(d);
-            const day = d.getDay(),
-                diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
-            return new Date(d.setDate(diff));
-        }
-
         function checkDate() {
-            var d, m, y;
 
-            d = document.getElementById('day').value;
-            m = document.getElementById('month').value;
-            y = document.getElementById('year').value;
 
-            const today = new Date();
-            const dt = getMonday(today);
+            var  extraday,d,m,d1,m1;
 
-            if (y == today.getFullYear() &&
-                (m == today.getMonth() + 1 || m == today.getMonth()) &&
-                (dt.getDate() <= d && d <= today.getDate())) {
+
+            d  = document.getElementById('day').value;
+            m  = document.getElementById('month').value;
+
+
+
+            const today = new Date(),
+
+                dayweek=today.getDay(),
+                daymonth=today.getDate(),
+                month=today.getMonth()+1,
+                lastday= daymonth - dayweek + (dayweek == 0 ? -6:1);
+
+
+            if(lastday<=0){
+
+
+                if(month == 5 || month == 7 || month == 10 || month == 12)
+                    extraday=30+lastday;
+
+
+                else if(month==3)
+                    extraday=28+lastday;
+
+                else
+                    extraday=31+lastday;
+            }
+
+
+            if((lastday <= d && d <= daymonth && m==month)
+                ||(lastday <= 0 && extraday <= d  && m==month-1)
+                || (lastday <= 0 && d <= daymonth && m==month))
+
+            {
                 document.getElementById('demo1-upload').action = "/topic/storetopic";
                 document.getElementById('demo1-upload').method = "post";
+
             }
+
             else {
-                alert("Wrong date!");
+
+                alert("Wrong lecture's date!");
                 document.getElementById('day').focus();
                 document.getElementById('year').focus();
                 document.getElementById('month').focus();
             }
+
         }
     </script>
         <!-- Single pro tab review Start-->
