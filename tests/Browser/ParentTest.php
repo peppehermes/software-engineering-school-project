@@ -37,7 +37,8 @@ class ParentTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser->visit('/student/showmarks/'.$studentid)
-                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.mark','8');
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.mark','8')
+                ->logout();
 
         });
     }
@@ -80,10 +81,12 @@ class ParentTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser1->visit('/material/listforparents/'.$studentid)
-                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.description','Some description');
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.description','Some description')
+                ->logout();
 
         });
     }
+
     public function test_as_parent_want_see_assignments()
     {
         $user = factory(User::class)->create(['roleId'=>3]);
@@ -102,7 +105,9 @@ class ParentTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser->visit('/assignment/listforparents/'.$studentid)
-                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.text','some text');
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.text','some text')
+                ->logout();
+
 
         });
     }
@@ -129,7 +134,8 @@ class ParentTest extends DuskTestCase
                 ->assertPathIs('/home');
             $browser->visit('/student/attendance_report/'.$studentid)
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.status','absent')
-                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description');
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description')
+                ->logout();
 
         });
     }

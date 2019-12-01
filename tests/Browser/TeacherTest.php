@@ -41,7 +41,8 @@ class TeacherTest extends DuskTestCase
                 ->select('day',$today->day)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
-                ->assertPathIs('/topic/list');
+                ->assertPathIs('/topic/list')
+                ->logout();
         });
 
         $this->assertDatabaseHas('lecturetopic', [
@@ -75,7 +76,8 @@ class TeacherTest extends DuskTestCase
                 ->select('day',$today->day)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
-                ->assertPathIs('/mark/list');
+                ->assertPathIs('/mark/list')
+                ->logout();
         });
 
         $this->assertDatabaseHas('marks', [
@@ -105,7 +107,8 @@ class TeacherTest extends DuskTestCase
                 ->type('frm[mdescription]', 'Some description')
                 ->attach('material',public_path('img\avatar\boy.png'))
                 ->press('Submit')
-                ->assertPathIs('/material/list');
+                ->assertPathIs('/material/list')
+                ->logout();
         });
 
         $this->assertDatabaseHas('suppmaterial', [
@@ -140,7 +143,8 @@ class TeacherTest extends DuskTestCase
                 ->select('monthd',$today->month)
                 ->select('dayd',$today->day + 1)
                 ->press('Submit')
-                ->assertPathIs('/assignment/list');
+                ->assertPathIs('/assignment/list')
+                ->logout();
         });
 
         $this->assertDatabaseHas('assignments', [
@@ -171,7 +175,8 @@ class TeacherTest extends DuskTestCase
             $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day);
+                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+                ->logout();
 
         });
 

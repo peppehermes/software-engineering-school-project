@@ -46,7 +46,8 @@ class OfficerTest extends DuskTestCase
                 ->type('parentName1','Gastani Frinzi')
                 ->type('parentEmail1','gastani@test.com')
                 ->press('Submit')
-                ->assertPathIs('/student/list');
+                ->assertPathIs('/student/list')
+                ->logout();
         });
         $this->assertDatabaseHas('student', [
             'firstName' => 'Giorgio',
@@ -54,7 +55,7 @@ class OfficerTest extends DuskTestCase
         ]);
     }
 
-
+/*
     public function test_as_officer_want_compose_classrooms()
     {
         $user = factory(User::class)->create(['roleID'=>1]);
@@ -69,16 +70,19 @@ class OfficerTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser->visit('/classroom/composition/'.$classid)
-                ->select('ciao','Giorgio Santangelo')
+                ->select('frm[]','Giorgio Santangelo')
                 ->press('Submit')
-                ->assertPathIs('/classroom/list');
+                ->assertPathIs('/classroom/list')
+                ->logout();
         });
+
         $this->assertDatabaseHas('student', [
             'firstName' => 'Giorgio',
             'lastName' => 'Santangelo',
             'classId' =>   $classid
         ]);
-    }
+
+    }*/
 
 
 
