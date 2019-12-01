@@ -65,7 +65,7 @@ class UserController extends Controller
         User::saveUser($data);
 
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -124,7 +124,7 @@ class UserController extends Controller
 
         }
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -134,7 +134,7 @@ class UserController extends Controller
         User::deleteById($id);
 
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 

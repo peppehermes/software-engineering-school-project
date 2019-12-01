@@ -98,7 +98,7 @@ class TeacherController extends Controller
         });
 
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -156,7 +156,7 @@ class TeacherController extends Controller
         }
         Teacher::save($data, $id);
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -168,7 +168,7 @@ class TeacherController extends Controller
         User::deleteById($teacherInfo->userId);
 
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -200,7 +200,7 @@ class TeacherController extends Controller
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Topic::save($data);
         }
-        return redirect('/topic/list');
+        return redirect('/topic/list')->with(['message' => 'Successfull operation!']);
     }
 
     public function addtopic()
@@ -226,7 +226,7 @@ class TeacherController extends Controller
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Assignment::save($data);
         }
-        return redirect('/assignment/list');
+        return redirect('/assignment/list')->with(['message' => 'Successfull operation!']);
 
 
     }
@@ -266,7 +266,7 @@ class TeacherController extends Controller
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Mark::save($data);
         }
-        return redirect('/mark/list');
+        return redirect('/mark/list')->with(['message' => 'Successfull operation!']);
 
 
     }
@@ -329,7 +329,7 @@ class TeacherController extends Controller
 
             Material::save($data);
         }
-        return redirect('/material/list');
+        return redirect('/material/list')->with(['message' => 'Successfull operation!']);
     }
 
     public function listmaterial()
@@ -366,7 +366,7 @@ class TeacherController extends Controller
 
             Note::save($data);
         }
-        return redirect('/notes/list');
+        return redirect('/notes/list')->with(['message' => 'Successfull operation!']);
     }
 
     public function listnotes()

@@ -43,14 +43,9 @@ class CommunicationsController extends Controller
         }
 
 
-
-
-
-        return redirect('/communications/list');
+        return redirect('/communications/list')->with(['message' => 'Successfull operation!']);
 
     }
-
-
 
 
     public function list()
@@ -68,14 +63,9 @@ class CommunicationsController extends Controller
             return view('communications.list', ['communications' => $communications, 'students' => $students]);
 
 
-        }
-
-        else
+        } else
             return view('communications.list', ['communications' => $communications]);
     }
-
-
-
 
 
 }

@@ -54,7 +54,7 @@ class ClassroomController extends Controller
         }
 
 
-        return redirect('/classroom/list');
+        return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -93,7 +93,7 @@ class ClassroomController extends Controller
         }
 
 
-        return redirect('/classroom/list');
+        return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -103,7 +103,7 @@ class ClassroomController extends Controller
         Classroom::delete($id);
 
 
-        return redirect('/classroom/list');
+        return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -130,18 +130,16 @@ class ClassroomController extends Controller
     {
         $students = $request->input('frm');
 
-        if(isset($students)){
+        if (isset($students)) {
             foreach ($students as $studentId) {
                 Student::save(['classId' => $id], $studentId);
             }
+        } else {
+            return redirect('/classroom/composition/' . $id)->withErrors("No student selected!");
         }
-        else{
-            return redirect('/classroom/composition/'.$id)->withErrors("No student selected!");
-        }
 
 
-
-        return redirect('/classroom/list');
+        return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
     }
 
     public function deleteStudent($id)
@@ -149,7 +147,7 @@ class ClassroomController extends Controller
 
         Student::save(['classId' => ''], $id);
 
-        return redirect('/classroom/list');
+        return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
     }
 
 

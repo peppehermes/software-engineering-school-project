@@ -67,7 +67,7 @@ class StudentController extends Controller
         }
         $id = Student::save($data);
 
-        return redirect('/student/edit/' . $id)->with(['parent' => 1]);
+        return redirect('/student/edit/' . $id)->with(['parent' => 1,'message'=>'Successfull operation!']);
 
     }
 
@@ -126,7 +126,7 @@ class StudentController extends Controller
         }
         Student::save($data, $id);
 
-        return redirect('/student/list');
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
 
     }
 
@@ -134,7 +134,7 @@ class StudentController extends Controller
     {
 
         Student::delete($id);
-        return redirect('/student/list');
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
 
     }
 
@@ -315,7 +315,7 @@ class StudentController extends Controller
         }
 
 
-        return redirect('/student/list');
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
 
 
     }
@@ -393,7 +393,7 @@ class StudentController extends Controller
 
         }
 
-        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate']);
+        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate'])->with(['message'=>'Successfull operation!']);
     }
 
     public function attendancereport($id)

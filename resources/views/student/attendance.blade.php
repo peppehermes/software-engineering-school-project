@@ -3,6 +3,11 @@
 @section('content')
     <div class="data-table-area mg-b-15">
         <div class="container-fluid">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="sparkline13-list">
@@ -39,7 +44,10 @@
 
 
                                     </div>
-
+                                    <div class="alert alert-info" role="alert">
+                                        Present : <i class="fa fa-check"></i> <br/>
+                                        Absent: without <i class="fa fa-check"></i>
+                                    </div>
                                     @csrf
                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true"
                                            data-show-columns="true" data-show-pagination-switch="true"
@@ -97,7 +105,8 @@
                                         <div class="col-lg-12">
                                             <div class="payment-adress">
                                                 <button type="submit"
-                                                        class="btn btn-primary btn-lg center-block" @if(date('d/m/Y') != $date) disabled @endif>
+                                                        class="btn btn-primary btn-lg center-block"
+                                                        @if(date('d/m/Y') != $date) disabled @endif>
                                                     Submit
                                                 </button>
                                             </div>

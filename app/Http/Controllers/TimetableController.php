@@ -123,7 +123,7 @@ class TimetableController extends Controller
         }
 
         if ($save) {
-            return redirect('/timetable/list');
+            return redirect('/timetable/list')->with(['message' => 'Successfull operation!']);
         } else {
             return \Redirect('/')->withErrors([' There is a problem for adding this timetable ']);
         }
