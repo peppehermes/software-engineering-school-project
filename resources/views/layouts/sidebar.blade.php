@@ -46,6 +46,11 @@
                                                         class="mini-sub-pro">Support Material</span></a>
                                             </li>
 
+                                            <li><a title="Timetable"
+                                                   href="/timetable/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Timetable</span></a>
+                                            </li>
+
                                             <li><a title="Attendance"
                                                    href="/student/attendance_report/{{$student->id}}"><span
                                                         class="mini-sub-pro">Report Attendance</span></a>
@@ -132,6 +137,12 @@
                                 <li><a title="View all Notes" href="/notes/list"><span
                                             class="mini-sub-pro">All Notes</span></a></li>
                             </ul>
+                        </li>
+
+
+                        <li @if(\Request::path()=='timetable/list' ||  \Request::path()=='timetable/show') class="active" @endif>
+                            <a href="/timetable/list" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                         </li>
 
 

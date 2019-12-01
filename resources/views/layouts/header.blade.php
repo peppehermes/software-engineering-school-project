@@ -165,6 +165,15 @@
 
                                             </ul>
                                         </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Timetables<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/timetable/list">See Timetables</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
                                     @elseif(Auth::user()->roleId==\App\User::roleParent)
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -190,6 +199,10 @@
                                                             </li>
                                                             <li><a href="/notes/shownotes/{{$student->id}}">
                                                                     Notes</a>
+                                                            </li>
+
+                                                            <li><a href="/timetable/listforparents/{{$student->id}}">
+                                                                    Timetables</a>
                                                             </li>
 
 
@@ -229,6 +242,17 @@
                                                 <li><a href="/classroom/list">All Classrooms</a>
                                                 </li>
                                                 <li><a href="/classroom/add">Add Classroom</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Timetables<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/timetable/list">All Timetables</a>
+                                                </li>
+                                                <li><a href="/timetable/add">Add Timetables</a>
                                                 </li>
 
                                             </ul>
