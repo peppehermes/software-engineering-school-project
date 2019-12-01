@@ -76,7 +76,7 @@ class Note
                 'teacher.firstName as teachFirstName',
                 'teacher.lastName as teachLastName')
             ->where('notes.idStudent', $myStudentID)
-            ->orderby('notes.date', 'asc')
+            ->orderby('notes.date', 'desc')
             ->get();
     }
 

@@ -24,11 +24,14 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+DROP DATABASE IF EXISTS school_db;
+DROP DATABASE IF EXISTS schooldb;
+CREATE DATABASE schooldb;
+
 --
 -- Struttura della tabella `assignments`
 --
 
-DROP TABLE IF EXISTS `assignments`;
 CREATE TABLE IF NOT EXISTS `assignments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(300) NOT NULL,
@@ -54,7 +57,6 @@ INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, 
 -- Struttura della tabella `classroom`
 --
 
-DROP TABLE IF EXISTS `classroom`;
 CREATE TABLE IF NOT EXISTS `classroom` (
   `id` varchar(45) NOT NULL,
   `capacity` int(20) DEFAULT NULL,
@@ -78,7 +80,6 @@ INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated
 -- Struttura della tabella `communications`
 --
 
-DROP TABLE IF EXISTS `communications`;
 CREATE TABLE IF NOT EXISTS `communications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idAdmin` int(11) NOT NULL,
@@ -103,7 +104,6 @@ INSERT INTO `communications` (`id`, `idAdmin`, `description`, `date`) VALUES
 -- Struttura della tabella `lecturetopic`
 --
 
-DROP TABLE IF EXISTS `lecturetopic`;
 CREATE TABLE IF NOT EXISTS `lecturetopic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
@@ -127,7 +127,6 @@ INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topi
 -- Struttura della tabella `marks`
 --
 
-DROP TABLE IF EXISTS `marks`;
 CREATE TABLE IF NOT EXISTS `marks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
@@ -153,7 +152,6 @@ INSERT INTO `marks` (`id`, `idClass`, `idTeach`, `idStudent`, `date`, `mark`, `s
 -- Struttura della tabella `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) NOT NULL,
@@ -167,7 +165,6 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 -- Struttura della tabella `notes`
 --
 
-DROP TABLE IF EXISTS `notes`;
 CREATE TABLE IF NOT EXISTS `notes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
@@ -195,7 +192,6 @@ INSERT INTO `notes` (`id`, `idClass`, `idTeach`, `idStudent`, `subject`, `date`,
 -- Struttura della tabella `password_resets`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(45) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
@@ -209,7 +205,6 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Struttura della tabella `role`
 --
 
-DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -234,7 +229,6 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- Struttura della tabella `student`
 --
 
-DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,
@@ -272,7 +266,6 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 -- Struttura della tabella `student_attendance`
 --
 
-DROP TABLE IF EXISTS `student_attendance`;
 CREATE TABLE IF NOT EXISTS `student_attendance` (
   `studentId` int(11) NOT NULL,
   `teacherId` int(11) NOT NULL,
@@ -290,7 +283,6 @@ CREATE TABLE IF NOT EXISTS `student_attendance` (
 -- Struttura della tabella `studforparent`
 --
 
-DROP TABLE IF EXISTS `studforparent`;
 CREATE TABLE IF NOT EXISTS `studforparent` (
   `idParent` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
@@ -311,7 +303,6 @@ INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
 -- Struttura della tabella `suppmaterial`
 --
 
-DROP TABLE IF EXISTS `suppmaterial`;
 CREATE TABLE IF NOT EXISTS `suppmaterial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
@@ -329,7 +320,6 @@ CREATE TABLE IF NOT EXISTS `suppmaterial` (
 -- Struttura della tabella `teacher`
 --
 
-DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE IF NOT EXISTS `teacher` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,
@@ -363,7 +353,6 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 -- Struttura della tabella `teaching`
 --
 
-DROP TABLE IF EXISTS `teaching`;
 CREATE TABLE IF NOT EXISTS `teaching` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idClass` varchar(45) NOT NULL,
@@ -387,7 +376,6 @@ INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 -- Struttura della tabella `timeslots`
 --
 
-DROP TABLE IF EXISTS `timeslots`;
 CREATE TABLE IF NOT EXISTS `timeslots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hour` varchar(300) NOT NULL,
@@ -444,7 +432,6 @@ INSERT INTO `timeslots` (`id`, `hour`, `day`) VALUES
 -- Struttura della tabella `timetable`
 --
 
-DROP TABLE IF EXISTS `timetable`;
 CREATE TABLE IF NOT EXISTS `timetable` (
   `idClass` varchar(45) NOT NULL,
   `idTimeslot` int(11) NOT NULL,
@@ -459,7 +446,6 @@ CREATE TABLE IF NOT EXISTS `timetable` (
 -- Struttura della tabella `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
