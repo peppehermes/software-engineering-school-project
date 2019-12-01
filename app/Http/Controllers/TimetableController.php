@@ -134,11 +134,32 @@ class TimetableController extends Controller
 
     public function list()
     {
-        return view('timetable.list');
+
+        if(\Auth::user()->roleId == 1){
+
+            $classrooms = Classroom::retrieve();
+            return view('timetable.list', ['classrooms' => $classrooms]);
+
+        }
+        else if(\Auth::user()->roleId == 2){
+
+            $myID = \Auth::user()->id;
+            $classrooms = Teacher::retrieveTeacherOnlyClasses($myID);
+            return view('timetable.list', ['classrooms' => $classrooms]);
+
+        }
+        else
+            return \Redirect('/')->withErrors([' You have no permission to go to that page']);
+
     }
 
-    public function show($id)
+    public function show()
     {
+
+        $form = request('frm');
+
+        $id = $form['classId'];
+
         $class = Classroom::retrieveById($id);
 
         $timetables = Timetable::retrieveTimeslotData($id);
@@ -147,17 +168,18 @@ class TimetableController extends Controller
                 $data[$timetable->hour][] = $timetable->subject;
             }
 
-            return view('timetable.show', ['timeTables' => $data, 'classId' => $id]);
+            return view('timetable.show' , ['timeTables' => $data, 'classId' => $id]);
         } else {
             if ($class) {
                 return \Redirect('/')->withErrors([' There is not any timetable for class ' . $id]);
             } else {
-                return \Redirect('/')->withErrors([' Class ' . $id . ' is not exist.']);
+                return \Redirect('/')->withErrors([' Class ' . $id . ' does not exist.']);
             }
 
         }
 
     }
+
 
 
     function remove_utf8_bom($text)

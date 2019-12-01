@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\Topic;
 use App\Models\Assignment;
+use App\Models\Timetable;
 use App\User;
 use DB;
 use App\Models\Student;
@@ -472,6 +473,34 @@ class StudentController extends Controller
 
         } else {
             return view('student.shownotes');
+        }
+    }
+
+    public function timetableForStudent($idStud)
+    {
+
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        $class = Classroom::retrieveByStudentId($idStud);
+
+        foreach ($class as $cl)
+            $id[] = $cl->id;
+
+        $timetables = Timetable::retrieveTimeslotData($id[0]);
+        if (count($timetables) > 0) {
+            foreach ($timetables as $timetable) {
+                $data[$timetable->hour][] = $timetable->subject;
+            }
+
+            return view('student.timetablelist', ['timeTables' => $data, 'classId' => $id[0], 'students' => $students]);
+        } else {
+            if ($class) {
+                return \Redirect('/')->withErrors([' There is not any timetable for class ' . $id[0]]);
+            } else {
+                return \Redirect('/')->withErrors([' Class ' . $id[0] . ' is not exist.']);
+            }
+
         }
     }
 
