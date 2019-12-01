@@ -128,7 +128,6 @@ class ParentTest extends DuskTestCase
                 ->press('Login')
                 ->assertPathIs('/home');
             $browser->visit('/student/attendance_report/'.$studentid)
-                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.date',$today->year.'-'.$today->month.'-'.$today->day)
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.status','absent')
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description');
 
