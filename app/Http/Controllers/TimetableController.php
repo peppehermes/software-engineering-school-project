@@ -52,7 +52,7 @@ class TimetableController extends Controller
         $file = $request->file('timetable');
 
 
-        //Check the file encodign and BOM.
+        //Check the file encoding and BOM.
 
         $content = file_get_contents($file->path());
 

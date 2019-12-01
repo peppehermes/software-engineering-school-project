@@ -38,14 +38,14 @@ class Teacher
         return DB::table(static::table)->find($id);
     }
 
-    public static function retrieveByNameSubject($name,$subject)
+    public static function retrieveByNameSubject($name, $subject)
     {
 
         return DB::table(static::table)
-            ->select('id')
+            ->select('teacher.id')
             ->join('teaching','teacher.id','=','teaching.idTeach')
             ->whereRaw('CONCAT(firstName, " ",lastName) LIKE ? ', array('%' . $name . '%'))
-            ->where('subject',$subject)
+            ->where('subject', $subject)
             ->value('id');
     }
 
