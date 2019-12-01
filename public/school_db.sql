@@ -367,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `teaching` (
 
 INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 (1, '1A', 1, 'Math'),
-(2, '1A', 3, 'Art'),
+(2, '1A', 2, 'Art'),
 (3, '2A', 1, 'Physics');
 
 -- --------------------------------------------------------
@@ -440,6 +440,71 @@ CREATE TABLE IF NOT EXISTS `timetable` (
   UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dump dei dati per la tabella `timetable`
+--
+
+INSERT INTO `timetable` (`idClass`, `idTimeslot`, `idTeacher`, `subject`) VALUES
+('1A', 1, 1, 'Math'),
+('1A', 2, 4, 'Italian'),
+('1A', 3, 2, 'Art'),
+('1A', 4, 5, 'Latin'),
+('1A', 5, 5, 'Latin'),
+('1A', 6, 0, ''),
+('1A', 7, 3, 'History'),
+('1A', 8, 4, 'Italian'),
+('1A', 9, 4, 'English'),
+('1A', 10, 7, 'Gym'),
+('1A', 11, 1, 'Math'),
+('1A', 12, 1, 'Physics'),
+('1A', 13, 4, 'Italian'),
+('1A', 14, 4, 'Italian'),
+('1A', 15, 4, 'English'),
+('1A', 16, 8, 'Science'),
+('1A', 17, 5, 'Latin'),
+('1A', 18, 0, ''),
+('1A', 19, 4, 'English'),
+('1A', 20, 3, 'History'),
+('1A', 21, 1, 'Math'),
+('1A', 22, 1, 'Math'),
+('1A', 23, 6, 'Religion'),
+('1A', 24, 0, ''),
+('1A', 25, 1, 'Physics'),
+('1A', 26, 7, 'Gym'),
+('1A', 27, 5, 'Latin'),
+('1A', 28, 8, 'Science'),
+('1A', 29, 1, 'Math'),
+('1A', 30, 2, 'Art'),
+('2A', 1, 1, 'Math'),
+('2A', 2, 4, 'Italian'),
+('2A', 3, 2, 'Art'),
+('2A', 4, 5, 'Latin'),
+('2A', 5, 5, 'Latin'),
+('2A', 6, 0, ''),
+('2A', 7, 3, 'History'),
+('2A', 8, 4, 'Italian'),
+('2A', 9, 4, 'English'),
+('2A', 10, 7, 'Gym'),
+('2A', 11, 1, 'Math'),
+('2A', 12, 1, 'Physics'),
+('2A', 13, 4, 'Italian'),
+('2A', 14, 4, 'Italian'),
+('2A', 15, 4, 'English'),
+('2A', 16, 8, 'Science'),
+('2A', 17, 5, 'Latin'),
+('2A', 18, 0, ''),
+('2A', 19, 4, 'English'),
+('2A', 20, 3, 'History'),
+('2A', 21, 1, 'Math'),
+('2A', 22, 1, 'Math'),
+('2A', 23, 6, 'Religion'),
+('2A', 24, 0, ''),
+('2A', 25, 1, 'Physics'),
+('2A', 26, 7, 'Gym'),
+('2A', 27, 5, 'Latin'),
+('2A', 28, 8, 'Science'),
+('2A', 29, 1, 'Math'),
+('2A', 30, 2, 'Art');
 -- --------------------------------------------------------
 
 --
