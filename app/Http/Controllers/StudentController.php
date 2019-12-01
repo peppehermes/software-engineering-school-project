@@ -85,7 +85,6 @@ class StudentController extends Controller
         $studentInfo = Student::retrieveById($id);
 
         if ($studentInfo->birthday) {
-
             $studentInfo->birthday = Student::convertDateView($studentInfo->birthday);
         }
         if (isset($studentInfo->mailParent1)) {
@@ -94,7 +93,6 @@ class StudentController extends Controller
         if (isset($studentInfo->mailParent2)) {
             $studentInfo->parent2 = User::retrieveByEmail($studentInfo->mailParent2);
         }
-
 
         $classrooms = Classroom::retrieve();
 
@@ -211,30 +209,41 @@ class StudentController extends Controller
     public function storeParent(Request $request, $id)
     {
 
+        // retrieve the info of the student
         $studentInfo = Student::retrieveById($id);
+
+        // save the two mails
         $studentParents[] = $studentInfo->mailParent1;
         $studentParents[] = $studentInfo->mailParent2;
 
         $userData['roleId'] = Role::retrieveByRole('Parent');
+
         $parentName1 = $request->input('parentName1');
         $parentEmail1 = $request->input('parentEmail1');
         $parentName2 = $request->input('parentName2');
         $parentEmail2 = $request->input('parentEmail2');
+
+        // retrieve the parent 1 from his email
         $p1 = User::retrieveByEmail($parentEmail1);
+        // retrieve the parent 2 from his email
         $p2 = User::retrieveByEmail($parentEmail2);
 
+        // retrieve the parent by the email associated to the student
         $oldp1 = User::retrieveByEmail($studentInfo->mailParent1);
         $oldp2 = User::retrieveByEmail($studentInfo->mailParent2);
 
 
         if ($parentName1 != '' && $parentEmail1 != '') {
 
+            // if the user was already set and the new email is different from the previous ones
+            // delete the parent and his user profile
             if (isset($oldp1) && !in_array($parentEmail1, $studentParents)) {
                 User::deleteById($oldp1->id);
                 Student::deleteParentStudent($oldp1->id, $id);
             }
 
 
+            // if the user parent 1 is not set
             if (!isset($p1)) {
                 $data['mailParent1'] = $parentEmail1;
                 $spArray['idStudent'] = $id;
@@ -257,17 +266,31 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
-            } else {
+            }
+            // if the user parent 1 is already set
+            else {
+                // save the email of the parent in the student profile
+                $data['mailParent1'] = $parentEmail1;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
+
+                // take the id of the parent
                 $spArray['idParent'] = $p1->id;
+                // take the id of the student
                 $spArray['idStudent'] = $id;
 
+                // select all the children of the parent
                 $parentStudent = Student::retrieveStudentsForParent($p1->id);
-                if (!isset($parentStudent)) {
+
+                $childrenOfParentId = array();
+                // take all the children associated to this parent
+                foreach ($parentStudent as $children)
+                    array_push($childrenOfParentId, $children->studentId);
+                // if the student is not already associated to the parent, save it as a child of the parent
+                if (!in_array($id, $childrenOfParentId)) {
                     Student::saveStudParent($spArray);
                 }
-
             }
-
         }
 
 
@@ -283,6 +306,7 @@ class StudentController extends Controller
 
                 $data1['mailParent2'] = $parentEmail2;
                 $spArray['idStudent'] = $id;
+                Student::save($data, $id);
 
                 $userData['name'] = $parentName2;
                 $password = User::password_generate(8);
@@ -304,11 +328,22 @@ class StudentController extends Controller
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
             } else {
+                // save the email of the parent in the student profile
+                $data1['mailParent2'] = $parentEmail2;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
+
                 $spArray['idParent'] = $p2->id;
                 $spArray['idStudent'] = $id;
 
                 $parentStudent = Student::retrieveStudentsForParent($p2->id);
-                if (!isset($parentStudent)) {
+
+                $childrenOfParentId = array();
+                // take all the children associated to this parent
+                foreach ($parentStudent as $children)
+                    array_push($childrenOfParentId, $children->studentId);
+                // if the student is not already associated to the parent, save it as a child of the parent
+                if (!in_array($id, $childrenOfParentId)) {
                     Student::saveStudParent($spArray);
                 }
             }
