@@ -202,7 +202,7 @@
                                                             </li>
 
                                                             <li><a href="/timetable/listforparents/{{$student->id}}">
-                                                                    Timetable</a>
+                                                                    Timetables</a>
                                                             </li>
 
 
