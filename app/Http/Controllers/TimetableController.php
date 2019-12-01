@@ -13,7 +13,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Constraint\Count;
-use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class TimetableController extends Controller
@@ -28,12 +28,12 @@ class TimetableController extends Controller
         $this->middleware('auth');
     }
 
-    public function import()
-    {
-        Excel::import(new UsersImport, 'users.xlsx');
-
-        return redirect('/')->with('success', 'All good!');
-    }
+//    public function import()
+//    {
+//        Excel::import(new UsersImport, 'users.xlsx');
+//
+//        return redirect('/')->with('success', 'All good!');
+//    }
 
 
     public function add()
