@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 
 DROP DATABASE IF EXISTS school_db;
 DROP DATABASE IF EXISTS schooldb;
-CREATE DATABASE schooldb;
+CREATE DATABASE school_db;
 
 --
 -- Struttura della tabella `assignments`
