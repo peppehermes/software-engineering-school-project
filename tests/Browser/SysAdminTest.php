@@ -14,6 +14,8 @@ class SysAdminTest extends DuskTestCase
      *
      * @return void
      */
+    use DatabaseMigrations;
+
     public function test_as_sadmin_want_to_setup_accounts()
     {
 
