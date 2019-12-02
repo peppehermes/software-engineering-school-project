@@ -75,7 +75,7 @@
 
 
                 else {
-                    alert("Wrong Deadline!"+d1+d+m1+m);
+                    alert("Wrong Deadline!");
                     document.getElementById('dayd').focus();
                     document.getElementById('yeard').focus();
                     document.getElementById('monthd').focus();
