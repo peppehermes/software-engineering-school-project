@@ -38,7 +38,7 @@
                                             <td>{{$material->subject}} </td>
                                             <td>{{$material->date}}</td>
                                             <td class="description">{{$material->mdescription}}</td>
-                                            <td><a href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
+                                            <td><a style="color: #7fbd2d" href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
 
                                         </tr>
 
