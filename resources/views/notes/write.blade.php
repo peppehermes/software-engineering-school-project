@@ -7,21 +7,23 @@
             var idClass = document.getElementById("idClass").value;
             var students = document.getElementById("idStudent");
             var subject = document.getElementById("subject");
-
+            var l=subject.length;
+            var l1=students.length;
             //delete students from a pre-selected class, if any
             var i = 0;
-            for (i = 0; i < students.length; i++) {
-                students.remove(i);
+
+            for (i = 0; i < l1; i++) {
+                students.remove(0);
             }
-            for ( i = 0; i < subject.length; i++) {
-                subject.remove(i);
+            for ( i = 0; i <l; i++) {
+                subject.remove(0);
             }
 
             //append option to the student select box, showing only students of the selected class
-            var opt = document.createElement('OPTION');
-            var opt1 = document.createElement('OPTION');
+
             @foreach($stud as $student)
                 if ("{{$student->classId}}" === idClass) {
+                    var opt = document.createElement('OPTION');
                     opt.text = "{{$student->firstName}} {{$student->lastName}}";
                     opt.value = "{{$student->id}}";
                     students.appendChild(opt);
@@ -29,10 +31,11 @@
             @endforeach
 
 
-                @foreach($classes as $class)
-            if ("{{$class->idClass}}" === idClass) {
-                opt1.text = "{{$class->subject}} ";
-                opt1.value = "{{$class->subject}}";
+                @foreach($subjects as $subject)
+            if ("{{$subject->idClass}}" === idClass) {
+                var opt1 = document.createElement('OPTION');
+                opt1.text = "{{$subject->subject}} ";
+                opt1.value = "{{$subject->subject}}";
                 subject.appendChild(opt1);
             }
             @endforeach

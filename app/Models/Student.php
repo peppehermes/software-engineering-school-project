@@ -100,7 +100,7 @@ class Student
     {
 
         return DB::table('student')
-            ->select('student.*')
+            ->selectRaw('distinct student.*')
             ->join('teaching', 'student.classId', '=', 'teaching.idClass')
             ->where('teaching.idTeach', $teacherId)
             ->get();
