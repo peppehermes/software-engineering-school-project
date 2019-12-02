@@ -26,6 +26,8 @@ DROP DATABASE IF EXISTS school_db;
 DROP DATABASE IF EXISTS schooldb;
 CREATE DATABASE school_db;
 
+USE school_db;
+
 -- --------------------------------------------------------
 
 --
