@@ -24,7 +24,7 @@
 
 
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                        <div class="col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-md-6 col-xs-offset-1 col-xs-10" >
                             <div class="modal-bootstrap shadow-inner mg-tb-30 responsive-mg-b-0">
                                 <h2>{{$communication->user_name}} ( {{$communication->date}} )</h2>
                                 <p>{{$communication->description}}</p>

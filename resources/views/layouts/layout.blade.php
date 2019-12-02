@@ -84,6 +84,9 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
+    <!-- modals CSS
+            ============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/modals.css')}}">
 </head>
 
 <body>

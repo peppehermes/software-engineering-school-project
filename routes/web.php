@@ -118,7 +118,7 @@ Route::group(['prefix' => 'mark'], function() {
 //Official Communications
 Route::group(['prefix' => 'communications'],  function() {
     Route::get('/add', 'CommunicationsController@add')->middleware('admin');
-    Route::get('/list', 'CommunicationsController@list');
+    Route::get('/list', 'CommunicationsController@list')->middleware('parentandadmin');
     Route::post('/store', 'CommunicationsController@store')->middleware('admin');
 });
 
@@ -128,6 +128,7 @@ Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/add', 'TimetableController@add')->middleware('admin');
     Route::post('/store', 'TimetableController@store')->middleware('admin');
     Route::get('/list', 'TimetableController@list');
-    Route::get('/show/{id}', 'TimetableController@show');
+    Route::post('/show', 'TimetableController@show');
+    Route::get('/listforparents/{idStud}', 'StudentController@timetableForStudent')->middleware('parents');
 });
 

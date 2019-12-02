@@ -122,4 +122,17 @@ class Teacher
     }
 
 
+    public static function retrieveTeacherOnlyClasses($id): Collection
+    {
+
+        return DB::table('teaching')
+            ->select('classroom.*')
+            ->join('teacher', 'teaching.idTeach', '=', 'teacher.id')
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
+            ->where('teacher.userId', $id)
+            ->get();
+
+    }
+
+
 }

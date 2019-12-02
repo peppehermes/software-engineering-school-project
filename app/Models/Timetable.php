@@ -25,8 +25,8 @@ class Timetable
     public static function retrieveTimeslotData($class)
     {
         return DB::table(static::table)
-            ->join('timeslots',static::table.'.idTimeslot','=','timeslots.id')
-            ->where('idClass',$class)
+            ->join('timeslots', static::table.'.idTimeslot', '=', 'timeslots.id')
+            ->where('idClass', $class)
             ->orderBy('idTimeslot')
             ->get();
 
