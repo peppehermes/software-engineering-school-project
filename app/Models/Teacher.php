@@ -83,6 +83,15 @@ class Teacher
 
     }
 
+    public static function retrievedistinctTeaching(int $id)
+    {
+        return DB::table('teaching')
+            ->selectRaw('distinct teaching.idClass')
+            ->where('idTeach', $id)
+            ->get();
+
+    }
+
     public static function retrievePagination($page)
     {
         return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
@@ -105,6 +114,7 @@ class Teacher
 
         return DB::table('teaching')
             ->select('teaching.idClass', 'classroom.capacity', 'classroom.description')
+            ->distinct()
             ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
             ->where('teaching.idTeach', $id)
             ->get();
@@ -116,7 +126,7 @@ class Teacher
     {
 
         return DB::table('teaching')
-            ->select('classroom.*')
+            ->selectRaw('distinct classroom.*')
             ->join('teacher', 'teaching.idTeach', '=', 'teacher.id')
             ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
             ->where('teacher.userId', $id)

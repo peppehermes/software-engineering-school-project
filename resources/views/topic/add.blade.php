@@ -7,18 +7,21 @@
 
             var idClass = document.getElementById("idClass").value,
                 subject = document.getElementById("subject"),
-                opt = document.createElement('OPTION');
+                l=subject.length;
 
 
-            for (var i = 0; i < subject.length; i++) {
-                subject.remove(i);
+            for (var i = 0; i <l; i++) {
+                subject.remove(0);
+
             }
 
-            @foreach($classes as $class)
-            if ("{{$class->idClass}}" === idClass) {
-                opt.text = "{{$class->subject}} ";
-                opt.value = "{{$class->subject}}";
+            @foreach($subjects as $subject)
+            if ("{{$subject->idClass}}" === idClass) {
+                var opt = document.createElement('OPTION');
+                opt.text = "{{$subject->subject}} ";
+                opt.value = "{{$subject->subject}}";
                 subject.appendChild(opt);
+
             }
             @endforeach
 

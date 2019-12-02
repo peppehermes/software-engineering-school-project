@@ -16,7 +16,7 @@ class ParentsAndAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->roleId == User::roleAdmin || auth()->user()->roleId == User::roleParent){
+        if(auth()->user()->roleId == User::roleAdmin || auth()->user()->roleId == User::roleParent|| auth()->user()->roleId == User::roleSuperadmin){
             return $next($request);
         }
         return redirect('home')->with('error','You dont have admin or parent access');

@@ -208,8 +208,9 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
 
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
-        return view('topic.add', ['classes' => $classes]);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        return view('topic.add', ['classes' => $classes,'subjects' => $subjects]);
     }
 
     public function storeassignment(Request $request)
@@ -237,8 +238,9 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
 
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
-        return view('assignments.add', ['classes' => $classes]);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        return view('assignments.add', ['classes' => $classes,'subjects' => $subjects]);
     }
 
 
@@ -277,9 +279,10 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
 
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.add', ['classes' => $classes, 'studId' => $studId]);
+        return view('marks.add', ['classes' => $classes, 'studId' => $studId,'subjects' => $subjects]);
     }
 
 
@@ -298,8 +301,9 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
 
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
-        return view('suppmaterial.add', ['classes' => $classes]);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        return view('suppmaterial.add', ['classes' => $classes,'subjects' => $subjects]);
     }
 
     public function storematerial(Request $request)
@@ -310,7 +314,7 @@ class TeacherController extends Controller
 
         if ($data) {
             //create topic
-            $data['date'] = date("Y-n-d");
+            $data['date'] = date("Y-m-d");
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
@@ -344,11 +348,11 @@ class TeacherController extends Controller
     public function writenote()
     {
         $usId = \Auth::user()->id;
-        $i = 0;
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('notes.write', ['classes' => $classes, 'stud' => $studId]);
+        return view('notes.write', ['classes' => $classes, 'stud' => $studId,'subjects' => $subjects]);
     }
 
     public function storenote(Request $request)
@@ -358,7 +362,7 @@ class TeacherController extends Controller
 
         if ($data) {
             //create note
-            $data['date'] = date("Y-n-d");
+            $data['date'] = date("Y-m-d");
             $data['idClass'] = request('idClass');
             $data['idStudent'] = request('idStudent');
             $data['subject'] = request('subject');

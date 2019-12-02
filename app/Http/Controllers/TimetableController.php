@@ -135,13 +135,13 @@ class TimetableController extends Controller
     public function list()
     {
 
-        if(\Auth::user()->roleId == 1){
+        if(\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin){
 
             $classrooms = Classroom::retrieve();
             return view('timetable.list', ['classrooms' => $classrooms]);
 
         }
-        else if(\Auth::user()->roleId == 2){
+        else if(\Auth::user()->roleId == User::roleTeacher){
 
             $myID = \Auth::user()->id;
             $classrooms = Teacher::retrieveTeacherOnlyClasses($myID);

@@ -15,30 +15,32 @@
             var idClass = document.getElementById("idClass").value,
                 student = document.getElementById("idStudent"),
                 subject = document.getElementById("subject"),
-                opt = document.createElement('OPTION'),
-                opt1 = document.createElement('OPTION');
+                l=subject.length,
+                l1=student.length;
 
 
-            for (var i = 0; i < student.length; i++) {
-                student.remove(i);
+            for (var i = 0; i < l1; i++) {
+                student.remove(0);
             }
 
-            for ( i = 0; i < subject.length; i++) {
-                subject.remove(i);
+            for ( i = 0; i < l; i++) {
+                subject.remove(0);
             }
 
             @foreach($studId as $stud)
             if ("{{$stud->classId}}" === idClass) {
+                var opt = document.createElement('OPTION');
                 opt.text = "{{$stud->firstName}} {{$stud->lastName}}";
                 opt.value = "{{$stud->id}}";
                 student.appendChild(opt);
             }
             @endforeach
 
-                @foreach($classes as $class)
-            if ("{{$class->idClass}}" === idClass) {
-                opt1.text = "{{$class->subject}} ";
-                opt1.value = "{{$class->subject}}";
+                @foreach($subjects as $subject)
+            if ("{{$subject->idClass}}" === idClass) {
+                var opt1 = document.createElement('OPTION');
+                opt1.text = "{{$subject->subject}} ";
+                opt1.value = "{{$subject->subject}}";
                 subject.appendChild(opt1);
             }
             @endforeach
