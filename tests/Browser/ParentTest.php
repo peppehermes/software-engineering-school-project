@@ -7,6 +7,7 @@ use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Mark;
+use App\Models\Note;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -137,6 +138,38 @@ class ParentTest extends DuskTestCase
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description')
                 ->logout();
 
+        });
+    }
+
+    public function test_as_parent_want_see_notes()
+    {
+        $today= now();
+        $user = factory(User::class)->create(['roleId'=>3]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>$user->email]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>' ', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Note::save(['date' => $today->year.'-'.$today->month.'-'.$today->day,
+            'idClass' => $classid,
+            'idStudent' => $studentid,
+            'subject' => 'Math',
+            'idTeach' => $teacherid,
+            'note' => 'This is a note']);
+
+        $this->browse(function ($browser) use ($teacher, $user, $studentid, $today){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/notes/shownotes'.$studentid)
+                ->assertSeeIn('note', 'This is a note')
+                ->assertSeeIn('Math')
+                ->assertSeeIn($teacher->name)
+                ->assertSeeIn($today->year.'-'.$today->month.'-'.$today->day)
+                ->logout();
         });
     }
 }

@@ -420,9 +420,10 @@ class StudentController extends Controller
             $st = Student::retrieveAttendance($student->id, $teacherId, $classId, $data['lectureDate']);
 
             if (isset($st)) {
+                //update
                 Student::saveStudentAttendance($data, $data['studentId'], $data['teacherId'], $classId, $data['lectureDate']);
             } else {
-
+                //insert
                 Student::saveStudentAttendance($data);
             }
 
@@ -482,23 +483,27 @@ class StudentController extends Controller
         $myParentID = \Auth::user()->id;
         $students = Student::retrieveStudentsForParent($myParentID);
 
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
         $class = Classroom::retrieveByStudentId($idStud);
 
-        foreach ($class as $cl)
-            $id[] = $cl->id;
-
-        $timetables = Timetable::retrieveTimeslotData($id[0]);
+        $timetables = Timetable::retrieveTimeslotData($class);
         if (count($timetables) > 0) {
             foreach ($timetables as $timetable) {
                 $data[$timetable->hour][] = $timetable->subject;
             }
 
-            return view('student.timetablelist', ['timeTables' => $data, 'classId' => $id[0], 'students' => $students]);
+            return view('student.timetablelist', ['timeTables' => $data, 'classId' => $class, 'students' => $students]);
         } else {
             if ($class) {
-                return \Redirect('/')->withErrors([' There is not any timetable for class ' . $id[0]]);
+                return \Redirect('/')->withErrors([' There is not any timetable for class ' . $class]);
             } else {
-                return \Redirect('/')->withErrors([' Class ' . $id[0] . ' is not exist.']);
+                return \Redirect('/')->withErrors([' Class ' . $class . ' is not exist.']);
             }
 
         }

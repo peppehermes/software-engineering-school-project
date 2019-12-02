@@ -126,7 +126,7 @@ class Teacher
     {
 
         return DB::table('teaching')
-            ->select('classroom.*')
+            ->selectRaw('distinct classroom.*')
             ->join('teacher', 'teaching.idTeach', '=', 'teacher.id')
             ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
             ->where('teacher.userId', $id)

@@ -186,6 +186,39 @@ class TeacherTest extends DuskTestCase
             'lectureDate' => $today->year.'-'.$today->month.'-'.$day
         ]);
     }
+
+    public function test_as_teacher_want_write_note()
+    {
+        $user = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $studentid = Student::save(['firstName'=>'student', 'lastName'=>' ', 'classId'=>$classid]);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($studentid, $user, $classid){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/notes/write')
+                ->select('idClass', $classid)
+                ->select('idStudent', $studentid)
+                ->select('subject','Math')
+                ->type('frm[note]', 'This is a note')
+                ->press('Submit')
+                ->assertPathIs('/notes/list')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('notes', [
+            'idClass' => $classid,
+            'idTeach' => $teacherid,
+            'idStudent' => $studentid,
+            'subject' => 'Math',
+            'note' => 'This is a note'
+        ]);
+    }
 }
 
 

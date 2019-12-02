@@ -81,9 +81,7 @@ class Classroom
             ->select('classroom.id')
             ->join('student', 'classroom.id', '=', 'student.classId')
             ->where('student.id', $id)
-            ->limit(1)
-            ->get();
-
+            ->value('id');
 
     }
 

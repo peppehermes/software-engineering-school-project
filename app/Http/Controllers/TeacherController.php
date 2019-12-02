@@ -314,7 +314,7 @@ class TeacherController extends Controller
 
         if ($data) {
             //create topic
-            $data['date'] = date("Y-n-d");
+            $data['date'] = date("Y-m-d");
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
@@ -348,7 +348,6 @@ class TeacherController extends Controller
     public function writenote()
     {
         $usId = \Auth::user()->id;
-        $i = 0;
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
@@ -363,7 +362,7 @@ class TeacherController extends Controller
 
         if ($data) {
             //create note
-            $data['date'] = date("Y-n-d");
+            $data['date'] = date("Y-m-d");
             $data['idClass'] = request('idClass');
             $data['idStudent'] = request('idStudent');
             $data['subject'] = request('subject');
