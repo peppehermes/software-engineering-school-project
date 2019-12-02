@@ -307,7 +307,7 @@ class StudentController extends Controller
 
                 $data1['mailParent2'] = $parentEmail2;
                 $spArray['idStudent'] = $id;
-                Student::save($data, $id);
+                Student::save($data1, $id);
 
                 $userData['name'] = $parentName2;
                 $password = User::password_generate(8);

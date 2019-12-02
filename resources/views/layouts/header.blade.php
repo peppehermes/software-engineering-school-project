@@ -213,6 +213,10 @@
                                             </ul>
 
                                         </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="/communications/list">Communications <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        </li>
                                     @else
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Teachers <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -257,6 +261,18 @@
 
                                             </ul>
                                         </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Communications <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/communications/list">Board</a>
+                                                </li>
+                                                <li><a href="/communications/add">Add Communications</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
                                     @endif
 
                                     @if(Auth::user()->roleId==\App\User::roleSuperadmin)

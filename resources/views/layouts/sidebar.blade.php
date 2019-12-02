@@ -20,6 +20,8 @@
                                     \Request::path()=='topic/listforparents/'.$student->id ||
                                     \Request::path()=='material/listforparents/'.$student->id ||
                                     \Request::path()=='assignment/listforparents/'.$student->id ||
+                                    \Request::path()=='timetable/listforparents/'.$student->id ||
+                                    \Request::path()=='notes/shownotes/'.$student->id ||
                                     \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span

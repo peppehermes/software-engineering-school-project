@@ -25,7 +25,7 @@
                 @if($key%2==0)
                     <div class="row">
                         @endif
-                        <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="modal-bootstrap shadow-inner mg-tb-30 responsive-mg-b-0">
                                 <h2>{{$communication->user_name}} ( {{$communication->date}} )</h2>
                                 <p>{{$communication->description}}</p>
