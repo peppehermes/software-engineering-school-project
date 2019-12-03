@@ -433,8 +433,8 @@ INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 
 CREATE TABLE IF NOT EXISTS `timeslots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `hour` varchar(300) NOT NULL,
-  `day` varchar(300) NOT NULL,
+  `hour` varchar(255) NOT NULL,
+  `day` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `timeslot_index` (`hour`,`day`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
