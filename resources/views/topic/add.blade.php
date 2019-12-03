@@ -30,11 +30,13 @@
         function checkDate() {
 
 
-            var  extraday,d,m,d1,m1;
+            var  extraday,d,m;
 
 
-            d  = document.getElementById('day').value;
-            m  = document.getElementById('month').value;
+            var date = document.getElementById('lecturedate').value;
+            var str = date.split('/');
+            d  = str[0];
+            m  = str[1];
 
 
 
@@ -119,49 +121,24 @@
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-lg-3" id="lecturedate">
-                                                                <label class="form-group">Lecture's Date</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3" id="year_option">
-                                                                <select id="year" name="year" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                        <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-lg-3" id="month_option">
-                                                                <select id="month" name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <!--Last month-->
-                                                                    <option value="<?php $date = new DateTime("last month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("last month"); echo $date->format('F');?></option>
-                                                                    <!--Current month-->
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="day" name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
-
-                                                            </div>
 
                                                             <div class="form-group col-md-12" id="topic">
                                                                 <label>Topic</label>
-                                                                <textarea name="frm[topic]" type="text"
+                                                                <textarea name="frm[topic]" type="text" required
                                                                        class="form-control"></textarea>
-                                                            </div>
 
+
+                                                                <div class="form-group data-custon-pick" id="data_2">
+                                                                    <label>Lecture's date:</label>
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                        <input type="text" name="lecturedate" class="form-control"
+                                                                               id="lecturedate"
+                                                                               value="{{$date}}">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row" style="margin-top: 50px">

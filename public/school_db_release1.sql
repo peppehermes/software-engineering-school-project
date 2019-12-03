@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   `subject` varchar(45) NOT NULL,
   `topic` varchar(300) NOT NULL,
   `date` varchar(45) NOT NULL,
+  `attachment` varchar(255),
   `idTeach` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `deadline` varchar(45) NOT NULL,
@@ -50,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `assignments` (
 -- Dump dei dati per la tabella `assignments`
 --
 
-INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, `idClass`, `deadline`) VALUES
-(1, 'Page 294, Ex. 1, 2 and 3.', 'Biology', 'Amphibians', '2019-12-2', 1, '1A', '2019-12-9');
+INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `attachment`,`idTeach`, `idClass`, `deadline`) VALUES
+(1, 'Page 294, Ex. 1, 2 and 3.', 'Biology', 'Amphibians', '2019-12-2','20191203172240.pdf',1, '1A', '2019-12-9');
 
 -- --------------------------------------------------------
 

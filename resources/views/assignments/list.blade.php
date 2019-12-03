@@ -36,6 +36,7 @@
                                         <th>Topic</th>
                                         <th>Date</th>
                                         <th>Deadline</th>
+                                        <th>Material</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -50,7 +51,13 @@
                                             <td>{{$assignment->topic}} </td>
                                             <td>{{$assignment->date}}</td>
                                             <td>{{$assignment->deadline}}</td>
+                                            @if($assignment->attachment!=NULL)
+                                            <td><a style="color: #7fbd2d" href="{{ asset('/uploads/'.$assignment->attachment) }}" target="_blank">Download
+                                                    Here</a></td>
+                                            @else
+                                                <td class="text"> {{'No available material'}} </td>
 
+                                            @endif
                                         </tr>
 
                                     @endforeach
