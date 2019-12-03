@@ -3,6 +3,11 @@
 @section('content')
     <div class="product-status mg-b-15">
         <div class="container-fluid">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap drp-lst">
@@ -31,7 +36,7 @@
 
 
                                             <button
-                                                class="@if($user->roleId!=1) pd-setting @else ds-setting @endif ">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
+                                                class="@if($user->roleId==2) pd-setting @elseif($user->roleId==1) ds-setting @elseif($user->roleId==3) ps-setting @else ls-setting @endif ">@foreach($roles as $role)@if($user->roleId == $role->id) {{$role->name}} @endif @endforeach</button>
 
 
                                         </td>

@@ -21,7 +21,7 @@ class Teacher
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.id','DESC')
+            ->orderBy(static::table . '.id', 'DESC')
             ->get();
 
     }
@@ -36,6 +36,17 @@ class Teacher
     {
 
         return DB::table(static::table)->find($id);
+    }
+
+    public static function retrieveByNameSubject($name, $subject)
+    {
+
+        return DB::table(static::table)
+            ->select('teacher.id')
+            ->join('teaching','teacher.id','=','teaching.idTeach')
+            ->whereRaw('CONCAT(firstName, " ",lastName) LIKE ? ', array('%' . $name . '%'))
+            ->where('subject', $subject)
+            ->value('id');
     }
 
 
@@ -72,6 +83,15 @@ class Teacher
 
     }
 
+    public static function retrievedistinctTeaching(int $id)
+    {
+        return DB::table('teaching')
+            ->selectRaw('distinct teaching.idClass')
+            ->where('idTeach', $id)
+            ->get();
+
+    }
+
     public static function retrievePagination($page)
     {
         return DB::table(static::table)->orderby('id', 'desc')->paginate($page);
@@ -87,6 +107,31 @@ class Teacher
         }
 
         return \DB::table('teaching')->insertGetId($data);
+    }
+
+    public static function retrieveTeacherClass($id): Collection
+    {
+
+        return DB::table('teaching')
+            ->select('teaching.idClass', 'classroom.capacity', 'classroom.description')
+            ->distinct()
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
+            ->where('teaching.idTeach', $id)
+            ->get();
+
+    }
+
+
+    public static function retrieveTeacherOnlyClasses($id): Collection
+    {
+
+        return DB::table('teaching')
+            ->selectRaw('distinct classroom.*')
+            ->join('teacher', 'teaching.idTeach', '=', 'teacher.id')
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
+            ->where('teacher.userId', $id)
+            ->get();
+
     }
 
 

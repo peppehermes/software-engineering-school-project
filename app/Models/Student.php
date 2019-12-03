@@ -36,6 +36,7 @@ class Student
     {
 
         return DB::table(static::table)->find($id);
+
     }
 
 
@@ -76,7 +77,7 @@ class Student
                 static::table . '.*'
             ])
             ->where('classId', $id)
-            ->orderBy(static::table . '.id', 'DESC')
+            ->orderBy(static::table . '.lastName', 'ASC')
             ->get();
 
     }
@@ -86,10 +87,22 @@ class Student
     {
 
         return DB::table('student')
-            ->select('student.*')
-            ->join('studForParent', 'student.id', '=', 'studForParent.idStudent')
-            ->join('users', 'users.id', '=', 'studForParent.idParent')
-            ->where('studForParent.idParent', $myParentID)
+            ->select('student.*', 'student.id as studentId')
+            ->join('studforparent', 'student.id', '=', 'studforparent.idStudent')
+            ->join('users', 'users.id', '=', 'studforparent.idParent')
+            ->where('studforparent.idParent', $myParentID)
+            ->get();
+
+
+    }
+
+    public static function retrieveStudentsForTeacher($teacherId)
+    {
+
+        return DB::table('student')
+            ->selectRaw('distinct student.*')
+            ->join('teaching', 'student.classId', '=', 'teaching.idClass')
+            ->where('teaching.idTeach', $teacherId)
             ->get();
 
 
@@ -104,7 +117,7 @@ class Student
             ->select('marks.*', 'teacher.firstName as teachFirstName', 'teacher.lastName as teachLastName')
             ->join('teacher', 'teacher.id', '=', 'marks.idTeach')
             ->where('marks.idStudent', $myStudentID)
-            ->orderby('marks.date','asc')
+            ->orderby('marks.date', 'asc')
             ->get();
 
     }
@@ -134,5 +147,133 @@ class Student
 
         return \DB::table('studforparent')->insertGetId($data);
     }
+
+    public static function deleteParentStudent($idParent, $idstudent): int
+    {
+        return DB::table('studforparent')->where('idParent', $idParent)->where('idStudent', $idstudent)->delete();
+    }
+
+    public static function saveStudentAttendance(array $data, $studentId = null, $teacherId = null, $classId = null, $lectureDate = null): int
+    {
+        if ($studentId && $teacherId && $classId && $lectureDate) {
+            \DB::table('student_attendance')->where('studentId', $studentId)->where('teacherId', $teacherId)->where('classId', $classId)->where('lectureDate', $lectureDate)->update($data);
+
+            return $studentId;
+        }
+
+        return \DB::table('student_attendance')->insertGetId($data);
+    }
+
+//for all students
+    public static function retrieveStudentsAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student')
+            ->select('student.*', 'student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status')
+            ->join('student_attendance', 'student.id', '=', 'student_attendance.studentId');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('student.classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->get();
+
+    }
+
+//just for one student
+    public static function retrieveStudentAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student')
+            ->select('student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status')
+            ->join('student_attendance', 'student.id', '=', 'student_attendance.studentId');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('student.classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->first();
+
+    }
+
+    public static function retrieveAttendance($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student_attendance');
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+
+
+        return $res->first();
+
+    }
+
+    public static function retrieveAttendanceReport($studentId = null, $teacherId = null, $classId = null, $lectureDate = null)
+    {
+        $res = DB::table('student_attendance')
+        ->select('student.id','student.firstName','student.lastName','student_attendance.status', 'student_attendance.presence_status', 'student_attendance.description', 'student_attendance.status', 'student_attendance.lectureDate')
+        ->join('student', 'student.id', '=', 'student_attendance.studentId');
+
+
+        if ($studentId) {
+            $res->where('studentId', $studentId);
+        }
+        if ($teacherId) {
+            $res->where('teacherId', $teacherId);
+        }
+        if ($classId) {
+            $res->where('classId', $classId);
+        }
+        if ($lectureDate) {
+            $res->where('lectureDate', $lectureDate);
+        }
+        $res->orderBy('lectureDate','DESC');
+
+
+
+        return $res->paginate(10);
+
+    }
+
+    public static function convertDate($date)
+    {
+        $newdate=explode('/',$date);
+        return implode('-',[$newdate[2],$newdate[1],$newdate[0]]);
+    }
+
+    public static function convertDateView($date)
+    {
+        $newdate=explode('-',$date);
+        return implode('/',[$newdate[2],$newdate[1],$newdate[0]]);
+    }
+
 
 }

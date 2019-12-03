@@ -65,7 +65,7 @@ class UserController extends Controller
         User::saveUser($data);
 
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -82,9 +82,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if(\Auth::user()->id!=$id && \Auth::user()->roleId !=1){
-            return \Redirect('/')->withErrors([' You dont have permission to see that page!']);
-        }
+//        if(\Auth::user()->id!=$id && \Auth::user()->roleId !=1){
+//            return \Redirect('/')->withErrors([' You dont have permission to see that page!']);
+//        }
         $userInfo = User::retrieveById($id);
 
 
@@ -124,7 +124,7 @@ class UserController extends Controller
 
         }
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -134,7 +134,7 @@ class UserController extends Controller
         User::deleteById($id);
 
 
-        return redirect('/user/list');
+        return redirect('/user/list')->with(['message' => 'Successfull operation!']);
 
     }
 

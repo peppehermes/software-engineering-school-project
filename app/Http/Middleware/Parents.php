@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class Parents
@@ -15,7 +16,7 @@ class Parents
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->roleId == 3){
+        if(auth()->user()->roleId == User::roleParent){
             return $next($request);
         }
         return redirect('home')->with('error','You dont have parent access');

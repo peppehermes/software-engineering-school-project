@@ -74,6 +74,17 @@ class Classroom
 
     }
 
+    public static function retrieveByStudentId($id)
+    {
+
+        return DB::table('classroom')
+            ->select('classroom.id')
+            ->join('student', 'classroom.id', '=', 'student.classId')
+            ->where('student.id', $id)
+            ->value('id');
+
+    }
+
 
 
 

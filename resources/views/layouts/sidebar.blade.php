@@ -7,7 +7,7 @@
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
-                    @if(Auth::user()->roleId==3)
+                    @if(Auth::user()->roleId==\App\User::roleParent)
 
 
                         <li>
@@ -16,18 +16,51 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 @foreach ($students as $student)
 
-                                    <li  @if(\Request::path()=='student/showmarks/'.$student->id || \Request::path()=='topic/listforparents/'.$student->id) class="active" @endif>
+                                    <li @if(\Request::path()=='student/showmarks/'.$student->id ||
+                                    \Request::path()=='topic/listforparents/'.$student->id ||
+                                    \Request::path()=='material/listforparents/'.$student->id ||
+                                    \Request::path()=='assignment/listforparents/'.$student->id ||
+                                    \Request::path()=='timetable/listforparents/'.$student->id ||
+                                    \Request::path()=='notes/shownotes/'.$student->id ||
+                                    \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
                                         <ul class="submenu-angle" aria-expanded="false">
 
 
-                                            <li><a title="All Students" href="/student/showmarks/{{$student->id}}"><span
-                                                        class="mini-sub-pro"> Marks</span></a></li>
+                                            <li><a title="Marks"
+                                                   href="/student/showmarks/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Marks</span></a></li>
 
-                                            <li><a title="Topics" href="/topic/listforparents/{{$student->id}}"><span
+                                            <li><a title="Topics"
+                                                   href="/topic/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">Lectures Topics</span></a>
+                                            </li>
+
+                                            <li><a title="Assignments"
+                                                   href="/assignment/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Lectures Assignments</span></a>
+                                            </li>
+
+                                            <li><a title="Material"
+                                                   href="/material/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Support Material</span></a>
+                                            </li>
+
+                                            <li><a title="Timetable"
+                                                   href="/timetable/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Timetable</span></a>
+                                            </li>
+
+                                            <li><a title="Attendance"
+                                                   href="/student/attendance_report/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Report Attendance</span></a>
+                                            </li>
+
+                                            <li @if(\Request::path()=='notes/shownotes') class="active" @endif><a title="Notes"
+                                                   href="/notes/shownotes/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Notes</span></a>
                                             </li>
 
 
@@ -43,12 +76,21 @@
 
                         </li>
 
-                    @elseif(Auth::user()->roleId==2)
+                        <li @if(\Request::path()=='communications/list' ) class="active" @endif>
+                            <a href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                        </li>
+
+                    @elseif(Auth::user()->roleId==\App\User::roleTeacher)
 
 
-                        <li>
+                        <li><a href="/" aria-expanded="false"><span
+                                    class="educate-icon educate-home icon-wrap"></span> <span class="mini-click-non">Home</span></a>
+                        </li>
+
+                        <li @if(\Request::path()=='topic/add' || \Request::path()=='topic/list') class="active" @endif>
                             <a class="has-arrow" href="" aria-expanded="false"><span
-                                    class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Lecture's Topic</span></a>
+                                    class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Lecture's Topics</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Add Lecture Topic" href="/topic/add"><span
                                             class="mini-sub-pro">Add Lecture's Topic</span></a></li>
@@ -56,35 +98,61 @@
                                             class="mini-sub-pro">All Lecture's Topic</span></a></li>
                             </ul>
 
+                        <li @if(\Request::path()=='mark/add' || \Request::path()=='mark/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Grades</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add Lecture Assignment" href="/mark/add"><span
+                                            class="mini-sub-pro">Add Grade</span></a></li>
+                                <li><a title="View Lecture Assignments" href="/mark/list"><span
+                                            class="mini-sub-pro">All Grades</span></a></li>
+                            </ul>
+
+                        <li @if(\Request::path()=='assignment/add' || \Request::path()=='assignment/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Assignments</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add Lecture Assignment" href="/assignment/add"><span
+                                            class="mini-sub-pro">Add Assignment</span></a></li>
+                                <li><a title="View Lecture Assignments" href="/assignment/list"><span
+                                            class="mini-sub-pro">All Assignments</span></a></li>
+                            </ul>
+
+                        <li @if(\Request::path()=='material/add' || \Request::path()=='material/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span
+                                    class="mini-click-non">Support Material</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add Support Material" href="/material/add"><span
+                                            class="mini-sub-pro">Add Support Material</span></a></li>
+                                <li><a title="View Support Material" href="/material/list"><span
+                                            class="mini-sub-pro">All Support Material</span></a></li>
+                            </ul>
+
+
+                        <li @if(\Request::path()=='notes/write' || \Request::path()=='notes/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-message icon-wrap"></span> <span class="mini-click-non">Notes</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add new Note" href="/notes/write"><span
+                                            class="mini-sub-pro">Add new Note</span></a></li>
+                                <li><a title="View all Notes" href="/notes/list"><span
+                                            class="mini-sub-pro">All Notes</span></a></li>
+                            </ul>
+                        </li>
+
+
+                        <li @if(\Request::path()=='timetable/list' ||  \Request::path()=='timetable/show') class="active" @endif>
+                            <a href="/timetable/list" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
+                        </li>
+
+
 
 
 
                     @else
 
-
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="index.html">--}}
-                        {{--                            <span class="educate-icon educate-home icon-wrap"></span>--}}
-                        {{--                            <span class="mini-click-non">Education</span>--}}
-                        {{--                        </a>--}}
-                        {{--                        <ul class="submenu-angle" aria-expanded="true">--}}
-                        {{--                            <li><a title="Dashboard v.1" href="index.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Dashboard v.1</span></a></li>--}}
-                        {{--                            <li><a title="Dashboard v.2" href="index-1.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Dashboard v.2</span></a></li>--}}
-                        {{--                            <li><a title="Dashboard v.3" href="index-2.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Dashboard v.3</span></a></li>--}}
-                        {{--                            <li><a title="Analytics" href="analytics.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Analytics</span></a></li>--}}
-                        {{--                            <li><a title="Widgets" href="widgets.html"><span class="mini-sub-pro">Widgets</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li>--}}
-                        {{--                        <a title="Landing Page" href="events.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span>--}}
-                        {{--                            <span class="mini-click-non">Event</span></a>--}}
-                        {{--                    </li>--}}
                         <li @if(\Request::path()=='teacher/list' || \Request::path()=='teacher/add' || \Request::path()=='teacher/edit') class="active" @endif>
                             <a class="has-arrow" href="/teacher/list" aria-expanded="false"><span
                                     class="educate-icon educate-professor icon-wrap"></span> <span
@@ -111,34 +179,50 @@
                             </ul>
                         </li>
 
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Courses</span></a>--}}
-                        {{--                        <ul class="submenu-angle" aria-expanded="false">--}}
-                        {{--                            <li><a title="All Courses" href="all-courses.html"><span--}}
-                        {{--                                        class="mini-sub-pro">All Courses</span></a></li>--}}
-                        {{--                            <li><a title="Add Courses" href="add-course.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Add Course</span></a></li>--}}
-                        {{--                            <li><a title="Edit Courses" href="edit-course.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Edit Course</span></a></li>--}}
-                        {{--                            <li><a title="Courses Profile" href="course-info.html"><span class="mini-sub-pro">Courses Info</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Product Payment" href="course-payment.html"><span class="mini-sub-pro">Courses Payment</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-library icon-wrap"></span> <span class="mini-click-non">Library</span></a>--}}
-                        {{--                        <ul class="submenu-angle" aria-expanded="false">--}}
-                        {{--                            <li><a title="All Library" href="library-assets.html"><span class="mini-sub-pro">Library Assets</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Add Library" href="add-library-assets.html"><span class="mini-sub-pro">Add Library Asset</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Edit Library" href="edit-library-assets.html"><span class="mini-sub-pro">Edit Library Asset</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
+
+
+
+                        <li @if(\Request::path()=='classroom/list' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
+                            <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
+                                    class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Classrooms</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/classroom/list"><span
+                                            class="mini-sub-pro">All Classrooms</span></a></li>
+                                <li><a title="Advance Form Elements" href="/classroom/add"><span
+                                            class="mini-sub-pro">Add Classroom</span></a></li>
+
+                            </ul>
+                        </li>
+
+                        <li @if(\Request::path()=='timetable/add' || \Request::path()=='timetable/list' || \Request::path()=='timetable/show' ) class="active" @endif>
+                            <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/timetable/list"><span
+                                            class="mini-sub-pro">All Timetables</span></a></li>
+                                <li><a title="Advance Form Elements" href="/timetable/add"><span
+                                            class="mini-sub-pro">Add Timetable</span></a></li>
+
+                            </ul>
+                        </li>
+
+
+                        <li @if(\Request::path()=='communications/list' || \Request::path()=='communications/add' ) class="active" @endif>
+                            <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/communications/list"><span
+                                            class="mini-sub-pro">Board</span></a></li>
+                                <li><a title="Advance Form Elements" href="/communications/add"><span
+                                            class="mini-sub-pro">Add Communication</span></a></li>
+
+                            </ul>
+                        </li>
+
+
+                    @endif
+
+                    @if(Auth::user()->roleId==\App\User::roleSuperadmin)
                         <li @if(\Request::path()=='user/list' || \Request::path()=='user/add' || \Request::path()=='user/edit') class="active" @endif>
                             <a class="has-arrow" href="/user/list" aria-expanded="false"><span
                                     class="educate-icon educate-department icon-wrap"></span> <span
@@ -152,109 +236,6 @@
                                 </li>
                             </ul>
                         </li>
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-message icon-wrap"></span> <span class="mini-click-non">Mailbox</span></a>--}}
-                        {{--                        <ul class="submenu-angle" aria-expanded="false">--}}
-                        {{--                            <li><a title="Inbox" href="mailbox.html"><span class="mini-sub-pro">Inbox</span></a></li>--}}
-                        {{--                            <li><a title="View Mail" href="mailbox-view.html"><span--}}
-                        {{--                                        class="mini-sub-pro">View Mail</span></a></li>--}}
-                        {{--                            <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-interface icon-wrap"></span> <span class="mini-click-non">Interface</span></a>--}}
-                        {{--                        <ul class="submenu-angle interface-mini-nb-dp" aria-expanded="false">--}}
-                        {{--                            <li><a title="Google Map" href="google-map.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Google Map</span></a></li>--}}
-                        {{--                            <li><a title="Data Maps" href="data-maps.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Data Maps</span></a></li>--}}
-                        {{--                            <li><a title="Pdf Viewer" href="pdf-viewer.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Pdf Viewer</span></a></li>--}}
-                        {{--                            <li><a title="X-Editable" href="x-editable.html"><span--}}
-                        {{--                                        class="mini-sub-pro">X-Editable</span></a></li>--}}
-                        {{--                            <li><a title="Code Editor" href="code-editor.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Code Editor</span></a></li>--}}
-                        {{--                            <li><a title="Tree View" href="tree-view.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Tree View</span></a></li>--}}
-                        {{--                            <li><a title="Preloader" href="preloader.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Preloader</span></a></li>--}}
-                        {{--                            <li><a title="Images Cropper" href="images-cropper.html"><span class="mini-sub-pro">Images Cropper</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-charts icon-wrap"></span> <span class="mini-click-non">Charts</span></a>--}}
-                        {{--                        <ul class="submenu-angle chart-mini-nb-dp" aria-expanded="false">--}}
-                        {{--                            <li><a title="Bar Charts" href="bar-charts.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Bar Charts</span></a></li>--}}
-                        {{--                            <li><a title="Line Charts" href="line-charts.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Line Charts</span></a></li>--}}
-                        {{--                            <li><a title="Area Charts" href="area-charts.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Area Charts</span></a></li>--}}
-                        {{--                            <li><a title="Rounded Charts" href="rounded-chart.html"><span class="mini-sub-pro">Rounded Charts</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="C3 Charts" href="c3.html"><span class="mini-sub-pro">C3 Charts</span></a></li>--}}
-                        {{--                            <li><a title="Sparkline Charts" href="sparkline.html"><span class="mini-sub-pro">Sparkline Charts</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Peity Charts" href="peity.html"><span class="mini-sub-pro">Peity Charts</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Data Tables</span></a>--}}
-                        {{--                        <ul class="submenu-angle" aria-expanded="false">--}}
-                        {{--                            <li><a title="Peity Charts" href="static-table.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Static Table</span></a></li>--}}
-                        {{--                            <li><a title="Data Table" href="data-table.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Data Table</span></a></li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        <li @if(\Request::path()=='classroom/list' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
-                            <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
-                                    class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Classrooms</span></a>
-                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
-                                <li><a title="Basic Form Elements" href="/classroom/list"><span
-                                            class="mini-sub-pro">All Classrooms</span></a></li>
-                                <li><a title="Advance Form Elements" href="/classroom/add"><span
-                                            class="mini-sub-pro">Add Classroom</span></a></li>
-
-                            </ul>
-                        </li>
-                        {{--                    <li>--}}
-                        {{--                        <a class="has-arrow" href="mailbox.html" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-apps icon-wrap"></span> <span class="mini-click-non">App views</span></a>--}}
-                        {{--                        <ul class="submenu-angle app-mini-nb-dp" aria-expanded="false">--}}
-                        {{--                            <li><a title="Notifications" href="notifications.html"><span class="mini-sub-pro">Notifications</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Alerts" href="alerts.html"><span class="mini-sub-pro">Alerts</span></a></li>--}}
-                        {{--                            <li><a title="Modals" href="modals.html"><span class="mini-sub-pro">Modals</span></a></li>--}}
-                        {{--                            <li><a title="Buttons" href="buttons.html"><span class="mini-sub-pro">Buttons</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Tabs" href="tabs.html"><span class="mini-sub-pro">Tabs</span></a></li>--}}
-                        {{--                            <li><a title="Accordion" href="accordion.html"><span--}}
-                        {{--                                        class="mini-sub-pro">Accordion</span></a></li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
-                        {{--                    <li id="removable">--}}
-                        {{--                        <a class="has-arrow" href="#" aria-expanded="false"><span--}}
-                        {{--                                class="educate-icon educate-pages icon-wrap"></span> <span--}}
-                        {{--                                class="mini-click-non">Pages</span></a>--}}
-                        {{--                        <ul class="submenu-angle page-mini-nb-dp" aria-expanded="false">--}}
-                        {{--                            <li><a title="Login" href="login.html"><span class="mini-sub-pro">Login</span></a></li>--}}
-                        {{--                            <li><a title="Register" href="register.html"><span class="mini-sub-pro">Register</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="Lock" href="lock.html"><span class="mini-sub-pro">Lock</span></a></li>--}}
-                        {{--                            <li><a title="Password Recovery" href="password-recovery.html"><span class="mini-sub-pro">Password Recovery</span></a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li><a title="404 Page" href="404.html"><span class="mini-sub-pro">404 Page</span></a></li>--}}
-                        {{--                            <li><a title="500 Page" href="500.html"><span class="mini-sub-pro">500 Page</span></a></li>--}}
-                        {{--                        </ul>--}}
-                        {{--                    </li>--}}
                     @endif
                 </ul>
             </nav>

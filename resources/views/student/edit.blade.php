@@ -4,6 +4,11 @@
     <!-- Single pro tab review Start-->
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
@@ -46,94 +51,14 @@
                                                                        class="form-control"
                                                                        value="{{$studentInfo->birthPlace}}">
                                                             </div>
-                                                            <div class="form-group col-lg-3">
-                                                                <label>Date of birth:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
+                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
+                                                                <label >Date of birth:</label>
+                                                                <div class="input-group date">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]" class="form-control"
+                                                                           id="attendaceDate" value="{{$studentInfo->birthday}}">
+                                                                </div>
 
-                                                                <select name="year" class="form-control" required>
-                                                                    <option value="none" disabled=""
-                                                                            @if(!isset($studentInfo->year)) selected @endif>
-                                                                        Year
-                                                                    </option>
-                                                                    @for($i=2000 ;  $i<2013 ; $i++)
-                                                                        <option value="{{$i}}"
-                                                                                @if(isset($studentInfo->year) && $studentInfo->year == $i) selected @endif>{{$i}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
-
-
-                                                                <select name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <option value="1"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 1) selected @endif>
-                                                                        January
-                                                                    </option>
-                                                                    <option value="2"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 2) selected @endif>
-                                                                        February
-                                                                    </option>
-                                                                    <option value="3"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 3) selected @endif>
-                                                                        March
-                                                                    </option>
-                                                                    <option value="4"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 4) selected @endif>
-                                                                        April
-                                                                    </option>
-                                                                    <option value="5"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 5) selected @endif>
-                                                                        May
-                                                                    </option>
-                                                                    <option value="6"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 6) selected @endif>
-                                                                        June
-                                                                    </option>
-                                                                    <option value="7"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 7) selected @endif>
-                                                                        July
-                                                                    </option>
-                                                                    <option value="8"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 8) selected @endif>
-                                                                        August
-                                                                    </option>
-                                                                    <option value="9"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 9) selected @endif>
-                                                                        September
-                                                                    </option>
-                                                                    <option value="10"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 10) selected @endif>
-                                                                        October
-                                                                    </option>
-                                                                    <option value="11"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 11) selected @endif>
-                                                                        November
-                                                                    </option>
-                                                                    <option value="12"
-                                                                            @if(isset($studentInfo->month) && $studentInfo->month == 12) selected @endif>
-                                                                        December
-                                                                    </option>
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select name="day" class="form-control" required>
-                                                                    <option value="none"
-                                                                            @if(!isset($studentInfo->day)) selected=""
-                                                                            @endif disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<31 ; $j++)
-                                                                        <option value="{{$j}}"
-                                                                                @if(isset($studentInfo->day) && $studentInfo->day == $j) selected @endif>{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
 
                                                             </div>
                                                             <div class="form-group col-lg-12">
@@ -266,22 +191,22 @@
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 1:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName1">
+                                                                       name="parentName1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 1:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail1">
+                                                                       name="parentEmail1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->email}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 2:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName2">
+                                                                       name="parentName2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 2:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail2">
+                                                                       name="parentEmail2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->email}}@endif">
                                                             </div>
                                                         </div>
                                                     </div>

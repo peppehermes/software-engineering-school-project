@@ -27,10 +27,6 @@
     <!-- animate CSS
 		============================================ -->
 
-    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('css/animate.css')}}">
     <!-- normalize CSS
@@ -64,7 +60,7 @@
 @if(\Request::path()!='login')
     <!-- duallistbox CSS
 		============================================ -->
-        <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">
+{{--        <link rel="stylesheet" href="{{ asset('css/duallistbox/bootstrap-duallistbox.min.css')}}">--}}
 
         <!-- x-editor CSS
             ============================================ -->
@@ -76,6 +72,8 @@
             ============================================ -->
         <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-table.css')}}">
         <link rel="stylesheet" href="{{ asset('css/data-table/bootstrap-editable.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('css/datapicker/datepicker3.css')}}">
 @endif
 <!-- style CSS
 		============================================ -->
@@ -86,6 +84,9 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
+    <!-- modals CSS
+            ============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/modals.css')}}">
 </head>
 
 <body>
@@ -193,7 +194,7 @@
 <!-- calendar JS
     ============================================ -->
 
-<script src="{{ asset('js/calendar/moment.min.js')}}"></script>
+{{--<script src="{{ asset('js/calendar/moment.min.js')}}"></script>--}}
 <script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
 <script src="{{ asset('js/calendar/fullcalendar-active.js')}}"></script>
 <!-- icheck JS
@@ -201,14 +202,17 @@
 <script src="{{ asset('js/icheck/icheck.min.js')}}"></script>
 <script src="{{ asset('js/icheck/icheck-active.js')}}"></script>
 
+<script src="{{ asset('js/datapicker/bootstrap-datepicker.js')}}"></script>
+<script src="{{ asset('js/datapicker/datepicker-active.js')}}"></script>
+
 {{--<script src="{{ asset('js/form-validation/jquery.form.min.js')}}"></script>--}}
 {{--<script src="{{ asset('js/form-validation/jquery.validate.min.js')}}"></script>--}}
 {{--<script src="{{ asset('js/form-validation/form-active.js')}}"></script>--}}
 
 
-<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>
-<script src="{{ asset('js/password-meter/zxcvbn.js')}}"></script>
-<script src="{{ asset('js/password-meter/password-meter-active.js')}}"></script>
+{{--<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>--}}
+{{--<script src="{{ asset('js/password-meter/zxcvbn.js')}}"></script>--}}
+{{--<script src="{{ asset('js/password-meter/password-meter-active.js')}}"></script>--}}
 
 
 <!-- tab JS

@@ -87,7 +87,7 @@ body {}
 /*  2. Helper Class
 /*----------------------------------------*/
 .mg-tb-30{
-	margin:30px 0px;
+	margin:30px 30px;
 }
 .mg-b-30{
 	margin-bottom:30px;
@@ -2390,7 +2390,18 @@ ul.two-part-sp li{
     font-size: 15px;
     background: #D80027;
     border-radius: 3px;
-	outline:none;
+    outline:none;
+
+}
+
+.product-status-wrap .ls-setting {
+    border: none;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 15px;
+    background: #d8cd19;
+    border-radius: 3px;
+    outline:none;
 
 }
 .asset-inner {
@@ -2467,6 +2478,11 @@ ul.mailbox-list li a:first-child{
 .table-mailbox tr.unread td a {
     font-weight: 600;
     font-size: 14px;
+}
+.table .thead-dark th {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #454d55;
 }
 .panel-body a {
     font-size: 14px;
@@ -3069,7 +3085,7 @@ td.text-right.mail-date {
 }
 .input-mask-title label, .input-mark-inner .help-block, .data-custon-pick label, .touchspin-inner label{
 	font-size:14px;
-	font-weight:400;
+	font-weight:700;
 }
 .input-mark-inner .form-control, .data-custon-pick .form-control{
 	border-radius:0px;

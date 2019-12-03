@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
+use App\Models\Student;
 use App\Models\Topic;
+use App\Models\Material;
+use App\Models\Assignment;
+use App\Models\Note;
+use App\Models\Mark;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -37,7 +42,7 @@ class TeacherController extends Controller
     public function add()
     {
         $classes = Classroom::retrieve();
-        return view('teacher.add',['classes' => $classes]);
+        return view('teacher.add', ['classes' => $classes]);
     }
 
     public function store(Request $request)
@@ -49,15 +54,19 @@ class TeacherController extends Controller
 
         if ($data) {
             //create user
-            $userData['email'] = request('email');
+            $userData['email'] = strtolower(request('email'));
             $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
             $userData['roleId'] = Role::retrieveByRole('Teacher');
 
             $password = $this->password_generate(8);
             $userData['password'] = Hash::make($password);
-            $userId = DB::table('users')->insertGetId($userData);
+            $userId = User::saveUser($userData);
 
-            $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+            if ($data['birthday']) {
+                $data['birthday'] = Student::convertDate($data['birthday']);
+            }
+
+
             $data['userId'] = $userId;
 
             if ($request->file('photo')) {
@@ -73,7 +82,7 @@ class TeacherController extends Controller
             }
 
             $Teachid = Teacher::save($data);
-            $dataT['idTeach']=$Teachid;
+            $dataT['idTeach'] = $Teachid;
             Teacher::saveTeaching($dataT);
         }
 
@@ -89,7 +98,7 @@ class TeacherController extends Controller
         });
 
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -107,14 +116,10 @@ class TeacherController extends Controller
         $teacherInfo = Teacher::retrieveById($id);
         $teacherEmail = User::retrieveById($teacherInfo->userId);
         if ($teacherInfo->birthday) {
-
-
-            $birthday = explode('-', $teacherInfo->birthday);
-
-            $teacherInfo->year = $birthday[0];
-            $teacherInfo->month = $birthday[1];
-            $teacherInfo->day = $birthday[2];
+            $teacherInfo->birthday = Student::convertDateView($teacherInfo->birthday);
         }
+
+
         $teacherInfo->email = $teacherEmail->email;
 
 
@@ -124,10 +129,18 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
 
+        $teacher = Teacher::retrieveById($id);
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
+        $userData['email'] = strtolower(request('email'));
+        $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
+
+
+        User::saveUser($userData, $teacher->userId);
 
 
         if ($request->file('photo')) {
@@ -143,7 +156,7 @@ class TeacherController extends Controller
         }
         Teacher::save($data, $id);
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -155,7 +168,7 @@ class TeacherController extends Controller
         User::deleteById($teacherInfo->userId);
 
 
-        return redirect('/teacher/list');
+        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -183,10 +196,11 @@ class TeacherController extends Controller
             //create topic
             $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
             $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Topic::save($data);
         }
-        return redirect('/topic/list');
+        return redirect('/topic/list')->with(['message' => 'Successfull operation!']);
     }
 
     public function addtopic()
@@ -194,9 +208,178 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
 
         $teachId = Teacher::retrieveId($usId);
-        $classes = Teacher::retrieveTeaching($teachId);
-        return view('topic.add', ['classes' => $classes]);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        return view('topic.add', ['classes' => $classes,'subjects' => $subjects]);
+    }
+
+    public function storeassignment(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+        if ($data) {
+            //create topic
+            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['deadline'] = implode('-', [request('yeard'), request('monthd'), request('dayd')]);
+            $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            Assignment::save($data);
+        }
+        return redirect('/assignment/list')->with(['message' => 'Successfull operation!']);
+
+
     }
 
 
+    public function addassignment()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        return view('assignments.add', ['classes' => $classes,'subjects' => $subjects]);
+    }
+
+
+    public function listassignment()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $assignments = Assignment::retrieveTeachersPagination($teachId);
+        return view('assignments.list', ['assignments' => $assignments]);
+    }
+
+    public function storemark(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+        if ($data) {
+            //create topic
+            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
+            $data['mark'] = request('mark');
+            $data['idStudent'] = request('idStudent');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            Mark::save($data);
+        }
+        return redirect('/mark/list')->with(['message' => 'Successfull operation!']);
+
+
+    }
+
+
+    public function addmark()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $studId = Student::retrieveStudentsForTeacher($teachId);
+        return view('marks.add', ['classes' => $classes, 'studId' => $studId,'subjects' => $subjects]);
+    }
+
+
+    public function listmark()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $marks = Mark::retrieveTeachersPagination($teachId);
+        return view('marks.list', ['marks' => $marks]);
+    }
+
+
+    public function addmaterial()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        return view('suppmaterial.add', ['classes' => $classes,'subjects' => $subjects]);
+    }
+
+    public function storematerial(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+
+        if ($data) {
+            //create topic
+            $data['date'] = date("Y-m-d");
+            $data['idClass'] = request('idClass');
+            $data['subject'] = request('subject');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+
+            if ($request->file('material')) {
+
+                $cover = $request->file('material');
+
+                $extension = $cover->getClientOriginalExtension();
+                $fileName = date('YmdHis') . '.' . $extension;
+                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+
+
+                $data['material'] = $fileName;
+            }
+
+            Material::save($data);
+        }
+        return redirect('/material/list')->with(['message' => 'Successfull operation!']);
+    }
+
+    public function listmaterial()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $materials = Material::retrieveTeachersPagination($teachId);
+        return view('suppmaterial.list', ['materials' => $materials]);
+    }
+
+    public function writenote()
+    {
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $studId = Student::retrieveStudentsForTeacher($teachId);
+        return view('notes.write', ['classes' => $classes, 'stud' => $studId,'subjects' => $subjects]);
+    }
+
+    public function storenote(Request $request)
+    {
+        $usId = \Auth::user()->id;
+        $data = request('frm');
+
+        if ($data) {
+            //create note
+            $data['date'] = date("Y-m-d");
+            $data['idClass'] = request('idClass');
+            $data['idStudent'] = request('idStudent');
+            $data['subject'] = request('subject');
+            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+
+            Note::save($data);
+        }
+        return redirect('/notes/list')->with(['message' => 'Successfull operation!']);
+    }
+
+    public function listnotes()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $notes = Note::retrieveTeachersPagination($teachId);
+
+        return view('notes.list', ['notes' => $notes]);
+    }
 }

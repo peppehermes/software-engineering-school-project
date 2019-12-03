@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Note;
+use App\Models\Material;
 use App\Models\Role;
+use App\Models\Teacher;
 use App\Models\Topic;
+use App\Models\Assignment;
+use App\Models\Timetable;
 use App\User;
 use DB;
 use App\Models\Student;
@@ -21,6 +26,7 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
@@ -45,7 +51,10 @@ class StudentController extends Controller
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
+
 
         if ($request->file('photo')) {
 
@@ -59,34 +68,35 @@ class StudentController extends Controller
         }
         $id = Student::save($data);
 
-        return redirect('/student/edit/' . $id)->with(['parent' => 1]);
+        return redirect('/student/edit/' . $id)->with(['parent' => 1,'message'=>'Successfull operation!']);
 
     }
 
     public function list()
     {
 
-
         $students = Student::retrievePagination(10);
 
         return view('student.list', ['students' => $students]);
     }
 
+
     public function edit($id)
     {
         $studentInfo = Student::retrieveById($id);
+
         if ($studentInfo->birthday) {
-
-
-            $birthday = explode('-', $studentInfo->birthday);
-
-            $studentInfo->year = $birthday[0];
-            $studentInfo->month = $birthday[1];
-            $studentInfo->day = $birthday[2];
+            $studentInfo->birthday = Student::convertDateView($studentInfo->birthday);
+        }
+        if (isset($studentInfo->mailParent1)) {
+            $studentInfo->parent1 = User::retrieveByEmail($studentInfo->mailParent1);
+        }
+        if (isset($studentInfo->mailParent2)) {
+            $studentInfo->parent2 = User::retrieveByEmail($studentInfo->mailParent2);
         }
 
-
         $classrooms = Classroom::retrieve();
+
 
         return view('student.edit', ['studentInfo' => $studentInfo, 'classrooms' => $classrooms]);
     }
@@ -97,7 +107,10 @@ class StudentController extends Controller
 
         $data = request('frm');
 
-        $data['birthday'] = implode('-', [request('year'), request('month'), request('day')]);
+        if ($data['birthday']) {
+            $data['birthday'] = Student::convertDate($data['birthday']);
+        }
+
 
         if ($request->file('photo')) {
 
@@ -112,7 +125,7 @@ class StudentController extends Controller
         }
         Student::save($data, $id);
 
-        return redirect('/student/list');
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
 
     }
 
@@ -120,13 +133,13 @@ class StudentController extends Controller
     {
 
         Student::delete($id);
-        return redirect('/student/list');
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
 
     }
 
     public function showmarks($id)
     {
-        if (\Auth::user()->roleId == 3) {
+        if (\Auth::user()->roleId == User::roleParent) {
 
             $myParentID = \Auth::user()->id;
 
@@ -151,7 +164,7 @@ class StudentController extends Controller
 
     }
 
-    public function listforparents($idStud)
+    public function listTopicforparents($idStud)
     {
         $usId = \Auth::user()->id;
 
@@ -172,31 +185,76 @@ class StudentController extends Controller
         return view('student.topiclist', ['topics' => $topics, 'students' => $students]);
     }
 
+
+    public function listAssignmentforparents($idStud)
+    {
+        $usId = \Auth::user()->id;
+
+
+        $idClass = Student::retrieveClassId($idStud);
+
+        $assignments = Assignment::getAssignmentByClass($idClass);
+
+        $students = Student::retrieveStudentsForParent($usId);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        return view('student.assignmentlist', ['assignments' => $assignments, 'students' => $students]);
+    }
+
     public function storeParent(Request $request, $id)
     {
 
+        // retrieve the info of the student
+        $studentInfo = Student::retrieveById($id);
+
+        // save the two mails
+        $studentParents[] = $studentInfo->mailParent1;
+        $studentParents[] = $studentInfo->mailParent2;
 
         $userData['roleId'] = Role::retrieveByRole('Parent');
+
         $parentName1 = $request->input('parentName1');
         $parentEmail1 = $request->input('parentEmail1');
         $parentName2 = $request->input('parentName2');
         $parentEmail2 = $request->input('parentEmail2');
+
+        // retrieve the parent 1 from his email
         $p1 = User::retrieveByEmail($parentEmail1);
+        // retrieve the parent 2 from his email
         $p2 = User::retrieveByEmail($parentEmail2);
-        if (!isset($p1)) {
+
+        // retrieve the parent by the email associated to the student
+        $oldp1 = User::retrieveByEmail($studentInfo->mailParent1);
+        $oldp2 = User::retrieveByEmail($studentInfo->mailParent2);
 
 
-            if ($parentName1 != '' && $parentEmail1 != '') {
+        if ($parentName1 != '' && $parentEmail1 != '') {
 
+            // if the user was already set and the new email is different from the previous ones
+            // delete the parent and his user profile
+            if (isset($oldp1) && !in_array($parentEmail1, $studentParents)) {
+                User::deleteById($oldp1->id);
+                Student::deleteParentStudent($oldp1->id, $id);
+            }
+
+
+            // if the user parent 1 is not set
+            if (!isset($p1)) {
                 $data['mailParent1'] = $parentEmail1;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
 
-                $userData['name'] = $parentName1;
                 $password = User::password_generate(8);
                 $userData['password'] = Hash::make($password);
                 $userData['email'] = $parentEmail1;
-
+                $userData['name'] = $parentName1;
                 $spArray['idParent'] = User::saveUser($userData);
-                $spArray['idStudent'] = Student::save($data, $id);
 
                 Student::saveStudParent($spArray);
 
@@ -209,31 +267,56 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
+            }
+            // if the user parent 1 is already set
+            else {
+                // save the email of the parent in the student profile
+                $data['mailParent1'] = $parentEmail1;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
 
+                // take the id of the parent
+                $spArray['idParent'] = $p1->id;
+                // take the id of the student
+                $spArray['idStudent'] = $id;
 
+                // select all the children of the parent
+                $parentStudent = Student::retrieveStudentsForParent($p1->id);
+
+                $childrenOfParentId = array();
+                // take all the children associated to this parent
+                foreach ($parentStudent as $children)
+                    array_push($childrenOfParentId, $children->studentId);
+                // if the student is not already associated to the parent, save it as a child of the parent
+                if (!in_array($id, $childrenOfParentId)) {
+                    Student::saveStudParent($spArray);
+                }
             }
         }
-        else{
-            $spArray['idParent'] = $p1->id;
-            $spArray['idStudent'] = $id;
-
-            Student::saveStudParent($spArray);
-        }
-
-        if(!isset($p2)) {
 
 
-            if ($parentName2 != '' && $parentEmail2 != '') {
+        if ($parentName2 != '' && $parentEmail2 != '') {
+
+            if (isset($oldp2) && !in_array($parentEmail2, $studentParents)) {
+                User::deleteById($oldp2->id);
+                Student::deleteParentStudent($oldp2->id, $id);
+            }
+
+
+            if (!isset($p2)) {
 
                 $data1['mailParent2'] = $parentEmail2;
+                $spArray['idStudent'] = $id;
+                Student::save($data1, $id);
 
                 $userData['name'] = $parentName2;
                 $password = User::password_generate(8);
                 $userData['password'] = Hash::make($password);
                 $userData['email'] = $parentEmail2;
-                $spArray['idParent'] = User::saveUser($userData);
+
                 $spArray['idStudent'] = Student::save($data1, $id);
 
+                $spArray['idParent'] = User::saveUser($userData);
                 Student::saveStudParent($spArray);
 
                 //send email
@@ -245,18 +328,185 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
+            } else {
+                // save the email of the parent in the student profile
+                $data1['mailParent2'] = $parentEmail2;
+                $spArray['idStudent'] = $id;
+                Student::save($data, $id);
+
+                $spArray['idParent'] = $p2->id;
+                $spArray['idStudent'] = $id;
+
+                $parentStudent = Student::retrieveStudentsForParent($p2->id);
+
+                $childrenOfParentId = array();
+                // take all the children associated to this parent
+                foreach ($parentStudent as $children)
+                    array_push($childrenOfParentId, $children->studentId);
+                // if the student is not already associated to the parent, save it as a child of the parent
+                if (!in_array($id, $childrenOfParentId)) {
+                    Student::saveStudParent($spArray);
+                }
             }
         }
-        else{
-            $spArray['idParent'] = $p2->id;
-            $spArray['idStudent'] = $id;
 
-            Student::saveStudParent($spArray);
+
+        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
+
+
+    }
+
+
+    public function listMaterialforparents($idStud)
+    {
+        $usId = \Auth::user()->id;
+
+
+        $idClass = Student::retrieveClassId($idStud);
+
+        $material = Material::getMaterialByClass($idClass);
+
+        $students = Student::retrieveStudentsForParent($usId);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
         }
 
-        return redirect('/student/list');
+        return view('student.materiallist', ['materials' => $material, 'students' => $students]);
+    }
+
+    public function attendance($classId, $date)
+    {
+
+        $teacherId = \Auth::user()->id;
+
+        $classRooms = Teacher::retrieveTeacherClass($teacherId);
+
+        $students = Student::retrieveStudentClass($classId);
 
 
+        foreach ($students as $student) {
+            $student->attendance = Student::retrieveStudentAttendance($student->id, null, $classId, $date);
+        }
+
+        $dateview = Student::convertDateView($date);
+
+        return view('student.attendance', ['students' => $students, 'classRooms' => $classRooms, 'classId' => $classId, 'date' => $dateview]);
+    }
+
+    public function saveattendance($classId)
+    {
+        $teacherId = \Auth::user()->id;
+        $students = Student::retrieveStudentClass($classId);
+
+        foreach ($students as $student) {
+            $data = request('frm' . $student->id);
+
+            $data['lectureDate'] = request('lectureDate');
+
+            if (!isset($data['status'])) {
+                $data['status'] = 'absent';
+            } else {
+                $data['status'] = 'present';
+            }
+            $data['classId'] = $classId;
+            $data['teacherId'] = $teacherId;
+            $data['studentId'] = $student->id;
+            $data['lectureDate'] = Student::convertDate($data['lectureDate']);
+
+            $st = Student::retrieveAttendance($student->id, $teacherId, $classId, $data['lectureDate']);
+
+            if (isset($st)) {
+                //update
+                Student::saveStudentAttendance($data, $data['studentId'], $data['teacherId'], $classId, $data['lectureDate']);
+            } else {
+                //insert
+                Student::saveStudentAttendance($data);
+            }
+
+
+        }
+
+        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate'])->with(['message'=>'Successfull operation!']);
+    }
+
+    public function attendancereport($id)
+    {
+        $myParentID = \Auth::user()->id;
+
+        $student=Student::retrieveById($id);
+
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($id, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        $attendanceReports = Student::retrieveAttendanceReport($id, null, null, null);
+
+        return view('student.attendance_report', ['attendanceReports' => $attendanceReports, 'students' => $students,'student'=>$student]);
+    }
+
+    public function shownotes($id)
+    {
+        if (\Auth::user()->roleId == User::roleParent) {
+
+            $myParentID = \Auth::user()->id;
+
+            $students = Student::retrieveStudentsForParent($myParentID);
+
+            foreach ($students as $student) {
+                $stIds[] = $student->id;
+            }
+            if (!in_array($id, $stIds)) {
+                return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+            }
+
+            $notes = Note::retrieveNotesForStudent($id);
+
+            return view('student.shownotes', ['students' => $students, 'notes' => $notes]);
+
+        } else {
+            return view('student.shownotes');
+        }
+    }
+
+    public function timetableForStudent($idStud)
+    {
+
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        $class = Classroom::retrieveByStudentId($idStud);
+
+        $timetables = Timetable::retrieveTimeslotData($class);
+        if (count($timetables) > 0) {
+            foreach ($timetables as $timetable) {
+                $data[$timetable->hour][] = $timetable->subject;
+            }
+
+            return view('student.timetablelist', ['timeTables' => $data, 'classId' => $class, 'students' => $students]);
+        } else {
+            if ($class) {
+                return \Redirect('/')->withErrors([' There is not any timetable for class ' . $class]);
+            } else {
+                return \Redirect('/')->withErrors([' Class ' . $class . ' is not exist.']);
+            }
+
+        }
     }
 
 }

@@ -11,6 +11,12 @@ use DB;
 class User extends Authenticatable
 {
     const table = 'users';
+    const roleSuperadmin = 5;
+    const roleAdmin = 1;
+    const roleTeacher = 2;
+    const roleParent = 3;
+    const rolePrincipal = 6;
+    const roleClasscoordinator = 4;
     use Notifiable;
 
     /**
@@ -63,6 +69,7 @@ class User extends Authenticatable
     {
         return DB::table(static::table)->where('id', $id)->delete();
     }
+
     public static function saveUser(array $data, $id = null): int
     {
         if ($id) {

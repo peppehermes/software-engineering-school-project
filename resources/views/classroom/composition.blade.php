@@ -22,19 +22,19 @@
                                 </div>
                             @endif
 
-                                @if ($errors->any())
-                                    <div class="product-payment-inner-st">
+                            @if ($errors->any())
+                                <div class="product-payment-inner-st">
 
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
-                                @endif
+
+                                </div>
+                            @endif
                             <div class="main-sparkline13-hd">
                                 <h1>Classroom {{$classroom->id}} ( <span
                                         class="text-danger font-bold">Capacity {{$classroom->capacity}}</span> )
@@ -54,13 +54,13 @@
                                        data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-                                        <th data-field="id">ID</th>
-                                        <th data-field="name" data-editable="true">First Name</th>
-                                        <th data-field="email" data-editable="true">Last Name</th>
-                                        <th data-field="phone" data-editable="true">Birthday</th>
-                                        <th data-field="complete">Phone</th>
-                                        <th data-field="task" data-editable="true">Gender</th>
-                                        <th data-field="task" data-editable="true">Remove</th>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Birthday</th>
+                                        <th>Phone</th>
+                                        <th>Gender</th>
+                                        <th>Remove</th>
                                     </tr>
                                     </thead>
                                     <tbody>

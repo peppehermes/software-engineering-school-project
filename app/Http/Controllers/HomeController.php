@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Teacher;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        if (\Auth::user()->roleId == 3) {
+        if (\Auth::user()->roleId == User::roleParent) {
 
 
             $myParentID = \Auth::user()->id;
@@ -34,6 +36,19 @@ class HomeController extends Controller
 
 
             return view('home2', ['students' => $students]);
+
+        } elseif (\Auth::user()->roleId == User::roleTeacher) {
+
+
+            $userId = \Auth::user()->id;
+            $teacherId = Teacher::retrieveId($userId);
+
+            $classRooms = Teacher::retrieveTeacherClass($teacherId);
+
+
+
+            return view('home2', ['classRooms' => $classRooms, 'today' => date('Y-m-d')]);
+
 
         } else {
             return view('home2');
