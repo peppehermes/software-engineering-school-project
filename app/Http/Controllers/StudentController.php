@@ -490,6 +490,7 @@ class StudentController extends Controller
             return \Redirect('/')->withErrors([' You dont have permission for another student!']);
         }
 
+
         $class = Classroom::retrieveByStudentId($idStud);
 
         $timetables = Timetable::retrieveTimeslotData($class);
