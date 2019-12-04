@@ -1,5 +1,5 @@
-Giuseppe: 7 h + 8 h
-Andrea: 2.5(Stories 15-16) + 11.5(Testing Training and implementation)
-Sahar: 10 h + 2.5 h + 2 h + 12 h
-Marco: 3 h + 3 h + 2 h + 3 h + 3 h
-Matteo : 1 h + 3.5 h + 3 h + 1.5 h + 3.5 h
+Giuseppe:
+Andrea: 1
+Sahar:
+Marco:
+Matteo:
