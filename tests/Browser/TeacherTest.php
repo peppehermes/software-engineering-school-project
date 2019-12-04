@@ -143,7 +143,7 @@ class TeacherTest extends DuskTestCase
         });
 
     }
-
+/*
     public function test_as_teacher_want_publish_material()
     {
 
@@ -173,7 +173,7 @@ class TeacherTest extends DuskTestCase
         $this->assertDatabaseHas('suppmaterial', [
             'mdescription' => 'Some description'
         ]);
-    }
+    }*/
 
     public function test_as_teacher_want_write_note()
     {
@@ -230,6 +230,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
+                ->attach('attachment',public_path('img\avatar\boy.png'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date1)
                 ->press('Submit')
