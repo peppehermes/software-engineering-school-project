@@ -68,7 +68,7 @@ class StudentController extends Controller
         }
         $id = Student::save($data);
 
-        return redirect('/student/edit/' . $id)->with(['parent' => 1,'message'=>'Successfull operation!']);
+        return redirect('/student/edit/' . $id)->with(['parent' => 1, 'message' => 'Successfull operation!']);
 
     }
 
@@ -125,7 +125,7 @@ class StudentController extends Controller
         }
         Student::save($data, $id);
 
-        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
+        return redirect('/student/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -133,7 +133,7 @@ class StudentController extends Controller
     {
 
         Student::delete($id);
-        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
+        return redirect('/student/list')->with(['message' => 'Successfull operation!']);
 
     }
 
@@ -267,8 +267,7 @@ class StudentController extends Controller
                         ->subject('Parent Password');
                     $message->from('sahar.saadatmandii@gmail.com', 'Password');
                 });
-            }
-            // if the user parent 1 is already set
+            } // if the user parent 1 is already set
             else {
                 // save the email of the parent in the student profile
                 $data['mailParent1'] = $parentEmail1;
@@ -351,7 +350,7 @@ class StudentController extends Controller
         }
 
 
-        return redirect('/student/list')->with(['message'=>'Successfull operation!']);
+        return redirect('/student/list')->with(['message' => 'Successfull operation!']);
 
 
     }
@@ -430,14 +429,14 @@ class StudentController extends Controller
 
         }
 
-        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate'])->with(['message'=>'Successfull operation!']);
+        return redirect('/student/attendance/' . $classId . '/' . $data['lectureDate'])->with(['message' => 'Successfull operation!']);
     }
 
     public function attendancereport($id)
     {
         $myParentID = \Auth::user()->id;
 
-        $student=Student::retrieveById($id);
+        $student = Student::retrieveById($id);
 
         $students = Student::retrieveStudentsForParent($myParentID);
 
@@ -450,7 +449,7 @@ class StudentController extends Controller
 
         $attendanceReports = Student::retrieveAttendanceReport($id, null, null, null);
 
-        return view('student.attendance_report', ['attendanceReports' => $attendanceReports, 'students' => $students,'student'=>$student]);
+        return view('student.attendance_report', ['attendanceReports' => $attendanceReports, 'students' => $students, 'student' => $student]);
     }
 
     public function shownotes($id)
