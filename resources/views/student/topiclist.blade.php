@@ -32,11 +32,11 @@
                                     @foreach($topics as $topic)
 
                                         <tr>
-                                            <td>{{$topic->idClass}}</td>
-                                            <td>{{$topic->firstName}} {{$topic->lastName}}</td>
+                                            <td class="idClass">{{$topic->idClass}}</td>
+                                            <td class="teacherName">{{$topic->firstName}} {{$topic->lastName}}</td>
                                             <td>{{$topic->subject}} </td>
                                             <td>{{$topic->date}}</td>
-                                            <td>{{$topic->topic}}</td>
+                                            <td class="topic">{{$topic->topic}}</td>
 
                                         </tr>
 
