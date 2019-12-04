@@ -55,6 +55,52 @@ class OfficerTest extends DuskTestCase
         ]);
     }
 
+    public function test_as_officer_want_import_timetable()
+    {
+        $user = factory(User::class)->create(['roleId'=>1]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/timetable/add')
+                ->select('frm[classId]','1A')
+                ->attach('timetable',public_path('timetable.csv'))
+                ->press('Submit')
+                ->assertPathIs('/timetable/list')
+                ->logout();
+        });
+        $this->assertDatabaseHas('timetable', [
+            'idClass' => '1A'
+        ]);
+    }
+
+    public function test_as_officer_want_add_communications()
+    {
+        $user = factory(User::class)->create(['roleId'=>1]);
+
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/communications/add')
+                ->type('frm[description]','Some communication')
+                ->press('Submit')
+                ->assertPathIs('/communications/list')
+                ->logout();
+        });
+        $this->assertDatabaseHas('communications', [
+            'description' => 'Some communication'
+        ]);
+    }
+
 /*
     public function test_as_officer_want_compose_classrooms()
     {

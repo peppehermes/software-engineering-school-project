@@ -164,7 +164,7 @@ class TeacherTest extends DuskTestCase
                 ->select('idClass',$classid)
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
-                ->attach('material',public_path('img\avatar\boy.png'))
+                ->attach('material',public_path('robots.txt'))
                 ->press('Submit')
                 ->assertPathIs('/material/list')
                 ->logout();
@@ -230,7 +230,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date1)
                 ->press('Submit')
@@ -264,7 +264,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject', 'Math')
                 ->type('frm[text]', 'some text')
                 ->type('frm[topic]', 'some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');
@@ -297,7 +297,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');
