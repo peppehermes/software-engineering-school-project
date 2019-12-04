@@ -24,7 +24,6 @@
                                        data-toolbar="#toolbar">
                                     <thead>
                                     <tr>
-
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Attendance status</th>
