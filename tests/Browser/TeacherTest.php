@@ -22,12 +22,13 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_topics()
     {
         $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -36,9 +37,7 @@ class TeacherTest extends DuskTestCase
             $browser->visit('/topic/add')
                 ->select('idClass',$classid)
                 ->select('subject','Math')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day)
+                ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
                 ->assertPathIs('/topic/list')
@@ -53,12 +52,13 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_topics_wrong_date()
     {
         $today = now();
+        $date=($today->day+1).'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -67,9 +67,7 @@ class TeacherTest extends DuskTestCase
             $browser->visit('/topic/add')
                 ->select('idClass',$classid)
                 ->select('subject','Math')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day+1)
+                ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit');
                 $browser->acceptDialog()
@@ -81,6 +79,7 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_marks()
     {
         $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
@@ -88,7 +87,7 @@ class TeacherTest extends DuskTestCase
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>'parent@test.com']);
         Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -99,9 +98,7 @@ class TeacherTest extends DuskTestCase
                 ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
                 ->select('mark','8')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day)
+                ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
                 ->assertPathIs('/mark/list')
@@ -118,6 +115,7 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_marks_wrong_date()
     {
         $today = now();
+        $date=($today->day+1).'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
@@ -125,7 +123,7 @@ class TeacherTest extends DuskTestCase
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>'parent@test.com']);
         Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -136,9 +134,7 @@ class TeacherTest extends DuskTestCase
                 ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
                 ->select('mark','8')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day+1)
+                ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
                 ->press('Submit');
             $browser->acceptDialog()
@@ -214,13 +210,16 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_assignments()
     {
         $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
+        $date1=($today->day+1).'/'.$today->month.'/'.$today->year;
+
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date,$date1){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -231,12 +230,8 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day)
-                ->select('yeard',$today->year)
-                ->select('monthd',$today->month)
-                ->select('dayd',$today->day + 1)
+                ->type('lecturedate',$date)
+                ->type('deadline',$date1)
                 ->press('Submit')
                 ->assertPathIs('/assignment/list')
                 ->logout();
@@ -250,13 +245,14 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_insert_assignments_wrong_deadline()
     {
         $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID' => 2]);
         $classid = Classroom::save(['id' => '1A', 'capacity' => 25, 'description' => 'molto bella']);
         $teacherid = Teacher::save(['firstName' => $user->name, 'lastName' => ' ', 'userId' => $user->id, 'email' => $user->email]);
         Teacher::saveTeaching(['idTeach' => $teacherid, 'idClass' => $classid, 'subject' => 'Math']);
 
 
-        $this->browse(function ($browser) use ($user, $classid, $today) {
+        $this->browse(function ($browser) use ($user, $classid, $date) {
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -267,12 +263,9 @@ class TeacherTest extends DuskTestCase
                 ->select('subject', 'Math')
                 ->type('frm[text]', 'some text')
                 ->type('frm[topic]', 'some topic')
-                ->select('year', $today->year)
-                ->select('month', $today->month)
-                ->select('day', $today->day)
-                ->select('yeard', $today->year)
-                ->select('monthd', $today->month)
-                ->select('dayd', $today->day)
+                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->type('lecturedate',$date)
+                ->type('deadline',$date)
                 ->press('Submit');
             $browser->acceptDialog()
                 ->assertPathIsNot('/assignment/list')
@@ -285,13 +278,14 @@ class TeacherTest extends DuskTestCase
         public function test_as_teacher_want_insert_assignments_wrong_date()
     {
         $today = now();
+        $date=($today->day+1).'/'.$today->month.'/'.$today->year;
         $user = factory(User::class)->create(['roleID'=>2]);
         $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
 
-        $this->browse(function ($browser) use ($user,$classid,$today){
+        $this->browse(function ($browser) use ($user,$classid,$date){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
@@ -302,12 +296,9 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->select('year',$today->year)
-                ->select('month',$today->month)
-                ->select('day',$today->day+1)
-                ->select('yeard',$today->year)
-                ->select('monthd',$today->month)
-                ->select('dayd',$today->day)
+                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->type('lecturedate',$date)
+                ->type('deadline',$date)
                 ->press('Submit');
             $browser->acceptDialog()
                 ->assertPathIsNot('/assignment/list')

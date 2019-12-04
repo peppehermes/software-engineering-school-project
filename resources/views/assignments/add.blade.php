@@ -31,11 +31,14 @@
 
             var  extraday,d,m,d1,m1;
 
-
-            d  = document.getElementById('day').value;
-            m  = document.getElementById('month').value;
-            d1 = document.getElementById('dayd').value;
-            m1 = document.getElementById('monthd').value;
+            var date = document.getElementById('lecturedate').value;
+            var date1 = document.getElementById('deadline').value;
+            var str = date.split('/');
+            var str1 = date1.split('/');
+            d  = str[0];
+            m  = str[1];
+            d1 = str1[0];
+            m1 = str1[1];
 
 
             const today = new Date(),
@@ -155,94 +158,41 @@
                                                                        class="form-control" required>
                                                             </div>
 
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Lecture's Date:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
+                                                            <div class="form-group col-md-12">
 
-                                                                <select id="year" name="year" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
+                                                                <label class="control-label">Attachment:</label>
+                                                                <input type="file" class="form-control-file"
+                                                                   name="attachment">
 
 
-                                                                <select id="month" name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <option value="<?php $date = new DateTime("last month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("last month"); echo $date->format('F');?></option>
 
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-                                                                </select>
+                                                                <div class="form-group data-custon-pick" id="data_2">
+                                                                    <label>Lecture's date:</label>
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                        <input type="text" name="lecturedate" class="form-control"
+                                                                           id="lecturedate"
+                                                                               value="{{$date}}">
 
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
+                                                                    </div>
+                                                                </div>
 
-                                                                <select id="day" name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
+
+
+                                                                <div class="form-group data-custon-pick" id="data_2">
+                                                                    <label>Assignment's Deadline:</label>
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                        <input type="text" name="deadline" class="form-control"
+                                                                           id="deadline"
+                                                                           value="{{$date}}">
+                                                                    </div>
+                                                                </div>
 
                                                             </div>
-
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Assignment's Deadline:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="yeard" name="yeard" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
-
-
-                                                                <select id="monthd" name="monthd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-
-                                                                    <option value="<?php $date = new DateTime("next month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("next month"); echo $date->format('F');?></option>
-
-
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="dayd" name="dayd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
-
-                                                            </div>
-
-
                                                         </div>
-
-
                                                     </div>
+
                                                     <div class="row" style="margin-top: 50px">
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">

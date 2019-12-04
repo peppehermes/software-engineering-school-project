@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   `subject` varchar(45) NOT NULL,
   `topic` varchar(300) NOT NULL,
   `date` varchar(45) NOT NULL,
+  `attachment` varchar(255),
   `idTeach` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `deadline` varchar(45) NOT NULL,
@@ -45,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `assignments` (
 -- Dump dei dati per la tabella `assignments`
 --
 
-INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `idTeach`, `idClass`, `deadline`) VALUES
-(1, 'Exercise N. 1', 'Math', 'Expressions', '2019-11-25', 1, '1A', '2019-11-30');
+INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`,`attachment`, `idTeach`, `idClass`, `deadline`) VALUES
+(1, 'Exercise N. 1', 'Math', 'Expressions', '2019-11-25',NULL, 1, '1A', '2019-11-30');
 
 -- --------------------------------------------------------
 

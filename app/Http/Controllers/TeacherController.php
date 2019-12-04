@@ -194,7 +194,8 @@ class TeacherController extends Controller
         $data = request('frm');
         if ($data) {
             //create topic
-            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['date'] = request('lecturedate');
+            $data['date'] = Student::convertDate($data['date']);
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
@@ -206,11 +207,12 @@ class TeacherController extends Controller
     public function addtopic()
     {
         $usId = \Auth::user()->id;
-
+        $date=date("Y-m-d");
+        $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('topic.add', ['classes' => $classes,'subjects' => $subjects]);
+        return view('topic.add', ['classes' => $classes,'subjects' => $subjects,'date'=>$dateview]);
     }
 
     public function storeassignment(Request $request)
@@ -218,13 +220,26 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $data = request('frm');
+
         if ($data) {
-            //create topic
-            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
-            $data['deadline'] = implode('-', [request('yeard'), request('monthd'), request('dayd')]);
+            $data['deadline'] = request('deadline');
+            $data['date'] = request('lecturedate');
+            $data['date'] = Student::convertDate($data['date']);
+            $data['deadline'] = Student::convertDate($data['deadline']);
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            if ($request->file('attachment')) {
+
+                $cover = $request->file('attachment');
+
+                $extension = $cover->getClientOriginalExtension();
+                $fileName = date('YmdHis') . '.' . $extension;
+                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+
+
+                $data['attachment'] = $fileName;
+            }
             Assignment::save($data);
         }
         return redirect('/assignment/list')->with(['message' => 'Successfull operation!']);
@@ -236,11 +251,12 @@ class TeacherController extends Controller
     public function addassignment()
     {
         $usId = \Auth::user()->id;
-
+        $date=date("Y-m-d");
+        $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('assignments.add', ['classes' => $classes,'subjects' => $subjects]);
+        return view('assignments.add', ['classes' => $classes,'subjects' => $subjects,'date' => $dateview]);
     }
 
 
@@ -260,7 +276,8 @@ class TeacherController extends Controller
         $data = request('frm');
         if ($data) {
             //create topic
-            $data['date'] = implode('-', [request('year'), request('month'), request('day')]);
+            $data['date'] = request('lecturedate');
+            $data['date'] = Student::convertDate($data['date']);
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
             $data['mark'] = request('mark');
@@ -277,12 +294,13 @@ class TeacherController extends Controller
     public function addmark()
     {
         $usId = \Auth::user()->id;
-
+        $date=date("Y-m-d");
+        $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.add', ['classes' => $classes, 'studId' => $studId,'subjects' => $subjects]);
+        return view('marks.add', ['classes' => $classes, 'studId' => $studId,'subjects' => $subjects,'date' => $dateview]);
     }
 
 
