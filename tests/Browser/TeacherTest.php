@@ -230,6 +230,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
+                ->attach('attachment',public_path('img\avatar\boy.png'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date1)
                 ->press('Submit')

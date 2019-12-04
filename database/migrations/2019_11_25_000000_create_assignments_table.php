@@ -19,6 +19,7 @@ class CreateAssignmentsTable extends Migration
             $table->string('subject')->default('niente');
             $table->string('topic')->default('niente');
             $table->string('date')->default('niente');
+            $table->string('attachment')->default('niente');
             $table->integer('idTeach');
             $table->string('idClass');
             $table->string('deadline')->default('niente');
