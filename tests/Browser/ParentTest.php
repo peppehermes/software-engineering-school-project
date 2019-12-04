@@ -4,10 +4,12 @@ namespace Tests\Browser;
 
 use App\Models\Assignment;
 use App\Models\Classroom;
+use App\Models\Communications;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Mark;
 use App\Models\Note;
+use App\Models\Topic;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -21,6 +23,31 @@ class ParentTest extends DuskTestCase
      *
      * @return void
      */
+    public function test_as_parent_want_see_topics()
+    {
+        $user = factory(User::class)->create(['roleId'=>3]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>$user->email]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Topic::save(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math', 'date'=>'2019-12-3', 'topic'=>'Some topic']);
+
+        $this->browse(function ($browser) use ($user, $studentid,$teacher){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/topic/listforparents/'.$studentid)
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.idClass','1A')
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.teacherName',$teacher->name)
+                ->assertSeeIn('table > tbody > tr:nth-child(1) > td.topic','Some topic')
+                ->logout();
+
+        });
+    }
+
     public function test_as_parent_want_see_marks()
     {
         $user = factory(User::class)->create(['roleId'=>3]);
@@ -65,7 +92,7 @@ class ParentTest extends DuskTestCase
                 ->select('idClass',$classid)
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
-                ->attach('material',public_path('img\avatar\boy.png'))
+                ->attach('material',public_path('robots.txt'))
                 ->press('Submit')
                 ->assertPathIs('/material/list')
                 ->logout();
@@ -136,6 +163,25 @@ class ParentTest extends DuskTestCase
             $browser->visit('/student/attendance_report/'.$studentid)
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.status','absent')
                 ->assertSeeIn('table > tbody > tr:nth-child(1) > td.desc','some description')
+                ->logout();
+
+        });
+    }
+
+    public function test_as_parent_want_see_communications()
+    {
+        $user = factory(User::class)->create(['roleId'=>3]);
+        $admin = factory(User::class)->create(['roleId'=>1]);
+        Communications::addNewComm(['description'=>'Some description','idAdmin' => $admin->id]);
+
+        $this->browse(function ($browser) use ($user,$admin){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/communications/list')
+                ->assertSee($admin->name)
                 ->logout();
 
         });
