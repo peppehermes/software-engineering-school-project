@@ -134,5 +134,17 @@ class Teacher
 
     }
 
+    public static function retrieveTimeslots($id): Collection
+    {
+
+        return DB::table('timetable')
+            ->select('timeslots.*','timetable.subject')
+            ->join('timeslots', 'timetable.idTimeslot', '=', 'timeslots.id')
+            ->where('timetable.idTeacher', $id)
+            ->get();
+
+    }
+
+
 
 }

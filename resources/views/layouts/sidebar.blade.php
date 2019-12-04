@@ -141,6 +141,18 @@
                             </ul>
                         </li>
 
+                        <li @if(\Request::path()=='meeting/add' || \Request::path()=='meetings/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Add new Note" href="/meetings/add"><span
+                                            class="mini-sub-pro">Provide Timeslot</span></a></li>
+                                <li><a title="View all Notes" href="/meetings/list"><span
+                                            class="mini-sub-pro">All Provided Timeslots</span></a></li>
+                            </ul>
+                        </li>
+
+
 
                         <li @if(\Request::path()=='timetable/list' ||  \Request::path()=='timetable/show') class="active" @endif>
                             <a href="/timetable/list" aria-expanded="false"><span

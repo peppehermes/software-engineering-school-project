@@ -11,6 +11,8 @@ use App\Models\Material;
 use App\Models\Assignment;
 use App\Models\Note;
 use App\Models\Mark;
+use App\Models\Timeslot;
+use App\Models\Meeting;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -207,12 +209,12 @@ class TeacherController extends Controller
     public function addtopic()
     {
         $usId = \Auth::user()->id;
-        $date=date("Y-m-d");
+        $date = date("Y-m-d");
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('topic.add', ['classes' => $classes,'subjects' => $subjects,'date'=>$dateview]);
+        return view('topic.add', ['classes' => $classes, 'subjects' => $subjects, 'date' => $dateview]);
     }
 
     public function storeassignment(Request $request)
@@ -251,12 +253,12 @@ class TeacherController extends Controller
     public function addassignment()
     {
         $usId = \Auth::user()->id;
-        $date=date("Y-m-d");
+        $date = date("Y-m-d");
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('assignments.add', ['classes' => $classes,'subjects' => $subjects,'date' => $dateview]);
+        return view('assignments.add', ['classes' => $classes, 'subjects' => $subjects, 'date' => $dateview]);
     }
 
 
@@ -294,13 +296,13 @@ class TeacherController extends Controller
     public function addmark()
     {
         $usId = \Auth::user()->id;
-        $date=date("Y-m-d");
+        $date = date("Y-m-d");
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.add', ['classes' => $classes, 'studId' => $studId,'subjects' => $subjects,'date' => $dateview]);
+        return view('marks.add', ['classes' => $classes, 'studId' => $studId, 'subjects' => $subjects, 'date' => $dateview]);
     }
 
 
@@ -321,7 +323,7 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
-        return view('suppmaterial.add', ['classes' => $classes,'subjects' => $subjects]);
+        return view('suppmaterial.add', ['classes' => $classes, 'subjects' => $subjects]);
     }
 
     public function storematerial(Request $request)
@@ -370,7 +372,7 @@ class TeacherController extends Controller
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('notes.write', ['classes' => $classes, 'stud' => $studId,'subjects' => $subjects]);
+        return view('notes.write', ['classes' => $classes, 'stud' => $studId, 'subjects' => $subjects]);
     }
 
     public function storenote(Request $request)
@@ -400,4 +402,43 @@ class TeacherController extends Controller
 
         return view('notes.list', ['notes' => $notes]);
     }
+
+
+    public function addtimeslot()
+    {
+
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $times= Timeslot::retrieve();
+        $bool=1;
+        $provided= Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
+        foreach ($times as $time) {
+            $data[$time->hour][] =$time->id;
+        }
+        $timeslots=Teacher::retrieveTimeslots($teachId);
+        $teach=Teacher::retrieveById($teachId);
+        if (count($timeslots) > 0) {
+
+
+            return view('meetings.add', ['timeslots' => $timeslots,'times'=>$data,'teach'=>$teach,'bool'=>$bool,'provided'=>$provided]);
+
+        }
+
+            else
+                return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName .$teach->lastName. ' is not assigned to any class yet.']);
+
+    }
+/*
+    public function storetimeslot()
+    {
+        //take array into $slots
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $data['idTeacher']=$teachId ;
+        for($i=0;$i<$slots.length;$i++){
+          $data['idTimeslot']=$slots[i];
+            Meeting::save($data);
+        }
+     }
+*/
 }

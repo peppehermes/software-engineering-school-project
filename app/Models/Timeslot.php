@@ -25,4 +25,15 @@ class Timeslot
 
     }
 
+    public static function retrieve(): Collection
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->orderBy(static::table . '.id', 'ASC')
+            ->get();
+
+    }
 }

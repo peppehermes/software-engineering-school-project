@@ -122,6 +122,13 @@ Route::group(['prefix' => 'communications'],  function() {
     Route::post('/store', 'CommunicationsController@store')->middleware('admin');
 });
 
+//Meetings
+Route::group(['prefix' => 'meetings'],  function() {
+    Route::get('/add', 'TeacherController@addtimeslot')->middleware('teachers');
+    Route::get('/list', 'TeacherController@listtimeslot')->middleware('teachers');
+    Route::post('/store', 'TeacherController@storetimeslot')->middleware('teachers');
+});
+
 
 //Timetables
 Route::group(['prefix' => 'timetable'],  function() {

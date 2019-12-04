@@ -493,7 +493,8 @@ CREATE TABLE IF NOT EXISTS `timetable` (
   `idTimeslot` int(11) NOT NULL,
   `idTeacher` int(11) NOT NULL,
   `subject` varchar(300) NOT NULL,
-  UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE
+  UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE,
+  UNIQUE KEY `lecture_teacher` (`idTimeslot`,`idTeacher`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -531,6 +532,26 @@ INSERT INTO `timetable` (`idClass`, `idTimeslot`, `idTeacher`, `subject`) VALUES
 ('1A', 28, 1, 'Biology'),
 ('1A', 29, 6, 'Math'),
 ('1A', 30, 2, 'Art');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `meetings`
+--
+
+CREATE TABLE IF NOT EXISTS `meetings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idTimeslot` int(11) NOT NULL,
+  `idTeacher` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `availability` (`idTeacher`,`idTimeslot`) USING BTREE
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `meetings`
+--
+INSERT INTO `meetings` (`id`, `idTimeslot`, `idTeacher`) VALUES
+(1, 3, 1);
 
 -- --------------------------------------------------------
 
