@@ -2,49 +2,58 @@
 
 @section('content')
     <script>
-      function selecttimeslot(slot){
-           if( slot.style.backgroundColor=="orange")
+        function selecttimeslot(slot) {
+            if (slot.style.backgroundColor == "orange")
 
-               slot.style.backgroundColor="#7fff00";
-           else
-               slot.style.backgroundColor="orange";
+                slot.style.backgroundColor = "#7fff00";
+            else
+                slot.style.backgroundColor = "orange";
 
-           alert(slot.id);
+            //alert(slot.id);
 
         }
 
 
+        function provideslots() {
+            var slot, j = 0;
+            var slots = new Array();
 
-      function provideslots(){
-          var slot,j=0;
-          var slots=new Array();
+            for (var i = 1; i < 37; i++) {
+                slot = document.getElementById(i);
+                console.log(slot);
+                if (slot.style.backgroundColor == "orange") {
+                    slots[j] = slot.id;
+                    j++;
+                }
+            }
 
-          for(var i=1;i<37;i++){
-            slot =document.getElementById(i);
-              if( slot.style.backgroundColor=="orange"){
-                  slots[j]=slot;
-                  j++;
-              }
-          }
+            if (slots.length > 2) {
+                alert('Sorry,too many slots selected!');
+                window.location = "/meetings/add"
+            } else {
+                //Pass array slots to /meetings/store
+                dataString = slots; // array?
+                var jsonString = JSON.stringify(dataString);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/meetings/store",
+                    data: {data: jsonString},
+                    cache: false,
 
-          if(slots.length>2) {
-              alert('Sorry,too many slots selected!');
-              window.location = "/meetings/add"
-          }
+                    success: function (data) {
+                        window.location = "/meetings/add"
+                    }
+                });
 
-          else{
-             //Pass array slots to /meetings/store
-
-
-          }
+            }
 
 
-
-      }
-
-
-
-
+        }
 
 
     </script>
@@ -83,8 +92,8 @@
                                                     <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->subject}}</td>
                                                     @php $bool=0;
                                                     @endphp
-                                                    @endif
-                                                    @endforeach
+                                                @endif
+                                            @endforeach
                                             @foreach($provided as $prov)
                                                 @if($row==$prov->idTimeslot)
                                                     <td id="{{$row}}" bgcolor="#00008b">{{''}}</td>
@@ -93,9 +102,10 @@
                                                 @endif
                                             @endforeach
 
-                                                @if($bool==1)
-                                                <td id="{{$row}}" bgcolor="#7fff00" onclick="selecttimeslot(this)">{{''}}</td>
-                                                @endif
+                                            @if($bool==1)
+                                                <td id="{{$row}}" bgcolor="#7fff00"
+                                                    onclick="selecttimeslot(this)">{{''}}</td>
+                                            @endif
                                         @endforeach
                                     </tr>
                                 @endforeach
@@ -107,10 +117,10 @@
                     <div class="row" style="margin-top: 50px">
                         <div class="col-lg-12">
                             <div class="payment-adress">
-                    <button type="submit" onclick="provideslots()"
-                            class="btn btn-primary waves-effect waves-light">
-                        Provide slots
-                    </button>
+                                <button type="submit" onclick="provideslots()"
+                                        class="btn btn-primary waves-effect waves-light">
+                                    Provide slots
+                                </button>
                             </div>
                         </div>
                     </div>

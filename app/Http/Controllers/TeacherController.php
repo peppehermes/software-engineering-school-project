@@ -409,36 +409,36 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $times= Timeslot::retrieve();
-        $bool=1;
-        $provided= Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
+        $times = Timeslot::retrieve();
+        $bool = 1;
+        $provided = Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
         foreach ($times as $time) {
-            $data[$time->hour][] =$time->id;
+            $data[$time->hour][] = $time->id;
         }
-        $timeslots=Teacher::retrieveTimeslots($teachId);
-        $teach=Teacher::retrieveById($teachId);
+        $timeslots = Teacher::retrieveTimeslots($teachId);
+        $teach = Teacher::retrieveById($teachId);
         if (count($timeslots) > 0) {
 
 
-            return view('meetings.add', ['timeslots' => $timeslots,'times'=>$data,'teach'=>$teach,'bool'=>$bool,'provided'=>$provided]);
+            return view('meetings.add', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided]);
 
-        }
-
-            else
-                return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName .$teach->lastName. ' is not assigned to any class yet.']);
+        } else
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
 
     }
-/*
+
     public function storetimeslot()
     {
-        //take array into $slots
+        $slots = json_decode(stripslashes($_POST['data']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $data['idTeacher']=$teachId ;
-        for($i=0;$i<$slots.length;$i++){
-          $data['idTimeslot']=$slots[i];
+        $data['idTeacher'] = $teachId;
+
+        foreach ($slots as $d) {
+            $data['idTimeslot'] = $d;
             Meeting::save($data);
         }
-     }
-*/
+
+    }
+
 }
