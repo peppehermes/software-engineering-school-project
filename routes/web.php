@@ -127,6 +127,7 @@ Route::group(['prefix' => 'meetings'],  function() {
     Route::get('/add', 'TeacherController@addtimeslot')->middleware('teachers');
     Route::get('/list', 'TeacherController@listtimeslot')->middleware('teachers');
     Route::post('/store', 'TeacherController@storetimeslot')->middleware('teachers');
+    Route::post('/free', 'TeacherController@freetimeslot')->middleware('teachers');
 });
 
 

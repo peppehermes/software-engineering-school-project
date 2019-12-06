@@ -427,18 +427,69 @@ class TeacherController extends Controller
 
     }
 
+    public function listtimeslot()
+    {
+
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $times = Timeslot::retrieve();
+        $bool = 1;
+        $provided = Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
+        foreach ($times as $time) {
+            $data[$time->hour][] = $time->id;
+        }
+        $timeslots = Teacher::retrieveTimeslots($teachId);
+        $teach = Teacher::retrieveById($teachId);
+        if (count($timeslots) > 0) {
+
+
+            return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided]);
+
+        } else
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
+
+    }
+
+
     public function storetimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $data['idTeacher'] = $teachId;
+        $provided = Meeting::retrieveMeetingperTeacher($teachId);
 
-        foreach ($slots as $d) {
-            $data['idTimeslot'] = $d;
-            Meeting::save($data);
+        if ((count($provided)+count($slots)) > 2) {
+
+            $message = 'Too many timeslots provided, please provide at most 2!';
+            return $message;
+        }
+
+        else {
+            $data['idTeacher'] = $teachId;
+
+            foreach ($slots as $d) {
+                $data['idTimeslot'] = $d;
+                Meeting::save($data);
+            }
+            return 0;
         }
 
     }
+
+    public function freetimeslot()
+    {
+        $slots = json_decode(stripslashes($_POST['data']));
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $provided = Meeting::retrieveMeetingperTeacher($teachId);
+
+        foreach ($slots as $d) {
+
+                Meeting::delete_per_teacher($d,$teachId);
+            }
+
+        }
+
+
 
 }
