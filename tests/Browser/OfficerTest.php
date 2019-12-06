@@ -101,13 +101,12 @@ class OfficerTest extends DuskTestCase
         ]);
     }
 
-    /*
+
         public function test_as_officer_want_compose_classrooms()
         {
             $user = factory(User::class)->create(['roleID'=>1]);
             Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-            $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
-            Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+            Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
 
 
             $this->browse(function ($browser) use ($user){
@@ -117,11 +116,9 @@ class OfficerTest extends DuskTestCase
                     ->press('Login')
                     ->assertPathIs('/home');
                 $browser->visit('/classroom/composition/1A')
-                    ->press('Move all')
-                    ->select('frm[]','Giorgio Santagnelo')
+                    ->click('@student')
                     ->press('Submit')
                     ->assertPathIs('/classroom/list')
-                    ->assertSee('No student selected!')
                     ->logout();
             });
 
@@ -131,7 +128,8 @@ class OfficerTest extends DuskTestCase
                 'classId' =>   '1A'
             ]);
 
-    }*/
+
+    }
 
 
 

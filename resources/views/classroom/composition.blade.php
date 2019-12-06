@@ -94,6 +94,8 @@
         </div>
     </div>
 
+
+
     <div class="dual-list-box-area mg-b-15">
         <div class="container-fluid">
             <div class="row">
@@ -104,7 +106,8 @@
                                 <h1>Add students to this class</h1>
                             </div>
                         </div>
-                        <div class="sparkline10-graph">
+                        <div>
+                            <div class="sparkline10-graph">
                             <div class="basic-login-form-ad">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -113,10 +116,10 @@
                                                   action="/classroom/classComposition/{{$classroom->id}}"
                                                   class="wizard-big">
                                                 @csrf
-                                                <select class="form-control dual_select" name="frm[]" multiple>
+                                                <select id="frm[]" name="frm[]" class="form-control dual_select" multiple>
                                                     @foreach($students as $student)
                                                         <option
-                                                            value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
+                                                            dusk="student" value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
 
                                                     @endforeach
 
@@ -143,6 +146,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection
