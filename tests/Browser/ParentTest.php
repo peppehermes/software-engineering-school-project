@@ -187,7 +187,7 @@ class ParentTest extends DuskTestCase
         });
     }
 
-    /*public function test_as_parent_want_see_notes()
+    public function test_as_parent_want_see_notes()
     {
         $today= now();
         $user = factory(User::class)->create(['roleId'=>3]);
@@ -210,12 +210,12 @@ class ParentTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/notes/shownotes'.$studentid)
-                ->assertSeeIn('note', 'This is a note')
-                ->assertSeeIn('Math')
-                ->assertSeeIn($teacher->name)
-                ->assertSeeIn($today->year.'-'.$today->month.'-'.$today->day)
+            $browser->visit('/notes/shownotes/'.$studentid)
+                ->assertSee('This is a note')
+                ->assertSee('Math')
+                ->assertSee($teacher->name)
+                ->assertSee($today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
         });
-    }*/
+    }
 }

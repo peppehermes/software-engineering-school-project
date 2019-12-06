@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('firstName')->default(null);
             $table->string('lastName')->default(null);
-            $table->string('classId')->default('niente');
+            $table->string('classId')->default('');
             $table->string('birthday')->default('niente');
             $table->string('address')->default('niente');
             $table->string('phone')->default('niente');

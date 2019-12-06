@@ -22,7 +22,7 @@ class OfficerTest extends DuskTestCase
     public function test_as_officer_want_enroll_students()
     {
         $user = factory(User::class)->create(['roleId'=>1]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
 
 
         $this->browse(function ($browser) use ($user){
@@ -58,7 +58,7 @@ class OfficerTest extends DuskTestCase
     public function test_as_officer_want_import_timetable()
     {
         $user = factory(User::class)->create(['roleId'=>1]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
 
 
         $this->browse(function ($browser) use ($user){
@@ -101,32 +101,35 @@ class OfficerTest extends DuskTestCase
         ]);
     }
 
-/*
-    public function test_as_officer_want_compose_classrooms()
-    {
-        $user = factory(User::class)->create(['roleID'=>1]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+    /*
+        public function test_as_officer_want_compose_classrooms()
+        {
+            $user = factory(User::class)->create(['roleID'=>1]);
+            Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+            $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
+            Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
 
-        $this->browse(function ($browser) use ($user,$classid){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
-            $browser->visit('/classroom/composition/'.$classid)
-                ->select('frm[]','Giorgio Santangelo')
-                ->press('Submit')
-                ->assertPathIs('/classroom/list')
-                ->logout();
-        });
 
-        $this->assertDatabaseHas('student', [
-            'firstName' => 'Giorgio',
-            'lastName' => 'Santangelo',
-            'classId' =>   $classid
-        ]);
+            $this->browse(function ($browser) use ($user){
+                $browser->visit('/login')
+                    ->type('email', $user->email)
+                    ->type('password', 'password')
+                    ->press('Login')
+                    ->assertPathIs('/home');
+                $browser->visit('/classroom/composition/1A')
+                    ->press('Move all')
+                    ->select('frm[]','Giorgio Santagnelo')
+                    ->press('Submit')
+                    ->assertPathIs('/classroom/list')
+                    ->assertSee('No student selected!')
+                    ->logout();
+            });
+
+            $this->assertDatabaseHas('student', [
+                'firstName' => 'Giorgio',
+                'lastName' => 'Santangelo',
+                'classId' =>   '1A'
+            ]);
 
     }*/
 
