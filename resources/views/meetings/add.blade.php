@@ -159,7 +159,7 @@
                                             @endforeach
 
                                             @if($bool==1)
-                                                <td id="{{$row}}" bgcolor="green"
+                                                <td dusk="slot{{$row}}" id="{{$row}}" bgcolor="green"
                                                     onclick="selecttimeslot(this)">{{''}}</td>
                                             @endif
                                         @endforeach

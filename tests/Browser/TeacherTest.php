@@ -455,6 +455,57 @@ class TeacherTest extends DuskTestCase
             'lectureDate' => $today->year.'-'.$today->month.'-'.$day
         ]);
     }
+
+    public function test_as_teacher_want_provide_meeting_slots()
+    {
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/meetings/add')
+                ->click('@slot1')
+                ->press('Provide slots')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('meetings', [
+            'id' => 1,
+            'idTimeslot' => 1,
+            'idTeacher' => 1
+        ]);
+    }
+
+    public function test_as_teacher_want_check_timetable()
+    {
+
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/timetable/list')
+                ->select('frm[classId]','1A')
+                ->press('Submit')
+                ->assertSee('Time Table of class 1A')
+                ->logout();
+        });
+
+    }
 }
 
 

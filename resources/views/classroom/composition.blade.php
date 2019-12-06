@@ -119,7 +119,7 @@
                                                 <select id="frm[]" name="frm[]" class="form-control dual_select" multiple>
                                                     @foreach($students as $student)
                                                         <option
-                                                            dusk="student" value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
+                                                            dusk="student{{$student->id}}" value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
 
                                                     @endforeach
 

@@ -19,6 +19,11 @@ class CreateTimetableTable extends Migration
             $table->integer('idTimeslot');
             $table->string('subject');
         });
+        DB::table('timetable')->insert(
+            array(
+                ['idClass' => '1A','idTimeslot' => 2, 'idTeacher' =>1,'subject' => 'Math']
+            )
+        );
 
     }
 

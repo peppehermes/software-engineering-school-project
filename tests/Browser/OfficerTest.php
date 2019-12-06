@@ -116,7 +116,7 @@ class OfficerTest extends DuskTestCase
                     ->press('Login')
                     ->assertPathIs('/home');
                 $browser->visit('/classroom/composition/1A')
-                    ->click('@student')
+                    ->click('@student1')
                     ->press('Submit')
                     ->assertPathIs('/classroom/list')
                     ->logout();
@@ -131,6 +131,34 @@ class OfficerTest extends DuskTestCase
 
     }
 
+    public function test_as_officer_want_edit_teacher_data()
+    {
+        $admin = factory(User::class)->create(['roleID'=>1]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+
+
+
+        $this->browse(function ($browser) use ($admin){
+            $browser->visit('/login')
+                ->type('email', $admin->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/teacher/edit/1')
+                ->type('frm[birthPlace]','Turin')
+                ->press('Submit')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('teacher', [
+            'firstName' => $teacher->name,
+            'lastName' => 'C',
+            'birthPlace' => 'Turin'
+        ]);
+
+
+    }
 
 
 }
