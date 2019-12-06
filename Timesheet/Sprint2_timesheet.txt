@@ -2,4 +2,4 @@ Giuseppe:
 Andrea: 1 + 1 + 2 + 1
 Sahar:
 Marco: 3 + 3 + 2
-Matteo:
+Matteo: 2.5
