@@ -543,15 +543,10 @@ CREATE TABLE IF NOT EXISTS `meetings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idTimeslot` int(11) NOT NULL,
   `idTeacher` int(11) NOT NULL,
+  `idweek` varchar(8) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `availability` (`idTeacher`,`idTimeslot`) USING BTREE
+  UNIQUE KEY `availability` (`idTeacher`,`idTimeslot`,`idweek`) USING BTREE
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dump dei dati per la tabella `meetings`
---
-INSERT INTO `meetings` (`id`, `idTimeslot`, `idTeacher`) VALUES
-(1, 3, 1);
 
 -- --------------------------------------------------------
 

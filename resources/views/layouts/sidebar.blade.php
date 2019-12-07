@@ -141,14 +141,15 @@
                             </ul>
                         </li>
 
-                        <li @if(\Request::path()=='meeting/add' || \Request::path()=='meetings/list') class="active" @endif>
+                        <li @if(\Request::path()=='meeting/addweek' || \Request::path()=='meetings/add') class="active" @endif>
                             <a class="has-arrow" href="" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Add new Note" href="/meetings/add"><span
-                                            class="mini-sub-pro">Provide Timeslot</span></a></li>
-                                <li><a title="View all Notes" href="/meetings/list"><span
-                                            class="mini-sub-pro">All Provided Timeslots</span></a></li>
+                                <li><a title="All meetings" href="/meetings/addweek"><span
+                                            class="mini-sub-pro">All Meetings</span></a></li>
+                                <li><a title="Provide timeslots" href="/meetings/add"><span
+                                            class="mini-sub-pro">Provide timeslots </span></a></li>
+
                             </ul>
                         </li>
 

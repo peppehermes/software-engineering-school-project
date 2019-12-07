@@ -404,6 +404,38 @@ class TeacherController extends Controller
     }
 
 
+    public function listtimeslot(Request $request)
+    {
+        $form = request('frm');
+        $week = $form['week'];
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $exist=Meeting::retrieveMeetingperTeacher($teachId);
+        $teach = Teacher::retrieveById($teachId);
+        if (count($exist) == 0)
+
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' first provide the two timeslots.']);
+
+        else {
+            $times = Timeslot::retrieve();
+            $bool = 1;
+            $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId, $week);// already provided timeslots
+            foreach ($times as $time) {
+                $data[$time->hour][] = $time->id;
+            }
+            $timeslots = Teacher::retrieveTimeslots($teachId);
+
+            if (count($timeslots) > 0) {
+
+
+                return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week]);
+
+            } else
+                return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
+
+        }
+    }
+
     public function addtimeslot()
     {
 
@@ -411,52 +443,44 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $times = Timeslot::retrieve();
         $bool = 1;
-        $provided = Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
-        foreach ($times as $time) {
-            $data[$time->hour][] = $time->id;
-        }
-        $timeslots = Teacher::retrieveTimeslots($teachId);
         $teach = Teacher::retrieveById($teachId);
-        if (count($timeslots) > 0) {
+        $provided = Meeting::retrieveMeetingperTeacher($teachId);
+
+        if (count($provided) > 0)
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName .' '. $teach->lastName . ' has already provided the two timeslots']);
+
+        else {
+            foreach ($times as $time) {
+                $data[$time->hour][] = $time->id;
+            }
+            $timeslots = Teacher::retrieveTimeslots($teachId);
+            if (count($timeslots) > 0) {
 
 
-            return view('meetings.add', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided]);
+                return view('meetings.add', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool,]);
 
-        } else
-            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
+            } else
+                return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
 
+        }
     }
 
-    public function listtimeslot()
+    public function addweek()
     {
-
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $times = Timeslot::retrieve();
-        $bool = 1;
-        $provided = Meeting::retrieveMeetingperTeacher($teachId); // already provided timeslots
-        foreach ($times as $time) {
-            $data[$time->hour][] = $time->id;
-        }
-        $timeslots = Teacher::retrieveTimeslots($teachId);
         $teach = Teacher::retrieveById($teachId);
-        if (count($timeslots) > 0) {
-
-
-            return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided]);
-
-        } else
-            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
-
+        return view('meetings.addweek', ['teach' => $teach]);
     }
 
 
     public function storetimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
+        $week=(stripslashes($_POST['week']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $provided = Meeting::retrieveMeetingperTeacher($teachId);
+        $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId,$week);
 
         if ((count($provided)+count($slots)) > 2) {
 
@@ -466,6 +490,7 @@ class TeacherController extends Controller
 
         else {
             $data['idTeacher'] = $teachId;
+            $data['idweek'] = $week;
 
             foreach ($slots as $d) {
                 $data['idTimeslot'] = $d;
@@ -476,16 +501,69 @@ class TeacherController extends Controller
 
     }
 
+    public function storealltimeslot()
+    {
+        $slots = json_decode(stripslashes($_POST['data']));
+        $week=(stripslashes($_POST['week']));
+        $year = date("Y");
+        $usId = \Auth::user()->id;
+        $teachId = Teacher::retrieveId($usId);
+        $data['idTeacher'] = $teachId;
+        // if we are after September
+        if($week>=37) {
+            // between september and rhe end of the year
+            for ($i = $week; $i < 52; $i++) {
+                $data['idweek'] = ($year . '-W' . $i);
+                foreach ($slots as $d) {
+                    $data['idTimeslot'] = $d;
+                    Meeting::save($data);
+                }
+            }
+           // between january and end of the school in june
+            for ($i = 2; $i < 29; $i++) {
+                $data['idweek'] = $year+1 . '-W' . $i;
+                foreach ($slots as $d) {
+                    $data['idTimeslot'] = $d;
+                    Meeting::save($data);
+                }
+            }
+        }
+       // if we are after January
+        else if($week>1){
+            for ($i = $week; $i < 29; $i++) {
+                $data['idweek'] = ($year . '-W' . $i);
+                foreach ($slots as $d) {
+                    $data['idTimeslot'] = $d;
+                    Meeting::save($data);
+                }
+            }
+        }
+        // we are in the first week of january
+        else if($week==1) {
+            for ($i = $week+1; $i < 29; $i++) {
+                $data['idweek'] = ($year . '-W' . $i);
+                foreach ($slots as $d) {
+                    $data['idTimeslot'] = $d;
+                    Meeting::save($data);
+                }
+            }
+        }
+        // between june and september it's not possible to provide
+        else
+            return 1;
+    }
+
     public function freetimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
+        $week=(stripslashes($_POST['week']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $provided = Meeting::retrieveMeetingperTeacher($teachId);
+
 
         foreach ($slots as $d) {
 
-                Meeting::delete_per_teacher($d,$teachId);
+                Meeting::delete_per_teacher($d,$teachId,$week);
             }
 
         }

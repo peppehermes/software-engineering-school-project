@@ -124,9 +124,11 @@ Route::group(['prefix' => 'communications'],  function() {
 
 //Meetings
 Route::group(['prefix' => 'meetings'],  function() {
-    Route::get('/add', 'TeacherController@addtimeslot')->middleware('teachers');
     Route::get('/list', 'TeacherController@listtimeslot')->middleware('teachers');
+    Route::get('/add', 'TeacherController@addtimeslot')->middleware('teachers');
+    Route::get('/addweek', 'TeacherController@addweek')->middleware('teachers');
     Route::post('/store', 'TeacherController@storetimeslot')->middleware('teachers');
+    Route::post('/storeall', 'TeacherController@storealltimeslot')->middleware('teachers');
     Route::post('/free', 'TeacherController@freetimeslot')->middleware('teachers');
 });
 

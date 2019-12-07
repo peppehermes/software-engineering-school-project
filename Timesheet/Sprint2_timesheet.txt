@@ -1,5 +1,5 @@
 Giuseppe:
 Andrea: 1 + 1 + 2 + 1
 Sahar:
-Marco: 3 + 3 + 2
+Marco: 3 + 3 + 2 + 2 + 1
 Matteo: 2.5

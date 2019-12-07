@@ -26,9 +26,21 @@ class Meeting
         return DB::table(static::table)->where('id', $id)->delete();
     }
 
-    public static function delete_per_teacher(int $id,int $idt): int
+    public static function delete_per_teacher( $id, $idt,$week): int
     {
-        return DB::table(static::table)->where('idTimeslot', $id)->where('idTeacher',$idt)->delete();
+        return DB::table(static::table)->where('idTimeslot', $id)->where('idTeacher',$idt)->where('idweek', $week)->delete();
+    }
+
+    public static function retrieveWeeklyMeetingperTeacher($id,$week)
+    {
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where('idTeacher', $id)
+            ->where('idweek', $week)
+            ->get();
+
     }
 
     public static function retrieveMeetingperTeacher($id)
