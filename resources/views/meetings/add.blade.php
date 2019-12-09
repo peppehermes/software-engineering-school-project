@@ -3,8 +3,6 @@
 @section('content')
     <script>
         Date.prototype.getWeek = function (dowOffset) {
-            /*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
-
             dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
             var newYear = new Date(this.getFullYear(),0,1);
             var day = newYear.getDay() - dowOffset; //the day of week the year begins on
@@ -101,7 +99,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4> Professor {{$teach->firstName}} {{$teach->lastName}}</h4>
-                        <h4>Select 2 timeslots for whole year</h4>
+                        <h4>Select 2 timeslots for the whole year</h4>
 
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">
@@ -128,7 +126,7 @@
                                             @endphp
                                             @foreach($timeslots as $timeslot)
                                                 @if($row==$timeslot->id)
-                                                    <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->subject}}</td>
+                                                    <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
                                                     @php $bool=0;
                                                     @endphp
                                                 @endif
@@ -145,7 +143,7 @@
                             <h5 class="box-title">Slots Status</h5>
                             <ul class="basic-list">
                                 <li>Lecture's Hour <span class="pull-right label-info label-4 label"> </span></li>
-                                <li>Availabe <span class="pull-right label-success label-3 label"> </span></li>
+                                <li>Available <span class="pull-right label-success label-3 label"> </span></li>
                             </ul>
                         </div>
                     </div>

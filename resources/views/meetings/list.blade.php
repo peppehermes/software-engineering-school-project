@@ -3,8 +3,6 @@
 @section('content')
     <script>
         Date.prototype.getWeek = function (dowOffset) {
-            /*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
-
             dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
             var newYear = new Date(this.getFullYear(),0,1);
             var day = newYear.getDay() - dowOffset; //the day of week the year begins on
@@ -51,12 +49,16 @@
 
         function provideslots(week) {
             const today = new Date();
-            var w = today.getWeek();
-            w1 = week.id;
+            var w = today.getWeek(),
+                year= today.getFullYear();
 
-            w1 = w1.slice(6, 8);
+            w1 = week.id;
+            y1 = week.id;
+
+            w1 = w1.slice(6,8);
+            y1 = y1.slice(0,4);
             // current week greater than selected one
-            if (w > w1) {
+            if (w > w1 && y1 == year ) {
                 alert('Sorry this week is already elapsed, you cannot provide any slots!');
                 location.reload();
             }
@@ -116,11 +118,15 @@
         function freeslots(week) {
             const today = new Date();
             var w = today.getWeek(),
-                w1 = week.id;
+                year= today.getFullYear();
 
-            w1 = w1.slice(6, 8);
+            w1 = week.id;
+            y1 = week.id;
 
-            if (w > w1) {
+            w1 = w1.slice(6,8);
+            y1 = y1.slice(0,4);
+
+            if (w > w1 && y1 == year) {
                 alert('Sorry this week is already elapsed, you cannot free any slots!');
                 location.reload();
             } else {
@@ -197,7 +203,7 @@
                                             @endphp
                                             @foreach($timeslots as $timeslot)
                                                 @if($row==$timeslot->id)
-                                                    <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->subject}}</td>
+                                                    <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
                                                     @php $bool=0;
                                                     @endphp
                                                 @endif

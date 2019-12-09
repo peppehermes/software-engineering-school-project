@@ -52,7 +52,7 @@
             // if lastday<0 we are in the previous month, so we have to make a subtraction to establish the correct day
             if(lastday<=0){
 
-            // if we are in May,July,October,December the previous month is April,June,September,November so 30 days
+            // if we are in May,July,October or December the previous months are April,June,September,November,so 30 days
                 if(month == 5 || month == 7 || month == 10 || month == 12)
                     extraday=30+lastday; // extraday is monday in the current week but in the past month
 

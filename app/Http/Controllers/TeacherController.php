@@ -511,7 +511,7 @@ class TeacherController extends Controller
         $data['idTeacher'] = $teachId;
         // if we are after September
         if($week>=37) {
-            // between september and rhe end of the year
+            // between september and the end of the year
             for ($i = $week; $i < 52; $i++) {
                 $data['idweek'] = ($year . '-W' . $i);
                 foreach ($slots as $d) {
@@ -521,7 +521,10 @@ class TeacherController extends Controller
             }
            // between january and end of the school in june
             for ($i = 2; $i < 29; $i++) {
-                $data['idweek'] = $year+1 . '-W' . $i;
+                if($i<10)
+                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+                else
+                    $data['idweek'] = ($year+1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
@@ -529,9 +532,12 @@ class TeacherController extends Controller
             }
         }
        // if we are after January
-        else if($week>1){
+        else if($week>1 && $week<28){
             for ($i = $week; $i < 29; $i++) {
-                $data['idweek'] = ($year . '-W' . $i);
+                if($i<10)
+                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+                else
+                    $data['idweek'] = ($year+1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
@@ -541,14 +547,17 @@ class TeacherController extends Controller
         // we are in the first week of january
         else if($week==1) {
             for ($i = $week+1; $i < 29; $i++) {
-                $data['idweek'] = ($year . '-W' . $i);
+                if($i<10)
+                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+                else
+                    $data['idweek'] = ($year+1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
                 }
             }
         }
-        // between june and september it's not possible to provide
+        // between june and september,it's not possible to provide
         else
             return 1;
     }
