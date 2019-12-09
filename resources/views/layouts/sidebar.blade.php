@@ -63,6 +63,11 @@
                                                         class="mini-sub-pro">Notes</span></a>
                                             </li>
 
+                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif><a title="Meetings"
+                                                    href="/meetings/choose/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Meetings</span></a>
+                                            </li>
+
 
                                         </ul>
 
@@ -79,6 +84,11 @@
                         <li @if(\Request::path()=='communications/list' ) class="active" @endif>
                             <a href="/communications/list" aria-expanded="false"><span
                                     class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                        </li>
+
+                        <li @if(\Request::path()=='meetings/listforparents' ) class="active" @endif>
+                            <a href="/meetings/listforparents" aria-expanded="false"><span
+                                    class="educate-icon educate-pages icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
                         </li>
 
                     @elseif(Auth::user()->roleId==\App\User::roleTeacher)

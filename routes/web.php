@@ -130,6 +130,11 @@ Route::group(['prefix' => 'meetings'],  function() {
     Route::post('/store', 'TeacherController@storetimeslot')->middleware('teachers');
     Route::post('/storeall', 'TeacherController@storealltimeslot')->middleware('teachers');
     Route::post('/free', 'TeacherController@freetimeslot')->middleware('teachers');
+    Route::get('/choose/{idStud}', 'StudentController@chooseteacher')->middleware('parents');
+    Route::post('/book/{idStud}', 'StudentController@seeTeacherMeetingSlot')->middleware('parents');
+    Route::post('/storeforparents', 'StudentController@storeMeetingForParent')->middleware('parents');
+    Route::post('/freeforparents', 'StudentController@freeMeetingForParent')->middleware('parents');
+    Route::get('/listforparents', 'StudentController@meetingListForParents')->middleware('parents');
 });
 
 

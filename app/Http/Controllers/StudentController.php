@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Meeting;
 use App\Models\Note;
 use App\Models\Material;
 use App\Models\Role;
 use App\Models\Teacher;
+use App\Models\Timeslot;
 use App\Models\Topic;
 use App\Models\Assignment;
 use App\Models\Timetable;
@@ -508,5 +510,155 @@ class StudentController extends Controller
 
         }
     }
+
+    //retrieve all teachers that teach in that student's class
+    public function chooseteacher($idStud)
+    {
+
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        $teachers = Teacher::retrieveTeachersForStudent($idStud);
+
+        return view('meetings.choose', ['students' => $students, 'teachers' => $teachers, 'idStud' => $idStud]);
+    }
+
+
+    //show the view of meeting slots for that teacher
+    public function seeTeacherMeetingSlot($idStud)
+    {
+
+        //carrying over children's id for parent's sidebar
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        foreach ($students as $student) {
+            $stIds[] = $student->id;
+        }
+        if (!in_array($idStud, $stIds)) {
+            return \Redirect('/')->withErrors([' You dont have permission for another student!']);
+        }
+
+        //retrieving teacherID from the form
+        $form = request('frm');
+        $teacherID = $form['teachId'];
+        $week = $form['week'];
+
+
+        $times = Timeslot::retrieve();
+        $bool = 1;
+        //$provided = Meeting::retrieveMeetingperTeacher($teacherID); // already provided timeslots
+        $provided = Meeting::retrieveWeeklyMeetingperTeacher($teacherID, $week);// already provided timeslots
+        foreach ($times as $time) {
+            $data[$time->hour][] = $time->id;
+        }
+        $timeslots = Teacher::retrieveTimeslots($teacherID);
+        $teach = Teacher::retrieveById($teacherID);
+
+        if (count($timeslots) > 0) {
+
+            return view('meetings.book', ['students' => $students, 'timeslots' => $timeslots, 'times' => $data,
+                                                'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week,
+                                                'idStud' => $idStud]);
+
+        } else
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
+
+    }
+
+    // return all meetings booked from that parent
+    public function meetingListForParents()
+    {
+
+        //carrying over children's id for parent's sidebar
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        $meetings = Meeting::retrieveMeetingperParent($myParentID);
+
+        return view('meetings.listforparents', ['students' => $students, 'meetings' => $meetings]);
+
+    }
+
+    // store the meeting booked by that parent
+    public function storeMeetingForParent()
+    {
+
+        //carrying over children's id for parent's sidebar
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        $slots = json_decode(stripslashes($_POST['data']));
+        $week=(stripslashes($_POST['week']));
+        $studentID=(stripslashes($_POST['myStudent']));
+        $teacherID=(stripslashes($_POST['teacher']));
+
+        $booked = Meeting::retrieveMeetingTeachForParents($teacherID, $myParentID);
+
+        if (count($booked) > 0) {
+
+            $message = 'Sorry, you have already a meeting planned with that Teacher!';
+            return $message;
+        }
+
+        else {
+            $data['idTeacher'] = $teacherID;
+            $data['idweek'] = $week;
+            $data['isBooked'] = 1;
+            $data['idParent'] = $myParentID;
+            $data['idStud'] = $studentID;
+
+            foreach ($slots as $d) {
+                $data['idTimeslot'] = $d;
+                Meeting::updateMeetingStatus($data);
+            }
+            return 0;
+        }
+
+    }
+
+    // store the meeting booked by that parent
+    public function freeMeetingForParent()
+    {
+
+        //carrying over children's id for parent's sidebar
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
+
+        $slots = json_decode(stripslashes($_POST['data']));
+        $week=(stripslashes($_POST['week']));
+        $teacherID=(stripslashes($_POST['teacher']));
+
+        $booked = Meeting::retrieveMeetingTeachForParents($teacherID, $myParentID);
+
+        if (count($booked) != 1) {
+
+            $message = 'Sorry, you do not have any meetings booked with that teacher!';
+            return $message;
+        }
+
+        else {
+            $data['idTeacher'] = $teacherID;
+            $data['idweek'] = $week;
+            $data['isBooked'] = 0;
+            $data['idParent'] = null;
+            $data['idStud'] = null;
+
+            foreach ($slots as $d) {
+                $data['idTimeslot'] = $d;
+                Meeting::updateMeetingStatus($data);
+            }
+            return 0;
+        }
+
+    }
+
 
 }

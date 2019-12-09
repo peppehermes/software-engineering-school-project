@@ -138,13 +138,26 @@ class Teacher
     {
 
         return DB::table('timetable')
-            ->select('timeslots.*','timetable.subject')
+            ->select('timeslots.*','timetable.subject', 'timetable.idClass')
             ->join('timeslots', 'timetable.idTimeslot', '=', 'timeslots.id')
             ->where('timetable.idTeacher', $id)
             ->get();
 
     }
 
+
+    public static function retrieveTeachersForStudent($id): Collection
+    {
+
+        return DB::table('teacher')
+            ->selectRaw('distinct teacher.*')
+            ->join('teaching', 'teacher.id', '=', 'teaching.idTeach')
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
+            ->join('student', 'student.classId', '=', 'classroom.id')
+            ->where('student.id', $id)
+            ->get();
+
+    }
 
 
 }
