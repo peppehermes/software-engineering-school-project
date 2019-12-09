@@ -35,8 +35,10 @@ class Meeting
     {
         return DB::table(static::table)
             ->select([
-                static::table . '.*'
+                static::table . '.*','student.*','users.*'
             ])
+            ->leftjoin('student', static::table.'.idStud', '=', 'student.id')
+            ->leftjoin('users', static::table.'.idParent', '=', 'users.id')
             ->where('idTeacher', $id)
             ->where('idweek', $week)
             ->get();

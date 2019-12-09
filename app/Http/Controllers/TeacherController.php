@@ -482,9 +482,9 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId,$week);
 
-        if ((count($provided)+count($slots)) > 2) {
+        if ((count($provided)+count($slots)) > 3) {
 
-            $message = 'Too many timeslots provided, please provide at most 2!';
+            $message = 'Too many timeslots provided, please provide at most 3!';
             return $message;
         }
 

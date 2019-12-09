@@ -2,66 +2,28 @@
 
 @section('content')
 
-    <script>
-
-        Date.prototype.getWeek = function (dowOffset) {
-            /*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
-
-            dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
-            var newYear = new Date(this.getFullYear(),0,1);
-            var day = newYear.getDay() - dowOffset; //the day of week the year begins on
-            day = (day >= 0 ? day : day + 7);
-            var daynum = Math.floor((this.getTime() - newYear.getTime() -
-                (this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
-            var weeknum;
-            //if the year starts before the middle of a week
-            if(day < 4) {
-                weeknum = Math.floor((daynum+day-1)/7) + 1;
-                if(weeknum > 52) {
-                    nYear = new Date(this.getFullYear() + 1,0,1);
-                    nday = nYear.getDay() - dowOffset;
-                    nday = nday >= 0 ? nday : nday + 7;
-                    /*if the next year starts before the middle of
-                      the week, it is week #1 of that year*/
-                    weeknum = nday < 4 ? 1 : 53;
-                }
-            }
-            else {
-                weeknum = Math.floor((daynum+day-1)/7);
-            }
-            return weeknum;
-        };
+   <script>
 
         function selecttimeslot_orange(slot) {
-            if (slot.style.backgroundColor == "orange")
-                slot.style.backgroundColor = "black";
-            else
+            if (slot.style.backgroundColor == "black")
                 slot.style.backgroundColor = "orange";
+            else
+                slot.style.backgroundColor = "black";
         }
 
         function selecttimeslot_green(slot) {
-            if (slot.style.backgroundColor == "green")
-                slot.style.backgroundColor = "white";
-            else
+            if (slot.style.backgroundColor == "white")
                 slot.style.backgroundColor = "green";
+            else
+                slot.style.backgroundColor = "white";
         }
 
         function bookslot(week) {
-            const today = new Date();
-            var w = today.getWeek();
-            w1 = week.id;
             stud = "{{$idStud}}";
             teach = "{{$teach->id}}";
 
-            w1 = w1.slice(6, 8);
-            // current week greater than selected one
-            if (w > w1) {
-                alert('Sorry this week is already elapsed, you cannot provide any slots!');
-                location.reload();
-            }
-            else {
-                var slot, j = 0;
-                var slots = new Array();
+            var slot, j = 0;
+            var slots = new Array();
 
                 for (var i = 1; i < 37; i++) {
                     slot = document.getElementById(i);
@@ -109,23 +71,13 @@
                     });
 
                 }
-            }
+
         }
 
         function freeslot(week) {
-            const today = new Date();
-            var w = today.getWeek();
-            w1 = week.id;
             teach = "{{$teach->id}}";
-
-            w1 = w1.slice(6, 8);
-
-            if (w > w1) {
-                alert('Sorry this week is already elapsed, you cannot free any slots!');
-                location.reload();
-            } else {
-                var slot, j = 0;
-                var slots = new Array();
+            var slot, j = 0;
+            var slots = new Array();
 
                 for (var i = 1; i < 37; i++) {
                     slot = document.getElementById(i);
@@ -160,7 +112,7 @@
                         }
                     });
                 }
-            }
+
         }
 
 

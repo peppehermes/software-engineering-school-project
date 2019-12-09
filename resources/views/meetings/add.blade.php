@@ -56,12 +56,12 @@
                 }
                 //no slots selected
                 if (slots.length == 0) {
-                    alert('Please, select two free slot to provide!');
+                    alert('Please, select at least one free slot to provide!');
                     location.reload()
                 }
-                //selected more than 2 slots
-                else if (slots.length != 2) {
-                    alert('Please,select two slots!');
+                //selected more than 3 slots
+                else if (slots.length > 3) {
+                    alert('Please,select at most three slots!');
                     location.reload()
                 } else {
                     //Pass array slots to /meetings/store
@@ -99,7 +99,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4> Professor {{$teach->firstName}} {{$teach->lastName}}</h4>
-                        <h4>Select 2 timeslots for the whole year</h4>
+                        <h4>Select not more than 3 timeslots for the whole year</h4>
 
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">

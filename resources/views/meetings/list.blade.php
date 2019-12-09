@@ -80,8 +80,8 @@
                     alert('Please, select at least one free slot to provide!');
                     location.reload()
                 }
-                //selected more than 2 slots
-                else if (slots.length > 2) {
+                //selected more than 3 slots
+                else if (slots.length > 3) {
                     alert('Sorry,too many slots selected!');
                     location.reload()
                 } else {
@@ -177,7 +177,7 @@
                     <div class="product-status-wrap">
                         <h4>Timeslots of Professor {{$teach->firstName}} {{$teach->lastName}}</h4>
                         <h4>Year:{{ Str::limit($week,4,'')}},Week: {{ Str::substr($week,6,8)}}</h4>
-                        <h4>Maximun  allowed:2</h4>
+                        <h4>Maximun  allowed:3</h4>
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">
                                 <thead class="thead-dark">
@@ -210,7 +210,12 @@
                                             @endforeach
                                             @foreach($provided as $prov)
                                                 @if($row==$prov->idTimeslot)
-                                                    <td onclick="selecttimeslot1(this)"id="{{$row}}" bgcolor="#00008b">{{''}}</td>
+                                                    @if($prov->isBooked==1)
+                                                        <td id="{{$row}}" bgcolor="#8a2be2"><b>Parent: {{$prov->name}}</b><p><b>Student: {{$prov->firstName}} {{$prov->lastName}}</b></td>
+
+                                                    @else
+                                                        <td onclick="selecttimeslot1(this)"id="{{$row}}" bgcolor="#00008b">{{''}}</td>
+                                                    @endif
                                                     @php $bool=0;
                                                     @endphp
                                                 @endif
@@ -226,6 +231,7 @@
                             </table>
                             <h5 class="box-title">Slots Status</h5>
                             <ul class="basic-list">
+                                <li>Booked<span class="pull-right label-purple label-2 label"> </span></li>
                                 <li>Bookable<span class="pull-right label-danger label-1 label"> </span></li>
                                 <li>Lecture's hour <span class="pull-right label-info label-4 label"> </span></li>
                                 <li>Available <span class="pull-right label-success label-3 label"> </span></li>
