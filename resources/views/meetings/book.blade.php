@@ -119,7 +119,6 @@
 
     </script>
 
-
     <div class="product-status mg-b-15">
         <div class="container-fluid">
             <div class="row">
@@ -177,7 +176,7 @@
 
                                                     {{-- CASE GREEN - The slot is available --}}
                                                     @elseif($prov->isBooked == 0)
-                                                        <td onclick="selecttimeslot_green(this)" id="{{$row}}" bgcolor="green">{{''}}</td>
+                                                        <td dusk="slot{{$row}}" onclick="selecttimeslot_green(this)" id="{{$row}}" bgcolor="green">{{''}}</td>
                                                         @php $bool=0;
                                                         @endphp
                                                     @endif
@@ -187,7 +186,7 @@
 
                                             {{-- CASE GREY - The slot has not been made available --}}
                                             @if($bool==1)
-                                                <td dusk="slot{{$row}}" id="{{$row}}" bgcolor="#606060">{{''}}</td>
+                                                <td id="{{$row}}" bgcolor="#606060">{{''}}</td>
                                             @endif
                                         @endforeach
                                     </tr>

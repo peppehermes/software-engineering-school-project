@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Communications;
+use App\Models\Meeting;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Mark;
@@ -17,7 +18,7 @@ use Tests\DuskTestCase;
 
 class ParentTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+   use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
@@ -239,6 +240,48 @@ class ParentTest extends DuskTestCase
                 ->assertSee('Time Table of class 1A')
                 ->logout();
         });
+
+    }
+
+    public function test_as_parent_want_book_meetings()
+    {
+        $year= date('Y');
+        $week= date('W');
+        $user = factory(User::class)->create(['roleID'=>3]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>$user->email]);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+        Meeting::save(['idTimeslot' => 1 , 'idTeacher' => 1, 'idweek' => '2019-W50']);
+        Meeting::save(['idTimeslot' => 2 , 'idTeacher' => 1, 'idweek' => '2019-W50']);
+
+        $this->browse(function ($browser) use ($user,$teacher,$week,$year){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/meetings/choose/1')
+                ->select('frm[teachId]',$teacher->name)
+                ->type('frm[week]','Settimana '.$week.', '.$year)
+                ->press('Submit')
+                ->assertPathIs('/meetings/book/1')
+                ->click('@slot1')
+                ->press('Book Slot')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('meetings', [
+            'id' => 1,
+            'idTimeslot' => 1,
+            'idTeacher' => 1,
+            'idweek' => '2019-W50',
+            'isBooked' => 1,
+            'idParent' => $user->id,
+            'idStud' => $studentid
+        ]);
 
     }
 

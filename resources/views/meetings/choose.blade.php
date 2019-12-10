@@ -113,10 +113,8 @@
 
                                                             <div class="form-group col-lg-12">
                                                                 <label>Teacher:</label>
-                                                                <select name="frm[teachId]" class="form-control">
-                                                                    <option value="none" selected="" disabled="">Select
-                                                                        Teacher
-                                                                    </option>
+                                                                <select name="frm[teachId]" class="form-control" required>
+
                                                                     @foreach($teachers as $teacher)
                                                                         <option
                                                                             value="{{$teacher->id}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>

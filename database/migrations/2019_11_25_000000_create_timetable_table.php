@@ -21,7 +21,7 @@ class CreateTimetableTable extends Migration
         });
         DB::table('timetable')->insert(
             array(
-                ['idClass' => '1A','idTimeslot' => 2, 'idTeacher' =>1,'subject' => 'Math']
+                ['idClass' => '1A','idTimeslot' => 5, 'idTeacher' =>1,'subject' => 'Math']
             )
         );
 

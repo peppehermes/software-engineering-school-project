@@ -472,6 +472,7 @@ class TeacherTest extends DuskTestCase
                 ->assertPathIs('/home');
             $browser->visit('/meetings/add')
                 ->click('@slot1')
+                ->click('@slot2')
                 ->press('Provide slots')
                 ->logout();
         });

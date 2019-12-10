@@ -17,7 +17,10 @@ class CreateMeetingsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('idTimeslot');
             $table->integer('idTeacher');
-
+            $table->string('idweek');
+            $table->integer('isBooked')->default(0);
+            $table->integer('idParent')->nullable();
+            $table->integer('idStud')->nullable();
 
         });
 
