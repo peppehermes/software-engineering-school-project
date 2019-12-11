@@ -110,8 +110,6 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
-
-
     public function test_as_teacher_want_insert_marks_wrong_date()
     {
         $today = now();
@@ -206,7 +204,6 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
-
     public function test_as_teacher_want_insert_assignments()
     {
         $today = now();
@@ -275,8 +272,7 @@ class TeacherTest extends DuskTestCase
 
     }
 
-
-        public function test_as_teacher_want_insert_assignments_wrong_date()
+    public function test_as_teacher_want_insert_assignments_wrong_date()
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
@@ -456,6 +452,30 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
+    public function test_as_teacher_want_check_timetable()
+    {
+
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/timetable/list')
+                ->select('frm[classId]','1A')
+                ->press('Submit')
+                ->assertSee('Time Table of class 1A')
+                ->logout();
+        });
+
+    }
+
     public function test_as_teacher_want_provide_meeting_slots()
     {
 
@@ -484,29 +504,7 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
-    public function test_as_teacher_want_check_timetable()
-    {
 
-
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
-
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
-            $browser->visit('/timetable/list')
-                ->select('frm[classId]','1A')
-                ->press('Submit')
-                ->assertSee('Time Table of class 1A')
-                ->logout();
-        });
-
-    }
 }
 
 
