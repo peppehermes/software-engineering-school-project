@@ -166,6 +166,17 @@
                                             </ul>
                                         </li>
 
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Meetings<span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                            <ul id="demoevent" class="collapse dropdown-header-top">
+                                                <li><a href="/meetings/addweek">All Meetings</a>
+                                                </li>
+                                                <li><a href="/meetings/add">Provide timeslots</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Timetables<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
