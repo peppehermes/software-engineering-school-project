@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Creato il: Dic 02, 2019 alle 21:22
--- Versione del server: 5.7.26
--- Versione PHP: 7.2.18
+-- Host: localhost
+-- Generation Time: Dec 14, 2019 at 05:51 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.2.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,56 +21,56 @@ SET time_zone = "+00:00";
 --
 -- Database: `school_db`
 --
-
 DROP DATABASE IF EXISTS school_db;
 DROP DATABASE IF EXISTS schooldb;
-CREATE DATABASE school_db;
 
-USE school_db;
+CREATE DATABASE IF NOT EXISTS `school_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `school_db`;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `assignments`
+-- Table structure for table `assignments`
 --
 
-CREATE TABLE IF NOT EXISTS `assignments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `assignments`;
+CREATE TABLE `assignments` (
+  `id` int(11) NOT NULL,
   `text` varchar(300) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `topic` varchar(300) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `attachment` varchar(255),
+  `attachment` varchar(255) DEFAULT NULL,
   `idTeach` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
-  `deadline` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `deadline` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `assignments`
+-- Dumping data for table `assignments`
 --
 
-INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `attachment`,`idTeach`, `idClass`, `deadline`) VALUES
-(1, 'Page 294, Ex. 1, 2 and 3.', 'Biology', 'Amphibians', '2019-12-2','20191203172240.pdf',1, '1A', '2019-12-9');
+INSERT INTO `assignments` (`id`, `text`, `subject`, `topic`, `date`, `attachment`, `idTeach`, `idClass`, `deadline`) VALUES
+(1, 'Page 294, Ex. 1, 2 and 3.', 'Biology', 'Amphibians', '2019-12-2', '20191203172240.pdf', 1, '1A', '2019-12-9'),
+(2, 'Study mammals at pages 35-40', 'Biology', 'Mammals', '2019-12-12', NULL, 1, '1B', '2019-12-19');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `classroom`
+-- Table structure for table `classroom`
 --
 
-CREATE TABLE IF NOT EXISTS `classroom` (
+DROP TABLE IF EXISTS `classroom`;
+CREATE TABLE `classroom` (
   `id` varchar(45) NOT NULL,
   `capacity` int(20) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `classroom`
+-- Dumping data for table `classroom`
 --
 
 INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated_at`) VALUES
@@ -82,19 +82,38 @@ INSERT INTO `classroom` (`id`, `capacity`, `description`, `created_at`, `updated
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `communications`
+-- Table structure for table `class_coordinator`
 --
 
-CREATE TABLE IF NOT EXISTS `communications` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `class_coordinator`;
+CREATE TABLE `class_coordinator` (
+  `idTeach` int(11) NOT NULL,
+  `idClass` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `class_coordinator`
+--
+
+INSERT INTO `class_coordinator` (`idTeach`, `idClass`) VALUES
+(1, '1A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `communications`
+--
+
+DROP TABLE IF EXISTS `communications`;
+CREATE TABLE `communications` (
+  `id` int(11) NOT NULL,
   `idAdmin` int(11) NOT NULL,
   `description` varchar(300) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `communications`
+-- Dumping data for table `communications`
 --
 
 INSERT INTO `communications` (`id`, `idAdmin`, `description`, `date`) VALUES
@@ -103,123 +122,248 @@ INSERT INTO `communications` (`id`, `idAdmin`, `description`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `lecturetopic`
+-- Table structure for table `final_grades`
 --
 
-CREATE TABLE IF NOT EXISTS `lecturetopic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `final_grades`;
+CREATE TABLE `final_grades` (
+  `idStudent` int(11) NOT NULL,
+  `idSubject` int(11) NOT NULL,
+  `year` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
-  `idTeach` int(11) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `date` varchar(45) NOT NULL,
-  `topic` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Dump dei dati per la tabella `lecturetopic`
---
-
-INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topic`) VALUES
-(1, '1A', 1, 'Biology', '2019-12-2', 'Amphibians'),
-(2, '1B', 1, 'Biology', '2019-12-2', 'Amphibians and Reptiles');
+  `finalgrade` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `marks`
+-- Table structure for table `lecturetopic`
 --
 
-CREATE TABLE IF NOT EXISTS `marks` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `lecturetopic`;
+CREATE TABLE `lecturetopic` (
+  `id` int(11) NOT NULL,
+  `idClass` varchar(45) NOT NULL,
+  `idTeach` int(11) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `date` varchar(45) NOT NULL,
+  `topic` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `lecturetopic`
+--
+
+INSERT INTO `lecturetopic` (`id`, `idClass`, `idTeach`, `subject`, `date`, `topic`) VALUES
+(1, '1A', 1, 'Biology', '2019-12-2', 'Amphibians'),
+(2, '1B', 1, 'Biology', '2019-12-2', 'Amphibians and Reptiles'),
+(3, '1B', 1, 'Biology', '2019-12-12', 'Mammals');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marks`
+--
+
+DROP TABLE IF EXISTS `marks`;
+CREATE TABLE `marks` (
+  `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `date` date NOT NULL,
   `mark` float NOT NULL,
   `subject` varchar(255) NOT NULL,
-  `topic` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `topic` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `marks`
+-- Dumping data for table `marks`
 --
 
 INSERT INTO `marks` (`id`, `idClass`, `idTeach`, `idStudent`, `date`, `mark`, `subject`, `topic`) VALUES
 (1, '1A', 1, 1, '2019-12-02', 8.5, 'Biology', 'Rhynos'),
 (2, '1A', 1, 2, '2019-12-02', 6.25, 'Biology', 'Rhynos'),
-(3, '1B', 1, 5, '2019-12-02', 2, 'Biology', 'Not Prepared');
+(3, '1B', 1, 5, '2019-12-02', 2, 'Biology', 'Not Prepared'),
+(4, '1A', 1, 11, '2019-12-12', 4.5, 'Biology', 'Mammals');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `migrations`
+-- Table structure for table `meetings`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `meetings`;
+CREATE TABLE `meetings` (
+  `id` int(11) NOT NULL,
+  `idTimeslot` int(11) NOT NULL,
+  `idTeacher` int(11) NOT NULL,
+  `idweek` varchar(8) NOT NULL,
+  `isBooked` tinyint(1) NOT NULL DEFAULT 0,
+  `idParent` bigint(20) DEFAULT NULL,
+  `idStud` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meetings`
+--
+
+INSERT INTO `meetings` (`id`, `idTimeslot`, `idTeacher`, `idweek`, `isBooked`, `idParent`, `idStud`) VALUES
+(64, 3, 1, '2019-W50', 0, NULL, NULL),
+(66, 21, 1, '2019-W50', 0, NULL, NULL),
+(67, 3, 1, '2019-W51', 0, NULL, NULL),
+(68, 9, 1, '2019-W51', 0, NULL, NULL),
+(69, 21, 1, '2019-W51', 0, NULL, NULL),
+(70, 3, 1, '2020-W02', 0, NULL, NULL),
+(71, 9, 1, '2020-W02', 0, NULL, NULL),
+(72, 21, 1, '2020-W02', 0, NULL, NULL),
+(73, 3, 1, '2020-W03', 0, NULL, NULL),
+(74, 9, 1, '2020-W03', 0, NULL, NULL),
+(75, 21, 1, '2020-W03', 0, NULL, NULL),
+(76, 3, 1, '2020-W04', 0, NULL, NULL),
+(77, 9, 1, '2020-W04', 0, NULL, NULL),
+(78, 21, 1, '2020-W04', 0, NULL, NULL),
+(79, 3, 1, '2020-W05', 0, NULL, NULL),
+(80, 9, 1, '2020-W05', 0, NULL, NULL),
+(81, 21, 1, '2020-W05', 0, NULL, NULL),
+(82, 3, 1, '2020-W06', 0, NULL, NULL),
+(83, 9, 1, '2020-W06', 0, NULL, NULL),
+(84, 21, 1, '2020-W06', 0, NULL, NULL),
+(85, 3, 1, '2020-W07', 0, NULL, NULL),
+(86, 9, 1, '2020-W07', 0, NULL, NULL),
+(87, 21, 1, '2020-W07', 0, NULL, NULL),
+(88, 3, 1, '2020-W08', 0, NULL, NULL),
+(89, 9, 1, '2020-W08', 0, NULL, NULL),
+(90, 21, 1, '2020-W08', 0, NULL, NULL),
+(91, 3, 1, '2020-W09', 0, NULL, NULL),
+(92, 9, 1, '2020-W09', 0, NULL, NULL),
+(93, 21, 1, '2020-W09', 0, NULL, NULL),
+(94, 3, 1, '2020-W10', 0, NULL, NULL),
+(95, 9, 1, '2020-W10', 0, NULL, NULL),
+(96, 21, 1, '2020-W10', 0, NULL, NULL),
+(97, 3, 1, '2020-W11', 0, NULL, NULL),
+(98, 9, 1, '2020-W11', 0, NULL, NULL),
+(99, 21, 1, '2020-W11', 0, NULL, NULL),
+(100, 3, 1, '2020-W12', 0, NULL, NULL),
+(101, 9, 1, '2020-W12', 0, NULL, NULL),
+(102, 21, 1, '2020-W12', 0, NULL, NULL),
+(103, 3, 1, '2020-W13', 0, NULL, NULL),
+(104, 9, 1, '2020-W13', 0, NULL, NULL),
+(105, 21, 1, '2020-W13', 0, NULL, NULL),
+(106, 3, 1, '2020-W14', 0, NULL, NULL),
+(107, 9, 1, '2020-W14', 0, NULL, NULL),
+(108, 21, 1, '2020-W14', 0, NULL, NULL),
+(109, 3, 1, '2020-W15', 0, NULL, NULL),
+(110, 9, 1, '2020-W15', 0, NULL, NULL),
+(111, 21, 1, '2020-W15', 0, NULL, NULL),
+(112, 3, 1, '2020-W16', 0, NULL, NULL),
+(113, 9, 1, '2020-W16', 0, NULL, NULL),
+(114, 21, 1, '2020-W16', 0, NULL, NULL),
+(115, 3, 1, '2020-W17', 0, NULL, NULL),
+(116, 9, 1, '2020-W17', 0, NULL, NULL),
+(117, 21, 1, '2020-W17', 0, NULL, NULL),
+(118, 3, 1, '2020-W18', 0, NULL, NULL),
+(119, 9, 1, '2020-W18', 0, NULL, NULL),
+(120, 21, 1, '2020-W18', 0, NULL, NULL),
+(121, 3, 1, '2020-W19', 0, NULL, NULL),
+(122, 9, 1, '2020-W19', 0, NULL, NULL),
+(123, 21, 1, '2020-W19', 0, NULL, NULL),
+(124, 3, 1, '2020-W20', 0, NULL, NULL),
+(125, 9, 1, '2020-W20', 0, NULL, NULL),
+(126, 21, 1, '2020-W20', 0, NULL, NULL),
+(127, 3, 1, '2020-W21', 0, NULL, NULL),
+(128, 9, 1, '2020-W21', 0, NULL, NULL),
+(129, 21, 1, '2020-W21', 0, NULL, NULL),
+(130, 3, 1, '2020-W22', 0, NULL, NULL),
+(131, 9, 1, '2020-W22', 0, NULL, NULL),
+(132, 21, 1, '2020-W22', 0, NULL, NULL),
+(133, 3, 1, '2020-W23', 0, NULL, NULL),
+(134, 9, 1, '2020-W23', 0, NULL, NULL),
+(135, 21, 1, '2020-W23', 0, NULL, NULL),
+(136, 3, 1, '2020-W24', 0, NULL, NULL),
+(137, 9, 1, '2020-W24', 0, NULL, NULL),
+(138, 21, 1, '2020-W24', 0, NULL, NULL),
+(139, 3, 1, '2020-W25', 0, NULL, NULL),
+(140, 9, 1, '2020-W25', 0, NULL, NULL),
+(141, 21, 1, '2020-W25', 0, NULL, NULL),
+(142, 3, 1, '2020-W26', 0, NULL, NULL),
+(143, 9, 1, '2020-W26', 0, NULL, NULL),
+(144, 21, 1, '2020-W26', 0, NULL, NULL),
+(145, 3, 1, '2020-W27', 0, NULL, NULL),
+(146, 9, 1, '2020-W27', 0, NULL, NULL),
+(147, 21, 1, '2020-W27', 0, NULL, NULL),
+(148, 3, 1, '2020-W28', 0, NULL, NULL),
+(149, 9, 1, '2020-W28', 0, NULL, NULL),
+(150, 21, 1, '2020-W28', 0, NULL, NULL),
+(151, 15, 1, '2019-W50', 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `notes`
+-- Table structure for table `notes`
 --
 
-CREATE TABLE IF NOT EXISTS `notes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `notes`;
+CREATE TABLE `notes` (
+  `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `note` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idClass` (`idClass`),
-  KEY `idTeach` (`idTeach`),
-  KEY `idStudent` (`idStudent`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `note` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `notes`
+-- Dumping data for table `notes`
 --
 
 INSERT INTO `notes` (`id`, `idClass`, `idTeach`, `idStudent`, `subject`, `date`, `note`) VALUES
 (1, '1A', 1, 1, 'Biology', '2019-12-02', 'The student takes a bottle and does unspeakable things.'),
 (2, '1B', 1, 5, 'Biology', '2019-12-02', 'The student talks with his deskmate during the lecture'),
-(3, '1A', 1, 1, 'Biology', '2019-12-02', 'The student keeps shouting to the teacher.');
+(3, '1A', 1, 1, 'Biology', '2019-12-02', 'The student keeps shouting to the teacher.'),
+(4, '1B', 1, 6, 'Biology', '2019-12-12', 'The student is not in class when the teacher arrives.');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `password_resets`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE IF NOT EXISTS `password_resets` (
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE `password_resets` (
   `email` varchar(45) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`email`)
+  `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `role`
+-- Table structure for table `role`
 --
 
-CREATE TABLE IF NOT EXISTS `role` (
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
   `id` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -233,11 +377,12 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `student`
+-- Table structure for table `student`
 --
 
-CREATE TABLE IF NOT EXISTS `student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student` (
+  `id` int(11) NOT NULL,
   `firstName` varchar(45) DEFAULT NULL,
   `lastName` varchar(45) DEFAULT NULL,
   `birthday` varchar(45) DEFAULT NULL,
@@ -251,16 +396,14 @@ CREATE TABLE IF NOT EXISTS `student` (
   `classId` varchar(45) DEFAULT NULL,
   `birthPlace` varchar(45) DEFAULT NULL,
   `fiscalCode` varchar(45) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `mailParent1` varchar(255) DEFAULT NULL,
-  `mailParent2` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_ClassId_idx` (`classId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+  `mailParent2` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `student`
+-- Dumping data for table `student`
 --
 
 INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `email`, `classId`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`, `mailParent1`, `mailParent2`) VALUES
@@ -279,34 +422,34 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `student_attendance`
+-- Table structure for table `student_attendance`
 --
 
-CREATE TABLE IF NOT EXISTS `student_attendance` (
+DROP TABLE IF EXISTS `student_attendance`;
+CREATE TABLE `student_attendance` (
   `studentId` int(11) NOT NULL,
   `teacherId` int(11) NOT NULL,
   `classId` varchar(45) NOT NULL,
   `lectureDate` date NOT NULL,
   `status` enum('present','absent') NOT NULL DEFAULT 'present',
   `presence_status` enum('full','early','late') NOT NULL DEFAULT 'full',
-  `description` text,
-  PRIMARY KEY (`studentId`,`teacherId`,`classId`,`lectureDate`)
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `studforparent`
+-- Table structure for table `studforparent`
 --
 
-CREATE TABLE IF NOT EXISTS `studforparent` (
+DROP TABLE IF EXISTS `studforparent`;
+CREATE TABLE `studforparent` (
   `idParent` int(11) NOT NULL,
-  `idStudent` int(11) NOT NULL,
-  PRIMARY KEY (`idParent`,`idStudent`)
+  `idStudent` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `studforparent`
+-- Dumping data for table `studforparent`
 --
 
 INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
@@ -336,22 +479,50 @@ INSERT INTO `studforparent` (`idParent`, `idStudent`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `suppmaterial`
+-- Table structure for table `subjects`
 --
 
-CREATE TABLE IF NOT EXISTS `suppmaterial` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `subjects`;
+CREATE TABLE `subjects` (
+  `subjectId` int(11) NOT NULL,
+  `subjectName` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `subjects`
+--
+
+INSERT INTO `subjects` (`subjectId`, `subjectName`) VALUES
+(1, 'Math'),
+(2, 'Italian'),
+(3, 'Art'),
+(4, 'Latin'),
+(5, 'History'),
+(6, 'English'),
+(7, 'Gym'),
+(8, 'Physics'),
+(9, 'Science'),
+(10, 'Religion');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppmaterial`
+--
+
+DROP TABLE IF EXISTS `suppmaterial`;
+CREATE TABLE `suppmaterial` (
+  `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `material` varchar(255) NOT NULL,
   `date` varchar(45) NOT NULL,
-  `mdescription` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `mdescription` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `suppmaterial`
+-- Dumping data for table `suppmaterial`
 --
 
 INSERT INTO `suppmaterial` (`id`, `idClass`, `idTeach`, `subject`, `material`, `date`, `mdescription`) VALUES
@@ -360,11 +531,12 @@ INSERT INTO `suppmaterial` (`id`, `idClass`, `idTeach`, `subject`, `material`, `
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `teacher`
+-- Table structure for table `teacher`
 --
 
-CREATE TABLE IF NOT EXISTS `teacher` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `teacher`;
+CREATE TABLE `teacher` (
+  `id` int(11) NOT NULL,
   `firstName` varchar(45) DEFAULT NULL,
   `lastName` varchar(45) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
@@ -377,13 +549,12 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `description` varchar(500) DEFAULT NULL,
   `birthPlace` varchar(45) DEFAULT NULL,
   `fiscalCode` varchar(45) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `teacher`
+-- Dumping data for table `teacher`
 --
 
 INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `address`, `phone`, `postCode`, `photo`, `gender`, `description`, `birthPlace`, `fiscalCode`, `created_at`, `updated_at`) VALUES
@@ -398,19 +569,19 @@ INSERT INTO `teacher` (`id`, `firstName`, `lastName`, `birthday`, `userId`, `add
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `teaching`
+-- Table structure for table `teaching`
 --
 
-CREATE TABLE IF NOT EXISTS `teaching` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `teaching`;
+CREATE TABLE `teaching` (
+  `id` int(11) NOT NULL,
   `idClass` varchar(45) NOT NULL,
   `idTeach` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+  `subject` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `teaching`
+-- Dumping data for table `teaching`
 --
 
 INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
@@ -429,19 +600,18 @@ INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `timeslots`
+-- Table structure for table `timeslots`
 --
 
-CREATE TABLE IF NOT EXISTS `timeslots` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `timeslots`;
+CREATE TABLE `timeslots` (
+  `id` int(11) NOT NULL,
   `hour` varchar(255) NOT NULL,
-  `day` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `timeslot_index` (`hour`,`day`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+  `day` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `timeslots`
+-- Dumping data for table `timeslots`
 --
 
 INSERT INTO `timeslots` (`id`, `hour`, `day`) VALUES
@@ -485,20 +655,19 @@ INSERT INTO `timeslots` (`id`, `hour`, `day`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `timetable`
+-- Table structure for table `timetable`
 --
 
-CREATE TABLE IF NOT EXISTS `timetable` (
+DROP TABLE IF EXISTS `timetable`;
+CREATE TABLE `timetable` (
   `idClass` varchar(45) NOT NULL,
   `idTimeslot` int(11) NOT NULL,
   `idTeacher` int(11) NOT NULL,
-  `subject` varchar(300) NOT NULL,
-  UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE,
-  UNIQUE KEY `lecture_teacher` (`idTimeslot`,`idTeacher`) USING BTREE
+  `subject` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `timetable`
+-- Dumping data for table `timetable`
 --
 
 INSERT INTO `timetable` (`idClass`, `idTimeslot`, `idTeacher`, `subject`) VALUES
@@ -535,50 +704,32 @@ INSERT INTO `timetable` (`idClass`, `idTimeslot`, `idTeacher`, `subject`) VALUES
 
 -- --------------------------------------------------------
 
--- Struttura della tabella `meetings`
+--
+-- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `meetings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idTimeslot` int(11) NOT NULL,
-  `idTeacher` int(11) NOT NULL,
-  `idweek` varchar(8) NOT NULL,
-  `isBooked` tinyint(1) NOT NULL DEFAULT '0',
-  `idParent` bigint(20) DEFAULT NULL,
-  `idStud` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `availability` (`idTeacher`,`idTimeslot`,`idweek`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `roleId` int(11) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `status` enum('active','deactive') DEFAULT 'active',
-  `photo` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_role_idx` (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+  `photo` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `roleId`, `remember_token`, `created_at`, `updated_at`, `status`, `photo`) VALUES
 (1, 'Goffredo Signori', 'admin@test.com', NULL, '$2y$10$vd9VFlvgQoa6nhSVgYkPZeo6W1yi0eOT1exCqwhVI5FLrIMI3pTCS', 1, NULL, '2019-12-02 18:08:41', '2019-12-02 18:08:41', 'active', NULL),
-(2, 'Gastani Frinzi', 'teacher1@test.com', NULL, '$2y$10$wdRhCjB8/1xsVh3rqmDXW.XtfeYKQtlf2FzdEB..xBD8lhMEThWSS', 2, NULL, '2019-12-02 19:20:26', '2019-12-02 19:20:26', 'active', NULL),
+(2, 'Gastani Frinzi', 'teacher1@test.com', NULL, '$2y$10$wdRhCjB8/1xsVh3rqmDXW.XtfeYKQtlf2FzdEB..xBD8lhMEThWSS', 4, NULL, '2019-12-02 19:20:26', '2019-12-02 19:20:26', 'active', NULL),
 (3, 'Sig. Rezzonico', 'parent1@test.com', NULL, '$2y$10$RivLv7d53MpgBwaEHLu6peHYWgwwitfHu3J3xcE4/95crlsQXIG26', 3, NULL, '2019-12-02 19:27:36', '2019-12-02 19:27:36', 'active', NULL),
 (4, 'Marina Massironi', 'parent2@test.com', NULL, '$2y$10$hu28uMNO2soJPRpwBdin/.u6FYIg9LIDEaGqonBj/A7k0lNXCucCu', 3, NULL, '2019-12-02 19:32:22', '2019-12-02 19:32:22', 'active', NULL),
 (5, 'Salvatore Giuffrida', 'sasagiuffrid@test.com', NULL, '$2y$10$Ir6XjaqqdDKbZ.btyt1ZiOy9t0oQt9tin4PipI1PnJv0UTp7/nz4e', 3, NULL, '2019-12-02 19:34:40', '2019-12-02 19:34:40', 'active', NULL),
@@ -601,25 +752,265 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 (22, 'Frida Fungo', 'fridafungo@test.com', NULL, '$2y$10$5HYwhxDItf7AGNfOJdM3E..k1oyOtiQ1JbMquMIZ.eaHgn2bKQDJe', 3, NULL, '2019-12-02 19:48:35', '2019-12-02 19:48:35', 'active', NULL),
 (23, 'SysAdmin', 'sadmin@test.com', NULL, '$2y$10$9s6hkG1Cjde/5kjDoYMTZekc2jg064aeb0O6Ipt9LrMZCN31Qr9ta', 5, NULL, '2019-11-27 12:35:42', '2019-11-27 12:35:42', 'active', NULL),
 (24, 'Aldo Baglio', 'teacher2@test.com', NULL, '$2y$10$yF6635CbXH2VuIoBwrZ1puzJxML3uH.FKA.Joz1rn3TtJ6ZU0i0T2', 2, NULL, '2019-12-02 20:56:23', '2019-12-02 20:56:23', 'active', NULL),
-(25, 'Virginio Sciabica', 'teacher3@test.com', NULL, '$2y$10$BXbqtQZNKjcHr3HGCtIf9.0i.Yq/4v9qNgB2g6S2SSawMI4ojB8xG', 2, NULL, '2019-12-02 21:00:42', '2019-12-02 21:00:42', 'active', NULL),
+(25, 'Virginio Sciabica', 'teacher3@test.com', NULL, '$2y$10$wG/FmpDIgcljtKqiqMwFjOX0zSfPKzaeUmpZuElymorBMlC6Cl3/G', 2, NULL, '2019-12-02 21:00:42', '2019-12-02 21:00:42', 'active', NULL),
 (26, 'Nino Frassica', 'teacher4@test.com', NULL, '$2y$10$E08VWonlWCnwXNIYFnxqZuaRZygLKWFvka4Cue0PKyQuUbb0iuEsC', 2, NULL, '2019-12-02 21:03:47', '2019-12-02 21:03:47', 'active', NULL),
 (27, 'Pippo Franco', 'teacher5@test.com', NULL, '$2y$10$a9Pcsi12yHZR1d0cNJaKHuJpGLxMLYzmNVxfXF6n.dra.fxPXGAr6', 2, NULL, '2019-12-02 21:05:01', '2019-12-02 21:05:01', 'active', NULL),
 (28, 'Mara Maionchi', 'teacher6@test.com', NULL, '$2y$10$TAOdnl21j06i/sKXNmBcuOHX49dnH45WiMCJ8ST9/LpPAQc6P7bTe', 2, NULL, '2019-12-02 21:06:39', '2019-12-02 21:06:39', 'active', NULL),
 (29, 'Alberto Angelo', 'teacher7@test.com', NULL, '$2y$10$cVwJdCowlsu4lg7J9nqOMOUSv2Xze18kq2J//Zp9nW4apxyI6Kd2u', 2, NULL, '2019-12-02 21:08:16', '2019-12-02 21:08:16', 'active', NULL);
 
 --
--- Limiti per le tabelle scaricate
+-- Indexes for dumped tables
 --
 
 --
--- Limiti per la tabella `notes`
+-- Indexes for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `classroom`
+--
+ALTER TABLE `classroom`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `class_coordinator`
+--
+ALTER TABLE `class_coordinator`
+  ADD PRIMARY KEY (`idTeach`,`idClass`);
+
+--
+-- Indexes for table `communications`
+--
+ALTER TABLE `communications`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `final_grades`
+--
+ALTER TABLE `final_grades`
+  ADD PRIMARY KEY (`idStudent`,`idSubject`,`year`),
+  ADD KEY `subject` (`idSubject`);
+
+--
+-- Indexes for table `lecturetopic`
+--
+ALTER TABLE `lecturetopic`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `marks`
+--
+ALTER TABLE `marks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meetings`
+--
+ALTER TABLE `meetings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `availability` (`idTeacher`,`idTimeslot`,`idweek`) USING BTREE;
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notes`
+--
+ALTER TABLE `notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idClass` (`idClass`),
+  ADD KEY `idTeach` (`idTeach`),
+  ADD KEY `idStudent` (`idStudent`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ClassId_idx` (`classId`);
+
+--
+-- Indexes for table `student_attendance`
+--
+ALTER TABLE `student_attendance`
+  ADD PRIMARY KEY (`studentId`,`teacherId`,`classId`,`lectureDate`);
+
+--
+-- Indexes for table `studforparent`
+--
+ALTER TABLE `studforparent`
+  ADD PRIMARY KEY (`idParent`,`idStudent`);
+
+--
+-- Indexes for table `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`subjectId`);
+
+--
+-- Indexes for table `suppmaterial`
+--
+ALTER TABLE `suppmaterial`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `teacher`
+--
+ALTER TABLE `teacher`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `teaching`
+--
+ALTER TABLE `teaching`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `timeslots`
+--
+ALTER TABLE `timeslots`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `timeslot_index` (`hour`,`day`) USING BTREE;
+
+--
+-- Indexes for table `timetable`
+--
+ALTER TABLE `timetable`
+  ADD UNIQUE KEY `lecture` (`idClass`,`idTimeslot`) USING BTREE,
+  ADD UNIQUE KEY `lecture_teacher` (`idTimeslot`,`idTeacher`) USING BTREE;
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_role_idx` (`roleId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `assignments`
+--
+ALTER TABLE `assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `communications`
+--
+ALTER TABLE `communications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `lecturetopic`
+--
+ALTER TABLE `lecturetopic`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `marks`
+--
+ALTER TABLE `marks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `meetings`
+--
+ALTER TABLE `meetings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notes`
+--
+ALTER TABLE `notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `subjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `suppmaterial`
+--
+ALTER TABLE `suppmaterial`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `teacher`
+--
+ALTER TABLE `teacher`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `teaching`
+--
+ALTER TABLE `teaching`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `timeslots`
+--
+ALTER TABLE `timeslots`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `final_grades`
+--
+ALTER TABLE `final_grades`
+  ADD CONSTRAINT `student` FOREIGN KEY (`idStudent`) REFERENCES `student` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `subject` FOREIGN KEY (`idSubject`) REFERENCES `subjects` (`subjectId`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notes`
 --
 ALTER TABLE `notes`
   ADD CONSTRAINT `student_constraint` FOREIGN KEY (`idStudent`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teacher_constraint` FOREIGN KEY (`idTeach`) REFERENCES `teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
