@@ -2345,6 +2345,7 @@ ul.two-part-sp li{
     padding: 20px 5px;
     vertical-align: top;
     border-top: 1px solid #e9ecef;
+
 }
 .product-status-wrap table th {
     vertical-align: bottom;
@@ -4065,6 +4066,18 @@ div#sparklinehome canvas {
 .label-purple.label-7{
 	background:#555;
 }
+.label-purple.label-8{
+    background:#b9b7b7;
+}
+.label-purple.label-9{
+    background:#663399;
+}
+.label-purple.label-10{
+    background:#0259c1;
+}
+.label-purple.label-11{
+    background:#add8e6;
+}
 .white-box h3{
 	font-size:16px;
 	color:#444;
@@ -4592,6 +4605,7 @@ div#sparklinehome canvas {
 }
 .product-list-cart .product-status-wrap table th{
 	border: 0px solid rgba(0,0,0,.12);
+
 }
 .product-list-cart h3{
 	font-size:16px;

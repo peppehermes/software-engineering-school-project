@@ -151,7 +151,7 @@
                             </ul>
                         </li>
 
-                        <li @if(\Request::path()=='meeting/addweek' || \Request::path()=='meetings/add') class="active" @endif>
+                        <li @if(\Request::path()=='meetings/addweek' || \Request::path()=='meetings/add'|| \Request::path()=='meetings/list') class="active" @endif>
                             <a class="has-arrow" href="" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
                             <ul class="submenu-angle" aria-expanded="false">

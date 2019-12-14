@@ -408,6 +408,10 @@ class TeacherController extends Controller
     {
         $form = request('frm');
         $week = $form['week'];
+        $year_week=explode('-',$week);
+        $date1 = date( "l, M jS, Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'1') ); // First day of week
+        $date2 = date( "l, M jS, Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'7') ); // Last day of week
+
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
         $exist=Meeting::retrieveMeetingperTeacher($teachId);
@@ -428,7 +432,7 @@ class TeacherController extends Controller
             if (count($timeslots) > 0) {
 
 
-                return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week]);
+                return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week, 'date1' => $date1, 'date2' => $date2]);
 
             } else
                 return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);

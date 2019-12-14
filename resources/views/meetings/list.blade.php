@@ -3,27 +3,26 @@
 @section('content')
     <script>
         Date.prototype.getWeek = function (dowOffset) {
-            dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
-            var newYear = new Date(this.getFullYear(),0,1);
+            dowOffset = typeof (dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
+            var newYear = new Date(this.getFullYear(), 0, 1);
             var day = newYear.getDay() - dowOffset; //the day of week the year begins on
             day = (day >= 0 ? day : day + 7);
             var daynum = Math.floor((this.getTime() - newYear.getTime() -
-                (this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+                (this.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
             var weeknum;
             //if the year starts before the middle of a week
-            if(day < 4) {
-                weeknum = Math.floor((daynum+day-1)/7) + 1;
-                if(weeknum > 52) {
-                    nYear = new Date(this.getFullYear() + 1,0,1);
+            if (day < 4) {
+                weeknum = Math.floor((daynum + day - 1) / 7) + 1;
+                if (weeknum > 52) {
+                    nYear = new Date(this.getFullYear() + 1, 0, 1);
                     nday = nYear.getDay() - dowOffset;
                     nday = nday >= 0 ? nday : nday + 7;
                     /*if the next year starts before the middle of
                       the week, it is week #1 of that year*/
                     weeknum = nday < 4 ? 1 : 53;
                 }
-            }
-            else {
-                weeknum = Math.floor((daynum+day-1)/7);
+            } else {
+                weeknum = Math.floor((daynum + day - 1) / 7);
             }
             return weeknum;
         };
@@ -31,38 +30,37 @@
         function selecttimeslot(slot) {
             if (slot.style.backgroundColor == "orange")
 
-                slot.style.backgroundColor = "green";
+                slot.style.backgroundColor = "lightblue";
 
             else
                 slot.style.backgroundColor = "orange";
         }
 
         function selecttimeslot1(slot) {
-            if (slot.style.backgroundColor == "white")
+            if (slot.style.backgroundColor == "lightblue")
 
-                slot.style.backgroundColor = "#00008b";
+                slot.style.backgroundColor = "#663399";
 
             else
-                slot.style.backgroundColor = "white";
+                slot.style.backgroundColor = "lightblue";
         }
 
 
         function provideslots(week) {
             const today = new Date();
             var w = today.getWeek(),
-                year= today.getFullYear();
+                year = today.getFullYear();
 
             w1 = week.id;
             y1 = week.id;
 
-            w1 = w1.slice(6,8);
-            y1 = y1.slice(0,4);
+            w1 = w1.slice(6, 8);
+            y1 = y1.slice(0, 4);
             // current week greater than selected one
-            if (w > w1 && y1 == year ) {
+            if (w > w1 && y1 == year) {
                 alert('Sorry this week is already elapsed, you cannot provide any slots!');
                 location.reload();
-            }
-            else {
+            } else {
                 var slot, j = 0;
                 var slots = new Array();
 
@@ -118,13 +116,13 @@
         function freeslots(week) {
             const today = new Date();
             var w = today.getWeek(),
-                year= today.getFullYear();
+                year = today.getFullYear();
 
             w1 = week.id;
             y1 = week.id;
 
-            w1 = w1.slice(6,8);
-            y1 = y1.slice(0,4);
+            w1 = w1.slice(6, 8);
+            y1 = y1.slice(0, 4);
 
             if (w > w1 && y1 == year) {
                 alert('Sorry this week is already elapsed, you cannot free any slots!');
@@ -136,7 +134,7 @@
                 for (var i = 1; i < 37; i++) {
                     slot = document.getElementById(i);
                     console.log(slot);
-                    if (slot.style.backgroundColor == "white") {
+                    if (slot.style.backgroundColor == "lightblue") {
                         slots[j] = slot.id;
                         j++;
                     }
@@ -176,8 +174,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4>Timeslots of Professor {{$teach->firstName}} {{$teach->lastName}}</h4>
-                        <h4>Year:{{ Str::limit($week,4,'')}},Week: {{ Str::substr($week,6,8)}}</h4>
-                        <h4>Maximun  allowed:3</h4>
+                        <h5 style="color: #ca1616"> Maximum booking allowed: 3</h5>
+                        <h5 style="text-align: center;color: #319209">({{$date1}} - {{$date2}})</h5>
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">
                                 <thead class="thead-dark">
@@ -203,7 +201,8 @@
                                             @endphp
                                             @foreach($timeslots as $timeslot)
                                                 @if($row==$timeslot->id)
-                                                    <td id="{{$row}}" bgcolor="#dc143c">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
+                                                    <td id="{{$row}}" style="color: white"
+                                                        bgcolor="#555">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
                                                     @php $bool=0;
                                                     @endphp
                                                 @endif
@@ -211,10 +210,13 @@
                                             @foreach($provided as $prov)
                                                 @if($row==$prov->idTimeslot)
                                                     @if($prov->isBooked==1)
-                                                        <td id="{{$row}}" bgcolor="#8a2be2"><b>Parent: {{$prov->name}}</b><p><b>Student: {{$prov->firstName}} {{$prov->lastName}}</b></td>
+                                                        <td id="{{$row}}" style="color: white" bgcolor="#0259c1"><b>Parent: {{$prov->name}}</b>
+                                                            <p><b>Student: {{$prov->firstName}} {{$prov->lastName}}</b>
+                                                        </td>
 
                                                     @else
-                                                        <td onclick="selecttimeslot1(this)"id="{{$row}}" bgcolor="#00008b">{{''}}</td>
+                                                        <td onclick="selecttimeslot1(this)" id="{{$row}}"
+                                                            bgcolor="#663399">{{''}}</td>
                                                     @endif
                                                     @php $bool=0;
                                                     @endphp
@@ -222,7 +224,8 @@
                                             @endforeach
 
                                             @if($bool==1)
-                                                <td dusk="slot{{$row}}" id="{{$row}}" bgcolor="green"
+                                                <td dusk="slot{{$row}}" id="{{$row}}" style="cursor: pointer"
+                                                    bgcolor="lightblue"
                                                     onclick="selecttimeslot(this)">{{''}}</td>
                                             @endif
                                         @endforeach
@@ -231,10 +234,10 @@
                             </table>
                             <h5 class="box-title">Slots Status</h5>
                             <ul class="basic-list">
-                                <li>Booked<span class="pull-right label-purple label-2 label"> </span></li>
-                                <li>Bookable<span class="pull-right label-danger label-1 label"> </span></li>
-                                <li>Lecture's hour <span class="pull-right label-info label-4 label"> </span></li>
-                                <li>Available <span class="pull-right label-success label-3 label"> </span></li>
+                                <li>Booked<span class="pull-right label-purple label-10 label"> </span></li>
+                                <li>Bookable<span class="pull-right label-purple label-9 label"> </span></li>
+                                <li>Lecture's hour <span class="pull-right label-purple label-7 label"> </span></li>
+                                <li>Available <span class="pull-right label-purple label-11 label"> </span></li>
                             </ul>
                         </div>
                     </div>
