@@ -45,7 +45,8 @@ class ClassCoordinatorTest extends DuskTestCase
                 ->assertPathIs('/home');
             $browser->visit('/finalgrades/insert')
                 ->select('frm11[finalgrade]',6)  //finalgrade of student number 1 related to subjects number 1
-                ->press('Submit')
+                ->press('Submit');
+            $browser->acceptDialog()
                 ->assertPathIs('/finalgrades/show')
                 ->logout();
 
