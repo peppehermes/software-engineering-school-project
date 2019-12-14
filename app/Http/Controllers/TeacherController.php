@@ -6,6 +6,7 @@ use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;
@@ -13,6 +14,8 @@ use App\Models\Note;
 use App\Models\Mark;
 use App\Models\Timeslot;
 use App\Models\Meeting;
+use App\Models\Subjects;
+use App\Models\FinalGrades;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -100,7 +103,7 @@ class TeacherController extends Controller
         });
 
 
-        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
 
     }
 
@@ -158,7 +161,7 @@ class TeacherController extends Controller
         }
         Teacher::save($data, $id);
 
-        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
 
     }
 
@@ -170,7 +173,7 @@ class TeacherController extends Controller
         User::deleteById($teacherInfo->userId);
 
 
-        return redirect('/teacher/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
 
     }
 
@@ -203,7 +206,7 @@ class TeacherController extends Controller
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Topic::save($data);
         }
-        return redirect('/topic/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/topic/list')->with(['message' => 'Successful operation!']);
     }
 
     public function addtopic()
@@ -244,7 +247,7 @@ class TeacherController extends Controller
             }
             Assignment::save($data);
         }
-        return redirect('/assignment/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/assignment/list')->with(['message' => 'Successful operation!']);
 
 
     }
@@ -287,7 +290,7 @@ class TeacherController extends Controller
             $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
             Mark::save($data);
         }
-        return redirect('/mark/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/mark/list')->with(['message' => 'Successful operation!']);
 
 
     }
@@ -353,7 +356,7 @@ class TeacherController extends Controller
 
             Material::save($data);
         }
-        return redirect('/material/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/material/list')->with(['message' => 'Successful operation!']);
     }
 
     public function listmaterial()
@@ -390,7 +393,7 @@ class TeacherController extends Controller
 
             Note::save($data);
         }
-        return redirect('/notes/list')->with(['message' => 'Successfull operation!']);
+        return redirect('/notes/list')->with(['message' => 'Successful operation!']);
     }
 
     public function listnotes()
@@ -573,14 +576,112 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
 
-
         foreach ($slots as $d) {
-
                 Meeting::delete_per_teacher($d,$teachId,$week);
-            }
+        }
+    }
 
+    /*
+     *  This function is used by the class coordinator
+     *  It redirects to the view in which he can insert the final grades
+     *  The class coordinated by the teacher, the students in it
+     *  and the relative subjects are passed to the view
+     */
+    public function insertFinalGrades()
+    {
+        $usId = \Auth::user()->id;
+
+        $teachId = Teacher::retrieveId($usId);
+        $classId = Classroom::retrieveByClassCoordinator($teachId);
+        $subjects = Subject::retrieve();
+        $students = Student::retrieveStudentClass($classId);
+        $finalGrades = FinalGrades::retrieveCurrentByClassId($classId);
+
+        if ($finalGrades->count()) { // The count() method returns the number of items of a collection
+            // Final grades already stored for that class
+            return view('/finalgrades/show', ['classId' => $classId,
+                'students' => $students,
+                'subjects' => $subjects,
+                'finalgrades' => $finalGrades
+            ])->with(['message' => 'Final grades already stored!']);
+        }
+        else {
+            // Final grades not yet stored for that class
+            return view('finalgrades.insert',
+                ['classId' => $classId,
+                    'students' => $students,
+                    'subjects' => $subjects
+                ]);
+        }
+    }
+
+    /*
+     *  This function is used by the class coordinator
+     *  It's used to store the final grades
+     *  It retrieves the data from the form of route finalgrades/insert
+     */
+    public function storeFinalGrades($classId)
+    {
+        $students = Student::retrieveStudentClass($classId);
+        $subjects = Subject::retrieve();
+        $finalGrades = FinalGrades::retrieveCurrentByClassId($classId);
+
+        if ($finalGrades->count()) { // The count() method returns the number of items of a collection
+            // Final grades already stored for that class
+            return view('/finalgrades/show', ['classId' => $classId,
+                'students' => $students,
+                'subjects' => $subjects,
+                'finalgrades' => $finalGrades
+            ])->with(['message' => 'Final grades already stored!']);
+        }
+        else {
+            // Final grades not yet stored for that class
+            foreach ($students as $student) {
+                foreach ($subjects as $subject) {
+                    // The key of the request is made by the id of the student and the id of the subject
+                    $data = request('frm' . $student->id . $subject->subjectId);
+
+                    // Insert year and data into the data array
+                    $data['year'] = date('Y');
+                    $data['idClass'] = $classId;
+
+                    // Insert into finalgrades table
+                    FinalGrades::save($data);
+                }
+            }
         }
 
+        return redirect('/finalgrades/show')->with(['message' => 'Successfull operation!']);
+    }
 
+    /*
+     *  This function is used by the class coordinator
+     *  It's used to show the final grades
+     *  It retrieves the data from the database
+     */
+    public function showFinalGrades()
+    {
+        $usId = \Auth::user()->id;
 
+        $teachId = Teacher::retrieveId($usId);
+        $classId = Classroom::retrieveByClassCoordinator($teachId);
+
+        $students = Student::retrieveStudentClass($classId);
+        $subjects = Subject::retrieve();
+        $finalGrades = FinalGrades::retrieveCurrentByClassId($classId);
+
+        if ($finalGrades->count()) {
+            // Final grades already stored for that class
+            return view('/finalgrades/show',
+                ['classId' => $classId,
+                    'students' => $students,
+                    'subjects' => $subjects,
+                    'finalgrades' => $finalGrades
+                ]);
+        }
+        else {
+            // Final grades not yet stored for that class
+            return view('finalgrades.insert')->with(['error' => 'Final grades not yet inserted!']);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-Giuseppe:
+Peppe: 3 + 4 + 2.5
 Andrea: 1 + 1 + 2 + 1 + 2
 Sahar:
 Marco: 3 + 3 + 2 + 2 + 3

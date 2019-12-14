@@ -40,7 +40,7 @@
 
                                             <li><a title="Assignments"
                                                    href="/assignment/listforparents/{{$student->id}}"><span
-                                                        class="mini-sub-pro">Lectures Assignments</span></a>
+                                                        class="mini-sub-pro">Assignments</span></a>
                                             </li>
 
                                             <li><a title="Material"
@@ -91,7 +91,7 @@
                                     class="educate-icon educate-pages icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
                         </li>
 
-                    @elseif(Auth::user()->roleId==\App\User::roleTeacher)
+                    @elseif(Auth::user()->roleId==\App\User::roleTeacher || Auth::user()->roleId==\App\User::roleClasscoordinator)
 
 
                         <li><a href="/" aria-expanded="false"><span
@@ -134,9 +134,9 @@
                                     class="mini-click-non">Support Material</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Add Support Material" href="/material/add"><span
-                                            class="mini-sub-pro">Add Support Material</span></a></li>
+                                            class="mini-sub-pro">Add new Material</span></a></li>
                                 <li><a title="View Support Material" href="/material/list"><span
-                                            class="mini-sub-pro">All Support Material</span></a></li>
+                                            class="mini-sub-pro">All Material</span></a></li>
                             </ul>
 
 
@@ -170,8 +170,12 @@
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                         </li>
 
-
-
+                    @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
+                        <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
+                            <a href="/finalgrades/insert" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Final Grades</span></a>
+                        </li>
+                    @endif
 
 
                     @else

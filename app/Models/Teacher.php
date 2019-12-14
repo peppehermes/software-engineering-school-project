@@ -34,7 +34,6 @@ class Teacher
      */
     public static function retrieveById(int $id)
     {
-
         return DB::table(static::table)->find($id);
     }
 
@@ -158,6 +157,4 @@ class Teacher
             ->get();
 
     }
-
-
 }

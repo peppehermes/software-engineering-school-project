@@ -28,7 +28,7 @@
     <div class="widget-program-box mg-tb-30">
         <div class="container-fluid">
             <div class="row">
-                @if(\Auth::user()->roleId==\App\User::roleTeacher)
+                @if(\Auth::user()->roleId==\App\User::roleTeacher || \Auth::user()->roleId==\App\User::roleClasscoordinator)
                 @foreach($classRooms as $classroom)
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="background-color: #006df0">
                     <div class="hpanel widget-int-shape responsive-mg-b-30">

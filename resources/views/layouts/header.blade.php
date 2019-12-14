@@ -111,7 +111,7 @@
                             <nav id="dropdown">
                                 <ul class="mobile-menu-nav">
 
-                                    @if(Auth::user()->roleId==\App\User::roleTeacher)
+                                    @if(Auth::user()->roleId==\App\User::roleTeacher || Auth::user()->roleId==\App\User::roleClasscoordinator)
                                         <li><a href="/">Home</a></li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Lecture's Topics<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -177,14 +177,14 @@
                                             </ul>
                                         </li>
 
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Timetables<span
-                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="/timetable/list">See Timetables</a>
-                                                </li>
+                                        <li><a data-target="#demoevent" href="/timetable/list">Timetables</a></li>
 
-                                            </ul>
-                                        </li>
+                                        @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
+                                            <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
+                                                <a href="/finalgrades/insert">Final Grades</a>
+                                            </li>
+                                        @endif
+
                                     @elseif(Auth::user()->roleId==\App\User::roleParent)
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>

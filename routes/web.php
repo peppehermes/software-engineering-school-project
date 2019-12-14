@@ -11,7 +11,7 @@
 |
 */
 
-
+use App\Http\Middleware\ClassCoordinator;
 
 Auth::routes();
 
@@ -147,3 +147,9 @@ Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/listforparents/{idStud}', 'StudentController@timetableForStudent')->middleware('parents');
 });
 
+//Final grades
+Route::group(['prefix' => 'finalgrades'],  function() {
+    Route::get('/insert', 'TeacherController@insertFinalGrades')->middleware(ClassCoordinator::class);
+    Route::post('/store/{idClass}', 'TeacherController@storeFinalGrades')->middleware(ClassCoordinator::class);
+    Route::get('/show', 'TeacherController@showFinalGrades')->middleware(ClassCoordinator::class);
+});

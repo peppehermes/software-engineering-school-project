@@ -37,7 +37,7 @@ class HomeController extends Controller
 
             return view('home2', ['students' => $students]);
 
-        } elseif (\Auth::user()->roleId == User::roleTeacher) {
+        } elseif (\Auth::user()->roleId == User::roleTeacher || \Auth::user()->roleId == User::roleClasscoordinator) {
 
 
             $userId = \Auth::user()->id;
