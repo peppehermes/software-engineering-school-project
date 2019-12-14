@@ -26,7 +26,8 @@
                                 {{--                                    </select>--}}
                                 {{--                                </div>--}}
                                 <form id="form" method="post"
-                                      action="/finalgrades/store/{{$classId}}">
+                                      action="/finalgrades/store/{{$classId}}"
+                                      onsubmit="return confirm('Are you sure? Final grades cannot be changed');">
 
                                     @csrf
                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true"
