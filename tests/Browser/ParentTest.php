@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Communications;
+use App\Models\FinalGrades;
 use App\Models\Meeting;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -284,5 +285,30 @@ class ParentTest extends DuskTestCase
         ]);
 
     }
+
+
+    public function test_as_parent_want_check_final_grades()
+    {
+        $year= date('Y');
+        $user = factory(User::class)->create(['roleID'=>3]);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>$user->email]);
+        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        FinalGrades::save(['idStudent'=>1,'idSubject' =>1,'year' => $year,'idClass' => '1A', 'finalgrade' => 7]);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/finalgrades/listforparents/1')
+                ->assertSee('Final Grades for Class 1A')  //if finalgrades would've not be present, the page would've redirect to home page with an error
+                ->logout();
+        });
+
+    }
+
+
 
 }

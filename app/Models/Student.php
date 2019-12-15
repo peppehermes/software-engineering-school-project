@@ -39,6 +39,17 @@ class Student
 
     }
 
+    public static function retrieveStudentById($id): Collection
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where('id', $id)
+            ->get();
+
+    }
 
     public static function save(array $data, $id = null): int
     {

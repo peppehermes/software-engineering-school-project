@@ -216,6 +216,16 @@
                                                                     Timetables</a>
                                                             </li>
 
+                                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif>
+                                                                <a
+                                                                    href="/meetings/choose/{{$student->id}}">
+                                                                    Meetings</a>
+                                                            </li>
+
+                                                            <li><a href="/finalgrades/listforparents/{{$student->id}}">
+                                                                    FinalGrade</a>
+                                                            </li>
+
 
                                                         </ul>
                                                     </li>

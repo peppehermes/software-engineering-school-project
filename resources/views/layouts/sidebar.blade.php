@@ -69,6 +69,11 @@
                                                         class="mini-sub-pro">Meetings</span></a>
                                             </li>
 
+                                            <li><a title="FinalGrade"
+                                                   href="/finalgrades/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">FinalGrade</span></a>
+                                            </li>
+
 
                                         </ul>
 

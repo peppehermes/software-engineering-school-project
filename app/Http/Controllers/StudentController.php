@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\FinalGrades;
 use App\Models\Meeting;
 use App\Models\Note;
 use App\Models\Material;
 use App\Models\Role;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Timeslot;
 use App\Models\Topic;
@@ -663,6 +665,31 @@ class StudentController extends Controller
             return 0;
         }
 
+    }
+
+
+    public function listFinalGradesforparents($idStud)
+    {
+        $usId = \Auth::user()->id;
+
+        $idClass = Student::retrieveClassId($idStud);
+        $student = Student::retrieveStudentById($idStud);
+
+        $subjects = Subject::retrieve();
+        $finalGrades = FinalGrades::retrieveCurrentByClassId($idClass);
+
+        if ($finalGrades->count()) {
+            // Final grades already stored for that class
+            return view('/student/showfinalgrades',
+                ['classId' => $idClass,
+                    'students' => $student,
+                    'subjects' => $subjects,
+                    'finalgrades' => $finalGrades
+                ]);
+        } else {
+            // Final grades not yet stored for that class
+            return \Redirect('/')->withErrors([' Final Grades not yet inserted.']);
+        }
     }
 
 
