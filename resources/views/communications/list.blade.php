@@ -34,12 +34,10 @@
 
                         @if($key%2!=0)
                     </div>
-                    @endif
+                @endif
 
 
-
-
-                    @endforeach
+            @endforeach
 
 
         </div>

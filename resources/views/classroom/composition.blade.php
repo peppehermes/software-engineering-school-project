@@ -108,35 +108,38 @@
                         </div>
                         <div>
                             <div class="sparkline10-graph">
-                            <div class="basic-login-form-ad">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="dual-list-box-inner">
-                                            <form id="form" method="post"
-                                                  action="/classroom/classComposition/{{$classroom->id}}"
-                                                  class="wizard-big">
-                                                @csrf
-                                                <select id="frm[]" name="frm[]" class="form-control dual_select" multiple>
-                                                    @foreach($students as $student)
-                                                        <option
-                                                            dusk="student{{$student->id}}" value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
+                                <div class="basic-login-form-ad">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="dual-list-box-inner">
+                                                <form id="form" method="post"
+                                                      action="/classroom/classComposition/{{$classroom->id}}"
+                                                      class="wizard-big">
+                                                    @csrf
+                                                    <select id="frm[]" name="frm[]" class="form-control dual_select"
+                                                            multiple>
+                                                        @foreach($students as $student)
+                                                            <option
+                                                                dusk="student{{$student->id}}"
+                                                                value="{{$student->id}}">{{$student->firstName.' '.$student->lastName}}</option>
 
-                                                    @endforeach
+                                                        @endforeach
 
-                                                </select>
+                                                    </select>
 
-                                                <div class="row" style="margin-top:50px;">
-                                                    <div class="col-lg-12">
-                                                        <div class="payment-adress">
-                                                            <button type="submit" @if($full==1) disabled @endif
-                                                            class="btn btn-primary btn-lg center-block">
-                                                                Submit
-                                                            </button>
+                                                    <div class="row" style="margin-top:50px;">
+                                                        <div class="col-lg-12">
+                                                            <div class="payment-adress">
+                                                                <button type="submit" @if($full==1) disabled @endif
+                                                                class="btn btn-primary btn-lg center-block">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +149,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 @endsection

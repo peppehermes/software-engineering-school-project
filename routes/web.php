@@ -111,8 +111,13 @@ Route::group(['prefix' => 'notes'], function() {
 //Marks
 Route::group(['prefix' => 'mark'], function() {
     Route::get('/add', 'TeacherController@addmark')->middleware('teachers');
-    Route::get('/list', 'TeacherController@listmark')->middleware('teachers');
+//    Route::get('/list', 'TeacherController@listmark')->middleware('teachers');
+    Route::post('/listmark', 'TeacherController@listmark')->middleware('teachers');
     Route::post('/storemark', 'TeacherController@storemark')->middleware('teachers');
+    Route::get('/classes', 'TeacherController@listclasses')->middleware('teachers');
+    Route::get('/addnewmark', 'TeacherController@addnewmark')->middleware('teachers');
+    Route::post('/storenewmark', 'TeacherController@storenewmark')->middleware('teachers');
+    Route::get('/classlist', 'TeacherController@classlist')->middleware('teachers');
 });
 
 //Official Communications

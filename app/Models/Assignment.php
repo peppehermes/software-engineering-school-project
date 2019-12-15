@@ -60,7 +60,7 @@ class Assignment
         return  DB::table(static::table)
             ->join('teacher', 'assignments.idTeach', '=', 'teacher.id')
             ->where('teacher.id', $id)
-            ->orderby('date', 'desc')
+            ->orderby('date', 'asc')
             ->paginate(10);
 
     }

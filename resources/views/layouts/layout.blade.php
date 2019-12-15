@@ -110,6 +110,25 @@
 <!-- jquery
 		============================================ -->
 <script src="{{ asset('js/vendor/jquery-1.12.4.min.js')}}"></script>
+@if(\Request::path()!='addnewmark')
+<script>
+
+    $(document).ready(function () {
+         $("table tr td").not(':nth-child(2)').find(".mark").prop("disabled", true);
+         $("table tr td").not(':nth-child(2)').find(":checkbox").prop("disabled", false);
+        $('#table').on('click',':checkbox',function(){
+
+                if($(this).is(':checked')){
+                    $(this).closest('tr').find(".mark").prop("disabled", false);}
+                else{
+                    $(this).closest('tr').find(".mark").prop("disabled", true);
+                }
+
+
+        });
+    });
+</script>
+@endif
 <!-- bootstrap JS
     ============================================ -->
 <script src="{{ asset('js/bootstrap.min.js')}}"></script>

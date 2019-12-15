@@ -6,7 +6,6 @@ use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\Role;
 use App\Models\Student;
-use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;
@@ -14,8 +13,6 @@ use App\Models\Note;
 use App\Models\Mark;
 use App\Models\Timeslot;
 use App\Models\Meeting;
-use App\Models\Subjects;
-use App\Models\FinalGrades;
 use App\User;
 use DB;
 use App\Models\Teacher;
@@ -173,7 +170,7 @@ class TeacherController extends Controller
         User::deleteById($teacherInfo->userId);
 
 
-        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
+        return redirect('/teacher/list')->with(['message' => 'successful operation!']);
 
     }
 
@@ -233,7 +230,7 @@ class TeacherController extends Controller
             $data['deadline'] = Student::convertDate($data['deadline']);
             $data['idClass'] = request('idClass');
             $data['subject'] = request('subject');
-            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            $data['idTeach'] = Teacher::retrieveId($usId);
             if ($request->file('attachment')) {
 
                 $cover = $request->file('attachment');
@@ -247,7 +244,7 @@ class TeacherController extends Controller
             }
             Assignment::save($data);
         }
-        return redirect('/assignment/list')->with(['message' => 'Successful operation!']);
+        return redirect('/assignment/list')->with(['message' => 'successful operation!']);
 
 
     }
@@ -295,6 +292,97 @@ class TeacherController extends Controller
 
     }
 
+    public function addnewmark(Request $request)
+    {
+
+
+        $usId = \Auth::user()->id;
+
+        $classRooms = Teacher::retrieveTeacherClass($usId);
+
+        $students = Student::retrieveStudentClass(request('idClass'));
+
+        $classId = request('idClass');
+        $date = request('lecturedate');
+        $subject = request('subject');
+        $topic = request('topic');
+        $date2 = Student::convertDate($date);
+        $teachId = Teacher::retrieveId($usId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+
+        $subjectsClass = Teacher::retrieveTeachingClass($teachId, $classId);
+
+
+        foreach ($students as $student) {
+            $mark = Mark::retrieveTeachersSubjectTopic($teachId, $subject, $topic, $date2, $student->id);
+           if($mark){
+               $student->mark = $mark->mark;
+           }
+           else{
+               $student->mark = NULL;
+           }
+
+        }
+
+
+        return view('marks.addnewmark', ['students' => $students, 'classRooms' => $classRooms, 'classId' => $classId, 'date' => $date, 'subject' => $subject, 'topic' => $topic, 'classes' => $classes, 'subjects' => $subjects, 'subjectsClass' => $subjectsClass]);
+
+
+    }
+
+    public function storenewmark(Request $request)
+    {
+
+        $usId = \Auth::user()->id;
+        $students = Student::retrieveStudentClass(request('classId'));
+
+
+        foreach ($students as $student) {
+
+            $data = request('frm' . $student->id);
+            $data2 = request('frm2' . $student->id);
+
+
+
+            if ($data && isset($data['mark']) && isset($data2['status'])) {
+                $data['subject'] = request('subject');
+                $data['topic'] = request('topic');
+                $data['idClass'] = request('classId');
+
+                $data['date'] = request('date');
+                $data['date'] = Student::convertDate($data['date']);
+                $data['idTeach'] = Teacher::retrieveId($usId);
+
+                $mark = Mark::retrieveTeachersSubjectTopic($data['idTeach'], $data['subject'], $data['topic'] , $data['date'] , $student->id);;
+
+                if($mark){
+                    Mark::save($data,$mark->id);
+                }
+                else{
+                    Mark::save($data);
+                }
+
+
+            }
+        }
+        return redirect('/mark/classlist')->with(['message' => 'Successful operation!']);
+
+
+    }
+
+    public function listclasses()
+    {
+        $usId = \Auth::user()->id;
+        $date = date("Y-m-d");
+        $dateview = Student::convertDateView($date);
+        $teachId = Teacher::retrieveId($usId);
+        $subjects = Teacher::retrieveTeaching($teachId);
+        $classes = Teacher::retrievedistinctTeaching($teachId);
+        $studId = Student::retrieveStudentsForTeacher($teachId);
+        return view('marks.classes', ['classes' => $classes, 'studId' => $studId, 'subjects' => $subjects, 'date' => $dateview]);
+    }
+
 
     public function addmark()
     {
@@ -312,10 +400,17 @@ class TeacherController extends Controller
     public function listmark()
     {
         $usId = \Auth::user()->id;
-
+        $classId= request('classId');
         $teachId = Teacher::retrieveId($usId);
-        $marks = Mark::retrieveTeachersPagination($teachId);
-        return view('marks.list', ['marks' => $marks]);
+        $marks = Mark::retrieveTeachersClasses($teachId,$classId);
+        return view('marks.list', ['marks' => $marks,'classId'=>$classId]);
+    }
+
+    public function classlist()
+    {
+        $myID = \Auth::user()->id;
+        $classrooms = Teacher::retrieveTeacherOnlyClasses($myID);
+        return view('marks.classlist', ['classrooms' => $classrooms]);
     }
 
 
@@ -576,6 +671,7 @@ class TeacherController extends Controller
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
 
+
         foreach ($slots as $d) {
                 Meeting::delete_per_teacher($d,$teachId,$week);
         }
@@ -651,7 +747,7 @@ class TeacherController extends Controller
             }
         }
 
-        return redirect('/finalgrades/show')->with(['message' => 'Successfull operation!']);
+        return redirect('/finalgrades/show')->with(['message' => 'successful operation!']);
     }
 
     /*

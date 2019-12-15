@@ -82,6 +82,16 @@ class Teacher
 
     }
 
+    public static function retrieveTeachingClass(int $id,string $classId)
+    {
+        return DB::table('teaching')
+            ->select('teaching.*')
+            ->where('idTeach', $id)
+            ->where('idClass', $classId)
+            ->get();
+
+    }
+
     public static function retrievedistinctTeaching(int $id)
     {
         return DB::table('teaching')

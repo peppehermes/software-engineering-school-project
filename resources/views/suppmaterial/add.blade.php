@@ -7,10 +7,10 @@
 
             var idClass = document.getElementById("idClass").value,
                 subject = document.getElementById("subject"),
-                l=subject.length;
+                l = subject.length;
 
 
-            for (var i = 0; i <l; i++) {
+            for (var i = 0; i < l; i++) {
                 subject.remove(0);
 
             }
@@ -28,7 +28,7 @@
         }
 
     </script>
-        <!-- Single pro tab review Start-->
+    <!-- Single pro tab review Start-->
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
             <div class="row">
@@ -45,23 +45,28 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
-                                                <form action="/material/store" method="post" class="dropzone dropzone-custom needsclick add-professors"
-                                                      id="demo1-upload" enctype="multipart/form-data" onsubmit="checkDate()" name="form">
+                                                <form action="/material/store" method="post"
+                                                      class="dropzone dropzone-custom needsclick add-professors"
+                                                      id="demo1-upload" enctype="multipart/form-data"
+                                                      onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="col-md-12">
                                                             <div class="form-group col-md-6">
                                                                 <label>Class:</label>
-                                                                <select onchange="setSubject()" name="idClass" id="idClass" class="form-control" required>
+                                                                <select onchange="setSubject()" name="idClass"
+                                                                        id="idClass" class="form-control" required>
                                                                     <option hidden disabled selected></option>
                                                                     @foreach($classes as $class)
-                                                                        <option value="{{$class->idClass}}">{{$class->idClass}}</option>
+                                                                        <option
+                                                                            value="{{$class->idClass}}">{{$class->idClass}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label>Subject:</label>
-                                                                <select name="subject" id="subject" class="form-control" required>
+                                                                <select name="subject" id="subject" class="form-control"
+                                                                        required>
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
@@ -70,7 +75,7 @@
                                                             <div class="form-group col-md-12" id="topic">
                                                                 <label>Description</label>
                                                                 <textarea name="frm[mdescription]" type="text"
-                                                                       class="form-control"></textarea>
+                                                                          class="form-control"></textarea>
                                                             </div>
 
                                                             <div class="form-group col-md-12">
@@ -86,11 +91,11 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row" style="margin-top: 50px">
-                                                        <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary waves-effect waves-light btn-lg center-block">
                                                                     Submit
                                                                 </button>
                                                             </div>

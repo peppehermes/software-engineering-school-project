@@ -211,11 +211,11 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button id="{{$week}}" name="button" type="submit" onclick="bookslot(this)"
-                                        class="btn btn-primary waves-effect waves-light">
+                                        class="btn btn-primary waves-effect waves-light btn-lg">
                                     Book Slot
                                 </button>
                                 <button id="{{$week}}" type="submit" onclick="freeslot(this)"
-                                        class="btn btn-primary waves-effect waves-light">
+                                        class="btn btn-primary waves-effect waves-light btn-lg">
                                     Free Slot
                                 </button>
                             </div>

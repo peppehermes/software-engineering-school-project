@@ -9,7 +9,7 @@
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
                             <li class="active"><a href="#description">Basic Information</a></li>
-{{--                            <li><a href="#reviews"> Account Information</a></li>--}}
+                            {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
                             {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">
@@ -40,11 +40,14 @@
                                                                 <input name="frm[birthPlace]" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
-                                                                <label >Date of birth:</label>
+                                                            <div class="form-group data-custon-pick col-md-12"
+                                                                 id="data_2">
+                                                                <label>Date of birth:</label>
                                                                 <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="frm[birthday]" class="form-control"
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]"
+                                                                           class="form-control"
                                                                            id="attendaceDate">
                                                                 </div>
 
@@ -149,40 +152,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {{--                            <div class="product-tab-list tab-pane fade" id="INFORMATION">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Facebook URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Twitter URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Google Plus">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Linkedin URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <button type="submit"--}}
-                            {{--                                                                class="btn btn-primary waves-effect waves-light">Submit--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
                         </div>
                     </div>
                 </div>

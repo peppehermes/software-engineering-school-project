@@ -246,11 +246,11 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button id="{{$week}}" name="button" type="submit" onclick="provideslots(this)"
-                                        class="btn btn-primary waves-effect waves-light">
+                                        class="btn btn-primary waves-effect waves-light  btn-lg">
                                     Provide slots
                                 </button>
                                 <button id="{{$week}}" type="submit" onclick="freeslots(this)"
-                                        class="btn btn-primary waves-effect waves-light">
+                                        class="btn btn-primary waves-effect waves-light btn-lg">
                                     Free slots
                                 </button>
                             </div>

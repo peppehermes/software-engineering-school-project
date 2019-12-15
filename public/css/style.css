@@ -3264,6 +3264,11 @@ td.text-right.mail-date {
     background-color: #86bc42;
     border-color: #86bc42;
 }
+.filters .btn-primary {
+    color: #fff;
+    background-color: #86bc42;
+    border-color: #86bc42;
+}
 .dropdown-menu.filedropdown{
 	width:100%;
 }
@@ -3482,6 +3487,9 @@ td.text-right.mail-date {
 	border-radius:0px;
 	outline: 0px auto -webkit-focus-ring-color;
     outline-offset: 0px;
+    margin-left: 50%;
+    margin-right: 50%;
+
 }
 .create-account-sign a{
 	color: #006DF0;

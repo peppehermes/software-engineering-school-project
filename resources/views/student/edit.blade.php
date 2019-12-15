@@ -51,12 +51,16 @@
                                                                        class="form-control"
                                                                        value="{{$studentInfo->birthPlace}}">
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
-                                                                <label >Date of birth:</label>
+                                                            <div class="form-group data-custon-pick col-md-12"
+                                                                 id="data_2">
+                                                                <label>Date of birth:</label>
                                                                 <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="frm[birthday]" class="form-control"
-                                                                           id="attendaceDate" value="{{$studentInfo->birthday}}">
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]"
+                                                                           class="form-control"
+                                                                           id="attendaceDate"
+                                                                           value="{{$studentInfo->birthday}}">
                                                                 </div>
 
 
@@ -191,22 +195,26 @@
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 1:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->name}}@endif">
+                                                                       name="parentName1"
+                                                                       value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 1:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail1" value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->email}}@endif">
+                                                                       name="parentEmail1"
+                                                                       value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->email}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Name of Parent 2:</label>
                                                                 <input type="text" class="form-control"
-                                                                       name="parentName2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->name}}@endif">
+                                                                       name="parentName2"
+                                                                       value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->name}}@endif">
                                                             </div>
                                                             <div class="form-group col-lg-6">
                                                                 <label>Email of Parent 2:</label>
                                                                 <input type="email" class="form-control"
-                                                                       name="parentEmail2" value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->email}}@endif">
+                                                                       name="parentEmail2"
+                                                                       value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->email}}@endif">
                                                             </div>
                                                         </div>
                                                     </div>
