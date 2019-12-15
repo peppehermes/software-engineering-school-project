@@ -65,6 +65,10 @@ class Teacher
         return DB::table(static::table)->where('id', $id)->delete();
     }
 
+    public static function deleteTeaching(int $id,string $idClass): int
+    {
+        return DB::table('teaching')->where('idTeach', $id)->where('idClass', $idClass)->delete();
+    }
     public static function retrieveId(int $id)
     {
         return DB::table(static::table)

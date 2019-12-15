@@ -1,5 +1,5 @@
 Peppe: 3 + 4 + 2.5
 Andrea: 1 + 1 + 2 + 1 + 2 + 2
-Sahar:
+Sahar: 12
 Marco: 3 + 3 + 2 + 2 + 3
 Matteo: 2.5 + 1 + 3.5

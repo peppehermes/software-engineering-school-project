@@ -95,7 +95,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label>Subject:</label>
+                                                            <label>Subject: <span style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
                                                             <input name="frmT[subject]" type="text"
                                                                    class="form-control" required>
                                                         </div>
@@ -137,7 +137,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row" >
+                                                    <div class="row">
                                                         <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"

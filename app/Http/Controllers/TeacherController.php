@@ -84,8 +84,21 @@ class TeacherController extends Controller
             }
 
             $Teachid = Teacher::save($data);
-            $dataT['idTeach'] = $Teachid;
-            Teacher::saveTeaching($dataT);
+
+            if (strpos($dataT['subject'], '-')) {
+                $subjects = explode('-', $dataT['subject']);
+                foreach ($subjects as $subject) {
+                    $dataT['idTeach'] = $Teachid;
+                    $dataT['subject'] = $subject;
+
+                    Teacher::saveTeaching($dataT);
+                }
+            } else {
+                $dataT['idTeach'] = $Teachid;
+                Teacher::saveTeaching($dataT);
+            }
+
+
         }
 
 
@@ -115,6 +128,7 @@ class TeacherController extends Controller
     public function edit($id)
     {
 
+        $classes = Classroom::retrieve();
         $teacherInfo = Teacher::retrieveById($id);
         $teacherEmail = User::retrieveById($teacherInfo->userId);
         if ($teacherInfo->birthday) {
@@ -124,8 +138,17 @@ class TeacherController extends Controller
 
         $teacherInfo->email = $teacherEmail->email;
 
+        $teachings = Teacher::retrieveTeaching($id);
 
-        return view('teacher.edit', ['teacherInfo' => $teacherInfo]);
+        foreach ($teachings as $teaching) {
+            $subjects[] = $teaching->subject;
+            $teacherInfo->idClass =$teaching->idClass ;
+        }
+        $teacherInfo->subject = implode('-', $subjects);
+
+
+
+        return view('teacher.edit', ['teacherInfo' => $teacherInfo,'classes'=>$classes]);
     }
 
     public function update(Request $request, $id)
@@ -134,6 +157,7 @@ class TeacherController extends Controller
         $teacher = Teacher::retrieveById($id);
 
         $data = request('frm');
+        $dataT = request('frmT');
 
         if ($data['birthday']) {
             $data['birthday'] = Student::convertDate($data['birthday']);
@@ -157,6 +181,22 @@ class TeacherController extends Controller
             $data['photo'] = $fileName;
         }
         Teacher::save($data, $id);
+
+        if (strpos($dataT['subject'], '-')) {
+            $subjects = explode('-', $dataT['subject']);
+            foreach ($subjects as $subject) {
+                $dataT['idTeach'] = $id;
+                $dataT['subject'] = $subject;
+
+                Teacher::deleteTeaching($id,$dataT['idClass']);
+                Teacher::saveTeaching($dataT);
+            }
+        } else {
+            $dataT['idTeach'] = $id;
+            Teacher::deleteTeaching($id,$dataT['idClass']);
+            Teacher::saveTeaching($dataT);
+        }
+
 
         return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
 
@@ -316,12 +356,11 @@ class TeacherController extends Controller
 
         foreach ($students as $student) {
             $mark = Mark::retrieveTeachersSubjectTopic($teachId, $subject, $topic, $date2, $student->id);
-           if($mark){
-               $student->mark = $mark->mark;
-           }
-           else{
-               $student->mark = NULL;
-           }
+            if ($mark) {
+                $student->mark = $mark->mark;
+            } else {
+                $student->mark = NULL;
+            }
 
         }
 
@@ -344,7 +383,6 @@ class TeacherController extends Controller
             $data2 = request('frm2' . $student->id);
 
 
-
             if ($data && isset($data['mark']) && isset($data2['status'])) {
                 $data['subject'] = request('subject');
                 $data['topic'] = request('topic');
@@ -354,12 +392,11 @@ class TeacherController extends Controller
                 $data['date'] = Student::convertDate($data['date']);
                 $data['idTeach'] = Teacher::retrieveId($usId);
 
-                $mark = Mark::retrieveTeachersSubjectTopic($data['idTeach'], $data['subject'], $data['topic'] , $data['date'] , $student->id);;
+                $mark = Mark::retrieveTeachersSubjectTopic($data['idTeach'], $data['subject'], $data['topic'], $data['date'], $student->id);;
 
-                if($mark){
-                    Mark::save($data,$mark->id);
-                }
-                else{
+                if ($mark) {
+                    Mark::save($data, $mark->id);
+                } else {
                     Mark::save($data);
                 }
 
@@ -400,10 +437,10 @@ class TeacherController extends Controller
     public function listmark()
     {
         $usId = \Auth::user()->id;
-        $classId= request('classId');
+        $classId = request('classId');
         $teachId = Teacher::retrieveId($usId);
-        $marks = Mark::retrieveTeachersClasses($teachId,$classId);
-        return view('marks.list', ['marks' => $marks,'classId'=>$classId]);
+        $marks = Mark::retrieveTeachersClasses($teachId, $classId);
+        return view('marks.list', ['marks' => $marks, 'classId' => $classId]);
     }
 
     public function classlist()
@@ -506,13 +543,13 @@ class TeacherController extends Controller
     {
         $form = request('frm');
         $week = $form['week'];
-        $year_week=explode('-',$week);
-        $date1 = date( "l, M jS, Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'1') ); // First day of week
-        $date2 = date( "l, M jS, Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'7') ); // Last day of week
+        $year_week = explode('-', $week);
+        $date1 = date("l, M jS, Y", strtotime($year_week[0] . "W" . ltrim($year_week[1], 'W') . '1')); // First day of week
+        $date2 = date("l, M jS, Y", strtotime($year_week[0] . "W" . ltrim($year_week[1], 'W') . '7')); // Last day of week
 
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $exist=Meeting::retrieveMeetingperTeacher($teachId);
+        $exist = Meeting::retrieveMeetingperTeacher($teachId);
         $teach = Teacher::retrieveById($teachId);
         if (count($exist) == 0)
 
@@ -549,7 +586,7 @@ class TeacherController extends Controller
         $provided = Meeting::retrieveMeetingperTeacher($teachId);
 
         if (count($provided) > 0)
-            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName .' '. $teach->lastName . ' has already provided the two timeslots']);
+            return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' has already provided the two timeslots']);
 
         else {
             foreach ($times as $time) {
@@ -579,18 +616,16 @@ class TeacherController extends Controller
     public function storetimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
-        $week=(stripslashes($_POST['week']));
+        $week = (stripslashes($_POST['week']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
-        $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId,$week);
+        $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId, $week);
 
-        if ((count($provided)+count($slots)) > 3) {
+        if ((count($provided) + count($slots)) > 3) {
 
             $message = 'Too many timeslots provided, please provide at most 3!';
             return $message;
-        }
-
-        else {
+        } else {
             $data['idTeacher'] = $teachId;
             $data['idweek'] = $week;
 
@@ -606,13 +641,13 @@ class TeacherController extends Controller
     public function storealltimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
-        $week=(stripslashes($_POST['week']));
+        $week = (stripslashes($_POST['week']));
         $year = date("Y");
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
         $data['idTeacher'] = $teachId;
         // if we are after September
-        if($week>=37) {
+        if ($week >= 37) {
             // between september and the end of the year
             for ($i = $week; $i < 52; $i++) {
                 $data['idweek'] = ($year . '-W' . $i);
@@ -621,45 +656,42 @@ class TeacherController extends Controller
                     Meeting::save($data);
                 }
             }
-           // between january and end of the school in june
+            // between january and end of the school in june
             for ($i = 2; $i < 29; $i++) {
-                if($i<10)
-                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+                if ($i < 10)
+                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year+1 . '-W' . $i);
+                    $data['idweek'] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
                 }
             }
-        }
-       // if we are after January
-        else if($week>1 && $week<28){
+        } // if we are after January
+        else if ($week > 1 && $week < 28) {
             for ($i = $week; $i < 29; $i++) {
-                if($i<10)
-                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+                if ($i < 10)
+                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year+1 . '-W' . $i);
+                    $data['idweek'] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
                 }
             }
-        }
-        // we are in the first week of january
-        else if($week==1) {
-            for ($i = $week+1; $i < 29; $i++) {
-                if($i<10)
-                    $data['idweek'] = $year+1 . '-W' .'0'. $i;
+        } // we are in the first week of january
+        else if ($week == 1) {
+            for ($i = $week + 1; $i < 29; $i++) {
+                if ($i < 10)
+                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year+1 . '-W' . $i);
+                    $data['idweek'] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
                     $data['idTimeslot'] = $d;
                     Meeting::save($data);
                 }
             }
-        }
-        // between june and september,it's not possible to provide
+        } // between june and september,it's not possible to provide
         else
             return 1;
     }
@@ -667,13 +699,13 @@ class TeacherController extends Controller
     public function freetimeslot()
     {
         $slots = json_decode(stripslashes($_POST['data']));
-        $week=(stripslashes($_POST['week']));
+        $week = (stripslashes($_POST['week']));
         $usId = \Auth::user()->id;
         $teachId = Teacher::retrieveId($usId);
 
 
         foreach ($slots as $d) {
-                Meeting::delete_per_teacher($d,$teachId,$week);
+            Meeting::delete_per_teacher($d, $teachId, $week);
         }
     }
 
@@ -700,8 +732,7 @@ class TeacherController extends Controller
                 'subjects' => $subjects,
                 'finalgrades' => $finalGrades
             ])->with(['message' => 'Final grades already stored!']);
-        }
-        else {
+        } else {
             // Final grades not yet stored for that class
             return view('finalgrades.insert',
                 ['classId' => $classId,
@@ -729,8 +760,7 @@ class TeacherController extends Controller
                 'subjects' => $subjects,
                 'finalgrades' => $finalGrades
             ])->with(['message' => 'Final grades already stored!']);
-        }
-        else {
+        } else {
             // Final grades not yet stored for that class
             foreach ($students as $student) {
                 foreach ($subjects as $subject) {
@@ -774,8 +804,7 @@ class TeacherController extends Controller
                     'subjects' => $subjects,
                     'finalgrades' => $finalGrades
                 ]);
-        }
-        else {
+        } else {
             // Final grades not yet stored for that class
             return view('finalgrades.insert')->with(['error' => 'Final grades not yet inserted!']);
         }

@@ -93,8 +93,24 @@
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
+                                                            <div class="form-group col-md-12">
+                                                                <label>Class:</label>
+                                                                <select name="frmT[idClass]" class="form-control" required>
 
-                                                            <div class="form-group">
+                                                                    @foreach($classes as $class)
+                                                                        <option @if($class->id ==$teacherInfo->idClass ) selected @endif
+                                                                            value="{{$class->id}}">{{$class->id}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Subject: <span style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
+                                                                <input name="frmT[subject]" type="text"
+                                                                       class="form-control" required value="{{$teacherInfo->subject}}">
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-12">
                                                                 <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -112,13 +128,13 @@
                                                             </div>
 
 
-                                                            <div class="form-group res-mg-t-15">
+                                                            <div class="form-group res-mg-t-15  col-md-12">
                                                                 <label>Description:</label>
                                                                 <textarea
                                                                     name="frm[description]">{{$teacherInfo->description}}</textarea>
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group  col-md-6">
 
 
                                                                 <label class="control-label">Photo:</label>
