@@ -58,9 +58,11 @@ class Topic
     public static function retrieveTeachersPagination(int $id)
     {
         return  DB::table(static::table)
+            ->select(static::table.'.*','teacher.*')
+            ->selectRaw('UNIX_TIMESTAMP(date) as dt')
             ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
             ->where('teacher.id', $id)
-            ->orderby('date', 'desc')
+            ->orderby('dt', 'desc')
             ->paginate(10);
 
     }
@@ -70,8 +72,10 @@ class Topic
 
         return DB::table(static::table)
             ->select('lecturetopic.*', 'teacher.firstName as firstName', 'teacher.lastName as lastName')
+            ->selectRaw('UNIX_TIMESTAMP(date) as dt')
             ->join('teacher', 'lecturetopic.idTeach', '=', 'teacher.id')
             ->where('idClass', $idClass)
+            ->orderBy('dt','desc')
             ->get();
 
     }

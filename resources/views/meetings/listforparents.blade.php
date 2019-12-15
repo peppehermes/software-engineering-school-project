@@ -42,7 +42,7 @@
                                     @foreach($meetings as $meeting)
 
                                         <tr>
-                                            <td>{{$meeting->idweek}}</td>
+                                            <td>{{$meeting->weekDate}}</td>
                                             <td>{{$meeting->teachFirstName}} {{$meeting->teachLastName}}</td>
                                             <td>{{$meeting->day}}</td>
                                             <td>{{$meeting->hour}}</td>

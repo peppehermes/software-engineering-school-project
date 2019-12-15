@@ -589,6 +589,14 @@ class StudentController extends Controller
         $students = Student::retrieveStudentsForParent($myParentID);
 
         $meetings = Meeting::retrieveMeetingperParent($myParentID);
+        foreach ($meetings as $meeting) {
+            $week = $meeting->idweek;
+            $year_week=explode('-',$week);
+
+            $date1 = date( "d M Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'1') ); // First day of week
+            $date2 = date( "d M Y", strtotime($year_week[0]."W". ltrim($year_week[1],'W').'7') ); // Last day of week
+            $meeting->weekDate=$date1.' / '.$date2;
+        }
 
         return view('meetings.listforparents', ['students' => $students, 'meetings' => $meetings]);
 

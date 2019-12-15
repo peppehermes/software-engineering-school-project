@@ -98,7 +98,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4>Professor {{$teach->firstName}} {{$teach->lastName}}</h4>
-                        <h4>Select from 1 up to 3 timeslots for the whole year</h4>
+                        <h5 style="color: #ca1616">Select from 1 up to 3 timeslots for the whole year</h5>
 
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">
