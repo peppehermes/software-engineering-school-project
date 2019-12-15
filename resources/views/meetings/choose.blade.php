@@ -127,7 +127,6 @@
                                                                         <label>Select a week: </label>
                                                                         <input type="week" name="frm[week]" id="week"
                                                                                min="2019-W37" max="2020-W28" required>
-                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
