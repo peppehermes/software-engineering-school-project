@@ -30,7 +30,7 @@
         function selecttimeslot(slot) {
             if (slot.style.backgroundColor == "orange")
 
-                slot.style.backgroundColor = "green";
+                slot.style.backgroundColor = "lightblue";
 
             else
                 slot.style.backgroundColor = "orange";
@@ -125,15 +125,15 @@
                                             @endphp
                                             @foreach($timeslots as $timeslot)
                                                 @if($row==$timeslot->id)
-                                                    <td id="{{$row}}"
-                                                        bgcolor="#dc143c">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
+                                                    <td id="{{$row}}" style="color: white"
+                                                        bgcolor="#555">{{$timeslot->idClass}} {{$timeslot->subject}}</td>
                                                     @php $bool=0;
                                                     @endphp
                                                 @endif
                                             @endforeach
 
                                             @if($bool==1)
-                                                <td dusk="slot{{$row}}" id="{{$row}}" bgcolor="green"
+                                                <td dusk="slot{{$row}}" id="{{$row}}" bgcolor="lightblue"
                                                     onclick="selecttimeslot(this)">{{''}}</td>
                                             @endif
                                         @endforeach
@@ -142,8 +142,8 @@
                             </table>
                             <h5 class="box-title">Slots Status</h5>
                             <ul class="basic-list">
-                                <li>Lecture's Hour <span class="pull-right label-info label-4 label"> </span></li>
-                                <li>Available <span class="pull-right label-success label-3 label"> </span></li>
+                                <li>Lecture's Hour <span class="pull-right label-purple label-7 label"> </span></li>
+                                <li>Available <span class="pull-right label-purple  label-11 label"> </span></li>
                             </ul>
                         </div>
                     </div>
