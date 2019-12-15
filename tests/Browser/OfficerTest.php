@@ -13,6 +13,7 @@ use Tests\DuskTestCase;
 
 class OfficerTest extends DuskTestCase
 {
+
     use DatabaseMigrations;
     /**
      * A Dusk test example.
@@ -135,7 +136,9 @@ class OfficerTest extends DuskTestCase
     {
         $admin = factory(User::class)->create(['roleID'=>1]);
         $teacher = factory(User::class)->create(['roleID'=>2]);
-        Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
 
 
 

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
+use App\Models\FinalGrades;
 use App\Models\Role;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\Material;
 use App\Models\Assignment;

@@ -93,24 +93,27 @@ class TeacherTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/mark/add')
+            $browser->visit('/mark/classes')
                 ->select('idClass',$classid)
-                ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
-                ->select('mark','8')
+                ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
-                ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
-                ->assertPathIs('/mark/list')
+                ->check('frm21[status]')  //checking the checkbox of the student with id 1
+                ->select('frm1[mark]','8') //assigning the mark to the student selected
+                ->press('Submit')
+                ->assertPathIs('/mark/classlist')
                 ->logout();
         });
 
         $this->assertDatabaseHas('marks', [
+            'idStudent' => 1,
+            'Subject' => 'Math',
             'mark' => 8
         ]);
     }
 
-    public function test_as_teacher_want_insert_marks_wrong_date()
+    public function test_as_teacher_want_insert_mark_wrong_date()
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
@@ -127,16 +130,13 @@ class TeacherTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/mark/add')
+            $browser->visit('/mark/classes')
                 ->select('idClass',$classid)
-                ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
-                ->select('mark','8')
+                ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
-                ->type('frm[topic]', 'Some topic')
-                ->press('Submit');
-            $browser->acceptDialog()
-                ->assertPathIsNot('/mark/list')
+                ->press('Submit')
+                ->acceptDialog() // "Wrong Date !" Alert
                 ->logout();
         });
 

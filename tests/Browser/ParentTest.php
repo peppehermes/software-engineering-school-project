@@ -254,8 +254,8 @@ class ParentTest extends DuskTestCase
         Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'', 'userId' => $teacher->id, 'email'=>$teacher->email]);
         Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
-        Meeting::save(['idTimeslot' => 1 , 'idTeacher' => 1, 'idweek' => '2019-W50']);
-        Meeting::save(['idTimeslot' => 2 , 'idTeacher' => 1, 'idweek' => '2019-W50']);
+        Meeting::save(['idTimeslot' => 1 , 'idTeacher' => 1, 'idweek' => $year.'-W'.($week+1)]);
+        Meeting::save(['idTimeslot' => 2 , 'idTeacher' => 1, 'idweek' => $year.'-W'.($week+1)]);
 
         $this->browse(function ($browser) use ($user,$teacher,$week,$year){
             $browser->visit('/login')
@@ -265,7 +265,7 @@ class ParentTest extends DuskTestCase
                 ->assertPathIs('/home');
             $browser->visit('/meetings/choose/1')
                 ->select('frm[teachId]',$teacher->name)
-                ->type('frm[week]','Settimana '.$week.', '.$year)
+                ->type('frm[week]','Settimana '.($week+1).', '.$year)
                 ->press('Submit')
                 ->assertPathIs('/meetings/book/1')
                 ->click('@slot1')
@@ -277,7 +277,7 @@ class ParentTest extends DuskTestCase
             'id' => 1,
             'idTimeslot' => 1,
             'idTeacher' => 1,
-            'idweek' => '2019-W50',
+            'idweek' => $year.'-W'.($week+1),
             'isBooked' => 1,
             'idParent' => $user->id,
             'idStud' => $studentid
