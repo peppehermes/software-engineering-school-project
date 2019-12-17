@@ -215,7 +215,7 @@
                                                         </td>
 
                                                     @else
-                                                        <td onclick="selecttimeslot1(this)" id="{{$row}}"
+                                                        <td onclick="selecttimeslot1(this)" style="cursor: pointer" id="{{$row}}"
                                                             bgcolor="#663399">{{''}}</td>
                                                     @endif
                                                     @php $bool=0;

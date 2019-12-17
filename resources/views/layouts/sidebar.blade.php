@@ -23,7 +23,9 @@
                                     \Request::path()=='timetable/listforparents/'.$student->id ||
                                     \Request::path()=='notes/shownotes/'.$student->id ||
                                     \Request::path()=='student/attendance_report/'.$student->id||
-                                    \Request::path()=='meetings/choose/'.$student->id) class="active" @endif>
+                                    \Request::path()=='meetings/choose/'.$student->id ||
+                                    \Request::path()=='finalgrades/listforparents/'.$student->id ||
+                                     \Request::path()=='meetings/book/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
@@ -69,7 +71,7 @@
                                                         class="mini-sub-pro">Meetings</span></a>
                                             </li>
 
-                                            <li><a title="FinalGrade"
+                                            <li @if(\Request::path()=='finalgrades/listforparents/{{$student->id}}') class="active" @endif><a title="FinalGrade"
                                                    href="/finalgrades/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">FinalGrade</span></a>
                                             </li>

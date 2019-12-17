@@ -678,7 +678,8 @@ class StudentController extends Controller
 
     public function listFinalGradesforparents($idStud)
     {
-        $usId = \Auth::user()->id;
+        $myParentID = \Auth::user()->id;
+        $students = Student::retrieveStudentsForParent($myParentID);
 
         $idClass = Student::retrieveClassId($idStud);
         $student = Student::retrieveStudentById($idStud);
@@ -690,9 +691,10 @@ class StudentController extends Controller
             // Final grades already stored for that class
             return view('/student/showfinalgrades',
                 ['classId' => $idClass,
-                    'students' => $student,
+                    'studentsG' => $student,
                     'subjects' => $subjects,
-                    'finalgrades' => $finalGrades
+                    'finalgrades' => $finalGrades,
+                    'students'=>$students
                 ]);
         } else {
             // Final grades not yet stored for that class

@@ -186,11 +186,11 @@ class TeacherController extends Controller
 
         if (strpos($dataT['subject'], '-')) {
             $subjects = explode('-', $dataT['subject']);
+            Teacher::deleteTeaching($id,$dataT['idClass']);
             foreach ($subjects as $subject) {
                 $dataT['idTeach'] = $id;
                 $dataT['subject'] = $subject;
 
-                Teacher::deleteTeaching($id,$dataT['idClass']);
                 Teacher::saveTeaching($dataT);
             }
         } else {

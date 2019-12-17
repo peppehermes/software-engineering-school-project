@@ -44,7 +44,7 @@
                                     </thead>
                                     <tbody>
 
-                                    @foreach($students as $student)
+                                    @foreach($studentsG as $student)
                                         <tr>
 
                                             <td>{{$student->firstName}}</td>
