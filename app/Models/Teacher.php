@@ -27,7 +27,7 @@ class Teacher
     }
 
     /**
-     * Retrieve company by id
+     * Retrieve teacher row by id
      *
      * @param int $id
      * @return mixed

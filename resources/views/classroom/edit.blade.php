@@ -46,30 +46,53 @@
                                                                        class="form-control" required
                                                                        value="{{$classroomInfo->capacity}}">
                                                             </div>
-
-
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Assign Class Coordinator</label>
+                                                                <select class="form-control" name="class_coordinator_id">
+                                                                    @if($coordinator != 'Select Coordinator')
+                                                                        <option value="{{$coordinator->id}}" selected="selected">
+                                                                            {{$coordinator->firstName}} {{$coordinator->lastName}}
+                                                                        </option>
+                                                                    @else
+                                                                        <option value=0 selected="selected">
+                                                                            {{$coordinator}}
+                                                                        </option>
+                                                                    @endif
+
+                                                                    @foreach($teachers as $teacher)
+                                                                        <option value="{{$teacher->idTeach}}">
+                                                                            {{$teacher->firstName}} {{$teacher->lastName}}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="form-group col-lg-12">
                                                                 <label>Description:</label>
                                                                 <textarea
-                                                                    name="frm[description]">{{$classroomInfo->description}}</textarea>
-                                                            </div>
-
-
-                                                        </div>
-
-                                                        <div class="row" style="margin-top: 50px">
-                                                            <div class="col-lg-12">
-                                                                <div class="payment-adress">
-                                                                    <button type="submit"
-                                                                            class="btn btn-primary btn-lg center-block">
-                                                                        Submit
-                                                                    </button>
-                                                                </div>
+                                                                    name="frm[description]">{{$classroomInfo->description}}
+                                                                </textarea>
                                                             </div>
                                                         </div>
+                                                    </div>
+
+                                                    <div class="row" style="margin-top: 50px">
+                                                        <div class="col-lg-12">
+                                                            <div class="payment-adress">
+                                                                <button type="submit"
+                                                                        class="btn btn-primary btn-lg center-block">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                 </form>
                                             </div>
