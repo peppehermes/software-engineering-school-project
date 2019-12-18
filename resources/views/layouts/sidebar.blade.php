@@ -61,17 +61,20 @@
                                                         class="mini-sub-pro">Report Attendance</span></a>
                                             </li>
 
-                                            <li @if(\Request::path()=='notes/shownotes') class="active" @endif><a title="Notes"
-                                                   href="/notes/shownotes/{{$student->id}}"><span
+                                            <li @if(\Request::path()=='notes/shownotes') class="active" @endif><a
+                                                    title="Notes"
+                                                    href="/notes/shownotes/{{$student->id}}"><span
                                                         class="mini-sub-pro">Notes</span></a>
                                             </li>
 
-                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif><a title="Meetings"
-                                                    href="/meetings/choose/{{$student->id}}"><span
+                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif>
+                                                <a title="Meetings"
+                                                   href="/meetings/choose/{{$student->id}}"><span
                                                         class="mini-sub-pro">Meetings</span></a>
                                             </li>
 
-                                            <li @if(\Request::path()=='finalgrades/listforparents/{{$student->id}}') class="active" @endif><a title="FinalGrade"
+                                            <li @if(\Request::path()=='finalgrades/listforparents/{{$student->id}}') class="active" @endif>
+                                                <a title="FinalGrade"
                                                    href="/finalgrades/listforparents/{{$student->id}}"><span
                                                         class="mini-sub-pro">FinalGrade</span></a>
                                             </li>
@@ -91,7 +94,8 @@
 
                         <li @if(\Request::path()=='communications/list' ) class="active" @endif>
                             <a href="/communications/list" aria-expanded="false"><span
-                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span
+                                    class="mini-click-non">Communications</span></a>
                         </li>
 
                         <li @if(\Request::path()=='meetings/listforparents' ) class="active" @endif>
@@ -178,12 +182,13 @@
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                         </li>
 
-                    @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
-                        <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
-                            <a href="/finalgrades/insert" aria-expanded="false"><span
-                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Final Grades</span></a>
-                        </li>
-                    @endif
+                        @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
+                            <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
+                                <a href="/finalgrades/insert" aria-expanded="false"><span
+                                        class="educate-icon educate-event icon-wrap"></span> <span
+                                        class="mini-click-non">Final Grades</span></a>
+                            </li>
+                        @endif
 
 
                     @else
@@ -244,7 +249,8 @@
 
                         <li @if(\Request::path()=='communications/list' || \Request::path()=='communications/add' ) class="active" @endif>
                             <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
-                                    class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
+                                    class="educate-icon educate-data-table icon-wrap"></span> <span
+                                    class="mini-click-non">Communications</span></a>
                             <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
                                 <li><a title="Basic Form Elements" href="/communications/list"><span
                                             class="mini-sub-pro">Board</span></a></li>
