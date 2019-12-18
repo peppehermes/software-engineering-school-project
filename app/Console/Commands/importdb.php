@@ -38,7 +38,7 @@ class importdb extends Command
      */
     public function handle()
     {
-        DB::unprepared(file_get_contents("public/school_db_sprint3.sql"));
+        DB::unprepared(file_get_contents("public/school_db.sql"));
 
 
 
