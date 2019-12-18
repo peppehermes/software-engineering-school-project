@@ -153,7 +153,8 @@ class TeacherController extends Controller
         return view('teacher.edit', ['teacherInfo' => $teacherInfo,'classes'=>$classes]);
     }
 
-    public function update(Request $request, $id)
+    public function update
+    (Request $request, $id)
     {
 
         $teacher = Teacher::retrieveById($id);
