@@ -22,7 +22,10 @@
                                     \Request::path()=='assignment/listforparents/'.$student->id ||
                                     \Request::path()=='timetable/listforparents/'.$student->id ||
                                     \Request::path()=='notes/shownotes/'.$student->id ||
-                                    \Request::path()=='student/attendance_report/'.$student->id) class="active" @endif>
+                                    \Request::path()=='student/attendance_report/'.$student->id||
+                                    \Request::path()=='meetings/choose/'.$student->id ||
+                                    \Request::path()=='finalgrades/listforparents/'.$student->id ||
+                                     \Request::path()=='meetings/book/'.$student->id) class="active" @endif>
                                         <a class="has-arrow" href="/student/list" aria-expanded="false"><span
                                                 class="educate-icon educate-student icon-wrap"></span> <span
                                                 class="mini-click-non">{{$student->firstName}}</span></a>
@@ -40,7 +43,7 @@
 
                                             <li><a title="Assignments"
                                                    href="/assignment/listforparents/{{$student->id}}"><span
-                                                        class="mini-sub-pro">Lectures Assignments</span></a>
+                                                        class="mini-sub-pro">Assignments</span></a>
                                             </li>
 
                                             <li><a title="Material"
@@ -63,6 +66,16 @@
                                                         class="mini-sub-pro">Notes</span></a>
                                             </li>
 
+                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif><a title="Meetings"
+                                                    href="/meetings/choose/{{$student->id}}"><span
+                                                        class="mini-sub-pro">Meetings</span></a>
+                                            </li>
+
+                                            <li @if(\Request::path()=='finalgrades/listforparents/{{$student->id}}') class="active" @endif><a title="FinalGrade"
+                                                   href="/finalgrades/listforparents/{{$student->id}}"><span
+                                                        class="mini-sub-pro">FinalGrade</span></a>
+                                            </li>
+
 
                                         </ul>
 
@@ -81,7 +94,12 @@
                                     class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Communications</span></a>
                         </li>
 
-                    @elseif(Auth::user()->roleId==\App\User::roleTeacher)
+                        <li @if(\Request::path()=='meetings/listforparents' ) class="active" @endif>
+                            <a href="/meetings/listforparents" aria-expanded="false"><span
+                                    class="educate-icon educate-pages icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
+                        </li>
+
+                    @elseif(Auth::user()->roleId==\App\User::roleTeacher || Auth::user()->roleId==\App\User::roleClasscoordinator)
 
 
                         <li><a href="/" aria-expanded="false"><span
@@ -98,13 +116,13 @@
                                             class="mini-sub-pro">All Lecture's Topic</span></a></li>
                             </ul>
 
-                        <li @if(\Request::path()=='mark/add' || \Request::path()=='mark/list') class="active" @endif>
+                        <li @if(\Request::path()=='mark/classlist' || \Request::path()=='mark/listmark' || \Request::path()=='mark/classes') class="active" @endif>
                             <a class="has-arrow" href="" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Grades</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Add Lecture Assignment" href="/mark/add"><span
+                                <li><a title="Add Lecture Assignment" href="/mark/classes"><span
                                             class="mini-sub-pro">Add Grade</span></a></li>
-                                <li><a title="View Lecture Assignments" href="/mark/list"><span
+                                <li><a title="View Lecture Assignments" href="/mark/classlist"><span
                                             class="mini-sub-pro">All Grades</span></a></li>
                             </ul>
 
@@ -124,9 +142,9 @@
                                     class="mini-click-non">Support Material</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Add Support Material" href="/material/add"><span
-                                            class="mini-sub-pro">Add Support Material</span></a></li>
+                                            class="mini-sub-pro">Add new Material</span></a></li>
                                 <li><a title="View Support Material" href="/material/list"><span
-                                            class="mini-sub-pro">All Support Material</span></a></li>
+                                            class="mini-sub-pro">All Material</span></a></li>
                             </ul>
 
 
@@ -141,14 +159,31 @@
                             </ul>
                         </li>
 
+                        <li @if(\Request::path()=='meetings/addweek' || \Request::path()=='meetings/add'|| \Request::path()=='meetings/list') class="active" @endif>
+                            <a class="has-arrow" href="" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Meetings</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="All meetings" href="/meetings/addweek"><span
+                                            class="mini-sub-pro">All Meetings</span></a></li>
+                                <li><a title="Provide timeslots" href="/meetings/add"><span
+                                            class="mini-sub-pro">Provide timeslots </span></a></li>
+
+                            </ul>
+                        </li>
+
+
 
                         <li @if(\Request::path()=='timetable/list' ||  \Request::path()=='timetable/show') class="active" @endif>
                             <a href="/timetable/list" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                         </li>
 
-
-
+                    @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
+                        <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
+                            <a href="/finalgrades/insert" aria-expanded="false"><span
+                                    class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Final Grades</span></a>
+                        </li>
+                    @endif
 
 
                     @else

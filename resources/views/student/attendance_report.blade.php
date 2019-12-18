@@ -21,8 +21,8 @@
                                        data-show-refresh="true" data-key-events="true" data-show-toggle="true"
                                        data-resizable="true" data-cookie="true"
                                        data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                       data-toolbar="#toolbar">
-                                    <thead>
+                                       data-toolbar="#toolbar" class="table-striped table-bordered">
+                                    <thead  class="thead-dark">
                                     <tr>
                                         <th>Date</th>
                                         <th>Status</th>
@@ -39,12 +39,15 @@
                                             <td class="status">{{$attendanceReport->status}}</td>
                                             <td>
                                                 @if($attendanceReport->presence_status =='full')
-                                                    <span style="color: darkgreen; font-weight: 500"> {{$attendanceReport->presence_status}}</span>
+                                                    <span
+                                                        style="color: darkgreen; font-weight: 500"> {{$attendanceReport->presence_status}}</span>
                                                 @elseif($attendanceReport->presence_status =='late')
-                                                  <span style="color: darkred; font-weight: 500">{{$attendanceReport->presence_status}}</span>
+                                                    <span
+                                                        style="color: darkred; font-weight: 500">{{$attendanceReport->presence_status}}</span>
 
                                                 @elseif($attendanceReport->presence_status =='early')
-                                                    <span style="color: darkred; font-weight: 500">{{$attendanceReport->presence_status}}</span>
+                                                    <span
+                                                        style="color: darkred; font-weight: 500">{{$attendanceReport->presence_status}}</span>
 
                                                 @endif
                                             </td>

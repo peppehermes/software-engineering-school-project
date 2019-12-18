@@ -16,9 +16,13 @@
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
 
-                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                    <thead>
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                       data-show-columns="true" data-show-pagination-switch="true"
+                                       data-show-refresh="true" data-key-events="true" data-show-toggle="true"
+                                       data-resizable="true" data-cookie="true"
+                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                       data-toolbar="#toolbar" class="table-striped table-bordered">
+                                    <thead class="thead-dark">
                                     <tr>
                                         <th>ClassRoom</th>
                                         <th>Teacher</th>
@@ -38,7 +42,11 @@
                                             <td>{{$material->subject}} </td>
                                             <td>{{$material->date}}</td>
                                             <td class="description">{{$material->mdescription}}</td>
-                                            <td><a style="color: #7fbd2d" href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download Here</a></td>
+                                            <td>
+                                                <a href="{{ asset('/uploads/'.$material->material) }}" target="_blank"
+                                                   class="btn btn-primary btn-lg active" role="button"
+                                                   aria-pressed="true">Download</a>
+                                            </td>
 
                                         </tr>
 

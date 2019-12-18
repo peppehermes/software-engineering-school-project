@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassCoordinator;
 use App\Models\Classroom;
+use App\Models\Teacher;
 use DB;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -69,32 +71,58 @@ class ClassroomController extends Controller
     public function edit($id)
     {
         $classroomInfo = Classroom::retrieveClass($id);
+        $coordinatorId = ClassCoordinator::retrieveByClassId($id);
 
+        // If the class has a coordinator then it is returned
+        if (isset($coordinatorId))
+            $coordinator = Teacher::retrieveById($coordinatorId);
+        else
+            // Otherwise the string "Select Coordinator" is displayed
+            $coordinator = 'Select Coordinator';
 
-        return view('classroom.edit', ['classroomInfo' => $classroomInfo]);
+        $teachersNotCoordinator = ClassCoordinator::retrieveNonCoordinatorTeachers($id);
+
+        return view('classroom.edit', ['classroomInfo' => $classroomInfo,
+            'teachers' => $teachersNotCoordinator, 'coordinator' => $coordinator]);
     }
 
     public function update($id)
+        //Add the class coordinator part
     {
-
         $classroom = new Classroom();
 
         $data = request('frm');
 
+        $coordinatorId = request('class_coordinator_id');
+
         $classroomInfo = Classroom::retrieveClass($data['id']);
 
+        $coordinatorInfo = ['idTeach' => $coordinatorId,
+            'idClass' => $data['id']];
 
         if (isset($classroomInfo) && $data['id'] == $id) {
             $classroom->save($data, $id);
+            if ($coordinatorId != 0) {
+                $idTeach = ClassCoordinator::retrieveByClassId($id);
+                if (isset($idTeach))
+                    ClassCoordinator::save($coordinatorInfo, $idTeach);
+                else
+                    ClassCoordinator::save($coordinatorInfo);
+            }
         } elseif (!isset($classroomInfo)) {
             $classroom->save($data, $id);
+            if ($coordinatorId != 0) {
+                $idTeach = ClassCoordinator::retrieveByClassId($id);
+                if (isset($idTeach))
+                    ClassCoordinator::save($coordinatorInfo, $idTeach);
+                else
+                    ClassCoordinator::save($coordinatorInfo);
+            }
         } else {
             return \Redirect::back()->withErrors([$data['id'] . ' class is already defined.']);
         }
 
-
         return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
-
     }
 
     public function delete($id)

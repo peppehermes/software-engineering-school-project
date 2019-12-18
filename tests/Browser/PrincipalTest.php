@@ -22,7 +22,8 @@ class PrincipalTest extends DuskTestCase
                 ->type('email', $user->email)
                 ->type('password', 'password')
                 ->press('Login')
-                ->assertPathIs('/home');
+                ->assertPathIs('/home')
+                ->logout();
         });
     }
 }

@@ -43,10 +43,14 @@
 
 
                                         <td>
-                                            <a href="/student/edit/{{$student->id}}"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
-                                                    class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                            <a href="/student/delete/{{$student->id}}"><button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                            <a href="/student/edit/{{$student->id}}">
+                                                <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
+                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            </a>
+                                            <a href="/student/delete/{{$student->id}}">
+                                                <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
+                                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

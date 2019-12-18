@@ -16,7 +16,7 @@
                             <a href="/teacher/add">Add a new teacher</a>
                         </div>
                         <div class="asset-inner">
-                            <table >
+                            <table>
                                 <tr>
                                     <th>Teacher Id</th>
                                     <th>First Name</th>
@@ -34,12 +34,15 @@
                                         <td>{{$teacher->birthday}}</td>
 
 
-
                                         <td>
-                                            <a href="/teacher/edit/{{$teacher->id}}"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
-                                                    class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                            <a href="/teacher/delete/{{$teacher->id}}"><button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                            <a href="/teacher/edit/{{$teacher->id}}">
+                                                <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
+                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            </a>
+                                            <a href="/teacher/delete/{{$teacher->id}}">
+                                                <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
+                                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

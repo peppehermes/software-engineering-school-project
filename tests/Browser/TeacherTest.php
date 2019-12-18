@@ -93,26 +93,27 @@ class TeacherTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/mark/add')
+            $browser->visit('/mark/classes')
                 ->select('idClass',$classid)
-                ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
-                ->select('mark','8')
+                ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
-                ->type('frm[topic]', 'Some topic')
                 ->press('Submit')
-                ->assertPathIs('/mark/list')
+                ->check('frm21[status]')  //checking the checkbox of the student with id 1
+                ->select('frm1[mark]','8') //assigning the mark to the student selected
+                ->press('Submit')
+                ->assertPathIs('/mark/classlist')
                 ->logout();
         });
 
         $this->assertDatabaseHas('marks', [
+            'idStudent' => 1,
+            'Subject' => 'Math',
             'mark' => 8
         ]);
     }
 
-
-
-    public function test_as_teacher_want_insert_marks_wrong_date()
+    public function test_as_teacher_want_insert_mark_wrong_date()
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
@@ -129,21 +130,18 @@ class TeacherTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/mark/add')
+            $browser->visit('/mark/classes')
                 ->select('idClass',$classid)
-                ->select('idStudent','Giorgio Santangelo')
                 ->select('subject','Math')
-                ->select('mark','8')
+                ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
-                ->type('frm[topic]', 'Some topic')
-                ->press('Submit');
-            $browser->acceptDialog()
-                ->assertPathIsNot('/mark/list')
+                ->press('Submit')
+                ->acceptDialog() // "Wrong Date !" Alert
                 ->logout();
         });
 
     }
-/*
+
     public function test_as_teacher_want_publish_material()
     {
 
@@ -164,7 +162,7 @@ class TeacherTest extends DuskTestCase
                 ->select('idClass',$classid)
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
-                ->attach('material',public_path('img\avatar\boy.png'))
+                ->attach('material',public_path('robots.txt'))
                 ->press('Submit')
                 ->assertPathIs('/material/list')
                 ->logout();
@@ -173,7 +171,7 @@ class TeacherTest extends DuskTestCase
         $this->assertDatabaseHas('suppmaterial', [
             'mdescription' => 'Some description'
         ]);
-    }*/
+    }
 
     public function test_as_teacher_want_write_note()
     {
@@ -206,7 +204,6 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
-
     public function test_as_teacher_want_insert_assignments()
     {
         $today = now();
@@ -230,7 +227,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date1)
                 ->press('Submit')
@@ -264,7 +261,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject', 'Math')
                 ->type('frm[text]', 'some text')
                 ->type('frm[topic]', 'some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');
@@ -275,8 +272,7 @@ class TeacherTest extends DuskTestCase
 
     }
 
-
-        public function test_as_teacher_want_insert_assignments_wrong_date()
+    public function test_as_teacher_want_insert_assignments_wrong_date()
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
@@ -297,7 +293,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('img\avatar\boy.png'))
+                ->attach('attachment',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');
@@ -455,6 +451,60 @@ class TeacherTest extends DuskTestCase
             'lectureDate' => $today->year.'-'.$today->month.'-'.$day
         ]);
     }
+
+    public function test_as_teacher_want_check_timetable()
+    {
+
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/timetable/list')
+                ->select('frm[classId]','1A')
+                ->press('Submit')
+                ->assertSee('Time Table of class 1A')
+                ->logout();
+        });
+
+    }
+
+    public function test_as_teacher_want_provide_meeting_slots()
+    {
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/meetings/add')
+                ->click('@slot1')
+                ->click('@slot2')
+                ->press('Provide slots')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('meetings', [
+            'id' => 1,
+            'idTimeslot' => 1,
+            'idTeacher' => 1
+        ]);
+    }
+
+
 }
 
 

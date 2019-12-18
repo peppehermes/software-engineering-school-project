@@ -46,30 +46,53 @@
                                                                        class="form-control" required
                                                                        value="{{$classroomInfo->capacity}}">
                                                             </div>
-
-
-
                                                         </div>
+
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Assign Class Coordinator</label>
+                                                                <select class="form-control" name="class_coordinator_id">
+                                                                    @if($coordinator != 'Select Coordinator')
+                                                                        <option value="{{$coordinator->id}}" selected="selected">
+                                                                            {{$coordinator->firstName}} {{$coordinator->lastName}}
+                                                                        </option>
+                                                                    @else
+                                                                        <option value=0 selected="selected">
+                                                                            {{$coordinator}}
+                                                                        </option>
+                                                                    @endif
 
-                                                            <div class="form-group col-lg-12">
-                                                                <label>Description:</label>
-                                                                <textarea name="frm[description]">{{$classroomInfo->description}}</textarea>
+                                                                    @foreach($teachers as $teacher)
+                                                                        <option value="{{$teacher->idTeach}}">
+                                                                            {{$teacher->firstName}} {{$teacher->lastName}}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-
-
+                                                        </div>
                                                     </div>
 
-                                                        <div class="row" style="margin-top: 50px">
-                                                            <div class="col-lg-12">
-                                                                <div class="payment-adress">
-                                                                    <button type="submit"
-                                                                            class="btn btn-primary btn-lg center-block">
-                                                                        Submit
-                                                                    </button>
-                                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Description:</label>
+                                                                <textarea
+                                                                    name="frm[description]">{{$classroomInfo->description}}
+                                                                </textarea>
                                                             </div>
                                                         </div>
+                                                    </div>
+
+                                                    <div class="row" style="margin-top: 50px">
+                                                        <div class="col-lg-12">
+                                                            <div class="payment-adress">
+                                                                <button type="submit"
+                                                                        class="btn btn-primary btn-lg center-block">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                 </form>
                                             </div>
@@ -77,69 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--                            <div class="product-tab-list tab-pane fade" id="reviews">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="text" class="form-control" placeholder="Email">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="number" class="form-control"--}}
-                            {{--                                                                   placeholder="Phone">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Confirm Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <a href="#!" class="btn btn-primary waves-effect waves-light">Submit</a>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-                            {{--                            <div class="product-tab-list tab-pane fade" id="INFORMATION">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Facebook URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Twitter URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Google Plus">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Linkedin URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <button type="submit"--}}
-                            {{--                                                                class="btn btn-primary waves-effect waves-light">Submit--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
+
                         </div>
                     </div>
                 </div>

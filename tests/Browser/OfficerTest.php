@@ -13,6 +13,7 @@ use Tests\DuskTestCase;
 
 class OfficerTest extends DuskTestCase
 {
+
     use DatabaseMigrations;
     /**
      * A Dusk test example.
@@ -22,7 +23,7 @@ class OfficerTest extends DuskTestCase
     public function test_as_officer_want_enroll_students()
     {
         $user = factory(User::class)->create(['roleId'=>1]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
 
 
         $this->browse(function ($browser) use ($user){
@@ -55,35 +56,112 @@ class OfficerTest extends DuskTestCase
         ]);
     }
 
-/*
-    public function test_as_officer_want_compose_classrooms()
+    public function test_as_officer_want_import_timetable()
     {
-        $user = factory(User::class)->create(['roleID'=>1]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        $user = factory(User::class)->create(['roleId'=>1]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
 
-        $this->browse(function ($browser) use ($user,$classid){
+
+        $this->browse(function ($browser) use ($user){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
-            $browser->visit('/classroom/composition/'.$classid)
-                ->select('frm[]','Giorgio Santangelo')
+            $browser->visit('/timetable/add')
+                ->select('frm[classId]','1A')
+                ->attach('timetable',public_path('timetable.csv'))
                 ->press('Submit')
-                ->assertPathIs('/classroom/list')
+                ->assertPathIs('/timetable/list')
+                ->logout();
+        });
+        $this->assertDatabaseHas('timetable', [
+            'idClass' => '1A'
+        ]);
+    }
+
+    public function test_as_officer_want_add_communications()
+    {
+        $user = factory(User::class)->create(['roleId'=>1]);
+
+
+        $this->browse(function ($browser) use ($user){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/communications/add')
+                ->type('frm[description]','Some communication')
+                ->press('Submit')
+                ->assertPathIs('/communications/list')
+                ->logout();
+        });
+        $this->assertDatabaseHas('communications', [
+            'description' => 'Some communication'
+        ]);
+    }
+
+
+        public function test_as_officer_want_compose_classrooms()
+        {
+            $user = factory(User::class)->create(['roleID'=>1]);
+            Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+            Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
+
+
+            $this->browse(function ($browser) use ($user){
+                $browser->visit('/login')
+                    ->type('email', $user->email)
+                    ->type('password', 'password')
+                    ->press('Login')
+                    ->assertPathIs('/home');
+                $browser->visit('/classroom/composition/1A')
+                    ->click('@student1')
+                    ->press('Submit')
+                    ->assertPathIs('/classroom/list')
+                    ->logout();
+            });
+
+            $this->assertDatabaseHas('student', [
+                'firstName' => 'Giorgio',
+                'lastName' => 'Santangelo',
+                'classId' =>   '1A'
+            ]);
+
+
+    }
+
+    public function test_as_officer_want_edit_teacher_data()
+    {
+        $admin = factory(User::class)->create(['roleID'=>1]);
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
+
+
+        $this->browse(function ($browser) use ($admin){
+            $browser->visit('/login')
+                ->type('email', $admin->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/teacher/edit/1')
+                ->type('frm[birthPlace]','Turin')
+                ->press('Submit')
                 ->logout();
         });
 
-        $this->assertDatabaseHas('student', [
-            'firstName' => 'Giorgio',
-            'lastName' => 'Santangelo',
-            'classId' =>   $classid
+        $this->assertDatabaseHas('teacher', [
+            'firstName' => $teacher->name,
+            'lastName' => 'C',
+            'birthPlace' => 'Turin'
         ]);
 
-    }*/
 
+    }
 
 
 }

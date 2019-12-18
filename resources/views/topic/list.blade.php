@@ -26,8 +26,8 @@
                                        data-show-refresh="true" data-key-events="true" data-show-toggle="true"
                                        data-resizable="true" data-cookie="true"
                                        data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                       data-toolbar="#toolbar">
-                                    <thead>
+                                       data-toolbar="#toolbar" class="table-striped table-bordered">
+                                    <thead class="thead-dark">
                                     <tr>
                                         <th>ClassRoom</th>
                                         <th>Teacher</th>

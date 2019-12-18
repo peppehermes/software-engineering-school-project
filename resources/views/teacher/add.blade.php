@@ -41,11 +41,14 @@
                                                             </div>
 
 
-                                                            <div class="form-group data-custon-pick col-md-12" id="data_2">
-                                                                <label >Date of birth:</label>
+                                                            <div class="form-group data-custon-pick col-md-12"
+                                                                 id="data_2">
+                                                                <label>Date of birth:</label>
                                                                 <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="frm[birthday]" class="form-control"
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="frm[birthday]"
+                                                                           class="form-control"
                                                                            id="attendaceDate">
                                                                 </div>
 
@@ -60,12 +63,12 @@
                                                             <div class="form-group col-md-6">
                                                                 <label>Phone:</label>
                                                                 <input name="frm[phone]" type="number"
-                                                                       class="form-control" >
+                                                                       class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label>Postal Code:</label>
                                                                 <input name="frm[postCode]" id="postcode" type="text"
-                                                                       class="form-control" >
+                                                                       class="form-control">
                                                             </div>
 
                                                             <div class="form-group col-md-6">
@@ -86,17 +89,17 @@
                                                             <select name="frmT[idClass]" class="form-control" required>
 
                                                                 @foreach($classes as $class)
-                                                                    <option value="{{$class->id}}">{{$class->id}}</option>
+                                                                    <option
+                                                                        value="{{$class->id}}">{{$class->id}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label>Subject:</label>
+                                                            <label>Subject: <span style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
                                                             <input name="frmT[subject]" type="text"
                                                                    class="form-control" required>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
 
 
                                                             <div class="form-group">
@@ -113,7 +116,6 @@
                                                                     </option>
                                                                 </select>
                                                             </div>
-
 
 
                                                             <div class="form-group res-mg-t-15">
@@ -135,8 +137,8 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row" style="margin-top: 50px">
-                                                        <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-lg center-block">
