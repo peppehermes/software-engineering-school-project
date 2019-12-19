@@ -265,6 +265,7 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $data = request('frm');
+        $i=1;
 
         if ($data) {
             $data['deadline'] = request('deadline');
@@ -277,13 +278,16 @@ class TeacherController extends Controller
             if ($request->file('attachment')) {
 
                 $cover = $request->file('attachment');
-
-                $extension = $cover->getClientOriginalExtension();
-                $fileName = date('YmdHis') . '.' . $extension;
-                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
-
-
-                $data['attachment'] = $fileName;
+                foreach ($cover as $cov) {
+                    $extension = $cov->getClientOriginalExtension();
+                    $fileName = date('YmdHis') .'('.$i.')'. '.' . $extension;
+                    \Storage::disk('public_uploads')->put($fileName, \File::get($cov));
+                    if($i==1)
+                        $data['attachment']= $fileName;
+                    else
+                        $data['attachment']= $data['attachment'].'/'.$fileName;
+                    $i++;
+                }
             }
             Assignment::save($data);
         }
@@ -308,10 +312,12 @@ class TeacherController extends Controller
     public function listassignment()
     {
         $usId = \Auth::user()->id;
-
+        $attachment[]=0;
+        $index=0;
+        $index1=1;
         $teachId = Teacher::retrieveId($usId);
         $assignments = Assignment::retrieveTeachersPagination($teachId);
-        return view('assignments.list', ['assignments' => $assignments]);
+        return view('assignments.list', ['assignments' => $assignments, 'attachment' => $attachment,'index' => $index,'index1' => $index1]);
     }
 
     public function storemark(Request $request)

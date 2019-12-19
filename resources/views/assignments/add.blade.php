@@ -188,9 +188,9 @@
 
                                                             <div class="form-group col-md-12">
 
-                                                                <label class="control-label">Attachment:</label>
-                                                                <input type="file" class="form-control-file"
-                                                                       name="attachment">
+                                                                <label class="control-label">Attachment(can attach more than one):</label>
+                                                                <input type="file" multiple="multiple"  class="form-control-file"
+                                                                       name="attachment[]">
 
 
                                                             </div>
