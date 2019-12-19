@@ -3,19 +3,139 @@
 @section('content')
 
     <script>
+        Date.prototype.getWeek = function (dowOffset) {
+            dowOffset = typeof (dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
+            var newYear = new Date(this.getFullYear(), 0, 1);
+            var day = newYear.getDay() - dowOffset; //the day of week the year begins on
+            day = (day >= 0 ? day : day + 7);
+            var daynum = Math.floor((this.getTime() - newYear.getTime() -
+                (this.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
+            var weeknum;
+            //if the year starts before the middle of a week
+            if (day < 4) {
+                weeknum = Math.floor((daynum + day - 1) / 7) + 1;
+                if (weeknum > 52) {
+                    nYear = new Date(this.getFullYear() + 1, 0, 1);
+                    nday = nYear.getDay() - dowOffset;
+                    nday = nday >= 0 ? nday : nday + 7;
+                    /*if the next year starts before the middle of
+                      the week, it is week #1 of that year*/
+                    weeknum = nday < 4 ? 1 : 53;
+                }
+            } else {
+                weeknum = Math.floor((daynum + day - 1) / 7);
+            }
+            return weeknum;
+        };
 
         function selecttimeslot_orange(slot) {
-            if (slot.style.backgroundColor == "black")
-                slot.style.backgroundColor = "rebeccapurple";
-            else
-                slot.style.backgroundColor = "lightblue";
+            const today = new Date();
+            var w = today.getWeek(),
+                year = today.getFullYear(),
+                day= today.getDay();
+            week="{{$week}}";
+
+            w1 = week.slice(6, 8);
+            y1 = week.slice(0, 4);
+
+            if(w1==w && y1==year) {
+
+                if (day == 1 && slot.id < 7) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 2 && slot.id < 13) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 3 && slot.id < 19) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 4 && slot.id < 25) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 5 && slot.id < 31) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else if (day==6 || day==7) {
+                    alert('You cannot free the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else {
+
+                    if (slot.style.backgroundColor == "lightblue")
+                        slot.style.backgroundColor = "rebeccapurple";
+                    else
+                        slot.style.backgroundColor = "lightblue";
+                }
+            }
+            else {
+
+                if (slot.style.backgroundColor == "lightblue")
+                    slot.style.backgroundColor = "rebeccapurple";
+                else
+                    slot.style.backgroundColor = "lightblue";
+            }
         }
 
         function selecttimeslot_green(slot) {
-            if (slot.style.backgroundColor == "orange")
-                slot.style.backgroundColor = "lightblue";
-            else
-                slot.style.backgroundColor = "orange";
+            const today = new Date();
+            var w = today.getWeek(),
+                year = today.getFullYear(),
+                day= today.getDay();
+            week="{{$week}}";
+
+            w1 = week.slice(6, 8);
+            y1 = week.slice(0, 4);
+
+            if(w1==w && y1==year) {
+
+                if (day == 1 && slot.id < 7) {
+                    alert('You cannot book the slot,this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 2 && slot.id < 13) {
+                    alert('You cannot book the slot,this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 3 && slot.id < 19) {
+                    alert('You cannot book the slot,this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 4 && slot.id < 25) {
+                    alert('You cannot book the slot,this day is elapsed!');
+                    location.reload()
+                }
+                else if(day == 5 && slot.id < 31) {
+                    alert('You cannot book the slot,this day is elapsed!');
+                    location.reload()
+                }
+                else if (day==6 || day==7) {
+                    alert('You cannot book the slot, this day is elapsed!');
+                    location.reload()
+                }
+                else {
+
+                    if (slot.style.backgroundColor == "orange")
+
+                        slot.style.backgroundColor = "lightblue";
+
+                    else
+                        slot.style.backgroundColor = "orange";
+                }
+            }
+            else {
+
+                if (slot.style.backgroundColor == "orange")
+
+                    slot.style.backgroundColor = "lightblue";
+
+                else
+                    slot.style.backgroundColor = "orange";
+            }
         }
 
         function bookslot(week) {

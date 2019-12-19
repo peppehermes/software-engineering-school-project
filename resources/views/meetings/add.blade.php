@@ -79,7 +79,7 @@
 
                     success: function (data) {
                         if (data == 1) {
-                            alert('It is not yet  time to provide timeslots');
+                            alert('It is not time to provide timeslots yet');
                             location.reload()
                         } else {
                             alert('Selected slots successfully provided!');
