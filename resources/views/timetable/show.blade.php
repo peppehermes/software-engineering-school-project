@@ -28,7 +28,11 @@
                                     <tr>
                                         <td>{{$key}}</td>
                                         @foreach($timeTable as $row)
-                                            <td>{{$row}}</td>
+                                            @if($row == "Free")
+                                                <td></td>
+                                            @else
+                                                <td>{{$row}}</td>
+                                            @endif
 
                                         @endforeach
 
