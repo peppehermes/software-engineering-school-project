@@ -504,6 +504,40 @@ INSERT INTO `subjects` (`subjectId`, `subjectName`) VALUES
 (9, 'Science'),
 (10, 'Religion');
 
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `subject_programming`
+--
+
+DROP TABLE IF EXISTS `subject_programming`;
+CREATE TABLE `subject_programming` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idTeaching` int(11) NOT NULL,
+  `totalHours` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idTeaching` (`idTeaching`,`totalHours`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `subject_programming`
+--
+
+INSERT INTO `subject_programming` (`id`, `idTeaching`, `totalHours`) VALUES
+(1, 1, 2),
+(2, 3, 3),
+(3, 4, 2),
+(4, 5, 1),
+(5, 6, 4),
+(6, 7, 4),
+(7, 8, 2),
+(8, 9, 5),
+(9, 10, 2),
+(10, 11, 2),
+(11, 12, 3);
+
+
 -- --------------------------------------------------------
 
 --
@@ -596,6 +630,7 @@ INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 (9, '1A', 6, 'Math'),
 (10, '1A', 7, 'History'),
 (11, '1A', 7, 'Gym');
+(12, '1A', 0, 'Free');
 
 -- --------------------------------------------------------
 
