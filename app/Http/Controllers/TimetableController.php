@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Models\Communications;
+use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\Teaching;
 use App\Models\Timeslot;
 use App\Models\Timetable;
 use App\User;
@@ -179,6 +181,87 @@ class TimetableController extends Controller
         }
 
     }
+
+    //Lets the admin choose the class for the manual insertion of timetables
+    public function chooseclass()
+    {
+
+        if(\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin){
+
+            $classrooms = Classroom::retrieve();
+            return view('timetable.chooseclass', ['classrooms' => $classrooms]);
+
+        }
+        else
+            return \Redirect('/')->withErrors([' You have no permission to go to that page']);
+
+    }
+
+    //Returns values for the form for the manual insertion of timetables
+    public function addmanual()
+    {
+
+        $form = request('frm');
+
+        $id = $form['classId'];
+
+        $subjects = Subject::retrieveSubjectsForClass($id);
+        return view('timetable.addmanual' , ['subjects' => $subjects, 'classId' => $id]);
+
+
+    }
+
+    //Checks if there is a violation of constraint in the insertion of a new timetable
+    //If not, inserts or updates the timetable of that class
+    public function storemanual($classID)
+    {
+
+        $constraint_violation = 0;
+
+        //First, I check if there is a violation of constraints for all timeslots I'm trying to insert
+        for($i = 1; $i  < 31; $i++){
+
+            $teachingID = request('frm' .$i);
+            $timeslotID = $i;
+
+            $teacherID = Teaching::retrieveTeacher($teachingID);
+
+            //Returns no tuples if that teacher is not teaching in another class on that same timeslot
+            $result[$i] = Timetable::checkTimetableConstraint($classID, $timeslotID, $teacherID);
+
+            //If at least a tuple is returned, the constraint was violated
+            if(!$result[$i]->isEmpty())
+                $constraint_violation = 1;
+
+        }
+
+
+        if($constraint_violation)
+            return \Redirect('/')->withErrors([' There was a constraint violation, check properly the timetables']);
+
+
+        //If no constraints were violated, I can procede with the insert or update of the timetable
+        for($i = 1; $i  < 31; $i++){
+
+            $teachingID = request('frm' .$i);
+            $timeslotID = $i;
+
+            $subject = Teaching::retrieveSubject($teachingID);
+            $teacherID = Teaching::retrieveTeacher($teachingID);
+
+            Timetable::saveManual($classID, $timeslotID, $teacherID, $subject);
+
+        }
+
+        return redirect('timetable/chooseclass')->with(['message' => 'Timetable succesfully updated!']);
+
+
+
+
+    }
+
+
+
 
 
 

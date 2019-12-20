@@ -241,7 +241,9 @@
                                 <li><a title="Basic Form Elements" href="/timetable/list"><span
                                             class="mini-sub-pro">All Timetables</span></a></li>
                                 <li><a title="Advance Form Elements" href="/timetable/add"><span
-                                            class="mini-sub-pro">Add Timetable</span></a></li>
+                                            class="mini-sub-pro">Upload Timetable</span></a></li>
+                                <li><a title="Advance Form Elements" href="/timetable/chooseclass"><span
+                                            class="mini-sub-pro">Add Manually</span></a></li>
 
                             </ul>
                         </li>

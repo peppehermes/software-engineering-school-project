@@ -150,6 +150,9 @@ Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/list', 'TimetableController@list');
     Route::post('/show', 'TimetableController@show');
     Route::get('/listforparents/{idStud}', 'StudentController@timetableForStudent')->middleware('parents');
+    Route::get('/chooseclass', 'TimetableController@chooseclass')->middleware('admin');
+    Route::post('/addmanual', 'TimetableController@addmanual')->middleware('admin');
+    Route::post('/storemanual/{idClass}', 'TimetableController@storemanual')->middleware('admin');
 });
 
 //Final grades

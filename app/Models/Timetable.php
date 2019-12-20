@@ -33,4 +33,30 @@ class Timetable
     }
 
 
+    public static function saveManual($classID, $timeslotID, $teacherID, $subject)
+    {
+
+        DB::table('timetable')
+            ->updateOrInsert(
+                ['idClass' => $classID, 'idTimeslot' => $timeslotID],
+                ['idTeacher' => $teacherID, 'subject' => $subject]
+            );
+
+
+    }
+
+
+    public static function checkTimetableConstraint($classID, $timeslotID, $teacherID)
+    {
+
+        return DB::table(static::table)
+            ->where('idTimeslot', $timeslotID)
+            ->where('idTeacher', $teacherID)
+            ->where('idClass', '!=',  $classID)
+            ->get();
+
+
+    }
+
+
 }

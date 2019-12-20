@@ -52,4 +52,15 @@ class Subject
     {
         return DB::table(static::table)->where('subjectId', $id)->delete();
     }
+
+
+    public static function retrieveSubjectsForClass($classID)
+    {
+        return DB::table('teaching')
+            ->where('idClass', $classID)
+            ->get();
+
+    }
+
+
 }

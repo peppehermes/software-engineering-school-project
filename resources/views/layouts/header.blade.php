@@ -277,7 +277,9 @@
                                             <ul id="demoevent" class="collapse dropdown-header-top">
                                                 <li><a href="/timetable/list">All Timetables</a>
                                                 </li>
-                                                <li><a href="/timetable/add">Add Timetables</a>
+                                                <li><a href="/timetable/add">Upload Timetable</a>
+                                                </li>
+                                                <li><a href="/timetable/chooseclass">Add Manually</a>
                                                 </li>
 
                                             </ul>

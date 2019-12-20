@@ -38,7 +38,7 @@
                                            data-click-to-select="true"
                                            data-toolbar="#toolbar">
 
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th>First Name</th>
                                             <th>Last Name</th>
