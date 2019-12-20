@@ -63,4 +63,16 @@ class Subject
     }
 
 
+    public static function retrieveTotHoursForSubject($teachingID)
+    {
+        $result = DB::table('subject_programming')
+            ->where('idTeaching', $teachingID)
+            ->first();
+
+        return $result->totalHours;
+
+    }
+
+
+
 }

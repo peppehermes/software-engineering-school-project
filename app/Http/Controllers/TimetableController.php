@@ -218,45 +218,77 @@ class TimetableController extends Controller
 
         $constraint_violation = 0;
 
+        //Initialization of array of subjects
+        $allsubjects = Subject::retrieveSubjectsForClass($classID);
+
+        foreach ($allsubjects as $subject){
+
+            // $hours is used to store all effective hours inserted through the form
+            $hours[$subject->subject] = 0;
+
+            // $tothours is used to store all enstablished hours, used to check the second constraint
+            $tothours[$subject->subject] = Subject::retrieveTotHoursForSubject($subject->id);
+        }
+
         //First, I check if there is a violation of constraints for all timeslots I'm trying to insert
         for($i = 1; $i  < 31; $i++){
 
             $teachingID = request('frm' .$i);
-            $timeslotID = $i;
+            $subject = Teaching::retrieveSubject($teachingID);
 
-            $teacherID = Teaching::retrieveTeacher($teachingID);
+            if($subject != 'Free'){
 
-            //Returns no tuples if that teacher is not teaching in another class on that same timeslot
-            $result[$i] = Timetable::checkTimetableConstraint($classID, $timeslotID, $teacherID);
+                $timeslotID = $i;
+                $teacherID = Teaching::retrieveTeacher($teachingID);
 
-            //If at least a tuple is returned, the constraint was violated
-            if(!$result[$i]->isEmpty())
-                $constraint_violation = 1;
+                //Returns no tuples if that teacher is not teaching in another class on that same timeslot
+                $result[$i] = Timetable::checkTimetableConstraint($classID, $timeslotID, $teacherID);
+
+                //FIRST CONSTRAINT: If at least a tuple is returned, the constraint was violated
+                if(!$result[$i]->isEmpty())
+                    $constraint_violation = 1;
+            }
+
+            //Update the counter of hours for that subject
+            $hours[$subject]++;
+
+        }
+
+        if($constraint_violation)
+            return \Redirect('/')->withErrors([' There was a constraint violation (TEACHER IN MULTIPLE CLASSES), check properly the timetables']);
+
+
+        //SECOND CONSTRAINT: If the amount of hours of each subject is different than the one enstablished,
+        // the constraint was violated
+        foreach ($allsubjects as $subject){
+
+            if($hours[$subject->subject] != $tothours[$subject->subject])
+                return \Redirect('/')->withErrors([' There was a constraint violation (HOUR ASSIGNMENT NOT COHERENT), check properly the timetables']);
 
         }
 
 
-        if($constraint_violation)
-            return \Redirect('/')->withErrors([' There was a constraint violation, check properly the timetables']);
-
-
-        //If no constraints were violated, I can procede with the insert or update of the timetable
+        //If no constraints were violated, I can proceed with the insert or update of the timetable
         for($i = 1; $i  < 31; $i++){
 
             $teachingID = request('frm' .$i);
             $timeslotID = $i;
 
             $subject = Teaching::retrieveSubject($teachingID);
-            $teacherID = Teaching::retrieveTeacher($teachingID);
 
-            Timetable::saveManual($classID, $timeslotID, $teacherID, $subject);
+
+            if($subject != 'Free'){
+
+                $teacherID = Teaching::retrieveTeacher($teachingID);
+                Timetable::saveManual($classID, $timeslotID, $teacherID, $subject);
+            }
+            else{
+                Timetable::saveManualFreeHour($classID, $timeslotID);
+            }
 
         }
 
         return redirect('timetable/chooseclass')->with(['message' => 'Timetable succesfully updated!']);
-
-
-
 
     }
 

@@ -45,6 +45,19 @@ class Timetable
 
     }
 
+    public static function saveManualFreeHour($classID, $timeslotID)
+    {
+
+        DB::table('timetable')
+            ->updateOrInsert(
+                ['idClass' => $classID, 'idTimeslot' => $timeslotID],
+                ['idTeacher' => 0, 'subject' => "Free"]
+            );
+
+
+    }
+
+
 
     public static function checkTimetableConstraint($classID, $timeslotID, $teacherID)
     {
