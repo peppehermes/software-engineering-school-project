@@ -74,17 +74,17 @@
 
                                                             <div class="form-group col-md-12" id="topic">
                                                                 <label>Description</label>
-                                                                <textarea name="frm[mdescription]" type="text"
+                                                                <textarea name="frm[mdescription]" type="text" required
                                                                           class="form-control"></textarea>
                                                             </div>
 
                                                             <div class="form-group col-md-12">
 
 
-                                                                <label class="control-label">Support Material:</label>
+                                                                <label class="control-label">Support Material(can attach more than one):</label>
 
-                                                                <input type="file" class="form-control-file" required
-                                                                       name="material">
+                                                                <input type="file" multiple="multiple"class="form-control-file" required
+                                                                       name="material[]">
 
 
                                                             </div>

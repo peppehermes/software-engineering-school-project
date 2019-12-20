@@ -475,6 +475,7 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $data = request('frm');
+        $i=1;
 
         if ($data) {
             //create topic
@@ -486,13 +487,16 @@ class TeacherController extends Controller
             if ($request->file('material')) {
 
                 $cover = $request->file('material');
-
-                $extension = $cover->getClientOriginalExtension();
-                $fileName = date('YmdHis') . '.' . $extension;
-                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
-
-
-                $data['material'] = $fileName;
+                foreach ($cover as $cov) {
+                    $extension = $cov->getClientOriginalExtension();
+                    $fileName = date('YmdHis') . '(' . $i . ')' . '.' . $extension;
+                    \Storage::disk('public_uploads')->put($fileName, \File::get($cov));
+                    if ($i == 1)
+                        $data['material'] = $fileName;
+                    else
+                        $data['material'] = $data['material'] . '/' . $fileName;
+                    $i++;
+                }
             }
 
             Material::save($data);
@@ -503,10 +507,12 @@ class TeacherController extends Controller
     public function listmaterial()
     {
         $usId = \Auth::user()->id;
-
+        $attachment[]=0;
+        $index=0;
+        $index1=1;
         $teachId = Teacher::retrieveId($usId);
         $materials = Material::retrieveTeachersPagination($teachId);
-        return view('suppmaterial.list', ['materials' => $materials]);
+        return view('suppmaterial.list', ['materials' => $materials,'attachment' => $attachment,'index' => $index,'index1' => $index1]);
     }
 
     public function writenote()
