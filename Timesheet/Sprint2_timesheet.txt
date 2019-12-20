@@ -1,3 +1,18 @@
+//SPRINT 4
+
+Peppe:
+Andrea:
+Sahar:
+Marco:
+Matteo: 3.5
+
+
+
+
+
+
+//SPRINT 3
+
 Peppe: 3 + 4 + 2.5 + 3
 Andrea: 1 + 1 + 2 + 1 + 2 + 2 + 1.5 + 1.5
 Sahar: 12
