@@ -94,7 +94,7 @@ class ParentTest extends DuskTestCase
                 ->select('idClass',$classid)
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
-                ->attach('material',public_path('robots.txt'))
+                ->attach('material[]',public_path('robots.txt'))
                 ->press('Submit')
                 ->assertPathIs('/material/list')
                 ->logout();

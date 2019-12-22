@@ -162,7 +162,40 @@ class TeacherTest extends DuskTestCase
                 ->select('idClass',$classid)
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
-                ->attach('material',public_path('robots.txt'))
+                ->attach('material[]',public_path('robots.txt'))
+                ->press('Submit')
+                ->assertPathIs('/material/list')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('suppmaterial', [
+            'mdescription' => 'Some description'
+        ]);
+    }
+
+    public function test_as_teacher_want_publish_multi_material()
+    {
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+
+
+
+        $this->browse(function ($browser) use ($user,$classid){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/material/add')
+                ->select('idClass',$classid)
+                ->select('subject','Math')
+                ->type('frm[mdescription]', 'Some description')
+                ->attach('material[]',public_path('robots.txt'))
+                ->attach('material[]',public_path('timetable.csv'))
+
                 ->press('Submit')
                 ->assertPathIs('/material/list')
                 ->logout();
@@ -227,7 +260,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('robots.txt'))
+                ->attach('attachment[]',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date1)
                 ->press('Submit')
@@ -239,6 +272,44 @@ class TeacherTest extends DuskTestCase
             'text' => 'some text'
         ]);
     }
+
+    public function test_as_teacher_want_insert_assignments_with_multi_material()
+    {
+        $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
+        $date1=($today->day+1).'/'.$today->month.'/'.$today->year;
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+
+
+        $this->browse(function ($browser) use ($user,$classid,$date,$date1){
+            $browser->visit('/login')
+                ->type('email', $user->email)
+                ->type('password', 'password')
+                ->press('Login')
+                ->assertPathIs('/home');
+            $browser->visit('/assignment/add')
+                ->select('idClass',$classid)
+                ->select('subject','Math')
+                ->type('frm[text]','some text')
+                ->type('frm[topic]','some topic')
+                ->attach('attachment[]',public_path('robots.txt'))
+                ->attach('attachment[]',public_path('timetable.csv'))
+                ->type('lecturedate',$date)
+                ->type('deadline',$date1)
+                ->press('Submit')
+                ->assertPathIs('/assignment/list')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('assignments', [
+            'text' => 'some text'
+        ]);
+    }
+
 
     public function test_as_teacher_want_insert_assignments_wrong_deadline()
     {
@@ -261,7 +332,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject', 'Math')
                 ->type('frm[text]', 'some text')
                 ->type('frm[topic]', 'some topic')
-                ->attach('attachment',public_path('robots.txt'))
+                ->attach('attachment[]',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');
@@ -293,7 +364,7 @@ class TeacherTest extends DuskTestCase
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
-                ->attach('attachment',public_path('robots.txt'))
+                ->attach('attachment[]',public_path('robots.txt'))
                 ->type('lecturedate',$date)
                 ->type('deadline',$date)
                 ->press('Submit');

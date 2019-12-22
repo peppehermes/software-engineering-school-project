@@ -1,7 +1,7 @@
 //SPRINT 4
 
 Peppe:
-Andrea:
+Andrea: 2
 Sahar:
 Marco:
 Matteo: 3.5 + 1
