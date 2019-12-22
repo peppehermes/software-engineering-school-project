@@ -824,4 +824,49 @@ class TeacherController extends Controller
             return view('finalgrades.insert')->with(['error' => 'Final grades not yet inserted!']);
         }
     }
+
+    /*
+     * This function is used by the class coordinator
+     * It's used to download a template containing the names of students and of subjects
+     * It retrieves students and subjects from the database, the class id from the route finalgrades/insert
+     */
+    public function downloadTemplate($classId) {
+        $students = Student::retrieveStudentClass($classId);
+        $subjects = Subject::retrieve();
+
+        // Changing the current directory to the storage/app
+        chdir('..');
+        $actualpath = getcwd() . '/storage/app/';
+
+        // Getting the full path of the file
+        $filename = $classId . "_template.csv";
+        $filepath = $actualpath . $filename;
+
+        // Creating the data array, the header will contain 'Student' + the names of subjects
+        $data = [];
+
+        $header = ["Student"];
+        foreach ($subjects as $subject)
+            array_push($header, $subject->subjectName);
+
+        array_push($data, $header);
+
+        // For each student we save it's name and surname as an array, so data is an array of arrays
+        foreach ($students as $student)
+            array_push($data, [$student->firstName . ' ' . $student->lastName]);
+
+        // Open or create the requested file
+        $fp = fopen($filepath, "w");
+
+        // For each element of data, insert its content as a row in the csv file
+        foreach ($data as $row)
+            fputcsv($fp, $row);
+
+        fclose($fp);
+
+        // Setting the browser in order to download the file
+        header("Content-type: text/csv");
+        header("Content-disposition: attachment; filename = " . $filename);
+        readfile($filepath);
+    }
 }

@@ -161,4 +161,5 @@ Route::group(['prefix' => 'finalgrades'],  function() {
     Route::post('/store/{idClass}', 'TeacherController@storeFinalGrades')->middleware(ClassCoordinator::class);
     Route::get('/show', 'TeacherController@showFinalGrades')->middleware(ClassCoordinator::class);
     Route::get('/listforparents/{idStud}', 'StudentController@listFinalGradesforparents')->middleware('parents');
+    Route::get('/download/{idClass}', 'TeacherController@downloadTemplate')->middleware(ClassCoordinator::class);
 });

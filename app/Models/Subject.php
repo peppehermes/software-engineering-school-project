@@ -20,7 +20,7 @@ class Subject
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.subjectId','DESC')
+            ->orderBy(static::table . '.subjectName','ASC')
             ->get();
     }
 

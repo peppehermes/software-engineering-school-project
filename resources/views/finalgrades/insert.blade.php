@@ -18,6 +18,7 @@
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
+                                <a href="/finalgrades/download/{{$classId}}">Click here to download a template of final grades</a>
                                 {{--                                <div id="toolbar">--}}
                                 {{--                                    <select class="form-control dt-tb">--}}
                                 {{--                                        <option value="">Export Basic</option>--}}
@@ -40,8 +41,7 @@
 
                                         <thead class="thead-dark">
                                         <tr>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
+                                            <th>Student</th>
                                             @foreach($subjects as $subject)
                                                 <th>{{$subject->subjectName}}</th>
                                             @endforeach
@@ -51,8 +51,7 @@
                                         @foreach($students as $student)
                                             <tr>
 
-                                                <td>{{$student->firstName}}</td>
-                                                <td>{{$student->lastName}}</td>
+                                                <td>{{$student->firstName}} {{$student->lastName}}</td>
                                                 @foreach($subjects as $subject)
 {{--                                            for each student and subject I'm passing an array of [studentId, subjectId, finalgrade]--}}
                                                     <input type="text" hidden name="frm{{$student->id}}{{$subject->subjectId}}[idStudent]"
