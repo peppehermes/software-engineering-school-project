@@ -629,7 +629,7 @@ INSERT INTO `teaching` (`id`, `idClass`, `idTeach`, `subject`) VALUES
 (8, '1A', 5, 'Physics'),
 (9, '1A', 6, 'Math'),
 (10, '1A', 7, 'History'),
-(11, '1A', 7, 'Gym');
+(11, '1A', 7, 'Gym'),
 (12, '1A', 0, 'Free');
 
 -- --------------------------------------------------------
