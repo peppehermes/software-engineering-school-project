@@ -220,6 +220,7 @@ class ParentTest extends DuskTestCase
                 ->logout();
         });
     }
+
     public function test_as_parent_want_check_timetable()
     {
 
@@ -285,7 +286,6 @@ class ParentTest extends DuskTestCase
         ]);
 
     }
-
 
     public function test_as_parent_want_check_final_grades()
     {
