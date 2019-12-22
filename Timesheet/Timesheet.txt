@@ -1,6 +1,6 @@
 //SPRINT 4
 
-Peppe:
+Peppe: 3
 Andrea: 2
 Sahar:
 Marco:
