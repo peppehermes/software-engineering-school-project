@@ -55,6 +55,9 @@
             ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.print.min.css')}}">
+    <!-- dropzone CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{asset('css/dropzone/dropzone.css')}}">
 @if(\Request::path()!='login')
     <!-- duallistbox CSS
 		============================================ -->
