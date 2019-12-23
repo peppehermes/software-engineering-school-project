@@ -7,6 +7,8 @@
     <title>School</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicon.ico')}}">
@@ -26,21 +28,16 @@
     <link rel="stylesheet" href="{{ asset('css/owl.transitions.css')}}">
     <!-- animate CSS
 		============================================ -->
-
-
     <link rel="stylesheet" href="{{ asset('css/animate.css')}}">
     <!-- normalize CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css')}}">
-
     <!-- meanmenu icon CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/meanmenu.min.css')}}">
     <!-- main CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/main.css')}}">
-
-
     <!-- educate icon CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/educate-custon-icon.css')}}">
@@ -54,7 +51,8 @@
             ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/metisMenu/metisMenu.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/metisMenu/metisMenu-vertical.css')}}">
-
+    <!-- calendar CSS
+            ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.print.min.css')}}">
 @if(\Request::path()!='login')
@@ -112,6 +110,25 @@
 <!-- jquery
 		============================================ -->
 <script src="{{ asset('js/vendor/jquery-1.12.4.min.js')}}"></script>
+@if(\Request::path()!='addnewmark')
+<script>
+
+    $(document).ready(function () {
+         $("table tr td").not(':nth-child(2)').find(".mark").prop("disabled", true);
+         $("table tr td").not(':nth-child(2)').find(":checkbox").prop("disabled", false);
+        $('#table').on('click',':checkbox',function(){
+
+                if($(this).is(':checked')){
+                    $(this).closest('tr').find(".mark").prop("disabled", false);}
+                else{
+                    $(this).closest('tr').find(".mark").prop("disabled", true);
+                }
+
+
+        });
+    });
+</script>
+@endif
 <!-- bootstrap JS
     ============================================ -->
 <script src="{{ asset('js/bootstrap.min.js')}}"></script>

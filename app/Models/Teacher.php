@@ -27,14 +27,13 @@ class Teacher
     }
 
     /**
-     * Retrieve company by id
+     * Retrieve teacher row by id
      *
      * @param int $id
      * @return mixed
      */
     public static function retrieveById(int $id)
     {
-
         return DB::table(static::table)->find($id);
     }
 
@@ -66,6 +65,10 @@ class Teacher
         return DB::table(static::table)->where('id', $id)->delete();
     }
 
+    public static function deleteTeaching(int $id,string $idClass): int
+    {
+        return DB::table('teaching')->where('idTeach', $id)->where('idClass', $idClass)->delete();
+    }
     public static function retrieveId(int $id)
     {
         return DB::table(static::table)
@@ -79,6 +82,16 @@ class Teacher
         return DB::table('teaching')
             ->select('teaching.*')
             ->where('idTeach', $id)
+            ->get();
+
+    }
+
+    public static function retrieveTeachingClass(int $id,string $classId)
+    {
+        return DB::table('teaching')
+            ->select('teaching.*')
+            ->where('idTeach', $id)
+            ->where('idClass', $classId)
             ->get();
 
     }
@@ -134,5 +147,28 @@ class Teacher
 
     }
 
+    public static function retrieveTimeslots($id): Collection
+    {
 
+        return DB::table('timetable')
+            ->select('timeslots.*','timetable.subject', 'timetable.idClass')
+            ->join('timeslots', 'timetable.idTimeslot', '=', 'timeslots.id')
+            ->where('timetable.idTeacher', $id)
+            ->get();
+
+    }
+
+
+    public static function retrieveTeachersForStudent($id): Collection
+    {
+
+        return DB::table('teacher')
+            ->selectRaw('distinct teacher.*')
+            ->join('teaching', 'teacher.id', '=', 'teaching.idTeach')
+            ->join('classroom', 'teaching.idClass', '=', 'classroom.id')
+            ->join('student', 'student.classId', '=', 'classroom.id')
+            ->where('student.id', $id)
+            ->get();
+
+    }
 }

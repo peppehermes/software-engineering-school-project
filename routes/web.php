@@ -11,7 +11,7 @@
 |
 */
 
-
+use App\Http\Middleware\ClassCoordinator;
 
 Auth::routes();
 
@@ -111,8 +111,13 @@ Route::group(['prefix' => 'notes'], function() {
 //Marks
 Route::group(['prefix' => 'mark'], function() {
     Route::get('/add', 'TeacherController@addmark')->middleware('teachers');
-    Route::get('/list', 'TeacherController@listmark')->middleware('teachers');
+//    Route::get('/list', 'TeacherController@listmark')->middleware('teachers');
+    Route::post('/listmark', 'TeacherController@listmark')->middleware('teachers');
     Route::post('/storemark', 'TeacherController@storemark')->middleware('teachers');
+    Route::get('/classes', 'TeacherController@listclasses')->middleware('teachers');
+    Route::get('/addnewmark', 'TeacherController@addnewmark')->middleware('teachers');
+    Route::post('/storenewmark', 'TeacherController@storenewmark')->middleware('teachers');
+    Route::get('/classlist', 'TeacherController@classlist')->middleware('teachers');
 });
 
 //Official Communications
@@ -120,6 +125,21 @@ Route::group(['prefix' => 'communications'],  function() {
     Route::get('/add', 'CommunicationsController@add')->middleware('admin');
     Route::get('/list', 'CommunicationsController@list')->middleware('parentandadmin');
     Route::post('/store', 'CommunicationsController@store')->middleware('admin');
+});
+
+//Meetings
+Route::group(['prefix' => 'meetings'],  function() {
+    Route::get('/list', 'TeacherController@listtimeslot')->middleware('teachers');
+    Route::get('/add', 'TeacherController@addtimeslot')->middleware('teachers');
+    Route::get('/addweek', 'TeacherController@addweek')->middleware('teachers');
+    Route::post('/store', 'TeacherController@storetimeslot')->middleware('teachers');
+    Route::post('/storeall', 'TeacherController@storealltimeslot')->middleware('teachers');
+    Route::post('/free', 'TeacherController@freetimeslot')->middleware('teachers');
+    Route::get('/choose/{idStud}', 'StudentController@chooseteacher')->middleware('parents');
+    Route::post('/book/{idStud}', 'StudentController@seeTeacherMeetingSlot')->middleware('parents');
+    Route::post('/storeforparents', 'StudentController@storeMeetingForParent')->middleware('parents');
+    Route::post('/freeforparents', 'StudentController@freeMeetingForParent')->middleware('parents');
+    Route::get('/listforparents', 'StudentController@meetingListForParents')->middleware('parents');
 });
 
 
@@ -132,3 +152,10 @@ Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/listforparents/{idStud}', 'StudentController@timetableForStudent')->middleware('parents');
 });
 
+//Final grades
+Route::group(['prefix' => 'finalgrades'],  function() {
+    Route::get('/insert', 'TeacherController@insertFinalGrades')->middleware(ClassCoordinator::class);
+    Route::post('/store/{idClass}', 'TeacherController@storeFinalGrades')->middleware(ClassCoordinator::class);
+    Route::get('/show', 'TeacherController@showFinalGrades')->middleware(ClassCoordinator::class);
+    Route::get('/listforparents/{idStud}', 'StudentController@listFinalGradesforparents')->middleware('parents');
+});

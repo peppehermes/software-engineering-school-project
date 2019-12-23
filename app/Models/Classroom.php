@@ -85,7 +85,16 @@ class Classroom
 
     }
 
-
-
-
+    /*
+     *  This function, given a teacher id, returns the class he's coordinator of, if any
+     *  It's used by the TeacherController to pass this class to the view
+     */
+    public static function retrieveByClassCoordinator($idTeach)
+    {
+        return DB::table('classroom')
+            ->select('classroom.id')
+            ->join('class_coordinator', 'classroom.id', '=', 'class_coordinator.idClass')
+            ->where('class_coordinator.idTeach', $idTeach)
+            ->value('idClass');
+    }
 }

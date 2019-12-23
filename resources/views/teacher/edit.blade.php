@@ -93,8 +93,24 @@
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
+                                                            <div class="form-group col-md-12">
+                                                                <label>Class:</label>
+                                                                <select name="frmT[idClass]" class="form-control" required>
 
-                                                            <div class="form-group">
+                                                                    @foreach($classes as $class)
+                                                                        <option @if($class->id ==$teacherInfo->idClass ) selected @endif
+                                                                            value="{{$class->id}}">{{$class->id}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Subject: <span style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
+                                                                <input name="frmT[subject]" type="text"
+                                                                       class="form-control" required value="{{$teacherInfo->subject}}">
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-12">
                                                                 <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -112,13 +128,13 @@
                                                             </div>
 
 
-                                                            <div class="form-group res-mg-t-15">
+                                                            <div class="form-group res-mg-t-15  col-md-12">
                                                                 <label>Description:</label>
                                                                 <textarea
                                                                     name="frm[description]">{{$teacherInfo->description}}</textarea>
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group  col-md-6">
 
 
                                                                 <label class="control-label">Photo:</label>
@@ -139,8 +155,8 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row" style="margin-top: 50px">
-                                                        <div class="col-lg-12">
+                                                    <div class="row" >
+                                                        <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-lg center-block">
@@ -155,69 +171,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--                            <div class="product-tab-list tab-pane fade" id="reviews">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="text" class="form-control" placeholder="Email">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="number" class="form-control"--}}
-                            {{--                                                                   placeholder="Phone">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Confirm Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <a href="#!" class="btn btn-primary waves-effect waves-light">Submit</a>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-                            {{--                            <div class="product-tab-list tab-pane fade" id="INFORMATION">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Facebook URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Twitter URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Google Plus">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Linkedin URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <button type="submit"--}}
-                            {{--                                                                class="btn btn-primary waves-effect waves-light">Submit--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
                         </div>
                     </div>
                 </div>

@@ -15,16 +15,20 @@
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
-{{--                                <div id="toolbar">--}}
-{{--                                    <select class="form-control dt-tb">--}}
-{{--                                        <option value="">Export Basic</option>--}}
-{{--                                        <option value="all">Export All</option>--}}
-{{--                                        <option value="selected">Export Selected</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-                                <table id="table"data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                    <thead>
+                                {{--                                <div id="toolbar">--}}
+                                {{--                                    <select class="form-control dt-tb">--}}
+                                {{--                                        <option value="">Export Basic</option>--}}
+                                {{--                                        <option value="all">Export All</option>--}}
+                                {{--                                        <option value="selected">Export Selected</option>--}}
+                                {{--                                    </select>--}}
+                                {{--                                </div>--}}
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                       data-show-columns="true" data-show-pagination-switch="true"
+                                       data-show-refresh="true" data-key-events="true" data-show-toggle="true"
+                                       data-resizable="true" data-cookie="true"
+                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                       data-toolbar="#toolbar" class="table-striped table-bordered">
+                                    <thead class="thead-dark">
                                     <tr>
                                         <th>Date</th>
                                         <th>Subject</th>
@@ -37,14 +41,14 @@
 
                                     @foreach($marks as $mark)
 
-                                    <tr>
-                                        <td>{{$mark->date}}</td>
-                                        <td>{{$mark->subject}}</td>
-                                        <td>{{$mark->teachFirstName}} {{$mark->teachLastName}}</td>
-                                        <td class="mark">{{$mark->mark}}</td>
-                                        <td>{{$mark->topic}}</td>
+                                        <tr>
+                                            <td>{{$mark->date}}</td>
+                                            <td>{{$mark->subject}}</td>
+                                            <td>{{$mark->teachFirstName}} {{$mark->teachLastName}}</td>
+                                            <td class="mark">{{$mark->mark}}</td>
+                                            <td>{{$mark->topic}}</td>
 
-                                    </tr>
+                                        </tr>
 
                                     @endforeach
 

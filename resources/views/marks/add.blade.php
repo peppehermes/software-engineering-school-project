@@ -3,27 +3,27 @@
 
     <script>
 
-       function markvalue() {
+        function markvalue() {
 
-           var selector = document.getElementById("range"),
-               mark = document.getElementById("mark");
+            var selector = document.getElementById("range"),
+                mark = document.getElementById("mark");
 
-           mark.value=selector.value;
-       }
+            mark.value = selector.value;
+        }
 
         function getStudentsandSubjects() {
             var idClass = document.getElementById("idClass").value,
                 student = document.getElementById("idStudent"),
                 subject = document.getElementById("subject"),
-                l=subject.length,
-                l1=student.length;
+                l = subject.length,
+                l1 = student.length;
 
 
             for (var i = 0; i < l1; i++) {
                 student.remove(0);
             }
 
-            for ( i = 0; i < l; i++) {
+            for (i = 0; i < l; i++) {
                 subject.remove(0);
             }
 
@@ -49,45 +49,42 @@
 
         function checkDate() {
 
-            var  extraday,d,m;
+            var extraday, d, m;
 
-            d  = document.getElementById('day').value;
-            m  = document.getElementById('month').value;
-
-
+            var date = document.getElementById('lecturedate').value;
+            var str = date.split('/');
+            d = str[0];
+            m = str[1];
 
 
             const today = new Date(),
-                dayweek=today.getDay(),
-                daymonth=today.getDate(),
-                month=today.getMonth()+1,
-                lastday= daymonth - dayweek + (dayweek == 0 ? -6:1);
+                dayweek = today.getDay(),
+                daymonth = today.getDate(),
+                month = today.getMonth() + 1,
+                lastday = daymonth - dayweek + (dayweek == 0 ? -6 : 1);
 
-            if(lastday<=0){
+            if (lastday <= 0) {
 
-                if(month == 5 || month == 7 || month == 10 || month == 12)
-                    extraday=30+lastday;
+                if (month == 5 || month == 7 || month == 10 || month == 12)
+                    extraday = 30 + lastday;
 
-                else if(month==3)
-                    extraday=28+lastday;
+                else if (month == 3)
+                    extraday = 28 + lastday;
 
                 else
-                    extraday=31+lastday;
+                    extraday = 31 + lastday;
 
             }
 
-            if((lastday <= d && d <= daymonth && m==month)
-                ||(lastday <= 0 && extraday <= d  && m==month-1)
-                || (lastday <= 0 && d <= daymonth && m==month))
-            {
+            if ((lastday <= d && d <= daymonth && m == month)
+                || (lastday <= 0 && extraday <= d && m == month - 1)
+                || (lastday <= 0 && d <= daymonth && m == month)) {
 
-                    document.getElementById('demo1-upload').action = "/mark/storemark";
-                    document.getElementById('demo1-upload').method = "post";
+                document.getElementById('demo1-upload').action = "/mark/storemark";
+                document.getElementById('demo1-upload').method = "post";
 
 
-            }
-
-            else {
+            } else {
                 alert("Wrong  date!");
                 document.getElementById('day').focus();
                 document.getElementById('year').focus();
@@ -118,17 +115,21 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form class="dropzone dropzone-custom needsclick add-professors"
-                                                      id="demo1-upload" enctype="multipart/form-data" onsubmit="checkDate()" name="form">
+                                                      id="demo1-upload" enctype="multipart/form-data"
+                                                      onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="form-group col-md-6">
 
                                                                 <label>Class:</label>
-                                                                <select onchange="getStudentsandSubjects()" name="idClass" id="idClass" class="form-control" required>
+                                                                <select onchange="getStudentsandSubjects()"
+                                                                        name="idClass" id="idClass" class="form-control"
+                                                                        required>
                                                                     <option hidden disabled selected></option>
                                                                     @foreach($classes as $class)
-                                                                        <option value="{{$class->idClass}}">{{$class->idClass}}</option>
+                                                                        <option
+                                                                            value="{{$class->idClass}}">{{$class->idClass}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -136,7 +137,8 @@
 
                                                             <div class="form-group col-md-5">
                                                                 <label>Grade:</label>
-                                                                <select id="mark" name="mark" type="float" class="form-control" required>
+                                                                <select id="mark" name="mark" type="float"
+                                                                        class="form-control" required>
 
                                                                     <option value="1">1</option>
                                                                     <option value="1.25">1+</option>
@@ -179,21 +181,25 @@
 
                                                                 </select>
 
-                                                                    <input  type="range" id="range" min="1" max="10.25" step="0.25" onclick="markvalue()"  aria-label="select pen size">
+                                                                <input type="range" id="range" min="1" max="10.25"
+                                                                       step="0.25" onclick="markvalue()"
+                                                                       aria-label="select pen size">
 
                                                             </div>
 
 
                                                             <div class="form-group col-md-6">
                                                                 <label>Student:</label>
-                                                                <select name="idStudent" id="idStudent" class="form-control" required>
+                                                                <select name="idStudent" id="idStudent"
+                                                                        class="form-control" required>
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
                                                                 <label>Subject:</label>
-                                                                <select name="subject" id="subject" class="form-control" required>
+                                                                <select name="subject" id="subject" class="form-control"
+                                                                        required>
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
@@ -202,62 +208,35 @@
                                                                 <label>Topic:</label>
                                                                 <input name="frm[topic]" type="text"
                                                                        class="form-control" required>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Lecture's Date:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="year" name="year" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
 
 
-                                                                <select id="month" name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <option value="<?php $date = new DateTime("last month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("last month"); echo $date->format('F');?></option>
+                                                                <div class="form-group data-custon-pick" id="data_2">
+                                                                    <label>Lecture's date:</label>
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i
+                                                                                class="fa fa-calendar"></i></span>
+                                                                        <input type="text" name="lecturedate"
+                                                                               class="form-control"
+                                                                               id="lecturedate"
+                                                                               value="{{$date}}">
 
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="day" name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
+                                                                    </div>
+                                                                </div>
 
                                                             </div>
 
 
-
-
-                                                    </div>
-                                                    <div class="row" style="margin-top: 50px">
-                                                        <div class="col-lg-12">
-                                                            <div class="payment-adress">
-                                                                <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
-                                                                    Submit
-                                                                </button>
+                                                        </div>
+                                                        <div class="row" style="margin-top: 50px">
+                                                            <div class="col-lg-12">
+                                                                <div class="payment-adress">
+                                                                    <button type="submit"
+                                                                            class="btn btn-primary waves-effect waves-light">
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     </div>
                                                 </form>
                                             </div>

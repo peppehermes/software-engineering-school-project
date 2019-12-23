@@ -64,7 +64,7 @@
                                                       id="demo1-upload" enctype="multipart/form-data" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+                                                        <div class="col-md-12">
                                                             <div class="form-group col-md-4" id="class">
                                                                 <label>Class</label>
                                                                 <select onchange="getStudents()" id="idClass" name="idClass" class="form-control" required>
@@ -97,7 +97,7 @@
                                                         <div class="col-lg-12">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary waves-effect waves-light btn-lg center-block" >
                                                                     Submit
                                                                 </button>
                                                             </div>

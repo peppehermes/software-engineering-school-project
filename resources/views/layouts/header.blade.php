@@ -111,7 +111,7 @@
                             <nav id="dropdown">
                                 <ul class="mobile-menu-nav">
 
-                                    @if(Auth::user()->roleId==\App\User::roleTeacher)
+                                    @if(Auth::user()->roleId==\App\User::roleTeacher || Auth::user()->roleId==\App\User::roleClasscoordinator)
                                         <li><a href="/">Home</a></li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Lecture's Topics<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -166,14 +166,25 @@
                                             </ul>
                                         </li>
 
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Timetables<span
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Meetings<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="/timetable/list">See Timetables</a>
+                                                <li><a href="/meetings/addweek">All Meetings</a>
+                                                </li>
+                                                <li><a href="/meetings/add">Provide timeslots</a>
                                                 </li>
 
                                             </ul>
                                         </li>
+
+                                        <li><a data-target="#demoevent" href="/timetable/list">Timetables</a></li>
+
+                                        @if (Auth::user()->roleId==\App\User::roleClasscoordinator)
+                                            <li @if(\Request::path()=='finalgrades/insert') class="active" @endif>
+                                                <a href="/finalgrades/insert">Final Grades</a>
+                                            </li>
+                                        @endif
+
                                     @elseif(Auth::user()->roleId==\App\User::roleParent)
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
@@ -203,6 +214,16 @@
 
                                                             <li><a href="/timetable/listforparents/{{$student->id}}">
                                                                     Timetables</a>
+                                                            </li>
+
+                                                            <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif>
+                                                                <a
+                                                                    href="/meetings/choose/{{$student->id}}">
+                                                                    Meetings</a>
+                                                            </li>
+
+                                                            <li><a href="/finalgrades/listforparents/{{$student->id}}">
+                                                                    FinalGrade</a>
                                                             </li>
 
 

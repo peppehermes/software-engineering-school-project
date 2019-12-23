@@ -16,9 +16,13 @@
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
 
-                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                    <thead>
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                       data-show-columns="true" data-show-pagination-switch="true"
+                                       data-show-refresh="true" data-key-events="true" data-show-toggle="true"
+                                       data-resizable="true" data-cookie="true"
+                                       data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                       data-toolbar="#toolbar" class="table-striped table-bordered">
+                                    <thead class="thead-dark">
                                     <tr>
                                         <th>ClassRoom</th>
                                         <th>Teacher</th>
@@ -32,11 +36,11 @@
                                     @foreach($topics as $topic)
 
                                         <tr>
-                                            <td>{{$topic->idClass}}</td>
-                                            <td>{{$topic->firstName}} {{$topic->lastName}}</td>
+                                            <td class="idClass">{{$topic->idClass}}</td>
+                                            <td class="teacherName">{{$topic->firstName}} {{$topic->lastName}}</td>
                                             <td>{{$topic->subject}} </td>
                                             <td>{{$topic->date}}</td>
-                                            <td>{{$topic->topic}}</td>
+                                            <td class="topic">{{$topic->topic}}</td>
 
                                         </tr>
 

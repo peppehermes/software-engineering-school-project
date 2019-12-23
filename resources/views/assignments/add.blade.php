@@ -6,10 +6,10 @@
         function getSubjects() {
             var idClass = document.getElementById("idClass").value,
                 subject = document.getElementById("subject"),
-                l=subject.length;
+                l = subject.length;
 
 
-            for (var i = 0; i <l; i++) {
+            for (var i = 0; i < l; i++) {
                 subject.remove(0);
 
             }
@@ -29,52 +29,53 @@
         function checkDate() {
 
 
-            var  extraday,d,m,d1,m1;
+            var extraday, d, m, d1, m1;
 
-
-            d  = document.getElementById('day').value;
-            m  = document.getElementById('month').value;
-            d1 = document.getElementById('dayd').value;
-            m1 = document.getElementById('monthd').value;
+            var date = document.getElementById('lecturedate').value;
+            var date1 = document.getElementById('deadline').value;
+            var str = date.split('/');
+            var str1 = date1.split('/');
+            d = str[0]; //day of date
+            m = str[1]; //month of date
+            d1 = str1[0]; //day of deadline
+            m1 = str1[1]; // month of deadline
 
 
             const today = new Date(),
 
-                dayweek=today.getDay(),
-                daymonth=today.getDate(),
-                month=today.getMonth()+1,
-                lastday= daymonth - dayweek + (dayweek == 0 ? -6:1);
+                dayweek = today.getDay(),
+                daymonth = today.getDate(),
+                month = today.getMonth() + 1,
+                // last day is the monday in the current week
+                lastday = daymonth - dayweek + (dayweek == 0 ? -6 : 1);
 
+            // if lastday<0 we are in the previous month, so we have to make a subtraction to establish the correct day
+            if (lastday <= 0) {
 
-            if(lastday<=0){
+                // if we are in May,July,October or December the previous months are April,June,September,November,so 30 days
+                if (month == 5 || month == 7 || month == 10 || month == 12)
+                    extraday = 30 + lastday; // extraday is monday in the current week but in the past month
 
-
-                if(month == 5 || month == 7 || month == 10 || month == 12)
-                    extraday=30+lastday;
-
-
-                else if(month==3)
-                    extraday=28+lastday;
-
+                // February
+                else if (month == 3)
+                    extraday = 28 + lastday;
+                // All the other months
                 else
-                    extraday=31+lastday;
+                    extraday = 31 + lastday;
             }
 
 
-            if((lastday <= d && d <= daymonth && m==month)
-                ||(lastday <= 0 && extraday <= d  && m==month-1)
-                || (lastday <= 0 && d <= daymonth && m==month))
+            if ((lastday <= d && d <= daymonth && m == month) //day between lastday and today
+                || (lastday <= 0 && extraday <= d && m == month - 1)//day in previous month greater than or equal extraday
+                || (lastday <= 0 && d <= daymonth && m == month))//day in current month lower than or equal today
 
             {
-
-                if((m1 != m && d1 <= d) || (m1 == m && d1 > d)) {
+                //deadline ok if it's in next month and day is lower than day of date or same month but day is greater
+                if ((m1 != m && d1 <= d) || (m1 == m && d1 > d)) {
 
                     document.getElementById('demo1-upload').action = "/assignment/storeassignment";
                     document.getElementById('demo1-upload').method = "post";
-                }
-
-
-                else {
+                } else {
                     alert("Wrong Deadline!");
                     document.getElementById('dayd').focus();
                     document.getElementById('yeard').focus();
@@ -82,9 +83,7 @@
                 }
 
 
-            }
-
-            else {
+            } else {
 
                 alert("Wrong lecture's date!");
                 document.getElementById('day').focus();
@@ -116,36 +115,32 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form class="dropzone dropzone-custom needsclick add-professors"
-                                                      id="demo1-upload" enctype="multipart/form-data" onsubmit="checkDate()" name="form">
+                                                      id="demo1-upload" enctype="multipart/form-data"
+                                                      onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="col-md-12">
                                                             <div class="form-group col-md-6">
                                                                 <label>Class:</label>
-                                                                <select onchange="getSubjects()"name="idClass" id="idClass" class="form-control" required>
+                                                                <select onchange="getSubjects()" name="idClass"
+                                                                        id="idClass" class="form-control" required>
                                                                     <option hidden disabled selected></option>
 
                                                                     @foreach($classes as $class)
 
-                                                                            <option value="{{$class->idClass}}">{{$class->idClass}}</option>
+                                                                        <option
+                                                                            value="{{$class->idClass}}">{{$class->idClass}}</option>
 
 
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-
-
-                                                            <div class="form-group col-md-10">
-                                                                <label>Assignment's Text:</label>
-                                                                <input name="frm[text]" type="text"
-                                                                       class="form-control" required>
-                                                            </div>
-
                                                             <div class="form-group col-md-6">
                                                                 <label>Subject:</label>
-                                                                <select name="subject" id="subject" class="form-control" required>
-                                                                        <option disabled>Select class first</option>
-                                                                    </select>
+                                                                <select name="subject" id="subject" class="form-control"
+                                                                        required>
+                                                                    <option disabled>Select class first</option>
+                                                                </select>
 
                                                             </div>
 
@@ -155,99 +150,59 @@
                                                                        class="form-control" required>
                                                             </div>
 
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Lecture's Date:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
 
-                                                                <select id="year" name="year" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Assignment's Text:</label>
+                                                                <input name="frm[text]" type="text"
+                                                                       class="form-control" required>
                                                             </div>
 
-                                                            <div class="form-group col-lg-3">
 
+                                                            <div class="form-group data-custon-pick col-md-6"
+                                                                 id="data_2">
+                                                                <label>Lecture's date:</label>
+                                                                <div class="input-group date">
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="lecturedate"
+                                                                           class="form-control"
+                                                                           id="lecturedate"
+                                                                           value="{{$date}}">
 
-                                                                <select id="month" name="month" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-                                                                    <option value="<?php $date = new DateTime("last month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("last month"); echo $date->format('F');?></option>
-
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="day" name="day" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
-
+                                                                </div>
                                                             </div>
 
-                                                            <div class="form-group col-lg-3">
-                                                                <label class="form-group">Assignment's Deadline:</label>
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
 
-                                                                <select id="yeard" name="yeard" class="form-control" required>
-                                                                    <option value="none"  selected="" disabled="">
-                                                                        Year
-                                                                    </option>
-                                                                    <option value="{{date("Y")}}">{{date("Y")}}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group col-lg-3">
-
-
-                                                                <select id="monthd" name="monthd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Month
-                                                                    </option>
-
-                                                                    <option value="{{date("m")}}">{{date("F")}}</option>
-
-                                                                    <option value="<?php $date = new DateTime("next month"); echo $date->format('m');?>">
-                                                                        <?php $date = new DateTime("next month"); echo $date->format('F');?></option>
-
-
-                                                                </select>
-
-                                                            </div>
-                                                            <div class="form-group col-lg-3">
-
-                                                                <select id="dayd" name="dayd" class="form-control" required>
-                                                                    <option value="none" selected="" disabled="">
-                                                                        Day
-                                                                    </option>
-                                                                    @for($j=1 ;  $j<32 ; $j++)
-                                                                        <option value="{{$j}}">{{$j}}</option>
-                                                                    @endfor
-                                                                </select>
-
+                                                            <div class="form-group data-custon-pick col-md-6"
+                                                                 id="data_2">
+                                                                <label>Assignment's Deadline:</label>
+                                                                <div class="input-group date">
+                                                                    <span class="input-group-addon"><i
+                                                                            class="fa fa-calendar"></i></span>
+                                                                    <input type="text" name="deadline"
+                                                                           class="form-control"
+                                                                           id="deadline"
+                                                                           value="{{$date}}">
+                                                                </div>
                                                             </div>
 
+                                                            <div class="form-group col-md-12">
+
+                                                                <label class="control-label">Attachment:</label>
+                                                                <input type="file" class="form-control-file"
+                                                                       name="attachment">
+
+
+                                                            </div>
 
                                                         </div>
-
-
                                                     </div>
-                                                    <div class="row" style="margin-top: 50px">
-                                                        <div class="col-lg-12">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"
-                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        class="btn btn-primary waves-effect waves-light btn-lg center-block">
                                                                     Submit
                                                                 </button>
                                                             </div>

@@ -55,9 +55,9 @@
                                            data-resizable="true" data-cookie="true"
                                            data-cookie-id-table="saveId" data-show-export="true"
                                            data-click-to-select="true"
-                                           data-toolbar="#toolbar">
+                                           data-toolbar="#toolbar" class="table-striped table-bordered">
 
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th></th>
                                             <th>First Name</th>

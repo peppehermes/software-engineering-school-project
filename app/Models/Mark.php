@@ -67,6 +67,35 @@ class Mark
 
     }
 
+    public static function retrieveTeachersSubjectTopic(int $id,string $subject,string $topic,string $date,int $idStudent)
+    {
+        return  DB::table(static::table)
+            ->select(static::table.'.id',static::table.'.mark')
+            ->join('teacher', 'marks.idTeach', '=', 'teacher.id')
+            ->join('student', 'marks.idStudent', '=', 'student.id')
+            ->where('teacher.id', $id)
+            ->where('subject', $subject)
+            ->where('topic', $topic)
+            ->where('date', $date)
+            ->where('idStudent', $idStudent)
+            ->orderby('date', 'desc')
+            ->first();
+
+    }
+
+    public static function retrieveTeachersClasses(int $id, string $idClass)
+    {
+        return  DB::table(static::table)
+            ->select(static::table . '.*','teacher.*','student.firstName as studentName', 'student.lastName as studentSurname')
+            ->join('teacher', 'marks.idTeach', '=', 'teacher.id')
+            ->join('student', 'marks.idStudent', '=', 'student.id')
+            ->where('teacher.id', $id)
+            ->where(static::table.'.idClass', $idClass)
+            ->orderby('date', 'desc')
+            ->paginate(10);
+
+    }
+
 
 
 
