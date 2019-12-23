@@ -19,23 +19,36 @@ class TeacherTest extends DuskTestCase
      */
     use DatabaseMigrations;
 
-    public function test_as_teacher_want_insert_topics()
-    {
-        $today = now();
-        $date=$today->day.'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
-        $this->browse(function ($browser) use ($user,$classid,$date){
+    //this method will create a teacher, assign him a class and a teaching, then it will log in with credentials
+    public function login_form(){
+
+        $user = factory(User::class)->create(['roleID'=>2]);
+        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
+        $this->browse(function ($browser) use ($user){
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
+        });
+
+    }
+
+    public function test_as_teacher_want_insert_topics()
+    {
+        $today = now();
+        $date=$today->day.'/'.$today->month.'/'.$today->year;
+
+
+        $this->login_form();
+
+        $this->browse(function ($browser) use ($date){
             $browser->visit('/topic/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
@@ -53,19 +66,13 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
-        $this->browse(function ($browser) use ($user,$classid,$date){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->login_form();
+
+
+        $this->browse(function ($browser) use ($date){
             $browser->visit('/topic/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('lecturedate',$date)
                 ->type('frm[topic]', 'Some topic')
@@ -80,21 +87,15 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=$today->day.'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        $parent = factory(User::class)->create(['roleID'=>3]);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
+        Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
 
-        $this->browse(function ($browser) use ($user,$classid,$date){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->login_form();
+
+        $this->browse(function ($browser) use ($date){
             $browser->visit('/mark/classes')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
@@ -117,21 +118,18 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $parent = factory(User::class)->create(['roleID'=>3]);
+       /* $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => $classid, 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$user->id,'idStudent'=>$studentid]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);*/
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
+        Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
 
-        $this->browse(function ($browser) use ($user,$classid,$date){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->login_form();
+
+        $this->browse(function ($browser) use ($date){
             $browser->visit('/mark/classes')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('topic', 'Some topic')
                 ->type('lecturedate',$date)
@@ -145,21 +143,11 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_publish_material()
     {
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+        $this->login_form();
 
-
-
-        $this->browse(function ($browser) use ($user,$classid){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/material/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
                 ->attach('material[]',public_path('robots.txt'))
@@ -176,21 +164,13 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_publish_multi_material()
     {
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+        $this->login_form();
 
 
 
-        $this->browse(function ($browser) use ($user,$classid){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/material/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('frm[mdescription]', 'Some description')
                 ->attach('material[]',public_path('robots.txt'))
@@ -208,19 +188,13 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_write_note()
     {
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $studentid = Student::save(['firstName'=>'student', 'lastName'=>' ', 'classId'=>$classid]);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
-        $this->browse(function ($browser) use ($studentid, $user, $classid){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $studentid = Student::save(['firstName'=>'student', 'lastName'=>' ', 'classId'=>'1A']);
+
+        $this->login_form();
+
+        $this->browse(function ($browser) use ($studentid){
             $browser->visit('/notes/write')
-                ->select('idClass', $classid)
+                ->select('idClass', '1A')
                 ->select('idStudent', $studentid)
                 ->select('subject','Math')
                 ->type('frm[note]', 'This is a note')
@@ -229,8 +203,7 @@ class TeacherTest extends DuskTestCase
                 ->logout();
         });
         $this->assertDatabaseHas('notes', [
-            'idClass' => $classid,
-            'idTeach' => $teacherid,
+            'idClass' => '1A',
             'idStudent' => $studentid,
             'subject' => 'Math',
             'note' => 'This is a note'
@@ -243,20 +216,12 @@ class TeacherTest extends DuskTestCase
         $date=$today->day.'/'.$today->month.'/'.$today->year;
         $date1=($today->day+1).'/'.$today->month.'/'.$today->year;
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+        $this->login_form();
 
 
-        $this->browse(function ($browser) use ($user,$classid,$date,$date1){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($date,$date1){
             $browser->visit('/assignment/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
@@ -279,20 +244,13 @@ class TeacherTest extends DuskTestCase
         $date=$today->day.'/'.$today->month.'/'.$today->year;
         $date1=($today->day+1).'/'.$today->month.'/'.$today->year;
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
+        $this->login_form();
 
 
-        $this->browse(function ($browser) use ($user,$classid,$date,$date1){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($date,$date1){
+
             $browser->visit('/assignment/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
@@ -310,25 +268,16 @@ class TeacherTest extends DuskTestCase
         ]);
     }
 
-
     public function test_as_teacher_want_insert_assignments_wrong_deadline()
     {
         $today = now();
         $date=$today->day.'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID' => 2]);
-        $classid = Classroom::save(['id' => '1A', 'capacity' => 25, 'description' => 'molto bella']);
-        $teacherid = Teacher::save(['firstName' => $user->name, 'lastName' => ' ', 'userId' => $user->id, 'email' => $user->email]);
-        Teacher::saveTeaching(['idTeach' => $teacherid, 'idClass' => $classid, 'subject' => 'Math']);
+        $this->login_form();
 
+        $this->browse(function ($browser) use ( $date) {
 
-        $this->browse(function ($browser) use ($user, $classid, $date) {
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
             $browser->visit('/assignment/add')
-                ->select('idClass', $classid)
+                ->select('idClass', '1A')
                 ->select('subject', 'Math')
                 ->type('frm[text]', 'some text')
                 ->type('frm[topic]', 'some topic')
@@ -347,20 +296,12 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);
 
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user,$classid,$date){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($date){
             $browser->visit('/assignment/add')
-                ->select('idClass',$classid)
+                ->select('idClass','1A')
                 ->select('subject','Math')
                 ->type('frm[text]','some text')
                 ->type('frm[topic]','some topic')
@@ -382,19 +323,12 @@ class TeacherTest extends DuskTestCase
             $day = '0'.$today->day;
         else
             $day = $today->day;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
 
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user,$today,$day){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($today,$day){
             $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
@@ -417,19 +351,12 @@ class TeacherTest extends DuskTestCase
             $day = '0'.$today->day;
         else
             $day = $today->day;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
 
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user,$today,$day){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($today,$day){
             $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
@@ -454,19 +381,12 @@ class TeacherTest extends DuskTestCase
             $day = '0'.$today->day;
         else
             $day = $today->day;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
 
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user,$today,$day){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($today,$day){
             $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
@@ -492,19 +412,12 @@ class TeacherTest extends DuskTestCase
             $day = '0'.$today->day;
         else
             $day = $today->day;
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+
         $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
 
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user,$today,$day){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) use ($today,$day){
             $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
@@ -527,17 +440,9 @@ class TeacherTest extends DuskTestCase
     {
 
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser){
             $browser->visit('/timetable/list')
                 ->select('frm[classId]','1A')
                 ->press('Submit')
@@ -550,17 +455,9 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_provide_meeting_slots()
     {
 
-        $user = factory(User::class)->create(['roleID'=>2]);
-        Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
+        $this->login_form();
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/meetings/add')
                 ->click('@slot1')
                 ->click('@slot2')
