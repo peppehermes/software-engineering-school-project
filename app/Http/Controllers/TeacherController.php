@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\Teachers;
 use App\Models\Classroom;
 use App\Models\FinalGrades;
 use App\Models\Role;
@@ -30,35 +29,50 @@ class TeacherController extends Controller
      */
     public function __construct()
     {
+        define("MESSAGE", "message");
+        define("CLASSES", "classes");
+        define("EMAIL", "email");
+        define("BIRTHDAY", "birthday");
+        define("USER_ID", "userId");
+        define("PHOTO", "photo");
+        define("DATE_HOUR_FORMAT", "YmdHis");
+        define("DATE_FORMAT", "Y-m-d");
+        define("PUBLIC_UPLOADS", "public_uploads");
+        define("SUBJECT", "subject");
+        define("SUBJECTS", "subjects");
+        define("ID_TEACH", "idTeach");
+        define("SUCCESS", "Successful operation!");
+        define("ID_CLASS", "idClass");
+        define("CLASS_ID", "classId");
+        define("LECTURE_DATE", "lecturedate");
+        define("TEACHER", "teacher");
+        define("DEADLINE", "deadline");
+        define("ATTACHMENT", "attachment");
+        define("ID_STUDENT", "idStudent");
+        define("STUDENTS", "students");
+        define("TOPIC", "topic");
+        define("MATERIAL", "material");
+        define("ID_WEEK", "idweek");
+        define("ID_TIMESLOT", "idTimeslot");
+        define("FINAL_GRADES_SHOW", "/finalgrades/show");
+        define("FINAL_GRADES", "finalgrades");
         $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-
     }
 
     public function add()
     {
         $classes = Classroom::retrieve();
-        return view('teacher.add', ['classes' => $classes]);
+        return view('teacher.add', [CLASSES => $classes]);
     }
 
     public function store(Request $request)
     {
-
-
         $data = request('frm');
         $dataT = request('frmT');
 
         if ($data) {
             //create user
-            $userData['email'] = strtolower(request('email'));
+            $userData[EMAIL] = strtolower(request(EMAIL));
             $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
             $userData['roleId'] = Role::retrieveByRole('Teacher');
 
@@ -66,47 +80,44 @@ class TeacherController extends Controller
             $userData['password'] = Hash::make($password);
             $userId = User::saveUser($userData);
 
-            if ($data['birthday']) {
-                $data['birthday'] = Student::convertDate($data['birthday']);
+            if ($data[BIRTHDAY]) {
+                $data[BIRTHDAY] = Student::convertDate($data[BIRTHDAY]);
             }
 
 
-            $data['userId'] = $userId;
+            $data[USER_ID] = $userId;
 
-            if ($request->file('photo')) {
+            if ($request->file(PHOTO)) {
 
-                $cover = $request->file('photo');
+                $cover = $request->file(PHOTO);
 
                 $extension = $cover->getClientOriginalExtension();
-                $fileName = date('YmdHis') . '.' . $extension;
-                \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+                $fileName = date(DATE_HOUR_FORMAT) . '.' . $extension;
+                \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cover));
 
 
-                $data['photo'] = $fileName;
+                $data[PHOTO] = $fileName;
             }
 
             $Teachid = Teacher::save($data);
 
-            if (strpos($dataT['subject'], '-')) {
-                $subjects = explode('-', $dataT['subject']);
+            if (strpos($dataT[SUBJECT], '-')) {
+                $subjects = explode('-', $dataT[SUBJECT]);
                 foreach ($subjects as $subject) {
-                    $dataT['idTeach'] = $Teachid;
-                    $dataT['subject'] = $subject;
+                    $dataT[ID_TEACH] = $Teachid;
+                    $dataT[SUBJECT] = $subject;
 
                     Teacher::saveTeaching($dataT);
                 }
             } else {
-                $dataT['idTeach'] = $Teachid;
+                $dataT[ID_TEACH] = $Teachid;
                 Teacher::saveTeaching($dataT);
             }
-
-
         }
-
 
         //send email
         $to_name = $userData['name'];
-        $to_email = $userData['email'];
+        $to_email = $userData[EMAIL];
         $data = array('name' => $to_name, 'password' => $password);
         \Mail::send('email.mail', $data, function ($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)
@@ -114,14 +125,11 @@ class TeacherController extends Controller
             $message->from('sahar.saadatmandii@gmail.com', 'Password');
         });
 
-
-        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
-
+        return redirect('/teacher/list')->with([MESSAGE => 'Successful operation!']);
     }
 
     public function list()
     {
-
         $teachers = Teacher::retrievePagination(10);
 
         return view('teacher.list', ['teachers' => $teachers]);
@@ -129,7 +137,6 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-
         $classes = Classroom::retrieve();
         $teacherInfo = Teacher::retrieveById($id);
         $teacherEmail = User::retrieveById($teacherInfo->userId);
@@ -148,73 +155,63 @@ class TeacherController extends Controller
         }
         $teacherInfo->subject = implode('-', $subjects);
 
-
-
-        return view('teacher.edit', ['teacherInfo' => $teacherInfo,'classes'=>$classes]);
+        return view('teacher.edit', ['teacherInfo' => $teacherInfo,CLASSES=>$classes]);
     }
 
-    public function update
-    (Request $request, $id)
+    public function update(Request $request, $id)
     {
-
         $teacher = Teacher::retrieveById($id);
 
         $data = request('frm');
         $dataT = request('frmT');
 
-        if ($data['birthday']) {
-            $data['birthday'] = Student::convertDate($data['birthday']);
+        if ($data[BIRTHDAY]) {
+            $data[BIRTHDAY] = Student::convertDate($data[BIRTHDAY]);
         }
-        $userData['email'] = strtolower(request('email'));
+        $userData[EMAIL] = strtolower(request(EMAIL));
         $userData['name'] = $data['firstName'] . ' ' . $data['lastName'];
-
 
         User::saveUser($userData, $teacher->userId);
 
+        if ($request->file(PHOTO)) {
 
-        if ($request->file('photo')) {
-
-            $cover = $request->file('photo');
+            $cover = $request->file(PHOTO);
 
             $extension = $cover->getClientOriginalExtension();
-            $fileName = date('YmdHis') . '.' . $extension;
-            \Storage::disk('public_uploads')->put($fileName, \File::get($cover));
+            $fileName = date(DATE_HOUR_FORMAT) . '.' . $extension;
+            \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cover));
 
 
-            $data['photo'] = $fileName;
+            $data[PHOTO] = $fileName;
         }
         Teacher::save($data, $id);
 
-        if (strpos($dataT['subject'], '-')) {
-            $subjects = explode('-', $dataT['subject']);
-            Teacher::deleteTeaching($id,$dataT['idClass']);
+        if (strpos($dataT[SUBJECT], '-')) {
+            $subjects = explode('-', $dataT[SUBJECT]);
+            Teacher::deleteTeaching($id,$dataT[ID_CLASS]);
             foreach ($subjects as $subject) {
-                $dataT['idTeach'] = $id;
-                $dataT['subject'] = $subject;
+                $dataT[ID_TEACH] = $id;
+                $dataT[SUBJECT] = $subject;
 
                 Teacher::saveTeaching($dataT);
             }
         } else {
-            $dataT['idTeach'] = $id;
-            Teacher::deleteTeaching($id,$dataT['idClass']);
+            $dataT[ID_TEACH] = $id;
+            Teacher::deleteTeaching($id,$dataT[ID_CLASS]);
             Teacher::saveTeaching($dataT);
         }
 
-
-        return redirect('/teacher/list')->with(['message' => 'Successful operation!']);
-
+        return redirect('/teacher/list')->with([MESSAGE => 'Successful operation!']);
     }
 
     public function delete($id)
     {
-
         $teacherInfo = Teacher::retrieveById($id);
         Teacher::delete($id);
         User::deleteById($teacherInfo->userId);
 
 
-        return redirect('/teacher/list')->with(['message' => 'successful operation!']);
-
+        return redirect('/teacher/list')->with([MESSAGE => SUCCESS]);
     }
 
     public function password_generate($chars)
@@ -239,25 +236,25 @@ class TeacherController extends Controller
         $data = request('frm');
         if ($data) {
             //create topic
-            $data['date'] = request('lecturedate');
+            $data['date'] = request(LECTURE_DATE);
             $data['date'] = Student::convertDate($data['date']);
-            $data['idClass'] = request('idClass');
-            $data['subject'] = request('subject');
-            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            $data[ID_CLASS] = request(ID_CLASS);
+            $data[SUBJECT] = request(SUBJECT);
+            $data[ID_TEACH] = DB::table(TEACHER)->where(USER_ID, $usId)->value('id');
             Topic::save($data);
         }
-        return redirect('/topic/list')->with(['message' => 'Successful operation!']);
+        return redirect('/topic/list')->with([MESSAGE => 'Successful operation!']);
     }
 
     public function addtopic()
     {
         $usId = \Auth::user()->id;
-        $date = date("Y-m-d");
+        $date = date(DATE_FORMAT);
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('topic.add', ['classes' => $classes, 'subjects' => $subjects, 'date' => $dateview]);
+        return view('topic.add', [CLASSES => $classes, SUBJECTS => $subjects, 'date' => $dateview]);
     }
 
     public function storeassignment(Request $request)
@@ -268,44 +265,44 @@ class TeacherController extends Controller
         $i=1;
 
         if ($data) {
-            $data['deadline'] = request('deadline');
-            $data['date'] = request('lecturedate');
+            $data[DEADLINE] = request(DEADLINE);
+            $data['date'] = request(LECTURE_DATE);
             $data['date'] = Student::convertDate($data['date']);
-            $data['deadline'] = Student::convertDate($data['deadline']);
-            $data['idClass'] = request('idClass');
-            $data['subject'] = request('subject');
-            $data['idTeach'] = Teacher::retrieveId($usId);
-            if ($request->file('attachment')) {
+            $data[DEADLINE] = Student::convertDate($data[DEADLINE]);
+            $data[ID_CLASS] = request(ID_CLASS);
+            $data[SUBJECT] = request(SUBJECT);
+            $data[ID_TEACH] = Teacher::retrieveId($usId);
+            if ($request->file(ATTACHMENT)) {
 
-                $cover = $request->file('attachment');
+                $cover = $request->file(ATTACHMENT);
                 foreach ($cover as $cov) {
                     $extension = $cov->getClientOriginalExtension();
-                    $fileName = date('YmdHis') .'('.$i.')'. '.' . $extension;
-                    \Storage::disk('public_uploads')->put($fileName, \File::get($cov));
-                    if($i==1)
-                        $data['attachment']= $fileName;
-                    else
-                        $data['attachment']= $data['attachment'].'/'.$fileName;
+                    $fileName = date(DATE_HOUR_FORMAT) .'('.$i.')'. '.' . $extension;
+                    \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cov));
+                    if($i==1) {
+                        $data[ATTACHMENT] = $fileName;
+                    }
+                    else {
+                        $data[ATTACHMENT] = $data[ATTACHMENT] . '/' . $fileName;
+                    }
                     $i++;
                 }
             }
             Assignment::save($data);
         }
-        return redirect('/assignment/list')->with(['message' => 'successful operation!']);
-
-
+        return redirect('/assignment/list')->with([MESSAGE => SUCCESS]);
     }
 
 
     public function addassignment()
     {
         $usId = \Auth::user()->id;
-        $date = date("Y-m-d");
+        $date = date(DATE_FORMAT);
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $subjects = Teacher::retrieveTeaching($teachId);
-        return view('assignments.add', ['classes' => $classes, 'subjects' => $subjects, 'date' => $dateview]);
+        return view('assignments.add', [CLASSES => $classes, SUBJECTS => $subjects, 'date' => $dateview]);
     }
 
 
@@ -317,7 +314,8 @@ class TeacherController extends Controller
         $index1=1;
         $teachId = Teacher::retrieveId($usId);
         $assignments = Assignment::retrieveTeachersPagination($teachId);
-        return view('assignments.list', ['assignments' => $assignments, 'attachment' => $attachment,'index' => $index,'index1' => $index1]);
+        return view('assignments.list', ['assignments' => $assignments, ATTACHMENT => $attachment,
+            'index' => $index,'index1' => $index1]);
     }
 
     public function storemark(Request $request)
@@ -327,16 +325,16 @@ class TeacherController extends Controller
         $data = request('frm');
         if ($data) {
             //create topic
-            $data['date'] = request('lecturedate');
+            $data['date'] = request(LECTURE_DATE);
             $data['date'] = Student::convertDate($data['date']);
-            $data['idClass'] = request('idClass');
-            $data['subject'] = request('subject');
+            $data[ID_CLASS] = request(ID_CLASS);
+            $data[SUBJECT] = request(SUBJECT);
             $data['mark'] = request('mark');
-            $data['idStudent'] = request('idStudent');
-            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            $data[ID_STUDENT] = request(ID_STUDENT);
+            $data[ID_TEACH] = DB::table(TEACHER)->where(USER_ID, $usId)->value('id');
             Mark::save($data);
         }
-        return redirect('/mark/list')->with(['message' => 'Successful operation!']);
+        return redirect('/mark/list')->with([MESSAGE => 'Successful operation!']);
 
 
     }
@@ -349,12 +347,12 @@ class TeacherController extends Controller
 
         $classRooms = Teacher::retrieveTeacherClass($usId);
 
-        $students = Student::retrieveStudentClass(request('idClass'));
+        $students = Student::retrieveStudentClass(request(ID_CLASS));
 
-        $classId = request('idClass');
-        $date = request('lecturedate');
-        $subject = request('subject');
-        $topic = request('topic');
+        $classId = request(ID_CLASS);
+        $date = request(LECTURE_DATE);
+        $subject = request(SUBJECT);
+        $topic = request(TOPIC);
         $date2 = Student::convertDate($date);
         $teachId = Teacher::retrieveId($usId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
@@ -374,7 +372,9 @@ class TeacherController extends Controller
         }
 
 
-        return view('marks.addnewmark', ['students' => $students, 'classRooms' => $classRooms, 'classId' => $classId, 'date' => $date, 'subject' => $subject, 'topic' => $topic, 'classes' => $classes, 'subjects' => $subjects, 'subjectsClass' => $subjectsClass]);
+        return view('marks.addnewmark', [STUDENTS => $students, 'classRooms' => $classRooms,
+            CLASS_ID => $classId, 'date' => $date, SUBJECT => $subject,
+            TOPIC => $topic, CLASSES => $classes, SUBJECTS => $subjects, 'subjectsClass' => $subjectsClass]);
 
 
     }
@@ -383,7 +383,7 @@ class TeacherController extends Controller
     {
 
         $usId = \Auth::user()->id;
-        $students = Student::retrieveStudentClass(request('classId'));
+        $students = Student::retrieveStudentClass(request(CLASS_ID));
 
 
         foreach ($students as $student) {
@@ -393,15 +393,16 @@ class TeacherController extends Controller
 
 
             if ($data && isset($data['mark']) && isset($data2['status'])) {
-                $data['subject'] = request('subject');
-                $data['topic'] = request('topic');
-                $data['idClass'] = request('classId');
+                $data[SUBJECT] = request(SUBJECT);
+                $data[TOPIC] = request(TOPIC);
+                $data[ID_CLASS] = request(CLASS_ID);
 
                 $data['date'] = request('date');
                 $data['date'] = Student::convertDate($data['date']);
-                $data['idTeach'] = Teacher::retrieveId($usId);
+                $data[ID_TEACH] = Teacher::retrieveId($usId);
 
-                $mark = Mark::retrieveTeachersSubjectTopic($data['idTeach'], $data['subject'], $data['topic'], $data['date'], $student->id);;
+                $mark = Mark::retrieveTeachersSubjectTopic($data[ID_TEACH], $data[SUBJECT],
+                    $data[TOPIC], $data['date'], $student->id);
 
                 if ($mark) {
                     Mark::save($data, $mark->id);
@@ -412,7 +413,7 @@ class TeacherController extends Controller
 
             }
         }
-        return redirect('/mark/classlist')->with(['message' => 'Successful operation!']);
+        return redirect('/mark/classlist')->with([MESSAGE => 'Successful operation!']);
 
 
     }
@@ -420,36 +421,36 @@ class TeacherController extends Controller
     public function listclasses()
     {
         $usId = \Auth::user()->id;
-        $date = date("Y-m-d");
+        $date = date(DATE_FORMAT);
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.classes', ['classes' => $classes, 'studId' => $studId, 'subjects' => $subjects, 'date' => $dateview]);
+        return view('marks.classes', [CLASSES => $classes, 'studId' => $studId, SUBJECTS => $subjects, 'date' => $dateview]);
     }
 
 
     public function addmark()
     {
         $usId = \Auth::user()->id;
-        $date = date("Y-m-d");
+        $date = date(DATE_FORMAT);
         $dateview = Student::convertDateView($date);
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('marks.add', ['classes' => $classes, 'studId' => $studId, 'subjects' => $subjects, 'date' => $dateview]);
+        return view('marks.add', [CLASSES => $classes, 'studId' => $studId, SUBJECTS => $subjects, 'date' => $dateview]);
     }
 
 
     public function listmark()
     {
         $usId = \Auth::user()->id;
-        $classId = request('classId');
+        $classId = request(CLASS_ID);
         $teachId = Teacher::retrieveId($usId);
         $marks = Mark::retrieveTeachersClasses($teachId, $classId);
-        return view('marks.list', ['marks' => $marks, 'classId' => $classId]);
+        return view('marks.list', ['marks' => $marks, CLASS_ID => $classId]);
     }
 
     public function classlist()
@@ -467,7 +468,7 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
-        return view('suppmaterial.add', ['classes' => $classes, 'subjects' => $subjects]);
+        return view('suppmaterial.add', [CLASSES => $classes, SUBJECTS => $subjects]);
     }
 
     public function storematerial(Request $request)
@@ -479,29 +480,31 @@ class TeacherController extends Controller
 
         if ($data) {
             //create topic
-            $data['date'] = date("Y-m-d");
-            $data['idClass'] = request('idClass');
-            $data['subject'] = request('subject');
-            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            $data['date'] = date(DATE_FORMAT);
+            $data[ID_CLASS] = request(ID_CLASS);
+            $data[SUBJECT] = request(SUBJECT);
+            $data[ID_TEACH] = DB::table(TEACHER)->where(USER_ID, $usId)->value('id');
 
-            if ($request->file('material')) {
+            if ($request->file(MATERIAL)) {
 
-                $cover = $request->file('material');
+                $cover = $request->file(MATERIAL);
                 foreach ($cover as $cov) {
                     $extension = $cov->getClientOriginalExtension();
-                    $fileName = date('YmdHis') . '(' . $i . ')' . '.' . $extension;
-                    \Storage::disk('public_uploads')->put($fileName, \File::get($cov));
-                    if ($i == 1)
-                        $data['material'] = $fileName;
-                    else
-                        $data['material'] = $data['material'] . '/' . $fileName;
+                    $fileName = date(DATE_HOUR_FORMAT) . '(' . $i . ')' . '.' . $extension;
+                    \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cov));
+                    if ($i == 1) {
+                        $data[MATERIAL] = $fileName;
+                    }
+                    else {
+                        $data[MATERIAL] = $data[MATERIAL] . '/' . $fileName;
+                    }
                     $i++;
                 }
             }
 
             Material::save($data);
         }
-        return redirect('/material/list')->with(['message' => 'Successful operation!']);
+        return redirect('/material/list')->with([MESSAGE => 'Successful operation!']);
     }
 
     public function listmaterial()
@@ -512,7 +515,7 @@ class TeacherController extends Controller
         $index1=1;
         $teachId = Teacher::retrieveId($usId);
         $materials = Material::retrieveTeachersPagination($teachId);
-        return view('suppmaterial.list', ['materials' => $materials,'attachment' => $attachment,'index' => $index,'index1' => $index1]);
+        return view('suppmaterial.list', ['materials' => $materials,ATTACHMENT => $attachment,'index' => $index,'index1' => $index1]);
     }
 
     public function writenote()
@@ -522,7 +525,7 @@ class TeacherController extends Controller
         $subjects = Teacher::retrieveTeaching($teachId);
         $classes = Teacher::retrievedistinctTeaching($teachId);
         $studId = Student::retrieveStudentsForTeacher($teachId);
-        return view('notes.write', ['classes' => $classes, 'stud' => $studId, 'subjects' => $subjects]);
+        return view('notes.write', [CLASSES => $classes, 'stud' => $studId, SUBJECTS => $subjects]);
     }
 
     public function storenote(Request $request)
@@ -532,15 +535,15 @@ class TeacherController extends Controller
 
         if ($data) {
             //create note
-            $data['date'] = date("Y-m-d");
-            $data['idClass'] = request('idClass');
-            $data['idStudent'] = request('idStudent');
-            $data['subject'] = request('subject');
-            $data['idTeach'] = DB::table('teacher')->where('userId', $usId)->value('id');
+            $data['date'] = date(DATE_FORMAT);
+            $data[ID_CLASS] = request(ID_CLASS);
+            $data[ID_STUDENT] = request(ID_STUDENT);
+            $data[SUBJECT] = request(SUBJECT);
+            $data[ID_TEACH] = DB::table(TEACHER)->where(USER_ID, $usId)->value('id');
 
             Note::save($data);
         }
-        return redirect('/notes/list')->with(['message' => 'Successful operation!']);
+        return redirect('/notes/list')->with([MESSAGE => 'Successful operation!']);
     }
 
     public function listnotes()
@@ -566,10 +569,9 @@ class TeacherController extends Controller
         $teachId = Teacher::retrieveId($usId);
         $exist = Meeting::retrieveMeetingperTeacher($teachId);
         $teach = Teacher::retrieveById($teachId);
-        if (count($exist) == 0)
-
+        if (count($exist) == 0) {
             return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' first provide the two timeslots.']);
-
+        }
         else {
             $times = Timeslot::retrieve();
             $bool = 1;
@@ -580,13 +582,11 @@ class TeacherController extends Controller
             $timeslots = Teacher::retrieveTimeslots($teachId);
 
             if (count($timeslots) > 0) {
-
-
                 return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week, 'date1' => $date1, 'date2' => $date2]);
-
-            } else
+            }
+            else {
                 return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
-
+            }
         }
     }
 
@@ -600,22 +600,20 @@ class TeacherController extends Controller
         $teach = Teacher::retrieveById($teachId);
         $provided = Meeting::retrieveMeetingperTeacher($teachId);
 
-        if (count($provided) > 0)
+        if (count($provided) > 0) {
             return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' has already provided the two timeslots']);
-
+        }
         else {
             foreach ($times as $time) {
                 $data[$time->hour][] = $time->id;
             }
             $timeslots = Teacher::retrieveTimeslots($teachId);
             if (count($timeslots) > 0) {
-
-
                 return view('meetings.add', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool,]);
-
-            } else
+            }
+            else {
                 return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
-
+            }
         }
     }
 
@@ -637,15 +635,13 @@ class TeacherController extends Controller
         $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId, $week);
 
         if ((count($provided) + count($slots)) > 3) {
-
-            $message = 'Too many timeslots provided, please provide at most 3!';
-            return $message;
+            return 'Too many timeslots provided, please provide at most 3!';
         } else {
             $data['idTeacher'] = $teachId;
-            $data['idweek'] = $week;
+            $data[ID_WEEK] = $week;
 
             foreach ($slots as $d) {
-                $data['idTimeslot'] = $d;
+                $data[ID_TIMESLOT] = $d;
                 Meeting::save($data);
             }
             return 0;
@@ -665,20 +661,20 @@ class TeacherController extends Controller
         if ($week >= 37) {
             // between september and the end of the year
             for ($i = $week; $i < 52; $i++) {
-                $data['idweek'] = ($year . '-W' . $i);
+                $data[ID_WEEK] = ($year . '-W' . $i);
                 foreach ($slots as $d) {
-                    $data['idTimeslot'] = $d;
+                    $data[ID_TIMESLOT] = $d;
                     Meeting::save($data);
                 }
             }
             // between january and end of the school in june
             for ($i = 2; $i < 29; $i++) {
                 if ($i < 10)
-                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
+                    $data[ID_WEEK] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year + 1 . '-W' . $i);
+                    $data[ID_WEEK] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
-                    $data['idTimeslot'] = $d;
+                    $data[ID_TIMESLOT] = $d;
                     Meeting::save($data);
                 }
             }
@@ -686,11 +682,11 @@ class TeacherController extends Controller
         else if ($week > 1 && $week < 28) {
             for ($i = $week; $i < 29; $i++) {
                 if ($i < 10)
-                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
+                    $data[ID_WEEK] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year + 1 . '-W' . $i);
+                    $data[ID_WEEK] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
-                    $data['idTimeslot'] = $d;
+                    $data[ID_TIMESLOT] = $d;
                     Meeting::save($data);
                 }
             }
@@ -698,11 +694,11 @@ class TeacherController extends Controller
         else if ($week == 1) {
             for ($i = $week + 1; $i < 29; $i++) {
                 if ($i < 10)
-                    $data['idweek'] = $year + 1 . '-W' . '0' . $i;
+                    $data[ID_WEEK] = $year + 1 . '-W' . '0' . $i;
                 else
-                    $data['idweek'] = ($year + 1 . '-W' . $i);
+                    $data[ID_WEEK] = ($year + 1 . '-W' . $i);
                 foreach ($slots as $d) {
-                    $data['idTimeslot'] = $d;
+                    $data[ID_TIMESLOT] = $d;
                     Meeting::save($data);
                 }
             }
@@ -742,17 +738,17 @@ class TeacherController extends Controller
 
         if ($finalGrades->count()) { // The count() method returns the number of items of a collection
             // Final grades already stored for that class
-            return view('/finalgrades/show', ['classId' => $classId,
-                'students' => $students,
-                'subjects' => $subjects,
-                'finalgrades' => $finalGrades
-            ])->with(['message' => 'Final grades already stored!']);
+            return view(FINAL_GRADES_SHOW, [CLASS_ID => $classId,
+                STUDENTS => $students,
+                SUBJECTS => $subjects,
+                FINAL_GRADES => $finalGrades
+            ])->with([MESSAGE => 'Final grades already stored!']);
         } else {
             // Final grades not yet stored for that class
             return view('finalgrades.insert',
-                ['classId' => $classId,
-                    'students' => $students,
-                    'subjects' => $subjects
+                [CLASS_ID => $classId,
+                    STUDENTS => $students,
+                    SUBJECTS => $subjects
                 ]);
         }
     }
@@ -770,11 +766,11 @@ class TeacherController extends Controller
 
         if ($finalGrades->count()) { // The count() method returns the number of items of a collection
             // Final grades already stored for that class
-            return view('/finalgrades/show', ['classId' => $classId,
-                'students' => $students,
-                'subjects' => $subjects,
-                'finalgrades' => $finalGrades
-            ])->with(['message' => 'Final grades already stored!']);
+            return view(FINAL_GRADES_SHOW, [CLASS_ID => $classId,
+                STUDENTS => $students,
+                SUBJECTS => $subjects,
+                FINAL_GRADES => $finalGrades
+            ])->with([MESSAGE => 'Final grades already stored!']);
         } else {
             // Final grades not yet stored for that class
             foreach ($students as $student) {
@@ -784,7 +780,7 @@ class TeacherController extends Controller
 
                     // Insert year and data into the data array
                     $data['year'] = date('Y');
-                    $data['idClass'] = $classId;
+                    $data[ID_CLASS] = $classId;
 
                     // Insert into finalgrades table
                     FinalGrades::save($data);
@@ -792,7 +788,7 @@ class TeacherController extends Controller
             }
         }
 
-        return redirect('/finalgrades/show')->with(['message' => 'successful operation!']);
+        return redirect(FINAL_GRADES_SHOW)->with([MESSAGE => SUCCESS]);
     }
 
     /*
@@ -813,11 +809,11 @@ class TeacherController extends Controller
 
         if ($finalGrades->count()) {
             // Final grades already stored for that class
-            return view('/finalgrades/show',
-                ['classId' => $classId,
-                    'students' => $students,
-                    'subjects' => $subjects,
-                    'finalgrades' => $finalGrades
+            return view(FINAL_GRADES_SHOW,
+                [CLASS_ID => $classId,
+                    STUDENTS => $students,
+                    SUBJECTS => $subjects,
+                    FINAL_GRADES => $finalGrades
                 ]);
         } else {
             // Final grades not yet stored for that class
@@ -846,21 +842,24 @@ class TeacherController extends Controller
         $data = [];
 
         $header = ["Student"];
-        foreach ($subjects as $subject)
+        foreach ($subjects as $subject) {
             array_push($header, $subject->subjectName);
+        }
 
         array_push($data, $header);
 
         // For each student we save it's name and surname as an array, so data is an array of arrays
-        foreach ($students as $student)
+        foreach ($students as $student) {
             array_push($data, [$student->firstName . ' ' . $student->lastName]);
+        }
 
         // Open or create the requested file
         $fp = fopen($filepath, "w");
 
         // For each element of data, insert its content as a row in the csv file
-        foreach ($data as $row)
+        foreach ($data as $row) {
             fputcsv($fp, $row);
+        }
 
         fclose($fp);
 
