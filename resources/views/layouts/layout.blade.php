@@ -82,9 +82,6 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css')}}">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <!-- modals CSS
             ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/modals.css')}}">
@@ -244,6 +241,13 @@
 <!-- main JS
     ============================================ -->
 <script src="{{ asset('js/main.js')}}"></script>
+<!-- modernizr JS
+		============================================ -->
+<script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
+<!-- dropzone JS
+		============================================ -->
+<script src="{{asset('js/dropzone/dropzone.js')}}"></script>
+
 <!-- tawk chat JS
        ============================================ -->
 {{--<script src="{{ asset('js/tawk-chat.js')}}"></script>--}}
