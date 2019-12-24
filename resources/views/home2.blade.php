@@ -61,7 +61,12 @@
                                 </div>
                                 <div class="single-product-text">
                                     <img
-                                        src="@if($student->photo) {{ asset('/uploads/'.$student->photo) }} @else @if($student->gender=='F') img/avatar/girl.png @else img/avatar/boy.png  @endif @endif "
+                                        src="   @if($student->photo) {{ asset('/uploads/'.$student->photo) }}
+                                                @else
+                                                    @if($student->gender=='F') img/avatar/girl.png
+                                                    @else img/avatar/boy.png
+                                                    @endif
+                                                @endif "
                                         alt="">
                                     <h4><a class="cards-hd-dn" href="#">{{$student->firstName}}</a></h4>
                                     <h5>Class {{$student->classId}}</h5>
@@ -88,6 +93,27 @@
                                                 {{--                                            <h3><span class="counter">399</span></h3>--}}
                                                 <a href="/student/attendance_report/{{$student->id}}"><p>Report
                                                         Attendance</p></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="cards-dtn">
+                                                {{--                                            <h3><span class="counter">199</span></h3>--}}
+                                                <a href="/assignment/listforparents/{{$student->id}}"><p>Assignments</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="cards-dtn">
+                                                {{--                                            <h3><span class="counter">599</span></h3>--}}
+                                                <a href="/timetable/listforparents/{{$student->id}}"><p>Timetable</p></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="cards-dtn">
+                                                {{--                                            <h3><span class="counter">399</span></h3>--}}
+                                                <a href="/notes/shownotes/{{$student->id}}"><p>Notes</p></a>
                                             </div>
                                         </div>
                                     </div>

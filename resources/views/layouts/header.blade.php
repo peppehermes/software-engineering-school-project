@@ -186,6 +186,8 @@
                                         @endif
 
                                     @elseif(Auth::user()->roleId==\App\User::roleParent)
+                                        <li><a data-toggle="collapse" href="/"><span class="mini-click-non">Home</span></a>
+                                        </li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
 
@@ -239,6 +241,8 @@
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                         </li>
                                     @else
+                                        <li><a data-toggle="collapse" href="/"><span class="mini-click-non">Home</span></a>
+                                        </li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Teachers <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">

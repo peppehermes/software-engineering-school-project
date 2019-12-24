@@ -34,7 +34,7 @@
 /*global SWFObject alert Sys */
 /*jshint forin:false */
 ;(function($) {
-"use strict";	
+"use strict";
 
 var mode = document.documentMode || 0;
 var msie = /MSIE/.test(navigator.userAgent);
@@ -56,7 +56,7 @@ $.fn.media = function(options, f1, f2) {
 				$this.replaceWith(html);
 		});
 	}
-	
+
 	return this.each(function() {
 		if (typeof options == 'function') {
 			f2 = f1;
@@ -91,12 +91,12 @@ $.fn.media = function(options, f1, f2) {
 			var $div = $.fn.media[fn](this, o);
 
 			$div.css('backgroundColor', o.bgColor).width(o.width);
-			
+
 			if (o.canUndo) {
 				var $temp = $('<div></div>').append(this);
 				$div.data('media.origHTML', $temp.html()); // store original markup
 			}
-			
+
 			// post-conversion callback, passes original element, new div element and fully populated options
 			if (typeof f2 == 'function') f2(this, $div[0], o, player.name);
 			break;
@@ -277,7 +277,7 @@ function getSettings(el, options) {
 	if (w) meta.width = w;
 	if (h) meta.height = h;
 	if (cls) meta.cls = cls;
-	
+
 	// crank html5 style data attributes
 	var dataName = 'data-';
     for (var i=0; i < el.attributes.length; i++) {
@@ -376,7 +376,6 @@ $.fn.media.xaml = function(el, opts) {
 	if (!window.Sys || !window.Sys.Silverlight) {
 		if ($.fn.media.xaml.warning) return;
 		$.fn.media.xaml.warning = 1;
-		alert('You must include the Silverlight.js script.');
 		return;
 	}
 
@@ -491,7 +490,7 @@ function generate(el, opts, player) {
 	            a.push(key + '="'+opts.params[key]+'" ');
 	        }
 	        a.push('></em'+'bed'+'>');
-	    }	
+	    }
 	// convert element to div
 	var id = el.id ? (' id="'+el.id+'"') : '';
 	var cls = opts.cls ? (' class="' + opts.cls + '"') : '';
@@ -501,8 +500,8 @@ function generate(el, opts, player) {
 		$div.append(o);
 	else
 		$div.html(a.join(''));
-	
-	if (opts.caption) 
+
+	if (opts.caption)
 		$('<div>').appendTo($div).html(opts.caption);
 	return $div;
 }
