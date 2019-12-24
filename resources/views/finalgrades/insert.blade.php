@@ -1,5 +1,16 @@
 @extends('layouts.layout')
 
+<script>
+    function checkFile() {
+        var file = document.getElementById('final_grades');
+        if (file.value !== '') {
+            return confirm('Are you sure? Final grades cannot be changed');
+        }
+        else
+            return alert('File not selected');
+    }
+</script>
+
 @section('content')
     <div class="data-table-area mg-b-15">
         <div class="container-fluid">
@@ -133,12 +144,18 @@
                                                             </div>
                                                         </div>
 
-                                                        <form action="" class="dropzone dropzone-custom needsclick add-professors dz-clickable" novalidate="novalidate">
+                                                        <form action="/finalgrades/upload/{{$classId}}"
+                                                              class="dropzone dropzone-custom needsclick add-professors dz-clickable"
+                                                              novalidate="novalidate"
+                                                              method="post"
+                                                              enctype="multipart/form-data"
+                                                              onsubmit="checkFile()">
+                                                            @csrf
                                                             <div class="form-group alert-up-pd">
                                                                 <div class="dz-message needsclick download-custom">
                                                                     <i class="fa fa-download edudropnone" aria-hidden="true"></i>
                                                                     <h2 class="edudropnone">Drop CSV/Excel here or click to upload.</h2>
-                                                                    <input name="imageico" class="hd-pro-img" type="file">
+                                                                    <input id="final_grades" name="final_grades" type="file">
                                                                 </div>
                                                             </div>
 
@@ -146,7 +163,7 @@
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="review-content-section">
                                                                         <div class="payment-adress">
-                                                                            <button type="file"
+                                                                            <button type="submit"
                                                                                     class="btn btn-primary btn-lg center-block">
                                                                                 Upload
                                                                             </button>

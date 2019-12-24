@@ -32,8 +32,17 @@ class Subject
      */
     public static function retrieveById(int $id)
     {
-
         return DB::table(static::table)->find($id);
+    }
+
+    /**
+     * Retrieve subject by its name
+     *
+     * @param string $subject_name
+     * @return mixed
+     */
+    public static function retrieveByName(string $subject_name) {
+        return DB::table(static::table)->where('subjectName', $subject_name)->first();
     }
 
 

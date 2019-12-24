@@ -53,6 +53,10 @@ class TimetableController extends Controller
 
         $file = $request->file('timetable');
 
+        // Check if the file was uploaded
+        if (!$file->isValid()) {
+            return \Redirect('/')->withErrors([' There is a problem for adding this timetable ']);
+        }
 
         //Check the file encoding and BOM.
 

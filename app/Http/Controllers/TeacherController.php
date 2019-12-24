@@ -841,7 +841,7 @@ class TeacherController extends Controller
         // Creating the data array, the header will contain 'Student' + the names of subjects
         $data = [];
 
-        $header = ["Student"];
+        $header = ["Student Name", "StudentId"];
         foreach ($subjects as $subject) {
             array_push($header, $subject->subjectName);
         }
@@ -850,7 +850,8 @@ class TeacherController extends Controller
 
         // For each student we save it's name and surname as an array, so data is an array of arrays
         foreach ($students as $student) {
-            array_push($data, [$student->firstName . ' ' . $student->lastName]);
+            array_push($data, [$student->firstName . ' ' . $student->lastName,
+                $student->id]);
         }
 
         // Open or create the requested file
@@ -867,5 +868,88 @@ class TeacherController extends Controller
         header("Content-type: text/csv");
         header("Content-disposition: attachment; filename = " . $filename);
         readfile($filepath);
+    }
+
+    public function uploadFinalGrades($classId, Request $request) {
+        $file = $request->file('final_grades');
+
+        // Check if the file was uploaded
+        if (!$file->isValid()) {
+            return redirect('/finalgrades/insert')->withErrors(['Error during upload!']);
+        }
+
+        // Check the file encoding and BOM.
+
+        $content = file_get_contents($file->path());
+
+        $content = $this->remove_utf8_bom($content);
+        file_put_contents($file->path(), $content);
+
+        $csvHeaders = [];
+
+        // Get header (StudentName, StudentId, Subject1, Subject2...)
+        if (($handle = fopen($file->path(), "r")) !== FALSE) {
+
+            $sep = ",";
+
+            $csvHeaders = fgetcsv($handle, 1000, $sep);
+        }
+
+        $students_final_grades = [];
+
+        // Get body
+        // (StudentName1, StudentId1, Grade1, Grade2...)
+        // (StudentName2, StudentId2, Grade1, Grade2...)
+        // ...
+        while (($row = fgetcsv($handle, 1000, $sep)) !== FALSE) {
+            $students_final_grades[] = $row;
+        }
+
+        // Start the transaction, if there are errors all the operations will be rolled back
+        DB::beginTransaction();
+
+        foreach ($csvHeaders as $key => $subj) {
+            // The first element of the csv header is "StudentName", we don't need it
+            // The second element of the csv header is "StudentId", we don't need it
+            if ($key > 1) {
+                foreach ($students_final_grades as $row) {
+                    $subject = $subj;
+
+                    // The second element of each row is the student id
+                    $data['idStudent'] = $row[1];
+                    // Retrieve the id of the subject using the unique subjectName
+                    $s = Subject::retrieveByName($subject);
+                    $data['idSubject'] = $s->subjectId;
+                    $data['year'] = date('Y');
+                    $data[ID_CLASS] = $classId;
+
+                    // If the finalgrade has been inserted, the operation goes on
+                    if ($row[$key] != '') {
+                        $data['finalgrade'] = $row[$key];
+                    }
+                    else {
+                        // If the finalgrade is not present, the operation aborts
+                        DB::rollBack();
+                        return redirect('/finalgrades/insert')->withErrors(['Error during upload!']);
+                    }
+
+                    // Insert the finalgrade row in the final_grades table
+                    FinalGrades::save($data);
+                }
+            }
+        }
+
+        // If the foreach is ended, all operations finished without problems
+        // We can commit the entire transaction
+        DB::commit();
+
+        return redirect(FINAL_GRADES_SHOW)->with([MESSAGE => SUCCESS]);
+    }
+
+    function remove_utf8_bom($text)
+    {
+        $bom = pack('H*', 'EFBBBF');
+        $text = preg_replace("/^$bom/", '', $text);
+        return $text;
     }
 }
