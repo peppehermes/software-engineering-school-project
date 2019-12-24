@@ -16,16 +16,11 @@ class OfficerTest extends DuskTestCase
 {
 
     use DatabaseMigrations;
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
-    public function test_as_officer_want_enroll_students()
-    {
+
+    public function login_officer(){
+
         $user = factory(User::class)->create(['roleId'=>1]);
         Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-
 
         $this->browse(function ($browser) use ($user){
             $browser->visit('/login')
@@ -33,6 +28,31 @@ class OfficerTest extends DuskTestCase
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
+        });
+    }
+
+    public function initialize_timetable(){
+
+        $teacher = factory(User::class)->create(['roleID'=>2]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Italian']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'English']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Physics']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Gym']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Religion']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'History']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Science']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Art']);
+        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Latin']);
+    }
+
+    public function test_as_officer_want_enroll_students()
+    {
+
+        $this->login_officer();
+
+        $this->browse(function ($browser) {
             $browser->visit('/student/add')
                 ->type('frm[firstName]', 'Giorgio')
                 ->type('frm[lastName]', 'Santangelo')
@@ -59,16 +79,10 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_import_timetable()
     {
-        $user = factory(User::class)->create(['roleId'=>1]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+        $this->login_officer();
 
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/timetable/add')
                 ->select('frm[classId]','1A')
                 ->attach('timetable',public_path('timetable.csv'))
@@ -83,15 +97,10 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_add_communications()
     {
-        $user = factory(User::class)->create(['roleId'=>1]);
+        $this->login_officer();
 
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/communications/add')
                 ->type('frm[description]','Some communication')
                 ->press('Submit')
@@ -105,17 +114,12 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_compose_classrooms()
         {
-            $user = factory(User::class)->create(['roleID'=>1]);
-            Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
+
             Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'mailParent1'=>'parent@test.com']);
 
+            $this->login_officer();
 
-            $this->browse(function ($browser) use ($user){
-                $browser->visit('/login')
-                    ->type('email', $user->email)
-                    ->type('password', 'password')
-                    ->press('Login')
-                    ->assertPathIs('/home');
+            $this->browse(function ($browser) {
                 $browser->visit('/classroom/composition/1A')
                     ->click('@student1')
                     ->press('Submit')
@@ -134,21 +138,15 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_edit_teacher_data()
     {
-        $admin = factory(User::class)->create(['roleID'=>1]);
+
         $teacher = factory(User::class)->create(['roleID'=>2]);
         $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
 
+        $this->login_officer();
 
 
-
-        $this->browse(function ($browser) use ($admin){
-            $browser->visit('/login')
-                ->type('email', $admin->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/teacher/edit/1')
                 ->type('frm[birthPlace]','Turin')
                 ->press('Submit')
@@ -166,28 +164,12 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_build_timetable()
     {
-        $user = factory(User::class)->create(['roleId'=>1]);
-        $teacher = factory(User::class)->create(['roleID'=>2]);
-        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Italian']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'English']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Physics']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Gym']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Religion']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'History']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Science']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Art']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Latin']);
 
+        $this->initialize_timetable();
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->login_officer();
+
+        $this->browse(function ($browser) {
             $browser->visit('/timetable/chooseclass')
                 ->select('frm[classId]','1A')
                 ->press('Submit')
@@ -233,28 +215,12 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_build_timetable_hour_constraint_violation()
     {
-        $user = factory(User::class)->create(['roleId'=>1]);
-        $teacher = factory(User::class)->create(['roleID'=>2]);
-        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Italian']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'English']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Physics']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Gym']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Religion']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'History']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Science']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Art']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Latin']);
+        $this->initialize_timetable();
+
+        $this->login_officer();
 
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/timetable/chooseclass')
                 ->select('frm[classId]','1A')
                 ->press('Submit')
@@ -301,31 +267,15 @@ class OfficerTest extends DuskTestCase
 
     public function test_as_officer_want_build_timetable_teacher_constraint_violation()
     {
-        $user = factory(User::class)->create(['roleId'=>1]);
-        $teacher = factory(User::class)->create(['roleID'=>2]);
-        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
-        Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Italian']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'English']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Physics']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Gym']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Religion']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'History']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Science']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Art']);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Latin']);
+        $this->initialize_timetable();
 
         //let's add a tuple into the timetable in order to force the violation of teaching
-        Timetable::save(['idClass'=>'1B','idTimeslot'=>1,'idTeacher'=>$teacherid,'subject'=>'History']);
+        Timetable::save(['idClass'=>'1B','idTimeslot'=>1,'idTeacher'=>1 ,'subject'=>'History']);
+
+        $this->login_officer();
 
 
-        $this->browse(function ($browser) use ($user){
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Login')
-                ->assertPathIs('/home');
+        $this->browse(function ($browser) {
             $browser->visit('/timetable/chooseclass')
                 ->select('frm[classId]','1A')
                 ->press('Submit')

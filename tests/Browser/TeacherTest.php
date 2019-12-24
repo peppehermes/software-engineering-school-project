@@ -12,11 +12,7 @@ use Tests\DuskTestCase;
 
 class TeacherTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
+
     use DatabaseMigrations;
 
 
@@ -38,11 +34,38 @@ class TeacherTest extends DuskTestCase
 
     }
 
-    public function test_as_teacher_want_insert_topics()
-    {
+    public function create_student(){
+
+        $parent = factory(User::class)->create(['roleID'=>3]);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
+        Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
+        return $studentid;
+    }
+
+    public function today(){
+
         $today = now();
         $date=$today->day.'/'.$today->month.'/'.$today->year;
 
+        return $date;
+
+    }
+
+    public function today1(){
+
+        $today = now();
+        if($today->day <10)
+            $today->day = '0'.$today->day;
+
+        return $today;
+
+    }
+
+
+    public function test_as_teacher_want_insert_topics()
+    {
+
+        $date = $this->today();
 
         $this->login_form();
 
@@ -66,7 +89,6 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
-
         $this->login_form();
 
 
@@ -85,11 +107,8 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_insert_marks()
     {
-        $today = now();
-        $date=$today->day.'/'.$today->month.'/'.$today->year;
-        $parent = factory(User::class)->create(['roleID'=>3]);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
+        $date = $this->today();
+        $this->create_student();
 
         $this->login_form();
 
@@ -118,12 +137,7 @@ class TeacherTest extends DuskTestCase
     {
         $today = now();
         $date=($today->day+1).'/'.$today->month.'/'.$today->year;
-        $parent = factory(User::class)->create(['roleID'=>3]);
-       /* $classid = Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
-        $teacherid = Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
-        Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>$classid,'subject'=>'Math']);*/
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
-        Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
+        $this->create_student();
 
         $this->login_form();
 
@@ -188,8 +202,8 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_write_note()
     {
-        $studentid = Student::save(['firstName'=>'student', 'lastName'=>' ', 'classId'=>'1A']);
 
+        $studentid = $this->create_student();
         $this->login_form();
 
         $this->browse(function ($browser) use ($studentid){
@@ -270,8 +284,7 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_insert_assignments_wrong_deadline()
     {
-        $today = now();
-        $date=$today->day.'/'.$today->month.'/'.$today->year;
+        $date=$this->today();
         $this->login_form();
 
         $this->browse(function ($browser) use ( $date) {
@@ -318,21 +331,15 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_report_attendance()
     {
-        $today = now();
-        if($today->day <10)
-            $day = '0'.$today->day;
-        else
-            $day = $today->day;
-
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
-
+        $today = $this->today1();
+        $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today,$day){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+        $this->browse(function ($browser) use ($today){
+            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -340,28 +347,22 @@ class TeacherTest extends DuskTestCase
         $this->assertDatabaseHas('student_attendance', [
             'studentId' => $studentid,
             'status' => 'absent',
-            'lectureDate' => $today->year.'-'.$today->month.'-'.$day
+            'lectureDate' => $today->year.'-'.$today->month.'-'.$today->day
         ]);
     }
 
     public function test_as_teacher_want_report_attendance_present()
     {
-        $today = now();
-        if($today->day <10)
-            $day = '0'.$today->day;
-        else
-            $day = $today->day;
-
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
-
+        $today = $this->today1();
+        $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today,$day){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+        $this->browse(function ($browser) use ($today){
+            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -370,29 +371,24 @@ class TeacherTest extends DuskTestCase
             'studentId' => $studentid,
             'status' => 'present',
             'presence_status' => 'full',
-            'lectureDate' => $today->year.'-'.$today->month.'-'.$day
+            'lectureDate' => $today->year.'-'.$today->month.'-'.$today->day
         ]);
     }
 
     public function test_as_teacher_want_report_attendance_late()
     {
-        $today = now();
-        if($today->day <10)
-            $day = '0'.$today->day;
-        else
-            $day = $today->day;
 
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
-
+        $today = $this->today1();
+        $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today,$day){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+        $this->browse(function ($browser) use ($today){
+            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->select('frm1[presence_status]','late')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -401,29 +397,23 @@ class TeacherTest extends DuskTestCase
             'studentId' => $studentid,
             'status' => 'present',
             'presence_status' => 'late',
-            'lectureDate' => $today->year.'-'.$today->month.'-'.$day
+            'lectureDate' => $today->year.'-'.$today->month.'-'.$today->day
         ]);
     }
 
     public function test_as_teacher_want_report_attendance_early()
     {
-        $today = now();
-        if($today->day <10)
-            $day = '0'.$today->day;
-        else
-            $day = $today->day;
-
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
-
+        $today = $this->today1();
+        $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today,$day){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+        $this->browse(function ($browser) use ($today){
+            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->select('frm1[presence_status]','early')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$day)
+                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -432,7 +422,7 @@ class TeacherTest extends DuskTestCase
             'studentId' => $studentid,
             'status' => 'present',
             'presence_status' => 'early',
-            'lectureDate' => $today->year.'-'.$today->month.'-'.$day
+            'lectureDate' => $today->year.'-'.$today->month.'-'.$today->day
         ]);
     }
 
