@@ -870,13 +870,13 @@ class TeacherController extends Controller
         readfile($filepath);
     }
 
+    /*
+     * This function is used by the class coordinator
+     * It's used to upload the template containing final grades
+     * It retrieves the uploaded file from the route finalgrades/upload
+     */
     public function uploadFinalGrades($classId, Request $request) {
-        $file = $request->file('final_grades');
-
-        // Check if the file was uploaded
-        if (!$file->isValid()) {
-            return redirect('/finalgrades/insert')->withErrors(['Error during upload!']);
-        }
+        $file = $request->file('file');
 
         // Check the file encoding and BOM.
 

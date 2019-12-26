@@ -20,7 +20,6 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form name="form" action="/mark/listmark" method="post"
-                                                      class="dropzone dropzone-custom needsclick add-professors"
                                                       id="demo1-upload" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row">

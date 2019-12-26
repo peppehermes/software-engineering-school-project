@@ -2,12 +2,14 @@
 
 <script>
     function checkFile() {
-        var file = document.getElementById('final_grades');
+        var file = document.getElementById('file');
         if (file.value !== '') {
             return confirm('Are you sure? Final grades cannot be changed');
         }
-        else
-            return alert('File not selected');
+        else {
+            alert('File not selected');
+            window.location.href = "{{url('finalgrades/insert')}}";
+        }
     }
 </script>
 
@@ -145,19 +147,43 @@
                                                         </div>
 
                                                         <form action="/finalgrades/upload/{{$classId}}"
-                                                              class="dropzone dropzone-custom needsclick add-professors dz-clickable"
-                                                              novalidate="novalidate"
                                                               method="post"
+                                                              id="dropzone"
                                                               enctype="multipart/form-data"
                                                               onsubmit="checkFile()">
                                                             @csrf
                                                             <div class="form-group alert-up-pd">
                                                                 <div class="dz-message needsclick download-custom">
                                                                     <i class="fa fa-download edudropnone" aria-hidden="true"></i>
-                                                                    <h2 class="edudropnone">Drop CSV/Excel here or click to upload.</h2>
-                                                                    <input id="final_grades" name="final_grades" type="file">
+                                                                    <h2 class="edudropnone">Select CSV/Excel file to upload.</h2>
+                                                                    <input id="file" type="file" class="form-control-file"
+                                                                           name="file">
                                                                 </div>
                                                             </div>
+                                                            {{--<script type="text/javascript">
+                                                                Dropzone.options.dropzone =
+                                                                    {
+                                                                        maxFilesize: 12,
+                                                                        renameFile: function(file) {
+                                                                            var dt = new Date();
+                                                                            var time = dt.getTime();
+                                                                            return time+file.name;
+                                                                        },
+                                                                        uploadMultiple: false,
+                                                                        maxFiles: 1,
+                                                                        acceptedFiles: ".csv, .xls, .xlsx",
+                                                                        addRemoveLinks: true,
+                                                                        timeout: 5000,
+                                                                        success: function(file, response)
+                                                                        {
+                                                                            console.log(response);
+                                                                        },
+                                                                        error: function(file, response)
+                                                                        {
+                                                                            return false;
+                                                                        }
+                                                                    };
+                                                            </script>--}}
 
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

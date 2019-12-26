@@ -46,7 +46,6 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form action="/material/store" method="post"
-                                                      class="dropzone dropzone-custom needsclick add-professors"
                                                       id="demo1-upload" enctype="multipart/form-data"
                                                       onsubmit="checkDate()" name="form">
                                                     @csrf

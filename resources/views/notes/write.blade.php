@@ -60,7 +60,7 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
-                                                <form action="/notes/store" method="post" class="dropzone dropzone-custom needsclick add-professors"
+                                                <form action="/notes/store" method="post"
                                                       id="demo1-upload" enctype="multipart/form-data" name="form">
                                                     @csrf
                                                     <div class="row">
