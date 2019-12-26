@@ -17,6 +17,7 @@ class OfficerTest extends DuskTestCase
 
     use DatabaseMigrations;
 
+    //this method will create an officer administrator and log in with credentials
     public function login_officer(){
 
         $user = factory(User::class)->create(['roleId'=>1]);
