@@ -34,32 +34,25 @@ class TeacherTest extends DuskTestCase
 
     }
 
+    //creation of a student
     public function create_student(){
 
         $parent = factory(User::class)->create(['roleID'=>3]);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com']);
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo', 'classId' => '1A', 'mailParent1'=>'parent@test.com', 'email'=>'mailstudent@mail.com']);
         Student::saveStudParent(['idParent'=>$parent->id,'idStudent'=>$studentid]);
         return $studentid;
     }
 
+    //date retriever
     public function today(){
 
         $today = now();
-        $date=$today->day.'/'.$today->month.'/'.$today->year;
+        $date = $today->day.'/'.$today->month.'/'.$today->year;
 
         return $date;
 
     }
 
-    public function today1(){
-
-        $today = now();
-        if($today->day <10)
-            $today->day = '0'.$today->day;
-
-        return $today;
-
-    }
 
 
     public function test_as_teacher_want_insert_topics()
@@ -130,6 +123,43 @@ class TeacherTest extends DuskTestCase
             'idStudent' => 1,
             'Subject' => 'Math',
             'mark' => 8
+        ]);
+    }
+
+    public function test_as_teacher_want_insert_multi_marks()
+    {
+        $date = $this->today();
+        $this->create_student();
+
+        //creating a second student
+        Student::save(['firstName'=>'Antonio', 'lastName'=>'Sarco', 'classId' => '1A']);
+
+
+        $this->login_form();
+
+        $this->browse(function ($browser) use ($date){
+            $browser->visit('/mark/classes')
+                ->select('idClass','1A')
+                ->select('subject','Math')
+                ->type('topic', 'Some topic')
+                ->type('lecturedate',$date)
+                ->press('Submit')
+                ->check('frm21[status]')  //checking the checkbox of the student with id 1
+                ->select('frm1[mark]','8') //assigning the mark to the student selected
+                ->check('frm22[status]')  //checking the checkbox of the student with id 2
+                ->select('frm2[mark]','10') //assigning the mark to the student selected
+                ->press('Submit')
+                ->assertPathIs('/mark/classlist')
+                ->logout();
+        });
+
+        $this->assertDatabaseHas('marks', [
+            'idStudent' => 1,
+            'Subject' => 'Math',
+            'mark' => 8,
+            'idStudent' => 2,
+            'Subject' => 'Math',
+            'mark' => 10
         ]);
     }
 
@@ -331,15 +361,15 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_report_attendance()
     {
-        $today = $this->today1();
+        $today = now();
         $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
+
+        $this->browse(function ($browser) {
+            $browser->press('Submit attendance')
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -353,16 +383,15 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_report_attendance_present()
     {
-        $today = $this->today1();
+        $today = now();
         $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
+        $this->browse(function ($browser) {
+            $browser->press('Submit attendance')
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -378,17 +407,16 @@ class TeacherTest extends DuskTestCase
     public function test_as_teacher_want_report_attendance_late()
     {
 
-        $today = $this->today1();
+        $today = now();
         $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
+        $this->browse(function ($browser) {
+            $browser->press('Submit attendance')
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->select('frm1[presence_status]','late')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });
@@ -403,17 +431,16 @@ class TeacherTest extends DuskTestCase
 
     public function test_as_teacher_want_report_attendance_early()
     {
-        $today = $this->today1();
+        $today = now();
         $studentid = $this->create_student();
         $this->login_form();
 
-        $this->browse(function ($browser) use ($today){
-            $browser->visit('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
+        $this->browse(function ($browser) {
+            $browser->press('Submit attendance')
                 ->check('frm1[status]')
                 ->type('frm1[description]','Some description')
                 ->select('frm1[presence_status]','early')
                 ->press('Submit')
-                ->assertPathIs('/student/attendance/1A/'.$today->year.'-'.$today->month.'-'.$today->day)
                 ->logout();
 
         });

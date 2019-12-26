@@ -17,7 +17,8 @@ class PrincipalTest extends DuskTestCase
 
     use DatabaseMigrations;
 
-    public function testExample()
+    //this method will create a principal then log in with credentials
+    public function test_login_principal()
     {
         $user = factory(User::class)->create(['roleID'=>6]);
 
