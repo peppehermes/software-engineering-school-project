@@ -1,6 +1,9 @@
 @extends('layouts.layout')
 
 @section('content')
+
+
+
     <!-- Single pro tab review Start-->
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
@@ -20,25 +23,25 @@
                                             <div id="dropzone1" class="pro-ad">
                                                 <form action="/user/update/{{$userInfo->id}}" method="post"
                                                       class="dropzone dropzone-custom needsclick add-professors"
-                                                      id="demo1-upload" enctype="multipart/form-data">
+                                                      id="demo1-upload" enctype="multipart/form-data" onsubmit="validation()">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Name:</label>
                                                                 <input name="frm[name]" type="text"
-                                                                       class="form-control" required
+                                                                       class="form-control"
                                                                        value="{{$userInfo->name}}">
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Email:</label>
-                                                                <input name="frm[email]" type="text"
+                                                                <input name="frm[email]" type="email"
                                                                        class="form-control"
                                                                        value="{{$userInfo->email}}">
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
                                                                     @foreach($roles as $role)
@@ -50,7 +53,7 @@
                                                                 </select>
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Status:</label>
                                                                 <select name="frm[status]" class="form-control">
                                                                     <option @if($userInfo->status == 'active')  selected
@@ -71,20 +74,20 @@
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Password:</label>
                                                                 <input name="password" type="password"
-                                                                       class="form-control"
+                                                                       class="form-control" id="password"
                                                                        value="">
                                                             </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Confirm Password:</label>
                                                                 <input name="confirmPassword" type="password"
-                                                                       class="form-control"
+                                                                       class="form-control" id="repassword"
                                                                        value="">
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group ">
 
 
                                                                 <label class="control-label">Photo:</label>
@@ -95,7 +98,7 @@
 
                                                             </div>
                                                             @if(isset($userInfo->photo))
-                                                                <div class="form-group col-md-12">
+                                                                <div class="form-group ">
                                                                     <img
                                                                         src="{{ asset('/uploads/'.$userInfo->photo) }}"
                                                                         class="img-thumbnail"
@@ -110,7 +113,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
-                                                                <button type="submit"
+                                                                <button
                                                                         class="btn btn-primary btn-lg center-block">
                                                                     Submit
                                                                 </button>
@@ -131,3 +134,4 @@
     </div>
 
 @endsection
+

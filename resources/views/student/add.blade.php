@@ -24,23 +24,23 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
-                                                                       class="form-control" required>
+                                                                       class="form-control">
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
-                                                                       class="form-control" required>
+                                                                       class="form-control">
                                                             </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Place of Birth:</label>
                                                                 <input name="frm[birthPlace]" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-12"
+                                                            <div class="form-group data-custon-pick"
                                                                  id="data_2">
                                                                 <label>Date of birth:</label>
                                                                 <div class="input-group date">
@@ -53,28 +53,42 @@
 
 
                                                             </div>
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Address:</label>
                                                                 <input name="frm[address]" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Phone:</label>
                                                                 <input name="frm[phone]" type="text"
                                                                        class="form-control">
                                                             </div>
 
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Post Code:</label>
                                                                 <input name="frm[postCode]" id="postcode" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Fiscal Code:</label>
                                                                 <input name="frm[fiscalCode]" type="text"
                                                                        class="form-control">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+
+
+
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                                            <div class="form-group">
+                                                                <label>Skill:</label>
+
+                                                                <input name="frm[skill]" type="number"
+                                                                       class="form-control">
+
+                                                            </div>
+
+                                                            <div class="form-group">
                                                                 <label>Email:</label>
 
                                                                 <input name="frm[email]" type="email"
@@ -82,11 +96,7 @@
 
                                                             </div>
 
-
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -103,7 +113,7 @@
                                                             </div>
 
 
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Classroom:</label>
                                                                 <select name="frm[classId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -115,12 +125,12 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Description:</label>
                                                                 <textarea name="frm[description]"></textarea>
                                                             </div>
 
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
 
 
                                                                 <label class="control-label">Photo:</label>

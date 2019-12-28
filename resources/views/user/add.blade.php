@@ -9,8 +9,6 @@
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
                             <li class="active"><a href="#description">Basic Information</a></li>
-                            {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
-                            {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
@@ -24,12 +22,12 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Name:</label>
                                                                 <input name="frm[name]" type="text"
                                                                        class="form-control" required>
                                                             </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Email:</label>
                                                                 <input name="frm[email]" id="email" type="email"
                                                                        class="form-control @error('email') is-invalid @enderror"
@@ -42,7 +40,7 @@
                                                                 @enderror
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Role:</label>
                                                                 <select name="frm[roleId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -55,7 +53,7 @@
                                                                 </select>
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Status:</label>
                                                                 <select name="frm[status]" class="form-control">
                                                                     <option selected
@@ -73,25 +71,25 @@
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Password:</label>
                                                                 <input name="frm[password]" id="password"
                                                                        type="password"
                                                                        class="form-control @error('password') is-invalid @enderror"
                                                                        autocomplete="new-password"
-                                                                       required>
+                                                                       >
 
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Confirm Password:</label>
                                                                 <input name="confirm_password"
                                                                        id="password-confirm" type="password"
                                                                        class="form-control"
-                                                                       required autocomplete="new-password">
+                                                                        autocomplete="new-password">
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
 
 
                                                                 <label class="control-label">Photo:</label>

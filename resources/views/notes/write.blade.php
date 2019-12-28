@@ -51,8 +51,6 @@
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
                             <li class="active"><a href="#description">Insert new Note</a></li>
-                            {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
-                            {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
@@ -61,11 +59,12 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form action="/notes/store" method="post"
-                                                      id="demo1-upload" enctype="multipart/form-data" name="form">
+                                                      id="demo1-upload" enctype="multipart/form-data" name="form"
+                                                      class="dropzone dropzone-custom needsclick add-professors">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group col-md-4" id="class">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group" id="class">
                                                                 <label>Class</label>
                                                                 <select onchange="getStudents()" id="idClass" name="idClass" class="form-control" required>
                                                                     <option hidden disabled selected></option>
@@ -74,19 +73,21 @@
                                                                         @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4" id="class">
+                                                            <div class="form-group" id="class">
                                                                 <label>Student</label>
                                                                 <select id="idStudent" name="idStudent" class="form-control" required>
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4">
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
                                                                 <label>Subject:</label>
                                                                 <select name="subject" id="subject" class="form-control" required>
                                                                     <option disabled>Select class first</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-12" id="topic">
+                                                            <div class="form-group" id="topic">
                                                                 <label>Note</label>
                                                                 <textarea name="frm[note]" type="text"
                                                                        class="form-control" required></textarea>

@@ -8,9 +8,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li class="active"><a href="#description">Basic Information</a></li>
-                            {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
-                            {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
+                            <li class="active"><a href="#description">Classroom Information</a></li>
                         </ul>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -27,27 +25,26 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
-
                                                 <form action="/classroom/store" method="post"
                                                       class="dropzone dropzone-custom needsclick add-professors"
                                                       id="demo1-upload" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Name:</label>
                                                                 <input name="frm[id]" type="text"
-                                                                       class="form-control" required>
+                                                                       class="form-control">
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Capacity:</label>
                                                                 <input name="frm[capacity]" type="number" min="0"
-                                                                       class="form-control" required>
+                                                                       class="form-control">
                                                             </div>
 
 
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Description:</label>
                                                                 <textarea name="frm[description]"></textarea>
                                                             </div>

@@ -157,7 +157,7 @@
                                                                     <i class="fa fa-download edudropnone" aria-hidden="true"></i>
                                                                     <h2 class="edudropnone">Select CSV/Excel file to upload.</h2>
                                                                     <input id="file" type="file" class="form-control-file"
-                                                                           name="file">
+                                                                           name="file" required>
                                                                 </div>
                                                             </div>
                                                             {{--<script type="text/javascript">

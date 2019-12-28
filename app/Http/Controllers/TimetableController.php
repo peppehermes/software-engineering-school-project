@@ -230,7 +230,7 @@ class TimetableController extends Controller
             // $hours is used to store all effective hours inserted through the form
             $hours[$subject->subject] = 0;
 
-            // $tothours is used to store all enstablished hours, used to check the second constraint
+            // $tothours is used to store all established hours, used to check the second constraint
             $tothours[$subject->subject] = Subject::retrieveTotHoursForSubject($subject->id);
         }
 

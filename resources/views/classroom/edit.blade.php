@@ -8,9 +8,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li class="active"><a href="#description">Basic Information</a></li>
-                            {{--                            <li><a href="#reviews"> Account Information</a></li>--}}
-                            {{--                            <li><a href="#INFORMATION">Social Information</a></li>--}}
+                            <li class="active"><a href="#description">Classroom Information</a></li>
                         </ul>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -33,14 +31,14 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6">
-                                                                <label>Id:</label>
+                                                            <div class="form-group">
+                                                                <label>Name:</label>
                                                                 <input name="frm[id]" type="text"
                                                                        class="form-control" required
                                                                        value="{{$classroomInfo->id}}">
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Capacity:</label>
                                                                 <input name="frm[capacity]" type="number" min="0"
                                                                        class="form-control" required
@@ -49,11 +47,13 @@
                                                         </div>
 
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Assign Class Coordinator</label>
-                                                                <select class="form-control" name="class_coordinator_id">
+                                                                <select class="form-control"
+                                                                        name="class_coordinator_id">
                                                                     @if($coordinator != 'Select Coordinator')
-                                                                        <option value="{{$coordinator->id}}" selected="selected">
+                                                                        <option value="{{$coordinator->id}}"
+                                                                                selected="selected">
                                                                             {{$coordinator->firstName}} {{$coordinator->lastName}}
                                                                         </option>
                                                                     @else
@@ -69,19 +69,17 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Description:</label>
                                                                 <textarea
                                                                     name="frm[description]">{{$classroomInfo->description}}
                                                                 </textarea>
                                                             </div>
+
                                                         </div>
                                                     </div>
+
 
                                                     <div class="row" style="margin-top: 50px">
                                                         <div class="col-lg-12">

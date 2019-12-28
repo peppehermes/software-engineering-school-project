@@ -391,6 +391,7 @@ CREATE TABLE `student` (
   `postCode` varchar(10) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `gender` enum('F','M') DEFAULT 'M',
+  `skill` INT(11) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `classId` varchar(45) DEFAULT NULL,

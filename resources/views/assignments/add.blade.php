@@ -119,8 +119,8 @@
                                                       onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group col-md-6">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
                                                                 <label>Class:</label>
                                                                 <select onchange="getSubjects()" name="idClass"
                                                                         id="idClass" class="form-control" required>
@@ -135,7 +135,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Subject:</label>
                                                                 <select name="subject" id="subject" class="form-control"
                                                                         required>
@@ -144,21 +144,24 @@
 
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Topic:</label>
                                                                 <input name="frm[topic]" type="text"
                                                                        class="form-control" required>
                                                             </div>
+                                                        </div>
+
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Assignment's Text:</label>
                                                                 <input name="frm[text]" type="text"
                                                                        class="form-control" required>
                                                             </div>
 
 
-                                                            <div class="form-group data-custon-pick col-md-6"
+                                                            <div class="form-group data-custon-pick"
                                                                  id="data_2">
                                                                 <label>Lecture's date:</label>
                                                                 <div class="input-group date">
@@ -173,7 +176,7 @@
                                                             </div>
 
 
-                                                            <div class="form-group data-custon-pick col-md-6"
+                                                            <div class="form-group data-custon-pick"
                                                                  id="data_2">
                                                                 <label>Assignment's Deadline:</label>
                                                                 <div class="input-group date">
@@ -186,7 +189,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
 
                                                                 <label class="control-label">Attachment(can attach more than one):</label>
                                                                 <input type="file" multiple="multiple"  class="form-control-file"

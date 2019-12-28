@@ -20,12 +20,12 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form name="form" action="/timetable/show" method="post"
-                                                      id="demo1-upload" enctype="multipart/form-data">
+                                                      id="demo1-upload" enctype="multipart/form-data"  class="dropzone dropzone-custom needsclick add-professors">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Classroom:</label>
                                                                 <select name="frm[classId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
