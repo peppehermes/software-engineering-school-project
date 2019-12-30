@@ -19,15 +19,15 @@ class CreateTeacherTable extends Migration
             $table->string('lastName');
             $table->string('birthday')->default('1990-1-1');
             $table->integer('userId');
-            $table->string('address')->default('niente');
-            $table->string('phone')->default('niente');
-            $table->string('postCode')->default('niente');
-            $table->string('photo')->default('niente');
-            $table->string('gender')->default('niente');
-            $table->string('description')->default('niente');
+            $table->string('address')->default('null');
+            $table->string('phone')->default('1234567890');
+            $table->string('postCode')->default('12345');
+            $table->string('photo')->default('null');
+            $table->string('gender')->default('M');
+            $table->string('description')->default('null');
             $table->string('email')->unique();
             $table->string('birthPlace')->default('');
-            $table->string('fiscalCode')->default('niente');
+            $table->string('fiscalCode')->default('GRNMRN78S13C351W');
 
         });
     }

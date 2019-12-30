@@ -60,11 +60,14 @@ class OfficerTest extends DuskTestCase
                 ->type('frm[birthPlace]', 'Catania')
                 ->type('frm[birthday]', '10/02/2005')
                 ->type('frm[address]', 'null')
-                ->type('frm[phone]', 'null')
-                ->type('frm[postCode]', 'null')
-                ->type('frm[fiscalCode]', 'null')
+                ->type('frm[phone]', '1234567890')
+                ->type('frm[postCode]', '12345')
+                ->type('frm[fiscalCode]', 'SNTGRG05B10C351D')
                 ->type('frm[email]', 'test@test.com')
+                ->select('frm[gender]','M')
+                ->select('frm[classId]','1A')
                 ->type('frm[description]', 'null')
+                ->type('frm[skill]', '8')
                 ->press('Submit')
                 ->type('parentName1','Gastani Frinzi')
                 ->type('parentEmail1','gastani@test.com')
@@ -141,7 +144,7 @@ class OfficerTest extends DuskTestCase
     {
 
         $teacher = factory(User::class)->create(['roleID'=>2]);
-        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'C','phone' =>'1','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
+        $teacherid = Teacher::save(['firstName'=>$teacher->name, 'lastName'=>'null','phone' =>'1234567890','birthPlace'=>'London', 'userId' => $teacher->id, 'email'=>$teacher->email]);
         Teacher::saveTeaching(['idTeach'=>$teacherid,'idClass'=>'1A','subject'=>'Math']);
 
         $this->login_officer();
@@ -156,7 +159,7 @@ class OfficerTest extends DuskTestCase
 
         $this->assertDatabaseHas('teacher', [
             'firstName' => $teacher->name,
-            'lastName' => 'C',
+            'lastName' => 'null',
             'birthPlace' => 'Turin'
         ]);
 

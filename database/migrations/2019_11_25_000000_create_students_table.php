@@ -28,6 +28,7 @@ class CreateStudentsTable extends Migration
             $table->string('email')->unique()->default('niente');
             $table->string('birthPlace')->default('niente');
             $table->string('fiscalCode')->default('niente');
+            $table->integer('skill')->default(6);
             $table->string('mailParent1')->default('niente');
             $table->string('mailParent2')->default('niente');
         });
