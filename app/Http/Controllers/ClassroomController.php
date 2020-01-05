@@ -197,9 +197,10 @@ class ClassroomController extends Controller
             ${"S_" . $class->id} = Student::retrieveAvgSkillStudents(['firstYear' => 'yes', 'classId' => $class->id]);
             //$D += ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
             $D += $distance[$class->id] = ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
+            $distance[$class->id] = number_format((float)$distance[$class->id], 2, '.', '');
         }
 
-        return view('classroom.balanced', ['total' => $D, 'distance' => $distance, 'classrooms' => $classrooms]);
+        return view('classroom.balanced', ['total' => number_format((float)$D, 2, '.', ''), 'distance' => $distance, 'classrooms' => $classrooms]);
     }
 
 
