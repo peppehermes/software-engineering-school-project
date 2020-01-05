@@ -112,6 +112,18 @@
                                                                 </select>
                                                             </div>
 
+                                                            <div class="form-group">
+                                                                <label>First Year:</label>
+                                                                <select name="frm[firstYear]" class="form-control">
+                                                                    <option value="yes" selected>
+                                                                        Yes
+                                                                    </option>
+                                                                    <option value="no">
+                                                                        No
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
 
                                                             <div class="form-group">
                                                                 <label>Classroom:</label>

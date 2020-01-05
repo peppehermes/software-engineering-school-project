@@ -51,6 +51,31 @@ class Student
 
     }
 
+
+    public static function retrieveStudentsByCondition($array)
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where($array)
+            ->get();
+
+    }
+
+    public static function retrieveAvgSkillStudents($array)
+    {
+
+        return DB::table(static::table)
+            ->where($array)
+            ->avg('skill');
+
+    }
+
+
+
+
     public static function save(array $data, $id = null): int
     {
         if ($id) {

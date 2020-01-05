@@ -420,6 +420,7 @@ INSERT INTO `student` (`id`, `firstName`, `lastName`, `birthday`, `address`, `ph
 (10, 'LeBron', 'James', '2006-06-26', NULL, NULL, NULL, NULL, 'M', NULL, NULL, '1D', 'Ontario', NULL, '2019-12-02 19:48:12', '2019-12-02 19:48:12', 'jj@test.com', 'fridafungo@test.com'),
 (11, 'Giovanni', 'Storti', '2006-02-20', NULL, NULL, NULL, NULL, 'M', NULL, 'student11@test.com', '1A', 'Milano', NULL, '2019-12-02 21:17:39', '2019-12-02 21:17:39', 'parent1@test.com', 'parent2@test.com');
 
+ALTER TABLE `student` ADD `firstYear` ENUM('yes','no') NOT NULL DEFAULT 'yes' AFTER `classId`;
 -- --------------------------------------------------------
 
 --

@@ -178,5 +178,29 @@ class ClassroomController extends Controller
         return redirect('/classroom/list')->with(['message' => 'Successfull operation!']);
     }
 
+    public function balanced()
+    {
+
+
+        $femaleStudents = Student::retrieveStudentsByCondition(['gender' => 'F', 'firstYear' => 'yes']);
+        $maleStudents = Student::retrieveStudentsByCondition(['gender' => 'M', 'firstYear' => 'yes']);
+
+        $G_all = count($femaleStudents) / count($maleStudents);
+        $S_all = Student::retrieveAvgSkillStudents(['firstYear' => 'yes']);
+        $classrooms = Classroom::retrieveAll();
+
+        $D = 0;
+        foreach ($classrooms as $class) {
+            $studentsClassFemale = Student::retrieveStudentsByCondition(['firstYear' => 'yes', 'classId' => $class->id, 'gender' => 'F']);
+            $studentsClassMale = Student::retrieveStudentsByCondition(['firstYear' => 'yes', 'classId' => $class->id, 'gender' => 'M']);
+            ${"G_" . $class->id} = count($studentsClassFemale) / count($studentsClassMale);
+            ${"S_" . $class->id} = Student::retrieveAvgSkillStudents(['firstYear' => 'yes', 'classId' => $class->id]);
+            //$D += ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
+            $D += $distance[$class->id] = ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
+        }
+
+        return view('classroom.balanced', ['total' => $D, 'distance' => $distance, 'classrooms' => $classrooms]);
+    }
+
 
 }

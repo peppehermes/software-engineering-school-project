@@ -130,6 +130,18 @@
                                                                 </select>
                                                             </div>
 
+                                                            <div class="form-group">
+                                                                <label>First Year:</label>
+                                                                <select name="frm[firstYear]" class="form-control">
+                                                                    <option value="yes" @if($studentInfo->firstYear == 'yes') selected @endif>
+                                                                        Yes
+                                                                    </option>
+                                                                    <option value="no" @if($studentInfo->firstYear == 'no') selected @endif>
+                                                                        No
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
 
                                                             <div class="form-group">
                                                                 <label>Classroom:</label>

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\User;
 use Closure;
 
-class Teachers
+class PrincipalsAndAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Teachers
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->roleId == User::roleTeacher || auth()->user()->roleId == User::roleClasscoordinator || auth()->user()->roleId == User::rolePrincipal){
+        if(auth()->user()->roleId == User::rolePrincipal || auth()->user()->roleId == User::roleAdmin || auth()->user()->roleId == User::roleSuperadmin){
             return $next($request);
         }
         return redirect('home')->with('error','You dont have parent access');

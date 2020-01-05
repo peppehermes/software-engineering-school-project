@@ -13,7 +13,11 @@
 
 use App\Http\Middleware\ClassCoordinator;
 
+
 Auth::routes();
+
+Route::get('auth/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -63,15 +67,16 @@ Route::group(['prefix' => 'teacher'], function() {
 
 //classroom
 Route::group(['prefix' => 'classroom'], function() {
-    Route::get('/add', 'ClassroomController@add')->middleware('admin');
+    Route::get('/add', 'ClassroomController@add')->middleware('PrincipalsAndAdmin');
     Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('admin');
     Route::post('/update/{id}', 'ClassroomController@update')->middleware('admin');
     Route::get('/list', 'ClassroomController@list')->middleware('admin');
     Route::post('/store', 'ClassroomController@store')->middleware('admin');
     Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('admin');
-    Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('admin');
+    Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('PrincipalsAndAdmin');
     Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('admin');
     Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('admin');
+    Route::get('/balanced', 'ClassroomController@balanced')->middleware('PrincipalsAndAdmin');
 });
 
 

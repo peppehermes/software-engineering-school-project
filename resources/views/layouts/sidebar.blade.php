@@ -191,6 +191,22 @@
                             </li>
                         @endif
 
+                    @elseif(Auth::user()->roleId==\App\User::rolePrincipal)
+
+                        <li @if(\Request::path()=='classroom/balanced' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
+                            <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
+                                    class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Classrooms</span></a>
+                            <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
+                                <li><a title="Basic Form Elements" href="/classroom/balanced"><span
+                                            class="mini-sub-pro">All Classrooms</span></a></li>
+                                <li><a title="Advance Form Elements" href="/classroom/add"><span
+                                            class="mini-sub-pro">Add Classroom</span></a></li>
+
+                            </ul>
+                        </li>
+
+
+
 
                     @else
 
@@ -227,11 +243,11 @@
 
 
 
-                        <li @if(\Request::path()=='classroom/list' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
-                            <a class="has-arrow" href="/classroom/list" aria-expanded="false"><span
+                        <li @if(\Request::path()=='classroom/balanced' || \Request::path()=='classroom/add' || \Request::path()=='classroom/edit') class="active" @endif>
+                            <a class="has-arrow" href="/classroom/balanced" aria-expanded="false"><span
                                     class="educate-icon educate-form icon-wrap"></span> <span class="mini-click-non">Classrooms</span></a>
                             <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
-                                <li><a title="Basic Form Elements" href="/classroom/list"><span
+                                <li><a title="Basic Form Elements" href="/classroom/balanced"><span
                                             class="mini-sub-pro">All Classrooms</span></a></li>
                                 <li><a title="Advance Form Elements" href="/classroom/add"><span
                                             class="mini-sub-pro">Add Classroom</span></a></li>
@@ -239,7 +255,7 @@
                             </ul>
                         </li>
 
-                        <li @if(\Request::path()=='timetable/add' || \Request::path()=='timetable/list' || \Request::path()=='timetable/show' ) class="active" @endif>
+                        <li @if(\Request::path()=='timetable/add' || \Request::path()=='timetable/list' || \Request::path()=='timetable/show' || \Request::path()=='timetable/chooseclass' || \Request::path()=='timetable/addmanual') class="active" @endif>
                             <a class="has-arrow" href="/communications/list" aria-expanded="false"><span
                                     class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Timetables</span></a>
                             <ul class="submenu-angle form-mini-nb-dp" aria-expanded="false">
