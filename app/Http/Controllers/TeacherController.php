@@ -226,6 +226,7 @@ class TeacherController extends Controller
         $teacherInfo = Teacher::retrieveById($id);
         Teacher::delete($id);
         User::deleteById($teacherInfo->userId);
+        Teacher::deleteTeachingTeacherId($id);
 
 
         return redirect('/teacher/list')->with([MESSAGE => SUCCESS]);
