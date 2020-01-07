@@ -102,7 +102,7 @@ class TeacherController extends Controller
 
             $Teachid = Teacher::save($data);
 
-            foreach ($dataT[ID_CLASS] as $classId){
+            foreach ($dataT[ID_CLASS] as $classId) {
                 if (strpos($dataT[SUBJECT], '-')) {
                     $subjects = explode('-', $dataT[SUBJECT]);
                     foreach ($subjects as $subject) {
@@ -158,13 +158,13 @@ class TeacherController extends Controller
 
         foreach ($teachings as $teaching) {
             $subjects[] = $teaching->subject;
-            $teacherInfo->idClass[] =$teaching->idClass ;
+            $teacherInfo->idClass[] = $teaching->idClass;
         }
-        $subjects=array_unique($subjects);
+        $subjects = array_unique($subjects);
 
         $teacherInfo->subject = implode('-', $subjects);
 
-        return view('teacher.edit', ['teacherInfo' => $teacherInfo,CLASSES=>$classes]);
+        return view('teacher.edit', ['teacherInfo' => $teacherInfo, CLASSES => $classes]);
     }
 
     public function update(Request $request, $id)
@@ -196,11 +196,10 @@ class TeacherController extends Controller
         Teacher::save($data, $id);
 
         Teacher::deleteTeachingTeacherId($id);
-        foreach ($dataT[ID_CLASS] as $classId){
+        foreach ($dataT[ID_CLASS] as $classId) {
 
             if (strpos($dataT[SUBJECT], '-')) {
                 $subjects = explode('-', $dataT[SUBJECT]);
-              //  Teacher::deleteTeaching($id,$classId);
                 foreach ($subjects as $subject) {
                     $dataTa[ID_TEACH] = $id;
                     $dataTa[SUBJECT] = $subject;
@@ -217,7 +216,6 @@ class TeacherController extends Controller
                 Teacher::saveTeaching($dataTa);
             }
         }
-
 
 
         return redirect('/teacher/list')->with([MESSAGE => 'Successful operation!']);
@@ -281,7 +279,7 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $data = request('frm');
-        $i=1;
+        $i = 1;
 
         if ($data) {
             $data[DEADLINE] = request(DEADLINE);
@@ -296,12 +294,11 @@ class TeacherController extends Controller
                 $cover = $request->file(ATTACHMENT);
                 foreach ($cover as $cov) {
                     $extension = $cov->getClientOriginalExtension();
-                    $fileName = date(DATE_HOUR_FORMAT) .'('.$i.')'. '.' . $extension;
+                    $fileName = date(DATE_HOUR_FORMAT) . '(' . $i . ')' . '.' . $extension;
                     \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cov));
-                    if($i==1) {
+                    if ($i == 1) {
                         $data[ATTACHMENT] = $fileName;
-                    }
-                    else {
+                    } else {
                         $data[ATTACHMENT] = $data[ATTACHMENT] . '/' . $fileName;
                     }
                     $i++;
@@ -328,13 +325,13 @@ class TeacherController extends Controller
     public function listassignment()
     {
         $usId = \Auth::user()->id;
-        $attachment[]=0;
-        $index=0;
-        $index1=1;
+        $attachment[] = 0;
+        $index = 0;
+        $index1 = 1;
         $teachId = Teacher::retrieveId($usId);
         $assignments = Assignment::retrieveTeachersPagination($teachId);
         return view('assignments.list', ['assignments' => $assignments, ATTACHMENT => $attachment,
-            'index' => $index,'index1' => $index1]);
+            'index' => $index, 'index1' => $index1]);
     }
 
     public function storemark(Request $request)
@@ -495,7 +492,7 @@ class TeacherController extends Controller
 
         $usId = \Auth::user()->id;
         $data = request('frm');
-        $i=1;
+        $i = 1;
 
         if ($data) {
             //create topic
@@ -513,8 +510,7 @@ class TeacherController extends Controller
                     \Storage::disk(PUBLIC_UPLOADS)->put($fileName, \File::get($cov));
                     if ($i == 1) {
                         $data[MATERIAL] = $fileName;
-                    }
-                    else {
+                    } else {
                         $data[MATERIAL] = $data[MATERIAL] . '/' . $fileName;
                     }
                     $i++;
@@ -529,12 +525,12 @@ class TeacherController extends Controller
     public function listmaterial()
     {
         $usId = \Auth::user()->id;
-        $attachment[]=0;
-        $index=0;
-        $index1=1;
+        $attachment[] = 0;
+        $index = 0;
+        $index1 = 1;
         $teachId = Teacher::retrieveId($usId);
         $materials = Material::retrieveTeachersPagination($teachId);
-        return view('suppmaterial.list', ['materials' => $materials,ATTACHMENT => $attachment,'index' => $index,'index1' => $index1]);
+        return view('suppmaterial.list', ['materials' => $materials, ATTACHMENT => $attachment, 'index' => $index, 'index1' => $index1]);
     }
 
     public function writenote()
@@ -590,8 +586,7 @@ class TeacherController extends Controller
         $teach = Teacher::retrieveById($teachId);
         if (count($exist) == 0) {
             return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' first provide the two timeslots.']);
-        }
-        else {
+        } else {
             $times = Timeslot::retrieve();
             $bool = 1;
             $provided = Meeting::retrieveWeeklyMeetingperTeacher($teachId, $week);// already provided timeslots
@@ -602,8 +597,7 @@ class TeacherController extends Controller
 
             if (count($timeslots) > 0) {
                 return view('meetings.list', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool, 'provided' => $provided, 'week' => $week, 'date1' => $date1, 'date2' => $date2]);
-            }
-            else {
+            } else {
                 return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
             }
         }
@@ -621,16 +615,14 @@ class TeacherController extends Controller
 
         if (count($provided) > 0) {
             return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . ' ' . $teach->lastName . ' has already provided the two timeslots']);
-        }
-        else {
+        } else {
             foreach ($times as $time) {
                 $data[$time->hour][] = $time->id;
             }
             $timeslots = Teacher::retrieveTimeslots($teachId);
             if (count($timeslots) > 0) {
                 return view('meetings.add', ['timeslots' => $timeslots, 'times' => $data, 'teach' => $teach, 'bool' => $bool,]);
-            }
-            else {
+            } else {
                 return \Redirect('/')->withErrors([' Teacher ' . $teach->firstName . $teach->lastName . ' is not assigned to any class yet.']);
             }
         }
@@ -845,7 +837,8 @@ class TeacherController extends Controller
      * It's used to download a template containing the names of students and of subjects
      * It retrieves students and subjects from the database, the class id from the route finalgrades/insert
      */
-    public function downloadTemplate($classId) {
+    public function downloadTemplate($classId)
+    {
         $students = Student::retrieveStudentClass($classId);
         $subjects = Subject::retrieve();
 
@@ -894,7 +887,8 @@ class TeacherController extends Controller
      * It's used to upload the template containing final grades
      * It retrieves the uploaded file from the route finalgrades/upload
      */
-    public function uploadFinalGrades($classId, Request $request) {
+    public function uploadFinalGrades($classId, Request $request)
+    {
         $file = $request->file('file');
 
         // Check the file encoding and BOM.
@@ -945,8 +939,7 @@ class TeacherController extends Controller
                     // If the finalgrade has been inserted, the operation goes on
                     if ($row[$key] != '') {
                         $data['finalgrade'] = $row[$key];
-                    }
-                    else {
+                    } else {
                         // If the finalgrade is not present, the operation aborts
                         DB::rollBack();
                         return redirect('/finalgrades/insert')->withErrors(['Error during upload!']);
