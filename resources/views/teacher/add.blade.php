@@ -90,13 +90,19 @@
 
                                                             <div class="form-group">
                                                                 <label>Class:</label>
-                                                                <select name="frmT[idClass]" class="form-control">
+                                                                <br>
+                                                                @foreach($classes as $class)
+                                                                    <input class="pull-left radio-checked" type="checkbox" name="frmT[idClass][]" value="{{$class->id}}">{{$class->id}}
+                                                                    <br>
+                                                                @endforeach
 
-                                                                    @foreach($classes as $class)
-                                                                        <option
-                                                                            value="{{$class->id}}">{{$class->id}}</option>
-                                                                    @endforeach
-                                                                </select>
+{{--                                                                <select name="frmT[idClass]" class="form-control">--}}
+
+{{--                                                                    @foreach($classes as $class)--}}
+{{--                                                                        <option--}}
+{{--                                                                            value="{{$class->id}}">{{$class->id}}</option>--}}
+{{--                                                                    @endforeach--}}
+{{--                                                                </select>--}}
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Subject: <span

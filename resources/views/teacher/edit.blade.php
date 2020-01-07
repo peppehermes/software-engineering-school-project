@@ -94,20 +94,36 @@
                                                                        class="form-control"
                                                                        value="{{$teacherInfo->email}}">
                                                             </div>
-                                                            <div class="form-group ">
-                                                                <label>Class:</label>
-                                                                <select name="frmT[idClass]" class="form-control" required>
 
-                                                                    @foreach($classes as $class)
-                                                                        <option @if($class->id ==$teacherInfo->idClass ) selected @endif
-                                                                            value="{{$class->id}}">{{$class->id}}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                            <div class="form-group">
+                                                                <label>Class:</label>
+                                                                <br>
+                                                                @foreach($classes as $class)
+                                                                    <input class="pull-left radio-checked"
+                                                                           type="checkbox" name="frmT[idClass][]"
+                                                                           @foreach($teacherInfo->idClass as $classId)
+                                                                           @if($class->id ==$classId ) checked
+                                                                           @endif
+                                                                           @endforeach value="{{$class->id}}">{{$class->id}}
+                                                                    <br>
+                                                                @endforeach
+
+                                                                {{--                                                                <select name="frmT[idClass]" class="form-control">--}}
+
+                                                                {{--                                                                    @foreach($classes as $class)--}}
+                                                                {{--                                                                        <option--}}
+                                                                {{--                                                                            value="{{$class->id}}">{{$class->id}}</option>--}}
+                                                                {{--                                                                    @endforeach--}}
+                                                                {{--                                                                </select>--}}
                                                             </div>
+
+
                                                             <div class="form-group ">
-                                                                <label>Subject: <span style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
+                                                                <label>Subject: <span
+                                                                        style="font-weight: 300;color: grey">(For more than one subject use '-' Ex:Math-Science)</span></label>
                                                                 <input name="frmT[subject]" type="text"
-                                                                       class="form-control" required value="{{$teacherInfo->subject}}">
+                                                                       class="form-control" required
+                                                                       value="{{$teacherInfo->subject}}">
                                                             </div>
 
 
@@ -156,7 +172,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="row" >
+                                                    <div class="row">
                                                         <div class="col-lg-12" style="margin-top: 50px">
                                                             <div class="payment-adress">
                                                                 <button type="submit"

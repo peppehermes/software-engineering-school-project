@@ -67,6 +67,7 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
+
         $data = request('frm');
         $dataT = request('frmT');
 
@@ -101,18 +102,24 @@ class TeacherController extends Controller
 
             $Teachid = Teacher::save($data);
 
-            if (strpos($dataT[SUBJECT], '-')) {
-                $subjects = explode('-', $dataT[SUBJECT]);
-                foreach ($subjects as $subject) {
-                    $dataT[ID_TEACH] = $Teachid;
-                    $dataT[SUBJECT] = $subject;
+            foreach ($dataT[ID_CLASS] as $classId){
+                if (strpos($dataT[SUBJECT], '-')) {
+                    $subjects = explode('-', $dataT[SUBJECT]);
+                    foreach ($subjects as $subject) {
+                        $dataTa[ID_TEACH] = $Teachid;
+                        $dataTa[SUBJECT] = $subject;
+                        $dataTa[ID_CLASS] = $classId;
 
-                    Teacher::saveTeaching($dataT);
+                        Teacher::saveTeaching($dataTa);
+                    }
+                } else {
+                    $dataTa[ID_TEACH] = $Teachid;
+                    $dataTa[ID_CLASS] = $classId;
+                    $dataTa[SUBJECT] = $dataT[SUBJECT];
+                    Teacher::saveTeaching($dataTa);
                 }
-            } else {
-                $dataT[ID_TEACH] = $Teachid;
-                Teacher::saveTeaching($dataT);
             }
+
         }
 
         //send email
@@ -151,8 +158,10 @@ class TeacherController extends Controller
 
         foreach ($teachings as $teaching) {
             $subjects[] = $teaching->subject;
-            $teacherInfo->idClass =$teaching->idClass ;
+            $teacherInfo->idClass[] =$teaching->idClass ;
         }
+        $subjects=array_unique($subjects);
+
         $teacherInfo->subject = implode('-', $subjects);
 
         return view('teacher.edit', ['teacherInfo' => $teacherInfo,CLASSES=>$classes]);
@@ -186,20 +195,30 @@ class TeacherController extends Controller
         }
         Teacher::save($data, $id);
 
-        if (strpos($dataT[SUBJECT], '-')) {
-            $subjects = explode('-', $dataT[SUBJECT]);
-            Teacher::deleteTeaching($id,$dataT[ID_CLASS]);
-            foreach ($subjects as $subject) {
-                $dataT[ID_TEACH] = $id;
-                $dataT[SUBJECT] = $subject;
+        Teacher::deleteTeachingTeacherId($id);
+        foreach ($dataT[ID_CLASS] as $classId){
 
-                Teacher::saveTeaching($dataT);
+            if (strpos($dataT[SUBJECT], '-')) {
+                $subjects = explode('-', $dataT[SUBJECT]);
+              //  Teacher::deleteTeaching($id,$classId);
+                foreach ($subjects as $subject) {
+                    $dataTa[ID_TEACH] = $id;
+                    $dataTa[SUBJECT] = $subject;
+                    $dataTa[ID_CLASS] = $classId;
+
+                    Teacher::saveTeaching($dataTa);
+                }
+            } else {
+
+                $dataTa[ID_TEACH] = $id;
+                $dataTa[ID_CLASS] = $classId;
+                $dataTa[SUBJECT] = $dataT[SUBJECT];
+
+                Teacher::saveTeaching($dataTa);
             }
-        } else {
-            $dataT[ID_TEACH] = $id;
-            Teacher::deleteTeaching($id,$dataT[ID_CLASS]);
-            Teacher::saveTeaching($dataT);
         }
+
+
 
         return redirect('/teacher/list')->with([MESSAGE => 'Successful operation!']);
     }

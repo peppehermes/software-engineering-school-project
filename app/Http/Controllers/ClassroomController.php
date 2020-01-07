@@ -180,8 +180,6 @@ class ClassroomController extends Controller
 
     public function balanced()
     {
-
-
         $femaleStudents = Student::retrieveStudentsByCondition(['gender' => 'F', 'firstYear' => 'yes']);
         $maleStudents = Student::retrieveStudentsByCondition(['gender' => 'M', 'firstYear' => 'yes']);
 
@@ -195,7 +193,6 @@ class ClassroomController extends Controller
             $studentsClassMale = Student::retrieveStudentsByCondition(['firstYear' => 'yes', 'classId' => $class->id, 'gender' => 'M']);
             ${"G_" . $class->id} = count($studentsClassFemale) / count($studentsClassMale);
             ${"S_" . $class->id} = Student::retrieveAvgSkillStudents(['firstYear' => 'yes', 'classId' => $class->id]);
-            //$D += ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
             $D += $distance[$class->id] = ((${"G_" . $class->id} - $G_all) * (${"G_" . $class->id} - $G_all)) + ((${"S_" . $class->id} - $S_all) * (${"S_" . $class->id} - $S_all));
             $distance[$class->id] = number_format((float)$distance[$class->id], 2, '.', '');
         }
