@@ -20,7 +20,7 @@ class Subject
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.subjectName','ASC')
+            ->orderBy(static::table . '.subjectName', 'ASC')
             ->get();
     }
 
@@ -41,7 +41,8 @@ class Subject
      * @param string $subject_name
      * @return mixed
      */
-    public static function retrieveByName(string $subject_name) {
+    public static function retrieveByName(string $subject_name)
+    {
         return DB::table(static::table)->where('subjectName', $subject_name)->first();
     }
 
@@ -78,10 +79,15 @@ class Subject
             ->where('idTeaching', $teachingID)
             ->first();
 
-        return $result->totalHours;
+
+        if ($result) {
+            return $result->totalHours;
+        } else {
+            return 0;
+        }
+
 
     }
-
 
 
 }

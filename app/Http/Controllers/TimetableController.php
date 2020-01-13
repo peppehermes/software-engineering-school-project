@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Constraint\Count;
 
 
-
 class TimetableController extends Controller
 {
     /**
@@ -52,6 +51,8 @@ class TimetableController extends Controller
         $timetable['idClass'] = $data['classId'];
 
         $file = $request->file('timetable');
+
+        $constraint = array();
 
         // Check if the file was uploaded
         if (!$file->isValid()) {
@@ -95,30 +96,56 @@ class TimetableController extends Controller
                             $teacherId = Teacher::retrieveByNameSubject($subject[1], $subject[0]);
                             if (isset($teacherId)) {
                                 $timetable['idTeacher'] = $teacherId;
+
+
                             } else {
                                 $timetable['idTeacher'] = 0;
                             }
+
+                            //Initialization of array of subjects
+                            $allsubjects = Subject::retrieveSubjectsForClass($timetable['idClass']);
+
+
+                            foreach ($allsubjects as $subject) {
+
+
+                                // $hours is used to store all effective hours inserted through the form
+                                $hours[$subject->subject] = 0;
+
+                                // $tothours is used to store all established hours, used to check the second constraint
+
+                                $tothours[$subject->subject] = Subject::retrieveTotHoursForSubject($subject->id);
+
+                            }
+
 
 
                         } else {
 
                             $timetable['subject'] = '';
                             $timetable['idTeacher'] = 0;
+                            $tothours['subject']=0;
                         }
 
 
                     } else {
                         $timetable['subject'] = '';
                         $timetable['idTeacher'] = 0;
+                        $tothours['subject']=0;
                     }
 
 
                     $exist = Timetable::retrieveTimeslotClass($timetable['idTimeslot'], $timetable['idClass']);
 
+
                     if (count($exist) == 0) {
 
-                        Timetable::save($timetable);
+                        $id=Timetable::save($timetable);
                         $save = true;
+
+                        if($id==0){
+                            $constraint_teacher_timeslot_error=1;
+                        }
 
                     }
                 }
@@ -127,6 +154,22 @@ class TimetableController extends Controller
             }
 
         }
+
+        //First, I check if there is a violation of constraints for all timeslots I'm trying to insert
+        if($constraint_teacher_timeslot_error){
+            return \Redirect('/')->withErrors([' There was a constraint violation (TEACHER IN MULTIPLE CLASSES), check properly the timetables']);
+        }
+
+
+        //SECOND CONSTRAINT: If the amount of hours of each subject is different than the one established,
+        // the constraint was violated
+        foreach ($allsubjects as $subject) {
+
+            if ($hours[$subject->subject] != $tothours[$subject->subject])
+                return \Redirect('/')->withErrors([' There was a constraint violation (HOUR ASSIGNMENT NOT COHERENT), check properly the timetables']);
+
+        }
+
 
         if ($save) {
             return redirect('/timetable/list')->with(['message' => 'Successfull operation!']);
@@ -141,20 +184,18 @@ class TimetableController extends Controller
     public function list()
     {
 
-        if(\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin){
+        if (\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin) {
 
             $classrooms = Classroom::retrieve();
             return view('timetable.list', ['classrooms' => $classrooms]);
 
-        }
-        else if(\Auth::user()->roleId == User::roleTeacher || \Auth::user()->roleId == User::roleClasscoordinator){
+        } else if (\Auth::user()->roleId == User::roleTeacher || \Auth::user()->roleId == User::roleClasscoordinator) {
 
             $myID = \Auth::user()->id;
             $classrooms = Teacher::retrieveTeacherOnlyClasses($myID);
             return view('timetable.list', ['classrooms' => $classrooms]);
 
-        }
-        else
+        } else
             return \Redirect('/')->withErrors([' You have no permission to go to that page']);
 
     }
@@ -174,7 +215,7 @@ class TimetableController extends Controller
                 $data[$timetable->hour][] = $timetable->subject;
             }
 
-            return view('timetable.show' , ['timeTables' => $data, 'classId' => $id]);
+            return view('timetable.show', ['timeTables' => $data, 'classId' => $id]);
         } else {
             if ($class) {
                 return \Redirect('/')->withErrors([' There is not any timetable for class ' . $id]);
@@ -190,13 +231,12 @@ class TimetableController extends Controller
     public function chooseclass()
     {
 
-        if(\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin){
+        if (\Auth::user()->roleId == User::roleAdmin || \Auth::user()->roleId == User::roleSuperadmin) {
 
             $classrooms = Classroom::retrieve();
             return view('timetable.chooseclass', ['classrooms' => $classrooms]);
 
-        }
-        else
+        } else
             return \Redirect('/')->withErrors([' You have no permission to go to that page']);
 
     }
@@ -210,7 +250,7 @@ class TimetableController extends Controller
         $id = $form['classId'];
 
         $subjects = Subject::retrieveSubjectsForClass($id);
-        return view('timetable.addmanual' , ['subjects' => $subjects, 'classId' => $id]);
+        return view('timetable.addmanual', ['subjects' => $subjects, 'classId' => $id]);
 
 
     }
@@ -225,7 +265,7 @@ class TimetableController extends Controller
         //Initialization of array of subjects
         $allsubjects = Subject::retrieveSubjectsForClass($classID);
 
-        foreach ($allsubjects as $subject){
+        foreach ($allsubjects as $subject) {
 
             // $hours is used to store all effective hours inserted through the form
             $hours[$subject->subject] = 0;
@@ -235,12 +275,12 @@ class TimetableController extends Controller
         }
 
         //First, I check if there is a violation of constraints for all timeslots I'm trying to insert
-        for($i = 1; $i  < 31; $i++){
+        for ($i = 1; $i < 31; $i++) {
 
-            $teachingID = request('frm' .$i);
+            $teachingID = request('frm' . $i);
             $subject = Teaching::retrieveSubject($teachingID);
 
-            if($subject != 'Free'){
+            if ($subject != 'Free') {
 
                 $timeslotID = $i;
                 $teacherID = Teaching::retrieveTeacher($teachingID);
@@ -249,7 +289,7 @@ class TimetableController extends Controller
                 $result[$i] = Timetable::checkTimetableConstraint($classID, $timeslotID, $teacherID);
 
                 //FIRST CONSTRAINT: If at least a tuple is returned, the constraint was violated
-                if(!$result[$i]->isEmpty())
+                if (!$result[$i]->isEmpty())
                     $constraint_violation = 1;
             }
 
@@ -258,35 +298,34 @@ class TimetableController extends Controller
 
         }
 
-        if($constraint_violation)
+        if ($constraint_violation)
             return \Redirect('/')->withErrors([' There was a constraint violation (TEACHER IN MULTIPLE CLASSES), check properly the timetables']);
 
 
         //SECOND CONSTRAINT: If the amount of hours of each subject is different than the one enstablished,
         // the constraint was violated
-        foreach ($allsubjects as $subject){
+        foreach ($allsubjects as $subject) {
 
-            if($hours[$subject->subject] != $tothours[$subject->subject])
+            if ($hours[$subject->subject] != $tothours[$subject->subject])
                 return \Redirect('/')->withErrors([' There was a constraint violation (HOUR ASSIGNMENT NOT COHERENT), check properly the timetables']);
 
         }
 
 
         //If no constraints were violated, I can proceed with the insert or update of the timetable
-        for($i = 1; $i  < 31; $i++){
+        for ($i = 1; $i < 31; $i++) {
 
-            $teachingID = request('frm' .$i);
+            $teachingID = request('frm' . $i);
             $timeslotID = $i;
 
             $subject = Teaching::retrieveSubject($teachingID);
 
 
-            if($subject != 'Free'){
+            if ($subject != 'Free') {
 
                 $teacherID = Teaching::retrieveTeacher($teachingID);
                 Timetable::saveManual($classID, $timeslotID, $teacherID, $subject);
-            }
-            else{
+            } else {
                 Timetable::saveManualFreeHour($classID, $timeslotID);
             }
 
@@ -295,10 +334,6 @@ class TimetableController extends Controller
         return redirect('timetable/chooseclass')->with(['message' => 'Timetable succesfully updated!']);
 
     }
-
-
-
-
 
 
     function remove_utf8_bom($text)
