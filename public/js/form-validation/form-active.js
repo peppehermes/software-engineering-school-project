@@ -85,8 +85,7 @@
                     'frm[skill]':
                         {
                             required: true,
-                            min: 0,
-                            max: 10
+
                         },
                     'frm[postCode]':
                         {
@@ -192,7 +191,8 @@
                         },
                     'frm[skill]':
                         {
-                            required: 'Please enter skill'
+                            required: 'Please enter skill',
+
                         },
                     'frm[fiscalCode]':
                         {

@@ -76,15 +76,25 @@
                                                             </div>
 
 
-
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
                                                             <div class="form-group">
                                                                 <label>Skill:</label>
 
-                                                                <input name="frm[skill]" type="number"
-                                                                       class="form-control">
+                                                                <select name="frm[skill]" class="form-control">
+                                                                    <option value="none" selected="" disabled="">Select
+                                                                        Skill
+                                                                    </option>
+                                                                    @for($i=6 ; $i<=10 ; $i++ )
+                                                                        <option value="{{$i}}">
+                                                                            {{$i}}
+                                                                        </option>
+                                                                    @endfor
+                                                                </select>
+
+                                                                {{--                                                                <input name="frm[skill]" type="text"--}}
+                                                                {{--                                                                       class="form-control" min="6" max="10">--}}
 
                                                             </div>
 

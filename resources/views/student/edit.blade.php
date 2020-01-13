@@ -98,9 +98,17 @@
                                                             <div class="form-group">
                                                                 <label>Skill:</label>
 
-                                                                <input name="frm[skill]" type="number"
-                                                                       class="form-control"
-                                                                       value="{{$studentInfo->skill}}">
+
+                                                                <select name="frm[skill]" class="form-control">
+                                                                    <option value="none" selected="" disabled="">Select
+                                                                        Skill
+                                                                    </option>
+                                                                    @for($i=6 ; $i<=10 ; $i++ )
+                                                                        <option value="{{$i}}" @if($studentInfo->skill==$i) selected @endif>
+                                                                            {{$i}}
+                                                                        </option>
+                                                                    @endfor
+                                                                </select>
 
                                                             </div>
 
