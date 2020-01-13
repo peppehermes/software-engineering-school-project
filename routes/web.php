@@ -68,14 +68,14 @@ Route::group(['prefix' => 'teacher'], function() {
 //classroom
 Route::group(['prefix' => 'classroom'], function() {
     Route::get('/add', 'ClassroomController@add')->middleware('PrincipalsAndAdmin');
-    Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('admin');
-    Route::post('/update/{id}', 'ClassroomController@update')->middleware('admin');
+    Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('PrincipalsAndAdmin');
+    Route::post('/update/{id}', 'ClassroomController@update')->middleware('PrincipalsAndAdmin');
     Route::get('/list', 'ClassroomController@list')->middleware('admin');
     Route::post('/store', 'ClassroomController@store')->middleware('admin');
-    Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('admin');
+    Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('PrincipalsAndAdmin');
     Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('PrincipalsAndAdmin');
-    Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('admin');
-    Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('admin');
+    Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('PrincipalsAndAdmin');
+    Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('PrincipalsAndAdmin');
     Route::get('/balanced', 'ClassroomController@balanced')->middleware('PrincipalsAndAdmin');
 });
 

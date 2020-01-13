@@ -5,14 +5,24 @@
     <!-- Start Notes -->
     <div class="widgets-programs-area mg-b-15">
         <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="tab-content-details shadow-reset">
+                        <h2>NOTES<h2>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div class="row">
                 <div class="sparkline13-list" style="background: #f8fafc; padding-bottom: 20px">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="text-center text-capitalize">
-                            <div class="main-sparkline13-hd">
-                                <h1>NOTES<span class="table-project-n"></span></h1>
-                            </div>
-                        </div>
+
+
+
+
 
                         @foreach($notes as $key=>$note)
                             @if($key%2==0)

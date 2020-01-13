@@ -12,15 +12,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap drp-lst">
                         <h4>Classroom List</h4>
-                        <div class="add-product">
-                            <a href="/classroom/add">Add a new class</a>
-                        </div>
                         <div class="asset-inner">
                             <table>
                                 <tr>
                                     <th>Class Id</th>
                                     <th>Capacity</th>
-                                    <th>Fill the class</th>
+                                    <th>Modify the class</th>
                                     <th>Distance optimality</th>
                                     <th></th>
 
@@ -42,16 +39,6 @@
                                         </td>
                                         <td>{{$distance[$classroom->id]}}</td>
 
-                                        <td>
-                                            <a href="/classroom/edit/{{$classroom->id}}">
-                                                <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                                            </a>
-                                            <a href="/classroom/delete/{{$classroom->id}}">
-                                                <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                            </a>
-                                        </td>
                                     </tr>
                                 @endforeach
                                 <tr>

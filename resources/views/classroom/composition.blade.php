@@ -39,6 +39,13 @@
                                 <h1>Classroom {{$classroom->id}} ( <span
                                         class="text-danger font-bold">Capacity {{$classroom->capacity}}</span> )
 
+                                    @if (Auth::user()->roleId==\App\User::rolePrincipal)
+
+                                        <h5 style="color: #ca1616">School's Females/Males: {{$allFemales}}/{{$allMales}}</h5>
+                                        <h5 style="color: #ca1616">School's Average Skill: {{$avgSkill}}</h5>
+
+                                    @endif
+
                                 </h1>
 
                             </div>
@@ -60,6 +67,9 @@
                                         <th>Birthday</th>
                                         <th>Phone</th>
                                         <th>Gender</th>
+                                        @if (Auth::user()->roleId==\App\User::rolePrincipal)
+                                        <th>Skill</th>
+                                        @endif
                                         <th>Remove</th>
                                     </tr>
                                     </thead>
@@ -75,8 +85,11 @@
                                             {{--                                            </td>--}}
                                             <td>{{$student->phone}}</td>
                                             <td>{{$student->gender}}</td>
+                                            @if (Auth::user()->roleId==\App\User::rolePrincipal)
+                                            <td>{{$student->skill}}</td>
+                                            @endif
                                             <td><a href="/classroom/deleteStudent/{{$student->id}}">
-                                                    <button class="pd-setting">Remove of this class</button>
+                                                    <button class="pd-setting">Remove from this class</button>
                                                 </a>
                                             </td>
 

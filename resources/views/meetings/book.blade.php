@@ -318,8 +318,8 @@
                             </table>
                             <h5 class="box-title">Slots Status</h5>
                             <ul class="basic-list">
-                                <li>Not Available <span class="pull-right label-purple label-7 label"> </span></li>
-                                <li>Lecture's hour <span class="pull-right label-purple label-8 label"> </span></li>
+                                <li>Lecture's hour <span class="pull-right label-purple label-7 label"> </span></li>
+                                <li>Not Available <span class="pull-right label-purple label-8 label"> </span></li>
                                 <li>Your Booking <span class="pull-right label-purple label-9 label"> </span></li>
                                 <li>Other Booking <span class="pull-right label-purple label-10 label"> </span></li>
                                 <li>Available <span class="pull-right label-purple label-11 label"> </span></li>

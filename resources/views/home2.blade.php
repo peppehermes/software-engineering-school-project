@@ -70,8 +70,7 @@
                                         alt="">
                                     <h4><a class="cards-hd-dn" href="#">{{$student->firstName}}</a></h4>
                                     <h5>Class {{$student->classId}}</h5>
-                                    <p class="ctn-cards">Lorem ipsum dolor sit amet, this is a consectetur adipisicing
-                                        elit</p>
+                                    <p class="ctn-cards">{{$student->description}}</p>
                                     <a class="follow-cards" href="/student/showmarks/{{$student->id}}">Marks</a>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
