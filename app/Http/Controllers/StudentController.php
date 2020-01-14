@@ -646,6 +646,7 @@ class StudentController extends Controller
     public function freeMeetingForParent()
     {
 
+
         //carrying over children's id for parent's sidebar
         $myParentID = \Auth::user()->id;
         $students = Student::retrieveStudentsForParent($myParentID);
