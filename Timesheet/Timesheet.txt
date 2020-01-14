@@ -3,7 +3,7 @@
 Peppe: 3 + 1.5 + 2.5 + 2.5 + 2 + 2
 Andrea: 2 + 1 + 2.5 + 2.5 + 2 + 1
 Sahar: 6 + 6
-Marco:
+Marco: 5 + 3 + 1,5
 Matteo: 3.5 + 1 + 4
 
 
