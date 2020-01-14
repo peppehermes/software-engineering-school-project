@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -13,7 +14,11 @@ class PrincipalTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+
+    use DatabaseMigrations;
+
+    //this method will create a principal then log in with credentials
+    public function test_login_principal()
     {
         $user = factory(User::class)->create(['roleID'=>6]);
 

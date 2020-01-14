@@ -100,8 +100,8 @@
                                                       onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group col-md-3">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
 
                                                                 <label>Class:</label>
                                                                 <select onchange="setSubject()" name="idClass"
@@ -113,7 +113,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-3">
+                                                            <div class="form-group">
                                                                 <label>Subject:</label>
                                                                 <select name="subject" id="subject" class="form-control"
                                                                         required>
@@ -121,14 +121,17 @@
                                                                 </select>
                                                             </div>
 
-                                                            <div class="form-group col-md-6" id="topic">
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                                            <div class="form-group" id="topic">
                                                                 <label>Topic</label>
                                                                 <input type="text" name="frm[topic]" required
                                                                        class="form-control">
 
 
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-6"
+                                                            <div class="form-group data-custon-pick"
                                                                  id="data_2">
                                                                 <label>Lecture's date:</label>
                                                                 <div class="input-group date">

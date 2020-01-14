@@ -1,6 +1,6 @@
 .x-editor-custom .popover{
 	border-radius: 0px;
-	border: 1px solid #006DF0; 
+	border: 1px solid #006DF0;
 	padding:0px;
 }
 .x-editor-custom .input-sm{
@@ -10,7 +10,7 @@
 .x-editor-custom .form-control:focus{
 	font-size:13px;
 	border-radius: 0px;
-	box-shadow: none; 
+	box-shadow: none;
 	border-color: #006DF0;
 }
 .x-editor-custom .form-control{
@@ -96,7 +96,6 @@
 	    background-color: #006DF0;
     background-image: -moz-linear-gradient(top, #006DF0, #006DF0);
     background-image: -ms-linear-gradient(top, #006DF0, #006DF0);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(006DF0), to(#006DF0));
     background-image: -webkit-linear-gradient(top, #006DF0, #006DF0);
     background-image: -o-linear-gradient(top, #006DF0, #006DF0);
     background-image: linear-gradient(top, #006DF0, #006DF0);

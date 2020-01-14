@@ -20,7 +20,7 @@ class Subject
             ->select([
                 static::table . '.*'
             ])
-            ->orderBy(static::table . '.subjectId','DESC')
+            ->orderBy(static::table . '.subjectName', 'ASC')
             ->get();
     }
 
@@ -32,8 +32,18 @@ class Subject
      */
     public static function retrieveById(int $id)
     {
-
         return DB::table(static::table)->find($id);
+    }
+
+    /**
+     * Retrieve subject by its name
+     *
+     * @param string $subject_name
+     * @return mixed
+     */
+    public static function retrieveByName(string $subject_name)
+    {
+        return DB::table(static::table)->where('subjectName', $subject_name)->first();
     }
 
 
@@ -52,4 +62,32 @@ class Subject
     {
         return DB::table(static::table)->where('subjectId', $id)->delete();
     }
+
+
+    public static function retrieveSubjectsForClass($classID)
+    {
+        return DB::table('teaching')
+            ->where('idClass', $classID)
+            ->get();
+
+    }
+
+
+    public static function retrieveTotHoursForSubject($teachingID)
+    {
+        $result = DB::table('subject_programming')
+            ->where('idTeaching', $teachingID)
+            ->first();
+
+
+        if ($result) {
+            return $result->totalHours;
+        } else {
+            return 0;
+        }
+
+
+    }
+
+
 }

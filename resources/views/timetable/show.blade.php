@@ -6,7 +6,8 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
-                        <h4>Time Table of class {{$classId}}</h4>
+                        <h4>Timetable ( <span
+                                class="text-danger font-bold">Class {{$classId}}</span> )</h4>
 
                         <div class="asset-inner">
                             <table class="table table-striped table-bordered">
@@ -28,7 +29,11 @@
                                     <tr>
                                         <td>{{$key}}</td>
                                         @foreach($timeTable as $row)
-                                            <td>{{$row}}</td>
+                                            @if($row == "Free")
+                                                <td></td>
+                                            @else
+                                                <td>{{$row}}</td>
+                                            @endif
 
                                         @endforeach
 

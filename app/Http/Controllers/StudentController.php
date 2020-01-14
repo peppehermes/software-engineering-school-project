@@ -158,8 +158,11 @@ class StudentController extends Controller
 
             $marks = Student::retrieveMarksForStudent($id);
 
+            $average = Student::retrieveAverageForStudent($id);
 
-            return view('student.showmarks', ['students' => $students, 'marks' => $marks]);
+
+
+            return view('student.showmarks', ['students' => $students, 'marks' => $marks, 'averages' => $average]);
 
         } else {
             return view('student.showmarks');

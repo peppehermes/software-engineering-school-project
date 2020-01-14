@@ -13,7 +13,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-payment-inner-st">
                         <ul id="myTabedu1" class="tab-review-design">
-                            <li @if(!Session::get('parent')) class="active" @endif ><a href="#description">Basic
+                            <li @if(!Session::get('parent')) class="active" @endif ><a href="#description">Student
                                     Information</a></li>
                             <li @if(Session::get('parent')==1) class="active" @endif><a href="#reviews"> Parent
                                     Information</a></li>
@@ -32,26 +32,26 @@
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>First Name:</label>
                                                                 <input name="frm[firstName]" type="text"
-                                                                       class="form-control" required
+                                                                       class="form-control"
                                                                        value="{{$studentInfo->firstName}}">
                                                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Last Name:</label>
                                                                 <input name="frm[lastName]" type="text"
-                                                                       class="form-control" required
+                                                                       class="form-control"
                                                                        value="{{$studentInfo->lastName}}">
                                                             </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
                                                                 <label>Place of Birth:</label>
                                                                 <input name="frm[birthPlace]" type="text"
                                                                        class="form-control"
                                                                        value="{{$studentInfo->birthPlace}}">
                                                             </div>
-                                                            <div class="form-group data-custon-pick col-md-12"
+                                                            <div class="form-group data-custon-pick"
                                                                  id="data_2">
                                                                 <label>Date of birth:</label>
                                                                 <div class="input-group date">
@@ -65,32 +65,54 @@
 
 
                                                             </div>
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Address:</label>
                                                                 <input name="frm[address]" type="text"
                                                                        class="form-control"
                                                                        value="{{$studentInfo->address}}">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Phone:</label>
                                                                 <input name="frm[phone]" type="text"
                                                                        class="form-control"
                                                                        value="{{$studentInfo->phone}}">
                                                             </div>
 
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Postal Code:</label>
                                                                 <input name="frm[postCode]" id="postcode" type="text"
                                                                        class="form-control"
                                                                        value="{{$studentInfo->postCode}}">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+                                                            <div class="form-group">
                                                                 <label>Fiscal Code:</label>
                                                                 <input name="frm[fiscalCode]" type="text"
                                                                        class="form-control"
                                                                        value="{{$studentInfo->fiscalCode}}">
                                                             </div>
-                                                            <div class="form-group col-lg-6">
+
+
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                                            <div class="form-group">
+                                                                <label>Skill:</label>
+
+
+                                                                <select name="frm[skill]" class="form-control">
+                                                                    <option value="none" selected="" disabled="">Select
+                                                                        Skill
+                                                                    </option>
+                                                                    @for($i=6 ; $i<=10 ; $i++ )
+                                                                        <option value="{{$i}}" @if($studentInfo->skill==$i) selected @endif>
+                                                                            {{$i}}
+                                                                        </option>
+                                                                    @endfor
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div class="form-group">
                                                                 <label>Email:</label>
 
                                                                 <input name="frm[email]" type="text"
@@ -99,11 +121,7 @@
 
                                                             </div>
 
-
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Gender:</label>
                                                                 <select name="frm[gender]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -120,8 +138,20 @@
                                                                 </select>
                                                             </div>
 
+                                                            <div class="form-group">
+                                                                <label>First Year:</label>
+                                                                <select name="frm[firstYear]" class="form-control">
+                                                                    <option value="yes" @if($studentInfo->firstYear == 'yes') selected @endif>
+                                                                        Yes
+                                                                    </option>
+                                                                    <option value="no" @if($studentInfo->firstYear == 'no') selected @endif>
+                                                                        No
+                                                                    </option>
+                                                                </select>
+                                                            </div>
 
-                                                            <div class="form-group col-lg-12">
+
+                                                            <div class="form-group">
                                                                 <label>Classroom:</label>
                                                                 <select name="frm[classId]" class="form-control">
                                                                     <option value="none" selected="" disabled="">Select
@@ -134,13 +164,13 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 <label>Description:</label>
                                                                 <textarea
                                                                     name="frm[description]">{{$studentInfo->description}}</textarea>
                                                             </div>
 
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
 
 
                                                                 <label class="control-label">Photo:</label>
@@ -150,7 +180,7 @@
 
 
                                                             </div>
-                                                            <div class="form-group col-lg-12">
+                                                            <div class="form-group">
                                                                 @if(isset($studentInfo->photo))
                                                                     <img
                                                                         src="{{ asset('/uploads/'.$studentInfo->photo) }}"
@@ -186,38 +216,39 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
                                             <form action="/student/storeParent/{{$studentInfo->id}}" method="post"
-                                                  class="dropzone dropzone-custom needsclick add-professors"
+                                                  class="dropzone dropzone-custom needsclick add-parents"
                                                   id="demo1-upload" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="devit-card-custom">
-                                                            <div class="form-group col-lg-6">
-                                                                <label>Name of Parent 1:</label>
-                                                                <input type="text" class="form-control"
-                                                                       name="parentName1"
-                                                                       value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->name}}@endif">
-                                                            </div>
-                                                            <div class="form-group col-lg-6">
-                                                                <label>Email of Parent 1:</label>
-                                                                <input type="email" class="form-control"
-                                                                       name="parentEmail1"
-                                                                       value="@if(isset($studentInfo->parent1)){{$studentInfo->parent1->email}}@endif">
-                                                            </div>
-                                                            <div class="form-group col-lg-6">
-                                                                <label>Name of Parent 2:</label>
-                                                                <input type="text" class="form-control"
-                                                                       name="parentName2"
-                                                                       value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->name}}@endif">
-                                                            </div>
-                                                            <div class="form-group col-lg-6">
-                                                                <label>Email of Parent 2:</label>
-                                                                <input type="email" class="form-control"
-                                                                       name="parentEmail2"
-                                                                       value="@if(isset($studentInfo->parent2)){{$studentInfo->parent2->email}}@endif">
-                                                            </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label>Name of Parent 1:</label>
+                                                            <input type="text" class="form-control"
+                                                                   name="parentName1"
+                                                                   @if(isset($studentInfo->parent1)) value="{{$studentInfo->parent1->name}}" @endif >
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Email of Parent 1:</label>
+                                                            <input type="email" class="form-control"
+                                                                   name="parentEmail1"
+                                                                   @if(isset($studentInfo->parent1)) value="{{$studentInfo->parent1->email}}" @endif>
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label>Name of Parent 2:</label>
+                                                            <input type="text" class="form-control"
+                                                                   name="parentName2"
+                                                                   @if(isset($studentInfo->parent2)) value="{{$studentInfo->parent2->name}}" @endif>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Email of Parent 2:</label>
+                                                            <input type="email" class="form-control"
+                                                                   name="parentEmail2"
+                                                                   @if(isset($studentInfo->parent2)) value="{{$studentInfo->parent2->email}}" @endif>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="row" style="margin-top: 50px">
                                                     <div class="col-lg-12">
@@ -234,70 +265,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {{--                            <div class="product-tab-list tab-pane fade" id="reviews">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="text" class="form-control" placeholder="Email">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="number" class="form-control"--}}
-                            {{--                                                                   placeholder="Phone">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="password" class="form-control"--}}
-                            {{--                                                                   placeholder="Confirm Password">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <a href="#!" class="btn btn-primary waves-effect waves-light">Submit</a>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-                            {{--                            <div class="product-tab-list tab-pane fade" id="INFORMATION">--}}
-                            {{--                                <div class="row">--}}
-                            {{--                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                            {{--                                        <div class="review-content-section">--}}
-                            {{--                                            <div class="row">--}}
-                            {{--                                                <div class="col-lg-12">--}}
-                            {{--                                                    <div class="devit-card-custom">--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Facebook URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Twitter URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Google Plus">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <div class="form-group">--}}
-                            {{--                                                            <input type="url" class="form-control"--}}
-                            {{--                                                                   placeholder="Linkedin URL">--}}
-                            {{--                                                        </div>--}}
-                            {{--                                                        <button type="submit"--}}
-                            {{--                                                                class="btn btn-primary waves-effect waves-light">Submit--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </div>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
                         </div>
                     </div>
                 </div>

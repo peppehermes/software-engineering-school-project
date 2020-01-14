@@ -13,7 +13,11 @@
 
 use App\Http\Middleware\ClassCoordinator;
 
+
 Auth::routes();
+
+Route::get('auth/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -63,15 +67,16 @@ Route::group(['prefix' => 'teacher'], function() {
 
 //classroom
 Route::group(['prefix' => 'classroom'], function() {
-    Route::get('/add', 'ClassroomController@add')->middleware('admin');
-    Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('admin');
-    Route::post('/update/{id}', 'ClassroomController@update')->middleware('admin');
+    Route::get('/add', 'ClassroomController@add')->middleware('PrincipalsAndAdmin');
+    Route::get('/edit/{id}', 'ClassroomController@edit')->middleware('PrincipalsAndAdmin');
+    Route::post('/update/{id}', 'ClassroomController@update')->middleware('PrincipalsAndAdmin');
     Route::get('/list', 'ClassroomController@list')->middleware('admin');
     Route::post('/store', 'ClassroomController@store')->middleware('admin');
-    Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('admin');
-    Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('admin');
-    Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('admin');
-    Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('admin');
+    Route::get('/delete/{id}', 'ClassroomController@delete')->middleware('PrincipalsAndAdmin');
+    Route::get('/composition/{id}', 'ClassroomController@composition')->middleware('PrincipalsAndAdmin');
+    Route::get('/deleteStudent/{id}', 'ClassroomController@deleteStudent')->middleware('PrincipalsAndAdmin');
+    Route::post('/classComposition/{id}', 'ClassroomController@classComposition')->middleware('PrincipalsAndAdmin');
+    Route::get('/balanced', 'ClassroomController@balanced')->middleware('PrincipalsAndAdmin');
 });
 
 
@@ -150,6 +155,9 @@ Route::group(['prefix' => 'timetable'],  function() {
     Route::get('/list', 'TimetableController@list');
     Route::post('/show', 'TimetableController@show');
     Route::get('/listforparents/{idStud}', 'StudentController@timetableForStudent')->middleware('parents');
+    Route::get('/chooseclass', 'TimetableController@chooseclass')->middleware('admin');
+    Route::post('/addmanual', 'TimetableController@addmanual')->middleware('admin');
+    Route::post('/storemanual/{idClass}', 'TimetableController@storemanual')->middleware('admin');
 });
 
 //Final grades
@@ -158,4 +166,6 @@ Route::group(['prefix' => 'finalgrades'],  function() {
     Route::post('/store/{idClass}', 'TeacherController@storeFinalGrades')->middleware(ClassCoordinator::class);
     Route::get('/show', 'TeacherController@showFinalGrades')->middleware(ClassCoordinator::class);
     Route::get('/listforparents/{idStud}', 'StudentController@listFinalGradesforparents')->middleware('parents');
+    Route::get('/download/{idClass}', 'TeacherController@downloadTemplate')->middleware(ClassCoordinator::class);
+    Route::post('/upload/{idClass}', 'TeacherController@uploadFinalGrades')->middleware(ClassCoordinator::class);
 });

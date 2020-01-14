@@ -28,23 +28,118 @@
         };
 
         function selecttimeslot(slot) {
-            if (slot.style.backgroundColor == "orange")
+            const today = new Date();
+            var w = today.getWeek(),
+                year = today.getFullYear(),
+                day= today.getDay();
+                week="{{$week}}";
+
+            w1 = week.slice(6, 8);
+            y1 = week.slice(0, 4);
+
+            if(w1==w && y1==year) {
+
+                    if (day == 1 && slot.id < 7) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else if(day == 2 && slot.id < 13) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else if(day == 3 && slot.id < 19) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else if(day == 4 && slot.id < 25) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else if(day == 5 && slot.id < 31) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else if (day==6 || day==7) {
+                        alert('You cannot provide slots for this day');
+                        location.reload()
+                    }
+                    else {
+
+                        if (slot.style.backgroundColor == "orange")
+
+                            slot.style.backgroundColor = "lightblue";
+
+                        else
+                            slot.style.backgroundColor = "orange";
+                    }
+            }
+            else {
+
+                if (slot.style.backgroundColor == "orange")
 
                 slot.style.backgroundColor = "lightblue";
 
-            else
+                else
                 slot.style.backgroundColor = "orange";
+            }
         }
 
         function selecttimeslot1(slot) {
-            if (slot.style.backgroundColor == "lightblue")
+            const today = new Date();
+            var w = today.getWeek(),
+                year = today.getFullYear(),
+                day= today.getDay();
+            week="{{$week}}";
 
-                slot.style.backgroundColor = "#663399";
+            w1 = week.slice(6, 8);
+            y1 = week.slice(0, 4);
 
-            else
-                slot.style.backgroundColor = "lightblue";
+            if(w1==w && y1==year) {
+
+                if (day == 1 && slot.id < 7) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else if(day == 2 && slot.id < 13) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else if(day == 3 && slot.id < 19) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else if(day == 4 && slot.id < 25) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else if(day == 5 && slot.id < 31) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else if (day==6 || day==7) {
+                    alert('You cannot free slots for this day');
+                    location.reload()
+                }
+                else {
+                    if (slot.style.backgroundColor == "lightblue")
+
+                        slot.style.backgroundColor = "#663399";
+
+                    else
+                        slot.style.backgroundColor = "lightblue";
+
+                }
+            }
+            else {
+
+                if (slot.style.backgroundColor == "lightblue")
+
+                    slot.style.backgroundColor = "#663399";
+
+                else
+                    slot.style.backgroundColor = "lightblue";
+            }
         }
-
 
         function provideslots(week) {
             const today = new Date();
@@ -58,7 +153,7 @@
             y1 = y1.slice(0, 4);
             // current week greater than selected one
             if (w > w1 && y1 == year) {
-                alert('Sorry this week is already elapsed, you cannot provide any slots!');
+                alert('Sorry this week is already elapsed, you cannot provide any slot!');
                 location.reload();
             } else {
                 var slot, j = 0;
@@ -125,7 +220,7 @@
             y1 = y1.slice(0, 4);
 
             if (w > w1 && y1 == year) {
-                alert('Sorry this week is already elapsed, you cannot free any slots!');
+                alert('Sorry this week is already elapsed, you cannot free any slot!');
                 location.reload();
             } else {
                 var slot, j = 0;

@@ -1,7 +1,14 @@
 @extends('layouts.layout')
 
 @section('content')
+    <script>
+        function show_attachment(index){
+            var ur=document.getElementById(index).value,
+                url="/uploads/"+ur;
+            window.open(url);
 
+        }
+    </script>
     <!-- Static Table Start -->
     <div class="data-table-area mg-b-15">
         <div class="container-fluid">
@@ -35,6 +42,7 @@
                                         <th>Date</th>
                                         <th>Description</th>
                                         <th>Support Material</th>
+                                        <th>Download</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -47,15 +55,32 @@
                                             <td>{{$material->subject}} </td>
                                             <td>{{$material->date}}</td>
                                             <td>{{$material->mdescription}}</td>
+                                            @php
+                                                $attachment = explode('/',  $material->material);
+                                            @endphp
                                             <td>
-                                                <a href="{{ asset('/uploads/'.$material->material) }}" target="_blank"
+                                                <select class="form-control dt-tb" id={{$index}}>
+
+                                                    @foreach($attachment as $attach)
+
+                                                        <option value="{{$attach}}"> File {{$index1}}
+                                                        </option>
+
+                                                        @php $index1++;
+                                                        @endphp
+                                                    @endforeach
+
+                                                    @php $index1=1;
+                                                    @endphp
+                                                </select>
+                                            <td>
+                                                <a onclick="show_attachment('{{$index}}')" target="_blank"
                                                    class="btn btn-primary btn-lg active" role="button"
                                                    aria-pressed="true">Download</a>
-                                                {{--                                                <a style="color: #7fbd2d" href="{{ asset('/uploads/'.$material->material) }}" target="_blank">Download</a>--}}
-                                            </td>
 
                                         </tr>
-
+                                        @php $index++;
+                                        @endphp
                                     @endforeach
 
 

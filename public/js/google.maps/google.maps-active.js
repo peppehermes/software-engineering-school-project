@@ -1,5 +1,5 @@
 
-	
+
 function initMap() {
         var chicago = new google.maps.LatLng(41.850, -87.650);
 
@@ -12,13 +12,13 @@ function initMap() {
           zoom: 8,
           center: {lat: 35.717, lng: 139.731}
         });
-		
-		map2 = new google.maps.Map(document.getElementById('map2'), {
+
+		var map2 = new google.maps.Map(document.getElementById('map2'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         });
-		
-		
+
+
 		 var mapOptions = {
                 zoom: 12,
                 scrollwheel: false,
@@ -35,10 +35,10 @@ function initMap() {
                 animation: google.maps.Animation.BOUNCE
 
             });
-			
-			
-			
-			
+
+
+
+
 		var cairo = {lat: 30.064742, lng: 31.249509};
 
         var maplan = new google.maps.Map(document.getElementById('maplan'), {
@@ -52,9 +52,9 @@ function initMap() {
         marker.addListener('click', function() {
           infowindow.open(map, marker);
         });
-		
-		
-		
+
+
+
         var myLatlng = {lat: -25.363, lng: 131.044};
 
         var map6 = new google.maps.Map(document.getElementById('map6'), {
@@ -80,10 +80,10 @@ function initMap() {
           map.setZoom(8);
           map.setCenter(marker.getPosition());
         });
-      
-		
-		
-		
+
+
+
+
         var map7 = new google.maps.Map(document.getElementById('map7'), {
           zoom: 4,
           center: {lat: -25.363882, lng: 131.044922 }
@@ -116,7 +116,7 @@ function initMap() {
           });
           attachSecretMessage(marker, secretMessages[i]);
         }
-      
+
 
       // Attaches an info window to a marker with the provided message. When the
       // marker is clicked, the info window will open with the secret message.
@@ -129,10 +129,10 @@ function initMap() {
           infowindow.open(marker.get('map'), marker);
         });
       }
-		
-		
-		
-		
+
+
+
+
         var originalMapCenter = new google.maps.LatLng(-25.363882, 131.044922);
         var map8 = new google.maps.Map(document.getElementById('map8'), {
           zoom: 4,
@@ -148,9 +148,9 @@ function initMap() {
         map.addListener('zoom_changed', function() {
           infowindow.setContent('Zoom: ' + map.getZoom());
         });
-      
-		
-		
+
+
+
         var coordInfoWindow = new google.maps.InfoWindow();
         coordInfoWindow.setContent(createInfoWindowContent(chicago, map.getZoom()));
         coordInfoWindow.setPosition(chicago);
@@ -161,7 +161,7 @@ function initMap() {
           coordInfoWindow.open(map);
         });
       }
-	  
+
       var TILE_SIZE = 256;
 
       function createInfoWindowContent(latLng, zoom) {
@@ -201,5 +201,5 @@ function initMap() {
             TILE_SIZE * (0.5 - Math.log((1 + siny) / (1 - siny)) / (4 * Math.PI)));
       }
 
-	
- 
+
+

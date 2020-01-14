@@ -16,20 +16,32 @@ class SysAdminTest extends DuskTestCase
      */
     use DatabaseMigrations;
 
-    public function test_as_sadmin_want_to_setup_accounts()
-    {
+    //this method will create a systemadmin and log in with credentials
+    public function login_form(){
 
         $user = factory(User::class)->create(['roleID'=>5]);
 
-        //this test creates a sysadmin, then he will create 3 different account
-        //at this point we assert that each created account has access to the platform
-
-        $this->browse(function ($browser) use($user) {
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
+        });
+
+    }
+
+    public function test_as_sadmin_want_to_setup_accounts()
+    {
+
+
+
+        //this test creates a sysadmin, then he will create 3 different account
+        //at this point we assert that each created account has access to the platform
+
+        $this->login_form();
+
+        $this->browse(function ($browser)  {
             $browser->visit('/user/add')
                     ->type('frm[name]','Gastani Frinzi')
                     ->type('frm[email]','teacher@test.com')

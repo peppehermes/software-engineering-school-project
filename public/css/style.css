@@ -2633,7 +2633,6 @@ li.multipleInput-email {
     border-radius: 2px;
 }
 li.multipleInput-email a{
-    background: #none;
     color: #fff;
     margin-left: 4px;
     display: inline-block;
@@ -4219,7 +4218,7 @@ div#sparklinehome canvas {
 	border:1px solid #D80027;
 	outline:none;
 }
-.add-professors .invalid, .addcourse .invalid, .comment .invalid, .addcoursepro .invalid, .add-department .invalid {
+.add-professors span.invalid ,.add-parents span.invalid, .addcourse .invalid, .comment .invalid, .addcoursepro .invalid, .add-department .invalid {
     color: #D80027;
 }
 .form-group textarea{
@@ -4241,6 +4240,12 @@ div#sparklinehome canvas {
 }
 .add-professors .file-upload-inner.ts-forms input[type="text"]{
 	margin: 10px 0px;
+}
+.add-parents .form-group, .addcoursepro .form-group{
+    margin: 10px 0px;
+}
+.add-parents .file-upload-inner.ts-forms input[type="text"]{
+    margin: 10px 0px;
 }
 .m-t-md .btn-success{
 	background-color: #006DF0;

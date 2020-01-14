@@ -22,14 +22,13 @@ class ClassCoordinatorTest extends DuskTestCase
      */
     use DatabaseMigrations;
 
-    public function test_as_class_coordinator_want_insert_final_grades()
-    {
-        $today = now();
+    //this method will create a ClassCoordinator, assign him to a class with a query, and log in with credentials
+    public function login_form(){
+
         $user = factory(User::class)->create(['roleID'=>4]);
         Teacher::save(['firstName'=>$user->name, 'lastName'=>' ', 'userId' => $user->id, 'email'=>$user->email]);
         Classroom::save(['id'=>'1A','capacity'=>25,'description'=>'molto bella']);
         Teacher::saveTeaching(['idTeach'=>1,'idClass'=>'1A','subject'=>'Math']);
-        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
 
         DB::table('class_coordinator')->insert(
             array(
@@ -37,12 +36,27 @@ class ClassCoordinatorTest extends DuskTestCase
             )
         );
 
-        $this->browse(function ($browser) use ($user){
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/login')
                 ->type('email', $user->email)
                 ->type('password', 'password')
                 ->press('Login')
                 ->assertPathIs('/home');
+        });
+
+    }
+
+    //insert final grades through class coordinator panel
+    public function test_as_class_coordinator_want_insert_final_grades()
+    {
+        $today = now();
+
+        $studentid = Student::save(['firstName'=>'Giorgio', 'lastName'=>'Santangelo','classID' =>'1A', 'mailParent1'=>'parent@test.com']);
+
+        $this->login_form();
+
+        $this->browse(function ($browser) {
+
             $browser->visit('/finalgrades/insert')
                 ->select('frm11[finalgrade]',6)  //finalgrade of student number 1 related to subjects number 1
                 ->press('Submit');
@@ -51,6 +65,7 @@ class ClassCoordinatorTest extends DuskTestCase
                 ->logout();
 
         });
+
         $this->assertDatabaseHas('final_grades', [
             'idStudent' => $studentid,
             'idSubject' => 1,

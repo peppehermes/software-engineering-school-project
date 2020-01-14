@@ -15,16 +15,10 @@ $(function() {
 		editable: true,
 		eventLimit: true, // allow "more" link when too many events
 		navLinks: true,
-		backgroundColor: '#1f2e86',   
+		backgroundColor: '#1f2e86',
 		eventTextColor: '#1f2e86',
 		textColor: '#378006',
 		dayClick: function(date, jsEvent, view) {
-
-        alert('Clicked on: ' + date.format());
-
-        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-
-        alert('Current view: ' + view.name);
 
         // change the day's background color just for fun
         $(this).css('background-color', 'red');

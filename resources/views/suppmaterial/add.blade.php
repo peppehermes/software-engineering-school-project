@@ -46,13 +46,13 @@
                                         <div class="review-content-section">
                                             <div id="dropzone1" class="pro-ad">
                                                 <form action="/material/store" method="post"
-                                                      class="dropzone dropzone-custom needsclick add-professors"
                                                       id="demo1-upload" enctype="multipart/form-data"
+                                                      class="dropzone dropzone-custom needsclick add-professors"
                                                       onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group col-md-6">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
                                                                 <label>Class:</label>
                                                                 <select onchange="setSubject()" name="idClass"
                                                                         id="idClass" class="form-control" required>
@@ -63,7 +63,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group">
                                                                 <label>Subject:</label>
                                                                 <select name="subject" id="subject" class="form-control"
                                                                         required>
@@ -71,20 +71,23 @@
                                                                 </select>
                                                             </div>
 
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                                                            <div class="form-group col-md-12" id="topic">
+
+                                                            <div class="form-group" id="topic">
                                                                 <label>Description</label>
-                                                                <textarea name="frm[mdescription]" type="text"
+                                                                <textarea name="frm[mdescription]" type="text" required
                                                                           class="form-control"></textarea>
                                                             </div>
 
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group">
 
 
-                                                                <label class="control-label">Support Material:</label>
+                                                                <label class="control-label">Support Material(can attach more than one):</label>
 
-                                                                <input type="file" class="form-control-file" required
-                                                                       name="material">
+                                                                <input type="file" multiple="multiple"class="form-control-file" required
+                                                                       name="material[]">
 
 
                                                             </div>

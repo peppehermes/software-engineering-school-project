@@ -35,8 +35,7 @@
 
                                     <thead>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th>Student</th>
                                         @foreach($subjects as $subject)
                                             <th>{{$subject->subjectName}}</th>
                                         @endforeach
@@ -46,8 +45,7 @@
                                     @foreach($students as $student)
                                         <tr>
 
-                                            <td>{{$student->firstName}}</td>
-                                            <td>{{$student->lastName}}</td>
+                                            <td>{{$student->firstName}} {{$student->lastName}}</td>
                                             @foreach($subjects as $subject)
                                                 @foreach($finalgrades as $finalgrade)
 {{--

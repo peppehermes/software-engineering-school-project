@@ -14,6 +14,7 @@ class CreateTeachingTable extends Migration
     public function up()
     {
         Schema::create('teaching', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('idTeach');
             $table->string('idClass');
             $table->string('subject');

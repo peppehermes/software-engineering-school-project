@@ -35,34 +35,6 @@
                                     <div class="header-right-info">
                                         <ul class="nav navbar-nav mai-top-nav header-right-menu">
 
-                                            <li class="nav-item dropdown">
-                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-message edu-chat-pro" aria-hidden="true"></i><span class="indicator-ms"></span></a>
-                                                <div role="menu" class="author-message-top dropdown-menu animated fadeInDown">
-                                                    <div class="message-single-top">
-                                                        <h1>Notes</h1>
-                                                    </div>
-
-                                                    <ul class="message-menu mCustomScrollbar _mCS_2 mCS-autoHide mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_2" class="mCustomScrollBox mCS-light-1 mCSB_vertical mCSB_outside" style="max-height: 230px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <div class="message-img">
-                                                                            <img src="img/contact/2.jpg" alt="" class="mCS_img_loaded">
-                                                                        </div>
-                                                                        <div class="message-content">
-                                                                            <span class="message-date">16 Sept</span>
-                                                                            <h2>Victor Jara</h2>
-                                                                            <p>Please done this project as soon possible.</p>
-                                                                        </div>
-                                                                    </a>
-                                                                </li>
-                                                            </div></div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light-1 mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; display: block; height: 126px; max-height: 220px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></ul>
-
-                                                    <div class="message-view">
-                                                        <a href="#">View All Messages</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-
                                             <li class="nav-item">
                                                 <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                                    class="nav-link dropdown-toggle">
@@ -116,20 +88,20 @@
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Lecture's Topics<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="/topic/add">Add Lecture's Topic</a>
+                                                <li><a href="/topic/add">Add Lectures Topic</a>
                                                 </li>
-                                                <li><a href="/topic/list">All Lecture's Topic</a>
+                                                <li><a href="/topic/list">All Lectures Topics</a>
                                                 </li>
 
                                             </ul>
                                         </li>
 
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Grades<span
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Marks<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="/mark/add">Add Grade</a>
+                                                <li><a href="/mark/add">Add Mark</a>
                                                 </li>
-                                                <li><a href="/mark/list">All Grades</a>
+                                                <li><a href="/mark/list">All Marks</a>
                                                 </li>
 
                                             </ul>
@@ -158,7 +130,7 @@
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Notes<span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="/notes/add">Add new Note</a>
+                                                <li><a href="/notes/add">Add Note</a>
                                                 </li>
                                                 <li><a href="/notes/list">All Notes</a>
                                                 </li>
@@ -171,7 +143,7 @@
                                             <ul id="demoevent" class="collapse dropdown-header-top">
                                                 <li><a href="/meetings/addweek">All Meetings</a>
                                                 </li>
-                                                <li><a href="/meetings/add">Provide timeslots</a>
+                                                <li><a href="/meetings/add">Provide Timeslots</a>
                                                 </li>
 
                                             </ul>
@@ -185,7 +157,14 @@
                                             </li>
                                         @endif
 
+                                    @elseif(Auth::user()->roleId==\App\User::rolePrincipal)
+
+                                        <li><a href="/">Home</a></li>
+                                        <li><a href="/classroom/balanced">Classrooms</a></li>
+
                                     @elseif(Auth::user()->roleId==\App\User::roleParent)
+                                        <li><a data-toggle="collapse" href="/"><span class="mini-click-non">Home</span></a>
+                                        </li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Children <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
 
@@ -200,7 +179,7 @@
                                                                     Lectures Topics</a>
                                                             </li>
                                                             <li><a href="/assignment/listforparents/{{$student->id}}">
-                                                                    Lectures Assignments</a>
+                                                                    Assignments</a>
                                                             </li>
                                                             <li><a href="/material/listforparents/{{$student->id}}">
                                                                     Support Material</a>
@@ -213,17 +192,17 @@
                                                             </li>
 
                                                             <li><a href="/timetable/listforparents/{{$student->id}}">
-                                                                    Timetables</a>
+                                                                    Timetable</a>
                                                             </li>
 
                                                             <li @if(\Request::path()=='meetings/choose/{{$student->id}}') class="active" @endif>
                                                                 <a
                                                                     href="/meetings/choose/{{$student->id}}">
-                                                                    Meetings</a>
+                                                                    Book Meeting</a>
                                                             </li>
 
                                                             <li><a href="/finalgrades/listforparents/{{$student->id}}">
-                                                                    FinalGrade</a>
+                                                                    Final Grades</a>
                                                             </li>
 
 
@@ -238,7 +217,14 @@
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="/communications/list">Communications <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                         </li>
+
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="/meetings/listforparents">Your Meetings <span
+                                                    class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        </li>
+
                                     @else
+                                        <li><a data-toggle="collapse" href="/"><span class="mini-click-non">Home</span></a>
+                                        </li>
                                         <li><a data-toggle="collapse" data-target="#demoevent" href="#">Teachers <span
                                                     class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
@@ -277,7 +263,9 @@
                                             <ul id="demoevent" class="collapse dropdown-header-top">
                                                 <li><a href="/timetable/list">All Timetables</a>
                                                 </li>
-                                                <li><a href="/timetable/add">Add Timetables</a>
+                                                <li><a href="/timetable/add">Upload Timetable</a>
+                                                </li>
+                                                <li><a href="/timetable/chooseclass">Add Manually</a>
                                                 </li>
 
                                             </ul>

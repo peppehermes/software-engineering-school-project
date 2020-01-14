@@ -51,6 +51,31 @@ class Student
 
     }
 
+
+    public static function retrieveStudentsByCondition($array)
+    {
+
+        return DB::table(static::table)
+            ->select([
+                static::table . '.*'
+            ])
+            ->where($array)
+            ->get();
+
+    }
+
+    public static function retrieveAvgSkillStudents($array)
+    {
+
+        return DB::table(static::table)
+            ->where($array)
+            ->avg('skill');
+
+    }
+
+
+
+
     public static function save(array $data, $id = null): int
     {
         if ($id) {
@@ -132,6 +157,37 @@ class Student
             ->get();
 
     }
+
+    //retrieve all the subjects that the student attends to
+    public static function retrieveSubjectsForStudent($myStudentID)
+    {
+
+
+        return DB::table('teaching')
+            ->select('teaching.*')
+            ->join('student', 'teaching.idClass', '=', 'student.classId')
+            ->where('student.id', $myStudentID)
+            ->get();
+
+    }
+
+
+    //retrieve all the average of that subject's marks for that student
+    public static function retrieveAverageForStudent($myStudentID)
+    {
+
+
+        return DB::table('marks')
+            ->select(DB::raw('avg(marks.mark) as avg_mark, marks.subject'))
+            ->where('marks.idStudent', $myStudentID)
+            ->groupBy('marks.subject')
+            ->get();
+
+    }
+
+
+
+
 
     public static function retrievePagination($page)
     {

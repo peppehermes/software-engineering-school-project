@@ -55,6 +55,9 @@
             ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/calendar/fullcalendar.print.min.css')}}">
+    <!-- dropzone CSS
+		============================================ -->
+{{--    <link rel="stylesheet" href="{{asset('css/dropzone/dropzone.css')}}">--}}
 @if(\Request::path()!='login')
     <!-- duallistbox CSS
 		============================================ -->
@@ -79,9 +82,6 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css')}}">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <!-- modals CSS
             ============================================ -->
     <link rel="stylesheet" href="{{ asset('css/modals.css')}}">
@@ -222,9 +222,9 @@
 <script src="{{ asset('js/datapicker/bootstrap-datepicker.js')}}"></script>
 <script src="{{ asset('js/datapicker/datepicker-active.js')}}"></script>
 
-{{--<script src="{{ asset('js/form-validation/jquery.form.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/form-validation/jquery.validate.min.js')}}"></script>--}}
-{{--<script src="{{ asset('js/form-validation/form-active.js')}}"></script>--}}
+<script src="{{ asset('js/form-validation/jquery.form.min.js')}}"></script>
+<script src="{{ asset('js/form-validation/jquery.validate.min.js')}}"></script>
+<script src="{{ asset('js/form-validation/form-active.js')}}"></script>
 
 
 {{--<script src="{{ asset('js/password-meter/pwstrength-bootstrap.min.js')}}"></script>--}}
@@ -241,6 +241,17 @@
 <!-- main JS
     ============================================ -->
 <script src="{{ asset('js/main.js')}}"></script>
+<!-- modernizr JS
+		============================================ -->
+<script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
+
+
+
+
+<!-- dropzone JS
+		============================================ -->
+{{--<script src="{{asset('js/dropzone/dropzone.js')}}"></script>--}}
+
 <!-- tawk chat JS
        ============================================ -->
 {{--<script src="{{ asset('js/tawk-chat.js')}}"></script>--}}

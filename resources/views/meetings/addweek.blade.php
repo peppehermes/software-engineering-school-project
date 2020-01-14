@@ -87,15 +87,14 @@
                                                       onsubmit="checkDate()" name="form">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-13">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="sparkline16-graph">
                                                                 <div class="date-picker-inner">
 
-                                                                    <div class="form-group col-md-6">
+                                                                    <div class="form-group">
                                                                         <label>Select a week:</label>
                                                                         <input type="week" name="frm[week]" id="week"
                                                                                min="2019-W37" max="2020-W28" required>
-                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
