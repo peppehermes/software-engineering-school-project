@@ -224,7 +224,7 @@ class ParentTest extends DuskTestCase
     public function test_as_parent_want_book_meetings()
     {
         $year= date('Y');
-        $week= date('W');
+        $week= date('W') +1 ;
         $teacher = $this->create_teacher();
         //if the week number is below 10, i force the leading "0" before the digit for the form format
         if($week < 10){
@@ -239,15 +239,15 @@ class ParentTest extends DuskTestCase
         }
 
 
-        Meeting::save(['idTimeslot' => 1 , 'idTeacher' => 1, 'idweek' => $year.'-W'.$week]);
-        Meeting::save(['idTimeslot' => 2 , 'idTeacher' => 1, 'idweek' => $year.'-W'.$week]);
+        Meeting::save(['idTimeslot' => 1 , 'idTeacher' => 1, 'idweek' => $year.'-W'.($week)]);
+        Meeting::save(['idTimeslot' => 2 , 'idTeacher' => 1, 'idweek' => $year.'-W'.($week)]);
 
         $user = $this->login_parent();
 
         $this->browse(function ($browser) use ($teacher,$week,$year){
             $browser->visit('/meetings/choose/1')
                 ->select('frm[teachId]',$teacher->name)
-                ->type('frm[week]','Settimana '.$week.', '.$year)
+                ->type('frm[week]','Settimana '.($week).', '.$year)
                 ->press('Submit')
                 ->assertPathIs('/meetings/book/1')
                 ->click('@slot1')
